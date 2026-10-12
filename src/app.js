@@ -3,6 +3,7 @@
 (() => {
 const L = window.I18N, LANG = L.meta.code, LOCALE = L.meta.locale;
 const cfg = window.KG_CONFIG || {};
+const INITIAL_HASH = location.hash, INITIAL_SEARCH = location.search;
 const sb = cfg.supabaseUrl && cfg.supabaseAnonKey && window.supabase ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey) : null;
 const PLACES = window.PLACES || [];
 const $ = s => document.querySelector(s);
@@ -484,7 +485,11 @@ function authModal(mode) {
       const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: ($('#a-name').value || '').trim(), lang: LANG }, emailRedirectTo: redirectTo() } });
       btn.removeAttribute('aria-busy');
       if (error) { er.textContent = error.message; return; }
-      if (!data.session) { er.className = 'ok'; er.textContent = t('auth.checkEmail', { email }); return; }
+      if (!data.session) {
+        er.className = 'ok'; er.textContent = t('auth.checkEmail', { email });
+        const again = document.createElement('button'); again.type = 'button'; again.className = 'linkbtn'; again.style.display = 'block'; again.style.marginTop = '6px';
+        again.textContent = t('auth.resend'); again.onclick = () => resend(email, er); er.after(again); return;
+      }
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password });
       btn.removeAttribute('aria-busy');
@@ -517,6 +522,32 @@ async function savedModal() {
   });
 }
 
+// Email links come back as #error=…&error_code=otp_expired when the link was used already or is too old.
+function readAuthError() {
+  const h = new URLSearchParams(INITIAL_HASH.slice(1)), q = new URLSearchParams(INITIAL_SEARCH);
+  const err = h.get('error') || q.get('error'), code = h.get('error_code') || q.get('error_code');
+  if (!err && !code) return null;
+  history.replaceState(null, '', location.pathname);
+  return { code: code || err };
+}
+async function resend(email, er) {
+  const { error } = await sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: redirectTo() } });
+  er.className = error ? 'err' : 'ok';
+  er.textContent = error ? error.message : t('auth.resent', { email });
+}
+function linkErrorModal(info) {
+  openModal(`<h2>${esc(t('auth.linkTitle'))}</h2><p class="muted">${esc(t(info.code === 'otp_expired' ? 'auth.linkExpired' : 'auth.linkError'))}</p>
+    <form id="rsform" novalidate><div class="field"><label for="rs-email">${esc(t('auth.email'))}</label><input id="rs-email" type="email" autocomplete="email"></div>
+    <p class="err" id="rs-err" role="alert"></p><button class="btn-cta go" type="submit">${esc(t('auth.resend'))}</button></form>
+    <div class="links"><span>${esc(t('auth.haveAccount'))} <button class="linkbtn" type="button" data-auth="login">${esc(t('auth.toLogin'))}</button></span></div>`);
+  $('#rsform').addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = $('#rs-email').value.trim(), er = $('#rs-err');
+    if (!email) { er.className = 'err'; er.textContent = t('auth.needEmail'); return; }
+    await resend(email, er);
+  });
+}
+
 function renderAuthSlot() {
   const slot = $('#authslot');
   if (!session) { slot.innerHTML = `<button class="btn-line" type="button" data-auth="login">${esc(t('nav.login'))}</button>`; return; }
@@ -544,6 +575,7 @@ if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offA
   if (sb) {
     const { data } = await sb.auth.getSession();
     session = data.session;
+    if (session && /type=(signup|magiclink|email)/.test(INITIAL_HASH)) setTimeout(() => toast(t('auth.confirmed')), 300);
     sb.auth.onAuthStateChange((event, s) => {
       const was = !!session; session = s; renderAuthSlot();
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
@@ -552,6 +584,8 @@ if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offA
     });
   }
   renderAuthSlot();
+  const linkErr = readAuthError();
+  if (linkErr && sb) linkErrorModal(linkErr);
   if (saved && saved.input) run(saved.input, { silent: true });
 })();
 })();

@@ -1,175 +1,1012 @@
 {
-  "meta": {
-    "code": "en", "locale": "en-IN", "htmlLang": "en", "ogLocale": "en_IN", "langName": "English", "path": "/",
-    "title": "Free Kundali Online – Janma Kundali with Dasha, Yogas & Doshas | Kundali Ganit",
-    "description": "Make your free Janma Kundali online from birth date, time and place. Accurate Lagna, Navamsa, planet positions, Vimshottari dasha, Manglik dosha, Sade Sati, panchang and yogas with Lahiri ayanamsa."
-  },
-  "brand": { "name": "Kundali Ganit" },
-  "nav": {
-    "sections": "Sections", "features": "Features", "about": "About Kundali", "faq": "FAQ", "language": "Language",
-    "login": "Log in", "new": "New Kundali", "logout": "Log out", "myCharts": "My Kundalis",
-    "highlights": "Highlights", "charts": "Charts", "grahas": "Grahas", "yogas": "Yogas", "dasha": "Dasha", "panchang": "Panchang", "bhavas": "Bhavas", "gochar": "Gochar"
-  },
-  "hero": {
-    "kicker": "Vedic Jyotish · computed, not guessed",
-    "h1a": "Your Janma Kundali,", "h1b": "calculated from the sky itself.",
-    "sub": "Enter a birth date, time and place. Every graha, the Lagna, panchang, yogas and dasha periods are worked out by astronomical mathematics.",
-    "trust1": "Moon within 1′ of Swiss Ephemeris", "trust2": "Lahiri ayanamsa", "trust3": "Free · 6 languages",
-    "wheel": "Bhachakra · Lagna on the left · grahas at their exact sidereal degrees"
-  },
-  "form": {
-    "title": "Birth details", "note": "Exact time gives an exact Lagna",
-    "name": "Full name", "namePh": "e.g. Aarav Mehta", "date": "Birth date", "time": "Birth time",
-    "place": "Birth place", "placePh": "Start typing a city", "coords": "Coordinates and time zone",
-    "lat": "Latitude", "lon": "Longitude", "offset": "UTC offset",
-    "coordsNote": "North and East are positive. The offset fills in automatically for listed cities, including daylight saving abroad and India's 1942–45 war time.",
-    "lookup": "Look up place online", "submit": "Generate Kundali", "working": "Calculating…"
-  },
-  "err": {
-    "date": "Enter the birth date.",
-    "time": "Enter the birth time. Use 12:00 if unknown; the Lagna will then be unreliable.",
-    "place": "Choose a birth place from the list, or open “Coordinates and time zone” and enter latitude and longitude.",
-    "offset": "Enter the UTC offset at birth, for example +05:30.",
-    "server": "The Kundali could not be calculated right now. Please try again in a moment.",
-    "typeFirst": "Type a place name first.", "looking": "Looking up…",
-    "notFound": "No place called “{q}” found. Enter latitude and longitude instead.",
-    "lookupFail": "Online lookup failed. Enter latitude, longitude and UTC offset by hand."
-  },
-  "auth": {
-    "loginTitle": "Log in to Kundali Ganit", "signupTitle": "Create your free account",
-    "nameField": "Your name", "email": "Email", "password": "Password", "passwordHint": "At least 6 characters",
-    "login": "Log in", "signup": "Create account", "google": "Continue with Google", "or": "or",
-    "forgot": "Forgot password?", "noAccount": "New here?", "haveAccount": "Already have an account?",
-    "toSignup": "Create an account", "toLogin": "Log in",
-    "resetSent": "We sent a password reset link to {email}.",
-    "checkEmail": "We sent a confirmation link to {email}. Open it, then log in.",
-    "newPassTitle": "Set a new password", "newPass": "New password", "savePass": "Save password",
-    "passSaved": "Password updated.", "needEmail": "Enter your email address first.",
-    "invalid": "Enter a valid email and a password of at least 6 characters.", "close": "Close",
-    "unavailable": "Login is not set up yet. Add the Supabase keys in the Vercel project settings."
-  },
-  "gate": {
-    "preview": "Free preview", "title": "Your full Kundali is ready",
-    "text": "Log in or create a free account to unlock everything calculated for this birth:",
-    "b1": "Lagna, Navamsa and Chandra charts", "b2": "All nine grahas with strength and a reading",
-    "b3": "Yogas, Mangal dosha, Kaal Sarp and Sade Sati", "b4": "Vimshottari dasha timeline to age 100",
-    "b5": "Panchang, bhavas, Ashtakavarga and today's transits",
-    "login": "Log in", "signup": "Sign up free", "free": "Free · your charts are saved privately to your account"
-  },
-  "saved": { "title": "My Kundalis", "empty": "Charts you make while logged in are saved here.", "open": "Open", "delete": "Delete", "saved": "Saved to My Kundalis", "deleted": "Deleted" },
-  "res": {
-    "eyebrow": "Janma Kundali", "defaultName": "Your Kundali",
-    "lagnaLine": "{r} Lagna is rising.", "lagnaLord": "The Lagna lord {g} sits in house {h}.",
-    "lagna": "Lagna", "moonSign": "Rashi · Moon sign", "nakshatra": "Janma Nakshatra", "dasha": "Running dasha",
-    "until": "until {d}", "pada": "pada {p}", "lord": "lord {g}", "nameLetter": "Name letters",
-    "navamsa": "Navamsa {r}", "house": "House {h}"
-  },
-  "sec": {
-    "hl": { "eye": "Shubh · Ashubh", "title": "Strengths and challenges", "lede": "Every point below comes from a classical rule applied to this chart: dignities, yogas, doshas, the Lagna lord and Ashtakavarga bindus.", "good": "Strengths", "bad": "Challenges", "nGood": "{n} strengths", "nBad": "{n} challenges", "noneGood": "No major strengths flagged.", "noneBad": "No major challenges flagged." },
-    "charts": { "eye": "Kundali Chakra", "title": "Kundali charts", "lede": "Birth chart, Navamsa and Moon chart. Graha colours match the cards below; a red R marks a retrograde graha.", "style": "Chart style", "north": "North Indian", "south": "South Indian", "d1": "Lagna chart · D1", "d1t": "The main birth chart. Houses are counted from {r} Lagna.", "d9": "Navamsa · D9", "d9t": "Each sign split into nine parts of 3°20′. Read for marriage and inner strength.", "moon": "Chandra chart", "moont": "Houses counted from the Moon in {r}.", "c1": "Lagna", "c1s": "D1 · Rashi", "c9": "Navamsa", "c9s": "D9", "cm": "Chandra", "cms": "Moon as Lagna", "asc": "Asc" },
-    "belt": { "eye": "Bhachakra", "title": "The zodiac at birth", "lede": "The full 360° laid flat: 12 rashis of 30°, 27 nakshatras of 13°20′ (numbered), and each graha at its exact sidereal degree." },
-    "grahas": { "eye": "Navagraha", "title": "The nine grahas", "lede": "Position, dignity and an indicative strength score for each graha. The score combines dignity, house, combustion, retrogression and Ashtakavarga bindus; it is a guide, not Shadbala.", "strong": "Strong", "moderate": "Moderate", "weak": "Weak", "strength": "Strength (indicative)", "exalted": "Exalted", "own": "Own sign", "debil": "Debilitated", "friendly": "Friendly sign", "enemy": "Enemy sign", "neutral": "Neutral sign", "retro": "Retrograde", "combust": "Combust" },
-    "yogas": { "eye": "Yoga · Dosha", "title": "Yogas and doshas", "lede": "{g} beneficial yogas and {b} doshas found. Each card shows the rule that was checked.", "filter": "Filter yogas", "all": "All", "present": "Present", "good": "Good", "bad": "Doshas", "pGood": "Present · good", "pBad": "Present · caution", "off": "Not formed" },
-    "dasha": { "eye": "Vimshottari Dasha", "title": "Vimshottari Dasha", "lede": "The 120-year cycle starts from the lord of the Moon's nakshatra. The Moon had covered {p}% of {nk} at birth, leaving {v} of {g} dasha.", "runningNow": "Running now", "mdad": "{md} Mahadasha · {ad} Antardasha", "nowText": "The {md} period runs from {s} to {e}. The current {ad} sub-period ends on {ae}.", "tone_good": "{g} is strong in this chart, which supports this period.", "tone_bad": "{g} is weak in this chart, so this period asks for patience.", "tone_mixed": "{g} is of moderate strength in this chart.", "md": "{g} Mahadasha", "years": "{n} years", "balance": "balance {v}", "now": "Now", "past": "Past", "ahead": "Ahead", "birth": "Birth", "age": "Age {n}", "today": "Today", "ymd": "{y}y {m}m {d}d" },
-    "pan": { "eye": "Panchang", "title": "Panchang at birth", "lede": "The five limbs of the Hindu calendar at the moment of birth. The Moon drawing shows its real phase.", "tithi": "Tithi", "tithiSub": "{n} of 30 · Moon {p}% lit", "vara": "Vara", "beforeSunrise": "born before sunrise", "nakshatra": "Nakshatra", "yoga": "Yoga", "of27": "{n} of 27", "karana": "Karana", "karanaSub": "half of a tithi", "sunrise": "Sunrise", "sunset": "Sunset", "localTime": "local time at the birth place", "paksha": "Paksha", "waxing": "waxing Moon", "waning": "waning Moon", "ava": "Avakahada details",
-      "av": { "varna": "Varna", "vashya": "Vashya", "yoni": "Yoni", "gana": "Gana", "nadi": "Nadi", "tatva": "Tatva", "lagnaLord": "Lagna lord", "rashiLord": "Rashi lord", "nakLord": "Nakshatra lord", "nameLetter": "Name letter" } },
-    "bhava": { "eye": "Dvadasha Bhava", "title": "The twelve bhavas", "lede": "Whole-sign houses from the Lagna. The SAV bar shows Sarvashtakavarga bindus: 28 or more is strong, below 25 is weak.", "name": "{n} Bhava", "none": "No graha", "lordIn": "Lord {g} in house {h}" },
-    "ashtaka": { "eye": "Ashtakavarga", "title": "Ashtakavarga", "lede": "Benefic points each graha receives in every sign from eight reference points. The Sarva total always adds up to 337.", "graha": "Graha", "total": "Total", "sarva": "Sarva total", "high": "High bindus (good)", "low": "Low bindus (weak)", "lagnaCol": "Gold column header = Lagna sign" },
-    "gochar": { "eye": "Gochar", "title": "Transits today", "lede": "Where the grahas are on {d}, counted from your Moon sign. Favourable houses follow the classical gochar rules for each graha.", "inSign": "{g} in {r}", "fromMoon": "house {h} from Moon", "fav": "Favourable", "unfav": "Unfavourable" },
-    "method": { "eye": "Ganit", "title": "How it is calculated", "lede": "", "p1": "The Sun and planets come from Keplerian orbital elements with the main Jupiter–Saturn perturbations. The Moon uses the 60-term lunar series from Meeus, Astronomical Algorithms. Rahu is the mean lunar node. Positions are converted to sidereal with the Lahiri ayanamsa, and the Lagna is solved from local sidereal time and latitude.", "p2": "Checked against the Swiss Ephemeris on 3,000 dates from 1900 to 2100: Moon within about 1′, Lagna within 1′, other grahas within 3½′. Houses are whole-sign. Yogas and doshas follow the rules shown on each card; traditions differ on cancellations." }
-  },
-  "read": {
-    "intro": "{g}, karaka of {kk}, is in {r} in house {h}, the house of {m}.",
-    "dig": { "exalted": "It is exalted here, at its strongest, so its results come through fully.", "own": "It sits in its own sign, comfortable and dependable.", "friendly": "It is in a friendly sign and well supported.", "neutral": "It is in a neutral sign.", "enemy": "It is in an enemy sign, so its results need extra effort.", "debil": "It is debilitated, at its weakest, so its results can come with struggle.", "debilNB": "It is debilitated, but the debilitation is cancelled (Neecha Bhanga), which can turn early struggle into later success." },
-    "house": { "kendra": "A kendra (angular) house gives it visible influence.", "trikona": "A trikona (trine) house is one of the most fortunate placements.", "mal6": "A malefic in the 6th helps defeat obstacles and rivals.", "dus": "This is a dusthana (6, 8, 12), a house of difficulty.", "h11": "The 11th house of gains supports every graha.", "mal3": "A malefic in the 3rd gives courage and drive." },
-    "combust": "It is combust (too close to the Sun), which weakens it.",
-    "retro": "It is retrograde, which adds intensity and turns its energy inward."
-  },
+ "meta": {
+  "code": "en",
+  "locale": "en-IN",
+  "htmlLang": "en",
+  "ogLocale": "en_IN",
+  "langName": "English",
+  "path": "/",
+  "title": "Free Kundali Online – Janma Kundali with Dasha, Yogas & Doshas | Kundali Ganit",
+  "description": "Make your free Janma Kundali online from birth date, time and place. Accurate Lagna, Navamsa, planet positions, Vimshottari dasha, Manglik dosha, Sade Sati, panchang and yogas with Lahiri ayanamsa."
+ },
+ "brand": {
+  "name": "Kundali Ganit"
+ },
+ "nav": {
+  "sections": "Sections",
+  "features": "Features",
+  "about": "About Kundali",
+  "faq": "FAQ",
+  "language": "Language",
+  "login": "Log in",
+  "new": "New Kundali",
+  "logout": "Log out",
+  "myCharts": "My Kundalis",
+  "highlights": "Highlights",
+  "charts": "Charts",
+  "grahas": "Grahas",
+  "yogas": "Yogas",
+  "dasha": "Dasha",
+  "panchang": "Panchang",
+  "bhavas": "Bhavas",
+  "gochar": "Gochar"
+ },
+ "hero": {
+  "kicker": "Vedic Jyotish · computed, not guessed",
+  "h1a": "Your Janma Kundali,",
+  "h1b": "calculated from the sky itself.",
+  "sub": "Enter a birth date, time and place. Every graha, the Lagna, panchang, yogas and dasha periods are worked out by astronomical mathematics.",
+  "trust1": "Moon within 1′ of Swiss Ephemeris",
+  "trust2": "Lahiri ayanamsa",
+  "trust3": "Free · 6 languages",
+  "wheel": "Bhachakra · Lagna on the left · grahas at their exact sidereal degrees"
+ },
+ "form": {
+  "title": "Birth details",
+  "note": "Exact time gives an exact Lagna",
+  "name": "Full name",
+  "namePh": "e.g. Aarav Mehta",
+  "date": "Birth date",
+  "time": "Birth time",
+  "place": "Birth place",
+  "placePh": "Start typing a city",
+  "coords": "Coordinates and time zone",
+  "lat": "Latitude",
+  "lon": "Longitude",
+  "offset": "UTC offset",
+  "coordsNote": "North and East are positive. The offset fills in automatically for listed cities, including daylight saving abroad and India's 1942–45 war time.",
+  "lookup": "Look up place online",
+  "submit": "Generate Kundali",
+  "working": "Calculating…"
+ },
+ "err": {
+  "date": "Enter the birth date.",
+  "time": "Enter the birth time. Use 12:00 if unknown; the Lagna will then be unreliable.",
+  "place": "Choose a birth place from the list, or open “Coordinates and time zone” and enter latitude and longitude.",
+  "offset": "Enter the UTC offset at birth, for example +05:30.",
+  "server": "The Kundali could not be calculated right now. Please try again in a moment.",
+  "typeFirst": "Type a place name first.",
+  "looking": "Looking up…",
+  "notFound": "No place called “{q}” found. Enter latitude and longitude instead.",
+  "lookupFail": "Online lookup failed. Enter latitude, longitude and UTC offset by hand."
+ },
+ "auth": {
+  "loginTitle": "Log in to Kundali Ganit",
+  "signupTitle": "Create your free account",
+  "nameField": "Your name",
+  "email": "Email",
+  "password": "Password",
+  "passwordHint": "At least 6 characters",
+  "login": "Log in",
+  "signup": "Create account",
+  "google": "Continue with Google",
+  "or": "or",
+  "forgot": "Forgot password?",
+  "noAccount": "New here?",
+  "haveAccount": "Already have an account?",
+  "toSignup": "Create an account",
+  "toLogin": "Log in",
+  "resetSent": "We sent a password reset link to {email}.",
+  "checkEmail": "We sent a confirmation link to {email}. Open it, then log in.",
+  "newPassTitle": "Set a new password",
+  "newPass": "New password",
+  "savePass": "Save password",
+  "passSaved": "Password updated.",
+  "needEmail": "Enter your email address first.",
+  "invalid": "Enter a valid email and a password of at least 6 characters.",
+  "close": "Close",
+  "unavailable": "Login is not set up yet. Add the Supabase keys in the Vercel project settings.",
+  "linkTitle": "This link can't be used",
+  "linkExpired": "The confirmation link has expired or was already used. Enter your email and we'll send a fresh one.",
+  "linkError": "Something went wrong with the email link. Enter your email and we'll send a new one.",
+  "resend": "Send a new confirmation email",
+  "resent": "A new confirmation link was sent to {email}. Open the latest email and click the link once.",
+  "confirmed": "Email confirmed. You are logged in."
+ },
+ "gate": {
+  "preview": "Free preview",
+  "title": "Your full Kundali is ready",
+  "text": "Log in or create a free account to unlock everything calculated for this birth:",
+  "b1": "Lagna, Navamsa and Chandra charts",
+  "b2": "All nine grahas with strength and a reading",
+  "b3": "Yogas, Mangal dosha, Kaal Sarp and Sade Sati",
+  "b4": "Vimshottari dasha timeline to age 100",
+  "b5": "Panchang, bhavas, Ashtakavarga and today's transits",
+  "login": "Log in",
+  "signup": "Sign up free",
+  "free": "Free · your charts are saved privately to your account"
+ },
+ "saved": {
+  "title": "My Kundalis",
+  "empty": "Charts you make while logged in are saved here.",
+  "open": "Open",
+  "delete": "Delete",
+  "saved": "Saved to My Kundalis",
+  "deleted": "Deleted"
+ },
+ "res": {
+  "eyebrow": "Janma Kundali",
+  "defaultName": "Your Kundali",
+  "lagnaLine": "{r} Lagna is rising.",
+  "lagnaLord": "The Lagna lord {g} sits in house {h}.",
+  "lagna": "Lagna",
+  "moonSign": "Rashi · Moon sign",
+  "nakshatra": "Janma Nakshatra",
+  "dasha": "Running dasha",
+  "until": "until {d}",
+  "pada": "pada {p}",
+  "lord": "lord {g}",
+  "nameLetter": "Name letters",
+  "navamsa": "Navamsa {r}",
+  "house": "House {h}"
+ },
+ "sec": {
   "hl": {
-    "exalted": { "t": "{g} exalted in {r}", "x": "The karaka of {kk} is at peak strength in house {h}." },
-    "own": { "t": "{g} in its own sign", "x": "{r} is home ground for {g}, placed in house {h} ({m})." },
-    "nb": { "t": "Neecha Bhanga for {g}", "x": "{g} is debilitated in {r}, but the cancellation rule is met, so the weakness can turn into strength." },
-    "debil": { "t": "{g} debilitated in {r}", "x": "{g} is at its weakest; matters of {kk} may need extra care." },
-    "combust": { "t": "{g} combust", "x": "Within combustion range of the Sun, {g} loses some of its independent strength." },
-    "llGood": { "t": "Strong Lagna lord", "x": "The Lagna lord {g} is in house {h}, a kendra or trikona, which supports health and self-confidence." },
-    "llBad": { "t": "Lagna lord in a dusthana", "x": "The Lagna lord {g} is in house {h}, which can bring more effort and obstacles in life." },
-    "strongH": { "t": "Strong house {h}", "x": "{n} Ashtakavarga bindus in {r} support {m}." },
-    "weakH": { "t": "Weak house {h}", "x": "Only {n} bindus in {r}; {m} need more effort." }
+   "eye": "Shubh · Ashubh",
+   "title": "Strengths and challenges",
+   "lede": "Every point below comes from a classical rule applied to this chart: dignities, yogas, doshas, the Lagna lord and Ashtakavarga bindus.",
+   "good": "Strengths",
+   "bad": "Challenges",
+   "nGood": "{n} strengths",
+   "nBad": "{n} challenges",
+   "noneGood": "No major strengths flagged.",
+   "noneBad": "No major challenges flagged."
   },
-  "fmt": { "with": "{a} with {b}", "houseLord": "lord of house {h} ({g})" },
-  "yoga": {
-    "gajakesari": { "name": "Gajakesari Yoga", "rule": "Guru in a kendra (1, 4, 7, 10) from the Moon", "text": "Guru is in house {h} from the Moon. Gives wisdom, reputation and lasting prosperity.", "off": "Guru is in house {h} from the Moon, not a kendra." },
-    "budhaditya": { "name": "Budhaditya Yoga", "rule": "Surya and Budh in the same sign", "text": "Sharp intellect, good communication and recognition for skill." },
-    "chandramangal": { "name": "Chandra-Mangal Yoga", "rule": "Chandra and Mangal in the same sign", "text": "Drive for earning and a talent for business and wealth." },
-    "ruchaka": { "name": "Ruchaka Yoga", "rule": "{g} in its own or exalted sign in a kendra from Lagna", "text": "One of the five Pancha Mahapurusha yogas: courage, leadership and physical strength." },
-    "bhadra": { "name": "Bhadra Yoga", "rule": "{g} in its own or exalted sign in a kendra from Lagna", "text": "One of the five Pancha Mahapurusha yogas: intelligence, eloquence and business skill." },
-    "hamsa": { "name": "Hamsa Yoga", "rule": "{g} in its own or exalted sign in a kendra from Lagna", "text": "One of the five Pancha Mahapurusha yogas: wisdom, virtue and respect." },
-    "malavya": { "name": "Malavya Yoga", "rule": "{g} in its own or exalted sign in a kendra from Lagna", "text": "One of the five Pancha Mahapurusha yogas: beauty, comfort, art and a happy marriage." },
-    "sasa": { "name": "Sasa Yoga", "rule": "{g} in its own or exalted sign in a kendra from Lagna", "text": "One of the five Pancha Mahapurusha yogas: authority, discipline and lasting achievement." },
-    "raj": { "name": "Raj Yoga", "rule": "A kendra lord and a trikona lord together in one sign", "text": "Formed by {list}. Brings rise in status and authority.", "off": "No kendra lord and trikona lord are together." },
-    "yogakaraka": { "name": "Yogakaraka", "rule": "One graha rules both a kendra and a trikona", "text": "{list} rules both a kendra and a trikona for this Lagna and acts as the chart's chief benefic.", "off": "No single graha rules both a kendra and a trikona for this Lagna." },
-    "vipreet": { "name": "Vipreet Raj Yoga", "rule": "The lord of house 6, 8 or 12 placed in house 6, 8 or 12", "text": "The {list} sits in a dusthana. Success can come out of difficult situations.", "off": "No dusthana lord is placed in a dusthana." },
-    "adhi": { "name": "Adhi Yoga", "rule": "Two or more natural benefics in houses 6, 7 or 8 from the Moon", "text": "Leadership, a comfortable life and victory over rivals." },
-    "durudhara": { "name": "Durudhara Yoga", "rule": "Grahas on both sides of the Moon (houses 2 and 12 from it)", "text": "Wealth, comforts and a generous nature." },
-    "sunapha": { "name": "Sunapha Yoga", "rule": "A graha in house 2 from the Moon", "text": "Self-earned wealth and a good reputation." },
-    "anapha": { "name": "Anapha Yoga", "rule": "A graha in house 12 from the Moon", "text": "Good health, charm and a contented life." },
-    "kemadruma": { "name": "Kemadruma Yoga", "rule": "No graha in houses 2 or 12 from the Moon, and none in a kendra from it", "text": "The Moon stands alone, which can bring loneliness or money worries." },
-    "grahan": { "name": "Grahan Dosha", "rule": "Surya or Chandra in the same sign as Rahu or Ketu", "text": "{list} is joined by a node, which can cloud confidence or peace of mind.", "off": "Neither Surya nor Chandra is joined by Rahu or Ketu." },
-    "guruchandal": { "name": "Guru Chandal Dosha", "rule": "Guru in the same sign as Rahu or Ketu", "text": "Guru is with {g}; judgement and advice from teachers may be clouded.", "off": "Guru is free of Rahu and Ketu." },
-    "shakata": { "name": "Shakata Yoga", "rule": "Moon in house 6, 8 or 12 from Guru, and the Moon not in a kendra", "text": "Ups and downs in fortune, like the turning wheel of a cart." },
-    "mangal": { "name": "Mangal Dosha", "rule": "Mangal in house 1, 2, 4, 7, 8 or 12", "text": "Present counted from {list}. Mangal is in house {a} from Lagna, {b} from the Moon and {c} from Shukra.", "off": "Mangal is in house {a} from Lagna, {b} from the Moon and {c} from Shukra." },
-    "kaalsarp": { "name": "Kaal Sarp Dosha", "rule": "All seven grahas on one side of the Rahu–Ketu axis", "text": "{v}.", "off": "The grahas are spread on both sides of the Rahu–Ketu axis.", "sarp": "All grahas lie from Rahu to Ketu (Kaal Sarp)", "amrit": "All grahas lie from Ketu to Rahu (Kaal Amrit)" },
-    "gandmool": { "name": "Gand Mool", "rule": "Moon in Ashwini, Ashlesha, Magha, Jyeshtha, Mula or Revati", "text": "The Moon is in {nk}. Traditionally a shanti puja is advised.", "off": "The Moon is in {nk}, not a Gand Mool nakshatra." },
-    "sadesati": { "name": "Sade Sati", "rule": "Shani transiting houses 12, 1 or 2 from the Moon sign", "now": "Shani is now in {r}, house {h} from your Moon sign {m}.", "rising": "This is the rising phase of the 7½-year period.", "peak": "This is the peak phase of the 7½-year period.", "setting": "This is the setting phase of the 7½-year period.", "dhaiya4": "Kantaka Shani (4th from the Moon) is running.", "dhaiya8": "Ashtama Shani (8th from the Moon) is running.", "none": "None in the first 100 years" }
+  "charts": {
+   "eye": "Kundali Chakra",
+   "title": "Kundali charts",
+   "lede": "Birth chart, Navamsa and Moon chart. Graha colours match the cards below; a red R marks a retrograde graha.",
+   "style": "Chart style",
+   "north": "North Indian",
+   "south": "South Indian",
+   "d1": "Lagna chart · D1",
+   "d1t": "The main birth chart. Houses are counted from {r} Lagna.",
+   "d9": "Navamsa · D9",
+   "d9t": "Each sign split into nine parts of 3°20′. Read for marriage and inner strength.",
+   "moon": "Chandra chart",
+   "moont": "Houses counted from the Moon in {r}.",
+   "c1": "Lagna",
+   "c1s": "D1 · Rashi",
+   "c9": "Navamsa",
+   "c9s": "D9",
+   "cm": "Chandra",
+   "cms": "Moon as Lagna",
+   "asc": "Asc"
   },
-  "names": {
-    "graha": { "Sun": "Surya", "Moon": "Chandra", "Mars": "Mangal", "Mercury": "Budh", "Jupiter": "Guru", "Venus": "Shukra", "Saturn": "Shani", "Rahu": "Rahu", "Ketu": "Ketu" },
-    "grahaAb": { "Sun": "Su", "Moon": "Mo", "Mars": "Ma", "Mercury": "Me", "Jupiter": "Ju", "Venus": "Ve", "Saturn": "Sa", "Rahu": "Ra", "Ketu": "Ke" },
-    "grahaAlt": { "Sun": "Sun", "Moon": "Moon", "Mars": "Mars", "Mercury": "Mercury", "Jupiter": "Jupiter", "Venus": "Venus", "Saturn": "Saturn", "Rahu": "North node", "Ketu": "South node" },
-    "rashi": ["Mesha", "Vrishabha", "Mithuna", "Karka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanu", "Makara", "Kumbha", "Meena"],
-    "nak": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
-    "tithi": ["Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami", "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami", "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Purnima", "Amavasya"],
-    "paksha": { "Shukla": "Shukla", "Krishna": "Krishna" },
-    "vara": ["Ravivara (Sunday)", "Somavara (Monday)", "Mangalavara (Tuesday)", "Budhavara (Wednesday)", "Guruvara (Thursday)", "Shukravara (Friday)", "Shanivara (Saturday)"],
-    "yoga27": ["Vishkambha", "Priti", "Ayushman", "Saubhagya", "Shobhana", "Atiganda", "Sukarma", "Dhriti", "Shoola", "Ganda", "Vriddhi", "Dhruva", "Vyaghata", "Harshana", "Vajra", "Siddhi", "Vyatipata", "Variyan", "Parigha", "Shiva", "Siddha", "Sadhya", "Shubha", "Shukla", "Brahma", "Indra", "Vaidhriti"],
-    "karana": { "Bava": "Bava", "Balava": "Balava", "Kaulava": "Kaulava", "Taitila": "Taitila", "Gara": "Gara", "Vanija": "Vanija", "Vishti": "Vishti (Bhadra)", "Shakuni": "Shakuni", "Chatushpada": "Chatushpada", "Naga": "Naga", "Kimstughna": "Kimstughna" },
-    "val": { "Brahmin": "Brahmin", "Kshatriya": "Kshatriya", "Vaishya": "Vaishya", "Shudra": "Shudra", "Chatushpad": "Chatushpad (quadruped)", "Manav": "Manav (human)", "Jalchar": "Jalchar (water)", "Vanchar": "Vanchar (wild)", "Keet": "Keet (insect)", "Horse": "Ashwa (horse)", "Elephant": "Gaja (elephant)", "Sheep": "Mesha (sheep)", "Serpent": "Sarpa (serpent)", "Dog": "Shwan (dog)", "Cat": "Marjar (cat)", "Rat": "Mushak (rat)", "Cow": "Gau (cow)", "Buffalo": "Mahish (buffalo)", "Tiger": "Vyaghra (tiger)", "Deer": "Mriga (deer)", "Monkey": "Vanar (monkey)", "Mongoose": "Nakul (mongoose)", "Lion": "Simha (lion)", "Deva": "Deva", "Manushya": "Manushya", "Rakshasa": "Rakshasa", "Adi": "Adi", "Madhya": "Madhya", "Antya": "Antya", "Fire (Agni)": "Agni (fire)", "Earth (Prithvi)": "Prithvi (earth)", "Air (Vayu)": "Vayu (air)", "Water (Jala)": "Jala (water)" },
-    "houseName": ["Tanu", "Dhana", "Sahaja", "Sukha", "Putra", "Ripu", "Kalatra", "Ayu", "Dharma", "Karma", "Labha", "Vyaya"],
-    "house": ["self, body and personality", "wealth, family and speech", "courage, siblings and effort", "home, mother and happiness", "children, intelligence and creativity", "enemies, debts, health and service", "marriage and partnership", "longevity, secrets and sudden events", "luck, dharma, father and higher learning", "career, status and karma", "gains, income and friends", "expenses, foreign lands and moksha"],
-    "karaka": { "Sun": "soul, father, authority and vitality", "Moon": "mind, mother, emotions and peace", "Mars": "energy, courage, siblings and property", "Mercury": "intellect, speech, business and learning", "Jupiter": "wisdom, children, wealth and good fortune", "Venus": "love, marriage, arts and comforts", "Saturn": "discipline, career, endurance and longevity", "Rahu": "ambition, foreign links, technology and desire", "Ketu": "detachment, intuition, spirituality and past karma" },
-    "lagnaTrait": ["Energetic, pioneering and quick to act.", "Steady, patient and fond of comfort and beauty.", "Curious, communicative and adaptable.", "Caring, protective and emotionally deep.", "Confident, generous and a natural leader.", "Analytical, practical and detail-minded.", "Balanced, diplomatic and relationship-oriented.", "Intense, determined and private.", "Optimistic, philosophical and freedom-loving.", "Disciplined, ambitious and responsible.", "Independent, humanitarian and inventive.", "Compassionate, imaginative and spiritual."],
-    "ref": { "Lagna": "Lagna", "Moon": "the Moon", "Venus": "Shukra" },
-    "syll": [["Chu","Che","Cho","La"],["Li","Lu","Le","Lo"],["A","I","U","E"],["O","Va","Vi","Vu"],["Ve","Vo","Ka","Ki"],["Ku","Gha","Na","Chha"],["Ke","Ko","Ha","Hi"],["Hu","He","Ho","Da"],["Di","Du","De","Do"],["Ma","Mi","Mu","Me"],["Mo","Ta","Ti","Tu"],["Te","To","Pa","Pi"],["Pu","Sha","Na","Tha"],["Pe","Po","Ra","Ri"],["Ru","Re","Ro","Ta"],["Ti","Tu","Te","To"],["Na","Ni","Nu","Ne"],["No","Ya","Yi","Yu"],["Ye","Yo","Bha","Bhi"],["Bhu","Dha","Pha","Dha"],["Bhe","Bho","Ja","Ji"],["Khi","Khu","Khe","Kho"],["Ga","Gi","Gu","Ge"],["Go","Sa","Si","Su"],["Se","So","Da","Di"],["Du","Tha","Jha","Na"],["De","Do","Cha","Chi"]]
+  "belt": {
+   "eye": "Bhachakra",
+   "title": "The zodiac at birth",
+   "lede": "The full 360° laid flat: 12 rashis of 30°, 27 nakshatras of 13°20′ (numbered), and each graha at its exact sidereal degree."
   },
-  "static": {
-    "featEye": "What you get", "featTitle": "A complete Vedic birth chart, free",
-    "featLede": "Kundali Ganit calculates your chart from first principles, then reads it with classical Jyotish rules.",
-    "features": [
-      { "icon": "gr:Sun", "h": "Accurate graha positions", "p": "Sidereal degrees of all nine grahas, checked against the Swiss Ephemeris." },
-      { "icon": "rs:0", "h": "Lagna, Navamsa and Moon charts", "p": "In North Indian or South Indian style." },
-      { "icon": "ui:i-yoga", "h": "Yogas and doshas", "p": "Raj yoga, Gajakesari, Mangal dosha, Kaal Sarp, Sade Sati and more, each with the rule shown." },
-      { "icon": "gr:Saturn", "h": "Vimshottari dasha", "p": "Mahadasha and antardasha dates for 100 years, with the running period highlighted." },
-      { "icon": "gr:Moon", "h": "Panchang at birth", "p": "Tithi, vara, nakshatra, yoga, karana, sunrise and sunset." },
-      { "icon": "ui:i-house", "h": "Bhavas and Ashtakavarga", "p": "All twelve houses with lords, occupants and bindu strength." },
-      { "icon": "gr:Jupiter", "h": "Today's transits", "p": "Gochar from your Moon sign, marked favourable or unfavourable." },
-      { "icon": "ui:i-lock", "h": "Saved privately", "p": "Every chart you make is saved to your account. Only you can see it." }
-    ],
-    "aboutEye": "Janma Kundali", "aboutTitle": "About the Kundali",
-    "about": [
-      { "h": "What is a Janma Kundali?", "p": ["A Janma Kundali (birth chart) is a map of the sky at the exact moment and place of your birth. It shows the Lagna (the sign rising in the east), the twelve bhavas (houses) and the positions of the nine grahas in the twelve rashis and twenty-seven nakshatras.", "Jyotish reads this map to understand temperament, strengths and challenges, and uses the Vimshottari dasha system to time the main periods of life."] },
-      { "h": "How Kundali Ganit calculates it", "p": ["Your birth time is converted to Universal Time using the time zone history of your birth place. The positions of the Sun, Moon and planets are then computed from orbital mathematics and converted to the sidereal zodiac with the Lahiri ayanamsa, the standard used by the Government of India's calendar.", "The Lagna is solved from local sidereal time and your latitude. Yogas, doshas and strengths are then checked with stated classical rules, so you can see why each result appears."] }
-    ],
-    "faqEye": "FAQ", "faqTitle": "Frequently asked questions", "faqLede": "Answers to common questions about Kundali and how this site works."
+  "grahas": {
+   "eye": "Navagraha",
+   "title": "The nine grahas",
+   "lede": "Position, dignity and an indicative strength score for each graha. The score combines dignity, house, combustion, retrogression and Ashtakavarga bindus; it is a guide, not Shadbala.",
+   "strong": "Strong",
+   "moderate": "Moderate",
+   "weak": "Weak",
+   "strength": "Strength (indicative)",
+   "exalted": "Exalted",
+   "own": "Own sign",
+   "debil": "Debilitated",
+   "friendly": "Friendly sign",
+   "enemy": "Enemy sign",
+   "neutral": "Neutral sign",
+   "retro": "Retrograde",
+   "combust": "Combust"
   },
-  "faq": [
-    { "q": "What is a Kundali?", "a": "A Kundali, or Janma Kundali, is a Vedic birth chart: the positions of the Sun, Moon, planets, Rahu and Ketu at the moment of your birth, arranged in twelve houses from the Lagna (ascendant). It is the basis of all Jyotish readings." },
-    { "q": "What details do I need to make my Kundali?", "a": "Your date of birth, exact time of birth and place of birth. The place gives latitude, longitude and time zone, which are needed to calculate the Lagna and houses correctly." },
-    { "q": "What if I don't know my exact birth time?", "a": "Planet signs and most nakshatras will still be correct, because they change slowly. The Lagna changes about every two hours and the Lagna degree about every four minutes, so house positions and dasha dates depend on an accurate time." },
-    { "q": "How accurate is this Kundali?", "a": "Planet positions are calculated with astronomical formulas and were tested against the Swiss Ephemeris for 1900 to 2100. The Moon and Lagna agree within about one arc-minute, and the other planets within about three and a half arc-minutes." },
-    { "q": "Which ayanamsa does Kundali Ganit use?", "a": "It uses the Lahiri (Chitrapaksha) ayanamsa, the standard adopted by the Indian Calendar Reform Committee and used by most Indian astrologers and panchangs." },
-    { "q": "What is Mangal dosha (Manglik)?", "a": "Mangal dosha is present when Mars sits in the 1st, 2nd, 4th, 7th, 8th or 12th house. Kundali Ganit checks it from the Lagna, the Moon and Venus. Many traditions also apply cancellation rules, so discuss important decisions with an astrologer." },
-    { "q": "What is Vimshottari dasha?", "a": "Vimshottari is a 120-year cycle of planetary periods. Your starting period depends on the nakshatra of the Moon at birth. Each mahadasha is divided into nine antardashas, and Kundali Ganit lists the dates for 100 years." },
-    { "q": "Why do I need to log in, and is my data private?", "a": "Logging in is free. It lets you see the full Kundali and saves each chart to your account so you can open it later. Your charts are stored with row-level security, so only you can read them." }
+  "yogas": {
+   "eye": "Yoga · Dosha",
+   "title": "Yogas and doshas",
+   "lede": "{g} beneficial yogas and {b} doshas found. Each card shows the rule that was checked.",
+   "filter": "Filter yogas",
+   "all": "All",
+   "present": "Present",
+   "good": "Good",
+   "bad": "Doshas",
+   "pGood": "Present · good",
+   "pBad": "Present · caution",
+   "off": "Not formed"
+  },
+  "dasha": {
+   "eye": "Vimshottari Dasha",
+   "title": "Vimshottari Dasha",
+   "lede": "The 120-year cycle starts from the lord of the Moon's nakshatra. The Moon had covered {p}% of {nk} at birth, leaving {v} of {g} dasha.",
+   "runningNow": "Running now",
+   "mdad": "{md} Mahadasha · {ad} Antardasha",
+   "nowText": "The {md} period runs from {s} to {e}. The current {ad} sub-period ends on {ae}.",
+   "tone_good": "{g} is strong in this chart, which supports this period.",
+   "tone_bad": "{g} is weak in this chart, so this period asks for patience.",
+   "tone_mixed": "{g} is of moderate strength in this chart.",
+   "md": "{g} Mahadasha",
+   "years": "{n} years",
+   "balance": "balance {v}",
+   "now": "Now",
+   "past": "Past",
+   "ahead": "Ahead",
+   "birth": "Birth",
+   "age": "Age {n}",
+   "today": "Today",
+   "ymd": "{y}y {m}m {d}d"
+  },
+  "pan": {
+   "eye": "Panchang",
+   "title": "Panchang at birth",
+   "lede": "The five limbs of the Hindu calendar at the moment of birth. The Moon drawing shows its real phase.",
+   "tithi": "Tithi",
+   "tithiSub": "{n} of 30 · Moon {p}% lit",
+   "vara": "Vara",
+   "beforeSunrise": "born before sunrise",
+   "nakshatra": "Nakshatra",
+   "yoga": "Yoga",
+   "of27": "{n} of 27",
+   "karana": "Karana",
+   "karanaSub": "half of a tithi",
+   "sunrise": "Sunrise",
+   "sunset": "Sunset",
+   "localTime": "local time at the birth place",
+   "paksha": "Paksha",
+   "waxing": "waxing Moon",
+   "waning": "waning Moon",
+   "ava": "Avakahada details",
+   "av": {
+    "varna": "Varna",
+    "vashya": "Vashya",
+    "yoni": "Yoni",
+    "gana": "Gana",
+    "nadi": "Nadi",
+    "tatva": "Tatva",
+    "lagnaLord": "Lagna lord",
+    "rashiLord": "Rashi lord",
+    "nakLord": "Nakshatra lord",
+    "nameLetter": "Name letter"
+   }
+  },
+  "bhava": {
+   "eye": "Dvadasha Bhava",
+   "title": "The twelve bhavas",
+   "lede": "Whole-sign houses from the Lagna. The SAV bar shows Sarvashtakavarga bindus: 28 or more is strong, below 25 is weak.",
+   "name": "{n} Bhava",
+   "none": "No graha",
+   "lordIn": "Lord {g} in house {h}"
+  },
+  "ashtaka": {
+   "eye": "Ashtakavarga",
+   "title": "Ashtakavarga",
+   "lede": "Benefic points each graha receives in every sign from eight reference points. The Sarva total always adds up to 337.",
+   "graha": "Graha",
+   "total": "Total",
+   "sarva": "Sarva total",
+   "high": "High bindus (good)",
+   "low": "Low bindus (weak)",
+   "lagnaCol": "Gold column header = Lagna sign"
+  },
+  "gochar": {
+   "eye": "Gochar",
+   "title": "Transits today",
+   "lede": "Where the grahas are on {d}, counted from your Moon sign. Favourable houses follow the classical gochar rules for each graha.",
+   "inSign": "{g} in {r}",
+   "fromMoon": "house {h} from Moon",
+   "fav": "Favourable",
+   "unfav": "Unfavourable"
+  },
+  "method": {
+   "eye": "Ganit",
+   "title": "How it is calculated",
+   "lede": "",
+   "p1": "The Sun and planets come from Keplerian orbital elements with the main Jupiter–Saturn perturbations. The Moon uses the 60-term lunar series from Meeus, Astronomical Algorithms. Rahu is the mean lunar node. Positions are converted to sidereal with the Lahiri ayanamsa, and the Lagna is solved from local sidereal time and latitude.",
+   "p2": "Checked against the Swiss Ephemeris on 3,000 dates from 1900 to 2100: Moon within about 1′, Lagna within 1′, other grahas within 3½′. Houses are whole-sign. Yogas and doshas follow the rules shown on each card; traditions differ on cancellations."
+  }
+ },
+ "read": {
+  "intro": "{g}, karaka of {kk}, is in {r} in house {h}, the house of {m}.",
+  "dig": {
+   "exalted": "It is exalted here, at its strongest, so its results come through fully.",
+   "own": "It sits in its own sign, comfortable and dependable.",
+   "friendly": "It is in a friendly sign and well supported.",
+   "neutral": "It is in a neutral sign.",
+   "enemy": "It is in an enemy sign, so its results need extra effort.",
+   "debil": "It is debilitated, at its weakest, so its results can come with struggle.",
+   "debilNB": "It is debilitated, but the debilitation is cancelled (Neecha Bhanga), which can turn early struggle into later success."
+  },
+  "house": {
+   "kendra": "A kendra (angular) house gives it visible influence.",
+   "trikona": "A trikona (trine) house is one of the most fortunate placements.",
+   "mal6": "A malefic in the 6th helps defeat obstacles and rivals.",
+   "dus": "This is a dusthana (6, 8, 12), a house of difficulty.",
+   "h11": "The 11th house of gains supports every graha.",
+   "mal3": "A malefic in the 3rd gives courage and drive."
+  },
+  "combust": "It is combust (too close to the Sun), which weakens it.",
+  "retro": "It is retrograde, which adds intensity and turns its energy inward."
+ },
+ "hl": {
+  "exalted": {
+   "t": "{g} exalted in {r}",
+   "x": "The karaka of {kk} is at peak strength in house {h}."
+  },
+  "own": {
+   "t": "{g} in its own sign",
+   "x": "{r} is home ground for {g}, placed in house {h} ({m})."
+  },
+  "nb": {
+   "t": "Neecha Bhanga for {g}",
+   "x": "{g} is debilitated in {r}, but the cancellation rule is met, so the weakness can turn into strength."
+  },
+  "debil": {
+   "t": "{g} debilitated in {r}",
+   "x": "{g} is at its weakest; matters of {kk} may need extra care."
+  },
+  "combust": {
+   "t": "{g} combust",
+   "x": "Within combustion range of the Sun, {g} loses some of its independent strength."
+  },
+  "llGood": {
+   "t": "Strong Lagna lord",
+   "x": "The Lagna lord {g} is in house {h}, a kendra or trikona, which supports health and self-confidence."
+  },
+  "llBad": {
+   "t": "Lagna lord in a dusthana",
+   "x": "The Lagna lord {g} is in house {h}, which can bring more effort and obstacles in life."
+  },
+  "strongH": {
+   "t": "Strong house {h}",
+   "x": "{n} Ashtakavarga bindus in {r} support {m}."
+  },
+  "weakH": {
+   "t": "Weak house {h}",
+   "x": "Only {n} bindus in {r}; {m} need more effort."
+  }
+ },
+ "fmt": {
+  "with": "{a} with {b}",
+  "houseLord": "lord of house {h} ({g})"
+ },
+ "yoga": {
+  "gajakesari": {
+   "name": "Gajakesari Yoga",
+   "rule": "Guru in a kendra (1, 4, 7, 10) from the Moon",
+   "text": "Guru is in house {h} from the Moon. Gives wisdom, reputation and lasting prosperity.",
+   "off": "Guru is in house {h} from the Moon, not a kendra."
+  },
+  "budhaditya": {
+   "name": "Budhaditya Yoga",
+   "rule": "Surya and Budh in the same sign",
+   "text": "Sharp intellect, good communication and recognition for skill."
+  },
+  "chandramangal": {
+   "name": "Chandra-Mangal Yoga",
+   "rule": "Chandra and Mangal in the same sign",
+   "text": "Drive for earning and a talent for business and wealth."
+  },
+  "ruchaka": {
+   "name": "Ruchaka Yoga",
+   "rule": "{g} in its own or exalted sign in a kendra from Lagna",
+   "text": "One of the five Pancha Mahapurusha yogas: courage, leadership and physical strength."
+  },
+  "bhadra": {
+   "name": "Bhadra Yoga",
+   "rule": "{g} in its own or exalted sign in a kendra from Lagna",
+   "text": "One of the five Pancha Mahapurusha yogas: intelligence, eloquence and business skill."
+  },
+  "hamsa": {
+   "name": "Hamsa Yoga",
+   "rule": "{g} in its own or exalted sign in a kendra from Lagna",
+   "text": "One of the five Pancha Mahapurusha yogas: wisdom, virtue and respect."
+  },
+  "malavya": {
+   "name": "Malavya Yoga",
+   "rule": "{g} in its own or exalted sign in a kendra from Lagna",
+   "text": "One of the five Pancha Mahapurusha yogas: beauty, comfort, art and a happy marriage."
+  },
+  "sasa": {
+   "name": "Sasa Yoga",
+   "rule": "{g} in its own or exalted sign in a kendra from Lagna",
+   "text": "One of the five Pancha Mahapurusha yogas: authority, discipline and lasting achievement."
+  },
+  "raj": {
+   "name": "Raj Yoga",
+   "rule": "A kendra lord and a trikona lord together in one sign",
+   "text": "Formed by {list}. Brings rise in status and authority.",
+   "off": "No kendra lord and trikona lord are together."
+  },
+  "yogakaraka": {
+   "name": "Yogakaraka",
+   "rule": "One graha rules both a kendra and a trikona",
+   "text": "{list} rules both a kendra and a trikona for this Lagna and acts as the chart's chief benefic.",
+   "off": "No single graha rules both a kendra and a trikona for this Lagna."
+  },
+  "vipreet": {
+   "name": "Vipreet Raj Yoga",
+   "rule": "The lord of house 6, 8 or 12 placed in house 6, 8 or 12",
+   "text": "The {list} sits in a dusthana. Success can come out of difficult situations.",
+   "off": "No dusthana lord is placed in a dusthana."
+  },
+  "adhi": {
+   "name": "Adhi Yoga",
+   "rule": "Two or more natural benefics in houses 6, 7 or 8 from the Moon",
+   "text": "Leadership, a comfortable life and victory over rivals."
+  },
+  "durudhara": {
+   "name": "Durudhara Yoga",
+   "rule": "Grahas on both sides of the Moon (houses 2 and 12 from it)",
+   "text": "Wealth, comforts and a generous nature."
+  },
+  "sunapha": {
+   "name": "Sunapha Yoga",
+   "rule": "A graha in house 2 from the Moon",
+   "text": "Self-earned wealth and a good reputation."
+  },
+  "anapha": {
+   "name": "Anapha Yoga",
+   "rule": "A graha in house 12 from the Moon",
+   "text": "Good health, charm and a contented life."
+  },
+  "kemadruma": {
+   "name": "Kemadruma Yoga",
+   "rule": "No graha in houses 2 or 12 from the Moon, and none in a kendra from it",
+   "text": "The Moon stands alone, which can bring loneliness or money worries."
+  },
+  "grahan": {
+   "name": "Grahan Dosha",
+   "rule": "Surya or Chandra in the same sign as Rahu or Ketu",
+   "text": "{list} is joined by a node, which can cloud confidence or peace of mind.",
+   "off": "Neither Surya nor Chandra is joined by Rahu or Ketu."
+  },
+  "guruchandal": {
+   "name": "Guru Chandal Dosha",
+   "rule": "Guru in the same sign as Rahu or Ketu",
+   "text": "Guru is with {g}; judgement and advice from teachers may be clouded.",
+   "off": "Guru is free of Rahu and Ketu."
+  },
+  "shakata": {
+   "name": "Shakata Yoga",
+   "rule": "Moon in house 6, 8 or 12 from Guru, and the Moon not in a kendra",
+   "text": "Ups and downs in fortune, like the turning wheel of a cart."
+  },
+  "mangal": {
+   "name": "Mangal Dosha",
+   "rule": "Mangal in house 1, 2, 4, 7, 8 or 12",
+   "text": "Present counted from {list}. Mangal is in house {a} from Lagna, {b} from the Moon and {c} from Shukra.",
+   "off": "Mangal is in house {a} from Lagna, {b} from the Moon and {c} from Shukra."
+  },
+  "kaalsarp": {
+   "name": "Kaal Sarp Dosha",
+   "rule": "All seven grahas on one side of the Rahu–Ketu axis",
+   "text": "{v}.",
+   "off": "The grahas are spread on both sides of the Rahu–Ketu axis.",
+   "sarp": "All grahas lie from Rahu to Ketu (Kaal Sarp)",
+   "amrit": "All grahas lie from Ketu to Rahu (Kaal Amrit)"
+  },
+  "gandmool": {
+   "name": "Gand Mool",
+   "rule": "Moon in Ashwini, Ashlesha, Magha, Jyeshtha, Mula or Revati",
+   "text": "The Moon is in {nk}. Traditionally a shanti puja is advised.",
+   "off": "The Moon is in {nk}, not a Gand Mool nakshatra."
+  },
+  "sadesati": {
+   "name": "Sade Sati",
+   "rule": "Shani transiting houses 12, 1 or 2 from the Moon sign",
+   "now": "Shani is now in {r}, house {h} from your Moon sign {m}.",
+   "rising": "This is the rising phase of the 7½-year period.",
+   "peak": "This is the peak phase of the 7½-year period.",
+   "setting": "This is the setting phase of the 7½-year period.",
+   "dhaiya4": "Kantaka Shani (4th from the Moon) is running.",
+   "dhaiya8": "Ashtama Shani (8th from the Moon) is running.",
+   "none": "None in the first 100 years"
+  }
+ },
+ "names": {
+  "graha": {
+   "Sun": "Surya",
+   "Moon": "Chandra",
+   "Mars": "Mangal",
+   "Mercury": "Budh",
+   "Jupiter": "Guru",
+   "Venus": "Shukra",
+   "Saturn": "Shani",
+   "Rahu": "Rahu",
+   "Ketu": "Ketu"
+  },
+  "grahaAb": {
+   "Sun": "Su",
+   "Moon": "Mo",
+   "Mars": "Ma",
+   "Mercury": "Me",
+   "Jupiter": "Ju",
+   "Venus": "Ve",
+   "Saturn": "Sa",
+   "Rahu": "Ra",
+   "Ketu": "Ke"
+  },
+  "grahaAlt": {
+   "Sun": "Sun",
+   "Moon": "Moon",
+   "Mars": "Mars",
+   "Mercury": "Mercury",
+   "Jupiter": "Jupiter",
+   "Venus": "Venus",
+   "Saturn": "Saturn",
+   "Rahu": "North node",
+   "Ketu": "South node"
+  },
+  "rashi": [
+   "Mesha",
+   "Vrishabha",
+   "Mithuna",
+   "Karka",
+   "Simha",
+   "Kanya",
+   "Tula",
+   "Vrishchika",
+   "Dhanu",
+   "Makara",
+   "Kumbha",
+   "Meena"
   ],
-  "footer": { "text": "Positions are computed from orbital mathematics with Lahiri ayanamsa. Readings follow classical rules and are a guide, not a certainty." }
+  "nak": [
+   "Ashwini",
+   "Bharani",
+   "Krittika",
+   "Rohini",
+   "Mrigashira",
+   "Ardra",
+   "Punarvasu",
+   "Pushya",
+   "Ashlesha",
+   "Magha",
+   "Purva Phalguni",
+   "Uttara Phalguni",
+   "Hasta",
+   "Chitra",
+   "Swati",
+   "Vishakha",
+   "Anuradha",
+   "Jyeshtha",
+   "Mula",
+   "Purva Ashadha",
+   "Uttara Ashadha",
+   "Shravana",
+   "Dhanishta",
+   "Shatabhisha",
+   "Purva Bhadrapada",
+   "Uttara Bhadrapada",
+   "Revati"
+  ],
+  "tithi": [
+   "Pratipada",
+   "Dwitiya",
+   "Tritiya",
+   "Chaturthi",
+   "Panchami",
+   "Shashthi",
+   "Saptami",
+   "Ashtami",
+   "Navami",
+   "Dashami",
+   "Ekadashi",
+   "Dwadashi",
+   "Trayodashi",
+   "Chaturdashi",
+   "Purnima",
+   "Amavasya"
+  ],
+  "paksha": {
+   "Shukla": "Shukla",
+   "Krishna": "Krishna"
+  },
+  "vara": [
+   "Ravivara (Sunday)",
+   "Somavara (Monday)",
+   "Mangalavara (Tuesday)",
+   "Budhavara (Wednesday)",
+   "Guruvara (Thursday)",
+   "Shukravara (Friday)",
+   "Shanivara (Saturday)"
+  ],
+  "yoga27": [
+   "Vishkambha",
+   "Priti",
+   "Ayushman",
+   "Saubhagya",
+   "Shobhana",
+   "Atiganda",
+   "Sukarma",
+   "Dhriti",
+   "Shoola",
+   "Ganda",
+   "Vriddhi",
+   "Dhruva",
+   "Vyaghata",
+   "Harshana",
+   "Vajra",
+   "Siddhi",
+   "Vyatipata",
+   "Variyan",
+   "Parigha",
+   "Shiva",
+   "Siddha",
+   "Sadhya",
+   "Shubha",
+   "Shukla",
+   "Brahma",
+   "Indra",
+   "Vaidhriti"
+  ],
+  "karana": {
+   "Bava": "Bava",
+   "Balava": "Balava",
+   "Kaulava": "Kaulava",
+   "Taitila": "Taitila",
+   "Gara": "Gara",
+   "Vanija": "Vanija",
+   "Vishti": "Vishti (Bhadra)",
+   "Shakuni": "Shakuni",
+   "Chatushpada": "Chatushpada",
+   "Naga": "Naga",
+   "Kimstughna": "Kimstughna"
+  },
+  "val": {
+   "Brahmin": "Brahmin",
+   "Kshatriya": "Kshatriya",
+   "Vaishya": "Vaishya",
+   "Shudra": "Shudra",
+   "Chatushpad": "Chatushpad (quadruped)",
+   "Manav": "Manav (human)",
+   "Jalchar": "Jalchar (water)",
+   "Vanchar": "Vanchar (wild)",
+   "Keet": "Keet (insect)",
+   "Horse": "Ashwa (horse)",
+   "Elephant": "Gaja (elephant)",
+   "Sheep": "Mesha (sheep)",
+   "Serpent": "Sarpa (serpent)",
+   "Dog": "Shwan (dog)",
+   "Cat": "Marjar (cat)",
+   "Rat": "Mushak (rat)",
+   "Cow": "Gau (cow)",
+   "Buffalo": "Mahish (buffalo)",
+   "Tiger": "Vyaghra (tiger)",
+   "Deer": "Mriga (deer)",
+   "Monkey": "Vanar (monkey)",
+   "Mongoose": "Nakul (mongoose)",
+   "Lion": "Simha (lion)",
+   "Deva": "Deva",
+   "Manushya": "Manushya",
+   "Rakshasa": "Rakshasa",
+   "Adi": "Adi",
+   "Madhya": "Madhya",
+   "Antya": "Antya",
+   "Fire (Agni)": "Agni (fire)",
+   "Earth (Prithvi)": "Prithvi (earth)",
+   "Air (Vayu)": "Vayu (air)",
+   "Water (Jala)": "Jala (water)"
+  },
+  "houseName": [
+   "Tanu",
+   "Dhana",
+   "Sahaja",
+   "Sukha",
+   "Putra",
+   "Ripu",
+   "Kalatra",
+   "Ayu",
+   "Dharma",
+   "Karma",
+   "Labha",
+   "Vyaya"
+  ],
+  "house": [
+   "self, body and personality",
+   "wealth, family and speech",
+   "courage, siblings and effort",
+   "home, mother and happiness",
+   "children, intelligence and creativity",
+   "enemies, debts, health and service",
+   "marriage and partnership",
+   "longevity, secrets and sudden events",
+   "luck, dharma, father and higher learning",
+   "career, status and karma",
+   "gains, income and friends",
+   "expenses, foreign lands and moksha"
+  ],
+  "karaka": {
+   "Sun": "soul, father, authority and vitality",
+   "Moon": "mind, mother, emotions and peace",
+   "Mars": "energy, courage, siblings and property",
+   "Mercury": "intellect, speech, business and learning",
+   "Jupiter": "wisdom, children, wealth and good fortune",
+   "Venus": "love, marriage, arts and comforts",
+   "Saturn": "discipline, career, endurance and longevity",
+   "Rahu": "ambition, foreign links, technology and desire",
+   "Ketu": "detachment, intuition, spirituality and past karma"
+  },
+  "lagnaTrait": [
+   "Energetic, pioneering and quick to act.",
+   "Steady, patient and fond of comfort and beauty.",
+   "Curious, communicative and adaptable.",
+   "Caring, protective and emotionally deep.",
+   "Confident, generous and a natural leader.",
+   "Analytical, practical and detail-minded.",
+   "Balanced, diplomatic and relationship-oriented.",
+   "Intense, determined and private.",
+   "Optimistic, philosophical and freedom-loving.",
+   "Disciplined, ambitious and responsible.",
+   "Independent, humanitarian and inventive.",
+   "Compassionate, imaginative and spiritual."
+  ],
+  "ref": {
+   "Lagna": "Lagna",
+   "Moon": "the Moon",
+   "Venus": "Shukra"
+  },
+  "syll": [
+   [
+    "Chu",
+    "Che",
+    "Cho",
+    "La"
+   ],
+   [
+    "Li",
+    "Lu",
+    "Le",
+    "Lo"
+   ],
+   [
+    "A",
+    "I",
+    "U",
+    "E"
+   ],
+   [
+    "O",
+    "Va",
+    "Vi",
+    "Vu"
+   ],
+   [
+    "Ve",
+    "Vo",
+    "Ka",
+    "Ki"
+   ],
+   [
+    "Ku",
+    "Gha",
+    "Na",
+    "Chha"
+   ],
+   [
+    "Ke",
+    "Ko",
+    "Ha",
+    "Hi"
+   ],
+   [
+    "Hu",
+    "He",
+    "Ho",
+    "Da"
+   ],
+   [
+    "Di",
+    "Du",
+    "De",
+    "Do"
+   ],
+   [
+    "Ma",
+    "Mi",
+    "Mu",
+    "Me"
+   ],
+   [
+    "Mo",
+    "Ta",
+    "Ti",
+    "Tu"
+   ],
+   [
+    "Te",
+    "To",
+    "Pa",
+    "Pi"
+   ],
+   [
+    "Pu",
+    "Sha",
+    "Na",
+    "Tha"
+   ],
+   [
+    "Pe",
+    "Po",
+    "Ra",
+    "Ri"
+   ],
+   [
+    "Ru",
+    "Re",
+    "Ro",
+    "Ta"
+   ],
+   [
+    "Ti",
+    "Tu",
+    "Te",
+    "To"
+   ],
+   [
+    "Na",
+    "Ni",
+    "Nu",
+    "Ne"
+   ],
+   [
+    "No",
+    "Ya",
+    "Yi",
+    "Yu"
+   ],
+   [
+    "Ye",
+    "Yo",
+    "Bha",
+    "Bhi"
+   ],
+   [
+    "Bhu",
+    "Dha",
+    "Pha",
+    "Dha"
+   ],
+   [
+    "Bhe",
+    "Bho",
+    "Ja",
+    "Ji"
+   ],
+   [
+    "Khi",
+    "Khu",
+    "Khe",
+    "Kho"
+   ],
+   [
+    "Ga",
+    "Gi",
+    "Gu",
+    "Ge"
+   ],
+   [
+    "Go",
+    "Sa",
+    "Si",
+    "Su"
+   ],
+   [
+    "Se",
+    "So",
+    "Da",
+    "Di"
+   ],
+   [
+    "Du",
+    "Tha",
+    "Jha",
+    "Na"
+   ],
+   [
+    "De",
+    "Do",
+    "Cha",
+    "Chi"
+   ]
+  ]
+ },
+ "static": {
+  "featEye": "What you get",
+  "featTitle": "A complete Vedic birth chart, free",
+  "featLede": "Kundali Ganit calculates your chart from first principles, then reads it with classical Jyotish rules.",
+  "features": [
+   {
+    "icon": "gr:Sun",
+    "h": "Accurate graha positions",
+    "p": "Sidereal degrees of all nine grahas, checked against the Swiss Ephemeris."
+   },
+   {
+    "icon": "rs:0",
+    "h": "Lagna, Navamsa and Moon charts",
+    "p": "In North Indian or South Indian style."
+   },
+   {
+    "icon": "ui:i-yoga",
+    "h": "Yogas and doshas",
+    "p": "Raj yoga, Gajakesari, Mangal dosha, Kaal Sarp, Sade Sati and more, each with the rule shown."
+   },
+   {
+    "icon": "gr:Saturn",
+    "h": "Vimshottari dasha",
+    "p": "Mahadasha and antardasha dates for 100 years, with the running period highlighted."
+   },
+   {
+    "icon": "gr:Moon",
+    "h": "Panchang at birth",
+    "p": "Tithi, vara, nakshatra, yoga, karana, sunrise and sunset."
+   },
+   {
+    "icon": "ui:i-house",
+    "h": "Bhavas and Ashtakavarga",
+    "p": "All twelve houses with lords, occupants and bindu strength."
+   },
+   {
+    "icon": "gr:Jupiter",
+    "h": "Today's transits",
+    "p": "Gochar from your Moon sign, marked favourable or unfavourable."
+   },
+   {
+    "icon": "ui:i-lock",
+    "h": "Saved privately",
+    "p": "Every chart you make is saved to your account. Only you can see it."
+   }
+  ],
+  "aboutEye": "Janma Kundali",
+  "aboutTitle": "About the Kundali",
+  "about": [
+   {
+    "h": "What is a Janma Kundali?",
+    "p": [
+     "A Janma Kundali (birth chart) is a map of the sky at the exact moment and place of your birth. It shows the Lagna (the sign rising in the east), the twelve bhavas (houses) and the positions of the nine grahas in the twelve rashis and twenty-seven nakshatras.",
+     "Jyotish reads this map to understand temperament, strengths and challenges, and uses the Vimshottari dasha system to time the main periods of life."
+    ]
+   },
+   {
+    "h": "How Kundali Ganit calculates it",
+    "p": [
+     "Your birth time is converted to Universal Time using the time zone history of your birth place. The positions of the Sun, Moon and planets are then computed from orbital mathematics and converted to the sidereal zodiac with the Lahiri ayanamsa, the standard used by the Government of India's calendar.",
+     "The Lagna is solved from local sidereal time and your latitude. Yogas, doshas and strengths are then checked with stated classical rules, so you can see why each result appears."
+    ]
+   }
+  ],
+  "faqEye": "FAQ",
+  "faqTitle": "Frequently asked questions",
+  "faqLede": "Answers to common questions about Kundali and how this site works."
+ },
+ "faq": [
+  {
+   "q": "What is a Kundali?",
+   "a": "A Kundali, or Janma Kundali, is a Vedic birth chart: the positions of the Sun, Moon, planets, Rahu and Ketu at the moment of your birth, arranged in twelve houses from the Lagna (ascendant). It is the basis of all Jyotish readings."
+  },
+  {
+   "q": "What details do I need to make my Kundali?",
+   "a": "Your date of birth, exact time of birth and place of birth. The place gives latitude, longitude and time zone, which are needed to calculate the Lagna and houses correctly."
+  },
+  {
+   "q": "What if I don't know my exact birth time?",
+   "a": "Planet signs and most nakshatras will still be correct, because they change slowly. The Lagna changes about every two hours and the Lagna degree about every four minutes, so house positions and dasha dates depend on an accurate time."
+  },
+  {
+   "q": "How accurate is this Kundali?",
+   "a": "Planet positions are calculated with astronomical formulas and were tested against the Swiss Ephemeris for 1900 to 2100. The Moon and Lagna agree within about one arc-minute, and the other planets within about three and a half arc-minutes."
+  },
+  {
+   "q": "Which ayanamsa does Kundali Ganit use?",
+   "a": "It uses the Lahiri (Chitrapaksha) ayanamsa, the standard adopted by the Indian Calendar Reform Committee and used by most Indian astrologers and panchangs."
+  },
+  {
+   "q": "What is Mangal dosha (Manglik)?",
+   "a": "Mangal dosha is present when Mars sits in the 1st, 2nd, 4th, 7th, 8th or 12th house. Kundali Ganit checks it from the Lagna, the Moon and Venus. Many traditions also apply cancellation rules, so discuss important decisions with an astrologer."
+  },
+  {
+   "q": "What is Vimshottari dasha?",
+   "a": "Vimshottari is a 120-year cycle of planetary periods. Your starting period depends on the nakshatra of the Moon at birth. Each mahadasha is divided into nine antardashas, and Kundali Ganit lists the dates for 100 years."
+  },
+  {
+   "q": "Why do I need to log in, and is my data private?",
+   "a": "Logging in is free. It lets you see the full Kundali and saves each chart to your account so you can open it later. Your charts are stored with row-level security, so only you can read them."
+  }
+ ],
+ "footer": {
+  "text": "Positions are computed from orbital mathematics with Lahiri ayanamsa. Readings follow classical rules and are a guide, not a certainty."
+ }
 }
