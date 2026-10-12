@@ -1,0 +1,1261 @@
+<title>Kundali Ganit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hind:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Tiro+Devanagari+Sanskrit&display=swap">
+<style>
+/* Layout: sticky top bar; hero pairs the birth form with a live animated zodiac wheel; results flow as full-width editorial sections. Light theme by request. */
+:root {
+  --bg: #F4F5FA; --surface: #FFFFFF; --ink: #16173B; --ink-2: #474A72; --ink-3: #7A7C9C; --line: #E3E4EF; --line-2: #CDD0E3;
+  --gold: #D3971C; --gold-deep: #8C5E05; --gold-soft: #FBF0D8; --gold-softer: #FDF8EC; --indigo: #2A2E7C; --indigo-soft: #ECEDFB;
+  --good: #11804E; --good-bg: #E2F4E9; --good-line: #A7DDBF; --bad: #C2352D; --bad-bg: #FCE8E5; --bad-line: #F0B7B1; --warn: #A2680A; --warn-bg: #FDF2DC;
+  --c-Sun: #E8701A; --c-Moon: #6F7C99; --c-Mars: #D23A2A; --c-Mercury: #23955A; --c-Jupiter: #C38F0B; --c-Venus: #D2508A; --c-Saturn: #3554CF; --c-Rahu: #4A5267; --c-Ketu: #8B5A3A;
+  --f-display: 'Marcellus', 'Iowan Old Style', Georgia, serif;
+  --f-body: 'Hind', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --f-dev: 'Tiro Devanagari Sanskrit', 'Hind', serif;
+  --shadow: 0 1px 2px rgba(22, 23, 59, .05), 0 10px 30px rgba(22, 23, 59, .07);
+  --shadow-lg: 0 2px 4px rgba(22, 23, 59, .05), 0 24px 60px rgba(22, 23, 59, .12);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6; }
+h1, h2, h3, h4 { margin: 0; font-weight: 400; text-wrap: balance; }
+p { margin: 0; }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; }
+a { color: inherit; }
+button, input { font: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- Top bar ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(244, 245, 250, .86); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand svg { width: 34px; height: 34px; }
+.brand b { font-family: var(--f-display); font-weight: 400; font-size: 21px; letter-spacing: .01em; }
+.brand small { font-family: var(--f-dev); color: var(--gold-deep); font-size: 14px; }
+.topnav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.topnav a { text-decoration: none; font-size: 14.5px; font-weight: 500; color: var(--ink-2); padding: 6px 11px; border-radius: 8px; white-space: nowrap; }
+.topnav a:hover { background: var(--indigo-soft); color: var(--ink); }
+.btn-cta { display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; text-decoration: none; background: linear-gradient(135deg, #2A2E7C, #16173B); color: #fff; font-weight: 600; font-size: 15px; padding: 10px 18px; border-radius: 10px; box-shadow: 0 6px 18px rgba(42, 46, 124, .28); transition: transform .2s, box-shadow .2s; white-space: nowrap; }
+.btn-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(42, 46, 124, .34); }
+@media (max-width: 980px) { .topnav { display: none; } .topbar .btn-cta { margin-left: auto; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; padding-block: 48px 56px; background:
+  radial-gradient(900px 500px at 85% 10%, rgba(211, 151, 28, .13), transparent 60%),
+  radial-gradient(700px 500px at 0% 100%, rgba(42, 46, 124, .08), transparent 60%), var(--bg); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); gap: 40px; align-items: center; }
+@media (max-width: 980px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } .wheel-col { order: -1; } }
+.kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-deep); }
+.kicker::before { content: ''; width: 26px; height: 1.5px; background: var(--gold); }
+.hero h1 { font-family: var(--f-display); font-size: clamp(36px, 5.2vw, 58px); line-height: 1.06; margin: 14px 0 14px; letter-spacing: -.005em; }
+.hero h1 em { font-style: normal; background: linear-gradient(100deg, var(--gold-deep), var(--gold) 60%, #E8701A); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .sub { font-size: 18px; color: var(--ink-2); max-width: 54ch; }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 18px 0 26px; font-size: 14px; color: var(--ink-2); }
+.trust span { display: inline-flex; align-items: center; gap: 6px; }
+.trust svg { width: 16px; height: 16px; color: var(--good); }
+
+.formcard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 22px; }
+.formcard h2 { font-family: var(--f-display); font-size: 22px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+.formcard h2 small { font-family: var(--f-body); font-size: 13px; color: var(--ink-3); }
+form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+.field { display: grid; gap: 5px; position: relative; min-width: 0; }
+.field.full { grid-column: 1 / -1; }
+@media (max-width: 520px) { form { grid-template-columns: minmax(0, 1fr); } }
+label { font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+input { font-size: 16px; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 11px; padding: 11px 13px; width: 100%; min-width: 0; transition: border-color .2s, background .2s, box-shadow .2s; }
+input:hover { border-color: var(--line-2); }
+input:focus { outline: none; border-color: var(--gold); background: #fff; box-shadow: 0 0 0 4px rgba(211, 151, 28, .15); }
+.place-meta { font-size: 13px; color: var(--ink-3); min-height: 1.3em; }
+.place-meta b { color: var(--good); font-weight: 600; }
+.suggest { position: absolute; top: calc(100% - 18px); left: 0; right: 0; z-index: 30; margin: 4px 0 0; padding: 5px; list-style: none; background: #fff; border: 1px solid var(--line-2); border-radius: 12px; box-shadow: var(--shadow-lg); max-height: 290px; overflow: auto; }
+.suggest li { padding: 8px 11px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
+.suggest li small { color: var(--ink-3); text-align: right; }
+.suggest li[aria-selected="true"], .suggest li:hover { background: var(--gold-softer); }
+details.coords { grid-column: 1 / -1; border-top: 1px dashed var(--line-2); padding-top: 10px; }
+details.coords summary { cursor: pointer; font-size: 14px; color: var(--gold-deep); font-weight: 600; }
+details.coords .inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+@media (max-width: 520px) { details.coords .inner { grid-template-columns: 1fr 1fr; } }
+.small-note { grid-column: 1 / -1; font-size: 13px; color: var(--ink-3); }
+.btn-ghost { grid-column: 1 / -1; justify-self: start; background: transparent; color: var(--gold-deep); border: 1px solid var(--line-2); font-size: 14px; padding: 7px 12px; border-radius: 9px; cursor: pointer; font-weight: 500; }
+.err { grid-column: 1 / -1; color: var(--bad); font-size: 14px; min-height: 1.2em; }
+.go { grid-column: 1 / -1; justify-content: center; padding: 14px; font-size: 16.5px; background: linear-gradient(135deg, #E0A425, #C27C08); color: #16173B; box-shadow: 0 8px 22px rgba(194, 124, 8, .32); }
+.go:hover { box-shadow: 0 12px 28px rgba(194, 124, 8, .4); }
+
+.wheel-col { position: relative; display: grid; place-items: center; }
+.wheel-col::before { content: ''; position: absolute; width: 92%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(211, 151, 28, .18), transparent 65%); filter: blur(10px); }
+.wheel { position: relative; width: 100%; max-width: 540px; height: auto; display: block; }
+.wheel .halo { transform-origin: 270px 270px; transform-box: view-box; }
+.wheel .spinner { transform-origin: 270px 270px; transform-box: view-box; animation: wheelIn 1.8s cubic-bezier(.2, .7, .2, 1) both; }
+.wheel .pm { transform-origin: 270px 270px; transform-box: view-box; animation: pmIn .9s cubic-bezier(.2, .8, .3, 1.2) both; animation-delay: calc(900ms + var(--d, 0ms)); }
+.wheel-legend { position: relative; margin-top: 8px; font-size: 13px; color: var(--ink-3); text-align: center; }
+@keyframes wheelIn { from { transform: rotate(-110deg) scale(.92); } to { transform: none; } }
+@keyframes pmIn { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: no-preference) { .wheel .halo { animation: spin 140s linear infinite; } }
+
+/* ---------- Sections ---------- */
+main section { padding-block: 64px 8px; scroll-margin-top: 72px; }
+.sec-head { display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: space-between; align-items: end; margin-bottom: 26px; }
+.sec-head .eyebrow { font-family: var(--f-dev); color: var(--gold-deep); font-size: 15px; margin-bottom: 2px; }
+.sec-head h2 { font-family: var(--f-display); font-size: clamp(28px, 3.6vw, 38px); line-height: 1.12; }
+.sec-head p.lede { color: var(--ink-2); max-width: 62ch; margin-top: 8px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); min-width: 0; }
+.example-note { display: flex; gap: 10px; align-items: center; background: var(--gold-softer); border: 1px solid #F0DDB0; border-radius: 12px; padding: 12px 16px; font-size: 15px; margin-top: 28px; }
+.example-note svg { width: 20px; height: 20px; color: var(--gold-deep); flex: none; }
+
+/* Profile */
+.profile { padding: 28px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; margin-top: 28px; position: relative; overflow: hidden; }
+.profile::after { content: ''; position: absolute; right: -80px; top: -80px; width: 260px; height: 260px; border-radius: 50%; border: 1px dashed var(--line-2); }
+@media (max-width: 860px) { .profile { grid-template-columns: minmax(0, 1fr); } }
+.profile .who .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-deep); }
+.profile h2 { font-family: var(--f-display); font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 6px 0 8px; }
+.birthline { color: var(--ink-2); font-size: 15px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.birthline span { display: inline-flex; gap: 6px; align-items: center; }
+.birthline svg { width: 15px; height: 15px; color: var(--ink-3); }
+.lagna-trait { margin-top: 18px; display: flex; gap: 14px; align-items: center; padding: 14px; background: var(--indigo-soft); border-radius: 12px; }
+.lagna-trait .glyph { width: 46px; height: 46px; flex: none; border-radius: 12px; background: #fff; display: grid; place-items: center; color: var(--indigo); }
+.lagna-trait .glyph svg { width: 28px; height: 28px; }
+.lagna-trait p { font-size: 15px; color: var(--ink-2); }
+.lagna-trait b { color: var(--ink); }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; z-index: 1; }
+.fact { border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; gap: 12px; align-items: flex-start; background: #fff; }
+.fact .ic { width: 42px; height: 42px; flex: none; display: grid; place-items: center; border-radius: 11px; background: var(--gold-softer); color: var(--gold-deep); }
+.fact .ic svg { width: 26px; height: 26px; }
+.fact .ic svg.gimg { width: 36px; height: 36px; }
+.fact dt { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.fact dd { margin: 1px 0 0; font-size: 17px; font-weight: 600; line-height: 1.3; }
+.fact dd span { display: block; font-weight: 400; font-size: 13.5px; color: var(--ink-2); }
+@media (max-width: 460px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+
+/* Highlights */
+.balance { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.balance .bar { flex: 1; min-width: 200px; height: 12px; border-radius: 6px; background: var(--bad-bg); overflow: hidden; display: flex; }
+.balance .bar i { display: block; height: 100%; background: linear-gradient(90deg, #17A262, #11804E); border-radius: 6px 0 0 6px; }
+.balance .lbl { font-size: 14px; font-weight: 600; }
+.balance .lbl.g { color: var(--good); } .balance .lbl.b { color: var(--bad); }
+.hl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 22px; }
+@media (max-width: 860px) { .hl-grid { grid-template-columns: minmax(0, 1fr); } }
+.hl-col { padding: 22px; }
+.hl-col.good { background: linear-gradient(180deg, var(--good-bg), #fff 140px); border-color: var(--good-line); }
+.hl-col.bad { background: linear-gradient(180deg, var(--bad-bg), #fff 140px); border-color: var(--bad-line); }
+.hl-col h3 { font-family: var(--f-display); font-size: 24px; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.hl-col h3 .badge { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
+.hl-col.good h3 .badge { background: var(--good); } .hl-col.bad h3 .badge { background: var(--bad); }
+.hl-col h3 .badge svg { width: 18px; height: 18px; }
+.hl-col h3 small { font-family: var(--f-mono); font-size: 14px; color: var(--ink-3); margin-left: auto; }
+.hl-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.hl-list li { display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; transition: transform .2s, box-shadow .2s; }
+.hl-list li:hover { transform: translateX(3px); box-shadow: var(--shadow); }
+.hl-list .ic { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 10px; }
+.hl-col.good .hl-list .ic { background: var(--good-bg); color: var(--good); }
+.hl-col.bad .hl-list .ic { background: var(--bad-bg); color: var(--bad); }
+.hl-list .ic svg { width: 22px; height: 22px; }
+.hl-list .ic svg.gimg { width: 34px; height: 34px; }
+.hl-list b { display: block; font-size: 15.5px; }
+.hl-list p { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+.empty { color: var(--ink-3); font-size: 15px; padding: 10px 0; }
+
+/* Charts */
+.seg { display: inline-flex; padding: 4px; border-radius: 11px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.seg button { border: 0; background: transparent; color: var(--ink-2); padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 14.5px; font-weight: 500; transition: background .2s, color .2s; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.charts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 980px) { .charts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .charts { grid-template-columns: minmax(0, 1fr); } }
+.chart { padding: 14px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.chart h3 { font-family: var(--f-display); font-size: 20px; margin: 12px 4px 2px; }
+.chart p { font-size: 14px; color: var(--ink-2); margin: 0 4px 4px; }
+svg .ch-bg { fill: var(--gold-softer); }
+svg .frame { fill: none; stroke: var(--gold-deep); stroke-width: 2; }
+svg .ln { fill: none; stroke: #D9B66B; stroke-width: 1.2; }
+svg .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.drawing svg .draw { animation: draw 1.4s cubic-bezier(.4, 0, .2, 1) both; }
+.drawing svg .fadein { animation: fadein .6s ease both; animation-delay: calc(700ms + var(--d, 0ms)); }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+svg .lagna-fill { fill: #F7E1AE; }
+svg .cell { fill: #fff; stroke: #D9B66B; stroke-width: 1.2; }
+svg .sn { fill: var(--ink-3); font-family: var(--f-mono); font-size: 11px; }
+svg .pl { font-family: var(--f-body); font-size: 13px; font-weight: 700; }
+svg .pl .r { font-size: 9.5px; fill: var(--bad); }
+svg .asc { fill: var(--bad); font-family: var(--f-body); font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+svg .ascline { stroke: var(--bad); stroke-width: 1.8; }
+svg .ctitle { fill: var(--ink); font-family: var(--f-display); font-size: 21px; }
+svg .csub { fill: var(--ink-3); font-family: var(--f-body); font-size: 12.5px; }
+.chart-key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 16px; font-size: 13.5px; color: var(--ink-2); }
+.chart-key span { display: inline-flex; align-items: center; gap: 5px; }
+.chart-key b { font-weight: 700; }
+
+/* Graha cards */
+.graha-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 980px) { .graha-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .graha-grid { grid-template-columns: minmax(0, 1fr); } }
+.graha { padding: 18px; display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+.graha:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.graha::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--gc); }
+.graha .top { display: flex; gap: 14px; align-items: center; }
+.graha .art { width: 72px; height: 72px; flex: none; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, color-mix(in srgb, var(--gc) 16%, #fff), #fff 70%); }
+.graha .art svg { width: 64px; height: 64px; }
+@media (prefers-reduced-motion: no-preference) { .graha .art svg { animation: float 6s ease-in-out infinite; animation-delay: var(--d, 0s); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.graha h3 { font-family: var(--f-display); font-size: 23px; line-height: 1.1; }
+.graha h3 small { display: block; font-family: var(--f-body); font-size: 13.5px; color: var(--ink-3); margin-top: 2px; }
+.graha .verdict { margin-left: auto; align-self: flex-start; }
+.pos { display: flex; align-items: center; gap: 10px; background: var(--bg); border-radius: 11px; padding: 9px 12px; }
+.pos .rg { width: 30px; height: 30px; color: var(--gc); flex: none; }
+.pos b { font-size: 16px; }
+.pos .deg { font-family: var(--f-mono); font-size: 14px; color: var(--ink-2); margin-left: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--bg); color: var(--ink-2); border: 1px solid var(--line); }
+.tag.good { background: var(--good-bg); color: var(--good); border-color: transparent; }
+.tag.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+.tag.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.tag.gold { background: var(--gold-soft); color: var(--gold-deep); border-color: transparent; }
+.strength { display: grid; gap: 5px; }
+.strength .row { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-3); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.strength .row b { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0; }
+.meter { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 4px; transform-origin: left; }
+.meter i.good { background: linear-gradient(90deg, #36B57A, #11804E); }
+.meter i.mixed { background: linear-gradient(90deg, #E6B04A, #C98A10); }
+.meter i.bad { background: linear-gradient(90deg, #EB7268, #C2352D); }
+.in .meter i { animation: grow 1.1s cubic-bezier(.2, .7, .2, 1) both; animation-delay: .15s; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
+.graha .read { font-size: 14.5px; color: var(--ink-2); line-height: 1.55; }
+.verdict { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.verdict.good { background: var(--good-bg); color: var(--good); }
+.verdict.bad { background: var(--bad-bg); color: var(--bad); }
+.verdict.mixed { background: var(--warn-bg); color: var(--warn); }
+
+/* Belt */
+.belt-card { padding: 10px; overflow-x: auto; }
+.belt { display: block; min-width: 780px; width: 100%; height: auto; }
+
+/* Yogas */
+.yoga-filter { margin-bottom: 18px; }
+.yoga-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.yoga { padding: 16px; display: grid; gap: 8px; align-content: start; transition: transform .2s; }
+.yoga:hover { transform: translateY(-2px); }
+.yoga.on.good { border-color: var(--good-line); background: linear-gradient(180deg, var(--good-bg), #fff 90px); }
+.yoga.on.bad { border-color: var(--bad-line); background: linear-gradient(180deg, var(--bad-bg), #fff 90px); }
+.yoga.off { opacity: .78; }
+.yoga .yh { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.yoga h3 { font-family: var(--f-display); font-size: 19px; line-height: 1.2; }
+.yoga .rule { font-size: 13px; color: var(--ink-3); }
+.yoga p { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+
+/* Dasha */
+.now-card { padding: 22px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 22px; align-items: center; margin-bottom: 18px; background: linear-gradient(120deg, #fff, var(--gold-softer)); border-color: #F0DDB0; }
+@media (max-width: 720px) { .now-card { grid-template-columns: minmax(0, 1fr); } }
+.now-card .pair { display: flex; align-items: center; }
+.now-card .pair svg { width: 70px; height: 70px; filter: drop-shadow(0 6px 10px rgba(22, 23, 59, .15)); }
+.now-card .pair svg + svg { width: 50px; height: 50px; margin-left: -14px; }
+.now-card .eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-deep); }
+.now-card h3 { font-family: var(--f-display); font-size: 28px; line-height: 1.15; }
+.now-card p { color: var(--ink-2); font-size: 15px; }
+.ring { width: 96px; height: 96px; }
+.ring circle { fill: none; stroke-width: 9; }
+.ring .bg { stroke: var(--line); }
+.ring .fg { stroke: var(--gold); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 1.4s cubic-bezier(.2, .7, .2, 1); }
+.ring text { font-family: var(--f-mono); font-size: 17px; fill: var(--ink); }
+.ribbon-card { padding: 14px; overflow-x: auto; margin-bottom: 18px; }
+.ribbon { display: block; min-width: 720px; width: 100%; height: auto; }
+.dasha-list { display: grid; gap: 10px; }
+.dasha-list details { background: #fff; border: 1px solid var(--line); border-radius: 14px; transition: box-shadow .2s; }
+.dasha-list details[open] { box-shadow: var(--shadow); }
+.dasha-list details.now { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(211, 151, 28, .15); }
+.dasha-list summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 44px minmax(120px, 1fr) minmax(0, 2fr) auto 20px; gap: 14px; align-items: center; padding: 12px 16px; }
+.dasha-list summary::-webkit-details-marker { display: none; }
+.dasha-list summary svg.gimg { width: 40px; height: 40px; }
+.dasha-list .lord { font-weight: 600; font-size: 16.5px; }
+.dasha-list .lord span { display: block; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+.dasha-list .when { font-size: 14px; color: var(--ink-2); font-family: var(--f-mono); }
+.dasha-list .chev { width: 18px; height: 18px; color: var(--ink-3); transition: transform .2s; }
+.dasha-list details[open] .chev { transform: rotate(180deg); }
+.pill { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: var(--gold); color: #16173B; }
+.pill.past { background: var(--line); color: var(--ink-3); }
+.pill.fut { background: var(--indigo-soft); color: var(--indigo); }
+@media (max-width: 640px) { .dasha-list summary { grid-template-columns: 40px minmax(0, 1fr) auto; } .dasha-list .when { grid-column: 2 / -1; grid-row: 2; } .dasha-list .chev { display: none; } }
+.sub { padding: 0 16px 16px; }
+.subgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.subgrid div { border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; display: flex; gap: 10px; align-items: center; font-size: 14px; }
+.subgrid div.now { border-color: var(--gold); background: var(--gold-softer); }
+.subgrid svg.gimg { width: 28px; height: 28px; flex: none; }
+.subgrid b { display: block; font-size: 14.5px; }
+.subgrid span { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); }
+
+/* Panchang */
+.pan-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 980px) { .pan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .pan-grid { grid-template-columns: minmax(0, 1fr); } }
+.pan { padding: 16px; display: flex; gap: 12px; align-items: center; }
+.pan .ic { width: 52px; height: 52px; flex: none; display: grid; place-items: center; border-radius: 14px; background: var(--indigo-soft); color: var(--indigo); }
+.pan .ic svg { width: 30px; height: 30px; }
+.pan .ic.moonph { background: #1E2150; }
+.pan .ic.moonph svg { width: 40px; height: 40px; }
+.pan dt { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.pan dd { margin: 0; font-weight: 600; font-size: 16px; line-height: 1.3; }
+.pan dd span { display: block; font-weight: 400; font-size: 13.5px; color: var(--ink-2); }
+.ava { margin-top: 20px; padding: 20px; }
+.ava h3 { font-family: var(--f-display); font-size: 22px; margin-bottom: 12px; }
+.ava-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.ava-grid div { background: #fff; padding: 11px 14px; }
+.ava-grid dt { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.ava-grid dd { margin: 0; font-weight: 600; }
+
+/* Bhavas */
+.bhava-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 980px) { .bhava-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .bhava-grid { grid-template-columns: minmax(0, 1fr); } }
+.bhava { padding: 15px; display: grid; gap: 8px; align-content: start; }
+.bhava .bh { display: flex; align-items: center; gap: 10px; }
+.bhava .no { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; font-family: var(--f-display); font-size: 19px; background: var(--ink); color: #fff; flex: none; }
+.bhava.lagna .no { background: linear-gradient(135deg, #E0A425, #C27C08); color: var(--ink); }
+.bhava h3 { font-size: 16px; font-weight: 600; line-height: 1.2; }
+.bhava h3 small { display: block; font-weight: 400; font-size: 12.5px; color: var(--ink-3); }
+.bhava .rg { width: 26px; height: 26px; color: var(--indigo); margin-left: auto; flex: none; }
+.bhava .means { font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+.bhava .occ { display: flex; gap: 4px; flex-wrap: wrap; min-height: 30px; align-items: center; }
+.bhava .occ svg { width: 28px; height: 28px; }
+.bhava .occ .none { font-size: 13px; color: var(--ink-3); }
+.bhava .lordline { font-size: 13px; color: var(--ink-3); }
+.bhava .lordline b { color: var(--ink); font-weight: 600; }
+.savbar { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.savbar .meter { flex: 1; }
+.savbar b { font-family: var(--f-mono); min-width: 2ch; text-align: right; }
+
+/* Ashtakavarga */
+.tbl-card { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { padding: 9px 10px; text-align: center; white-space: nowrap; }
+th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; background: var(--bg); }
+th:first-child, td:first-child { text-align: left; padding-left: 16px; }
+td.hm { font-family: var(--f-mono); font-weight: 500; }
+tbody tr + tr td { border-top: 1px solid var(--line); }
+tr.sav td { font-weight: 700; border-top: 2px solid var(--ink) !important; }
+th.lg { color: var(--gold-deep); }
+.th-glyph { display: block; width: 18px; height: 18px; margin: 0 auto 2px; color: var(--indigo); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13.5px; color: var(--ink-2); margin-top: 12px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 5px; }
+
+/* Gochar */
+.gochar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.goc { padding: 14px; display: flex; gap: 12px; align-items: center; }
+.goc svg.gimg { width: 46px; height: 46px; flex: none; }
+.goc b { display: block; font-size: 15.5px; }
+.goc span { font-size: 13.5px; color: var(--ink-2); display: block; }
+.goc .tag { margin-top: 4px; }
+
+/* Method */
+.method { padding: 22px; display: grid; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+.method .mono { font-size: 13px; color: var(--ink); background: var(--bg); padding: 10px 12px; border-radius: 10px; line-height: 1.7; }
+footer { padding-block: 50px 40px; color: var(--ink-3); font-size: 14px; text-align: center; }
+footer .brand { justify-content: center; margin-bottom: 8px; }
+
+/* Reveal: elements are visible at rest; .in only adds a lift */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.in { animation: lift .7s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0ms); }
+}
+@keyframes lift { from { transform: translateY(18px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+<!-- ======= Illustration sprite: grahas, rashis, icons ======= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="gSun" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#FFF7C2"/><stop offset=".45" stop-color="#FFC233"/><stop offset="1" stop-color="#EE6A10"/></radialGradient>
+    <linearGradient id="gRay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB020"/><stop offset="1" stop-color="#F07818"/></linearGradient>
+    <radialGradient id="gMoon" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E4E7EF"/><stop offset="1" stop-color="#AEB5C6"/></radialGradient>
+    <radialGradient id="gMars" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFA27E"/><stop offset=".55" stop-color="#E04A2E"/><stop offset="1" stop-color="#8E2210"/></radialGradient>
+    <radialGradient id="gMerc" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#D9F2DF"/><stop offset=".55" stop-color="#6FBF8A"/><stop offset="1" stop-color="#2B6F45"/></radialGradient>
+    <radialGradient id="gVenus" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFBEF"/><stop offset=".55" stop-color="#F8CFE0"/><stop offset="1" stop-color="#D2508A"/></radialGradient>
+    <radialGradient id="gSat" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#DCE4FF"/><stop offset=".55" stop-color="#7C93E8"/><stop offset="1" stop-color="#2E46B5"/></radialGradient>
+    <radialGradient id="gShade" cx="35%" cy="32%" r="75%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".32"/></radialGradient>
+    <radialGradient id="gCorona" cx="50%" cy="50%" r="50%"><stop offset=".55" stop-color="#FFD66B" stop-opacity=".95"/><stop offset=".75" stop-color="#FFB547" stop-opacity=".45"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gRahu" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#5B6378"/><stop offset="1" stop-color="#161A28"/></radialGradient>
+    <linearGradient id="gTail" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C08457" stop-opacity=".95"/><stop offset="1" stop-color="#C08457" stop-opacity="0"/></linearGradient>
+    <radialGradient id="gKetu" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF4E6"/><stop offset=".5" stop-color="#D9A27A"/><stop offset="1" stop-color="#7A4528"/></radialGradient>
+    <clipPath id="cJup"><circle cx="32" cy="32" r="22"/></clipPath>
+    <clipPath id="cMars"><circle cx="32" cy="32" r="21"/></clipPath>
+  </defs>
+  <symbol id="gr-Sun" viewBox="0 0 64 64"><g fill="url(#gRay)">
+    <path d="M32 1 36 12 28 12Z"/><path d="M32 63 28 52 36 52Z"/><path d="M1 32 12 28 12 36Z"/><path d="M63 32 52 36 52 28Z"/>
+    <path d="M10 10 19 15 15 19Z"/><path d="M54 54 45 49 49 45Z"/><path d="M54 10 49 19 45 15Z"/><path d="M10 54 15 45 19 49Z"/>
+    <path d="M18 3.5 24 12 19 14Z" opacity=".7"/><path d="M46 60.5 40 52 45 50Z" opacity=".7"/><path d="M3.5 46 12 40 14 45Z" opacity=".7"/><path d="M60.5 18 52 24 50 19Z" opacity=".7"/>
+    <path d="M46 3.5 45 14 40 12Z" opacity=".7"/><path d="M18 60.5 19 50 24 52Z" opacity=".7"/><path d="M60.5 46 50 45 52 40Z" opacity=".7"/><path d="M3.5 18 14 19 12 24Z" opacity=".7"/></g>
+    <circle cx="32" cy="32" r="18" fill="url(#gSun)"/><circle cx="32" cy="32" r="18" fill="none" stroke="#FFE08A" stroke-width="1" opacity=".8"/></symbol>
+  <symbol id="gr-Moon" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="url(#gMoon)"/>
+    <g fill="#C3C9D6" opacity=".75"><circle cx="24" cy="25" r="4.5"/><circle cx="38" cy="22" r="2.5"/><circle cx="40" cy="38" r="5.5"/><circle cx="26" cy="42" r="3"/><circle cx="33" cy="31" r="1.8"/></g>
+    <circle cx="32" cy="32" r="24" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Mars" viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="url(#gMars)"/>
+    <g clip-path="url(#cMars)" fill="#7E1D0D" opacity=".35"><ellipse cx="25" cy="34" rx="9" ry="4"/><ellipse cx="42" cy="26" rx="6" ry="3"/><ellipse cx="36" cy="44" rx="10" ry="3"/></g>
+    <ellipse cx="32" cy="13.5" rx="7" ry="2.6" fill="#FFF3EE" opacity=".9"/><circle cx="32" cy="32" r="21" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Mercury" viewBox="0 0 64 64"><circle cx="32" cy="32" r="18" fill="url(#gMerc)"/>
+    <g fill="#2F7A4C" opacity=".35"><circle cx="26" cy="27" r="3.2"/><circle cx="37" cy="36" r="4"/><circle cx="29" cy="40" r="2"/><circle cx="39" cy="24" r="1.8"/></g>
+    <circle cx="32" cy="32" r="18" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Jupiter" viewBox="0 0 64 64"><g clip-path="url(#cJup)"><rect x="8" y="8" width="48" height="48" fill="#F2D59C"/>
+    <rect x="8" y="17" width="48" height="5" fill="#D99A4E"/><rect x="8" y="25" width="48" height="3" fill="#F8E7C6"/><rect x="8" y="30" width="48" height="6" fill="#C9813C"/>
+    <rect x="8" y="38" width="48" height="3" fill="#F8E7C6"/><rect x="8" y="43" width="48" height="5" fill="#D99A4E"/><ellipse cx="40" cy="39.5" rx="5" ry="2.8" fill="#C0452A"/>
+    <circle cx="32" cy="32" r="22" fill="url(#gShade)"/></g></symbol>
+  <symbol id="gr-Venus" viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="url(#gVenus)"/>
+    <g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M17 27c6-4 14-4 22 0s10 3 13 1"/><path d="M14 36c7 3 15 2 22-2s12-3 15 0"/><path d="M22 45c5 1 11 0 16-3"/></g>
+    <circle cx="32" cy="32" r="21" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Saturn" viewBox="0 0 64 64"><g transform="rotate(-18 32 32)">
+    <ellipse cx="32" cy="32" rx="30" ry="8.5" fill="none" stroke="#A9B7EE" stroke-width="3.5"/>
+    <circle cx="32" cy="32" r="16" fill="url(#gSat)"/><path d="M17 29h30M16.5 35h31" stroke="#253C9E" stroke-width="1.6" opacity=".35"/>
+    <circle cx="32" cy="32" r="16" fill="url(#gShade)"/>
+    <path d="M2 32 A30 8.5 0 0 0 62 32" fill="none" stroke="#C7D1F7" stroke-width="3.5"/><path d="M5 33.5 A27 7 0 0 0 59 33.5" fill="none" stroke="#6E83D8" stroke-width="1" opacity=".7"/></g></symbol>
+  <symbol id="gr-Rahu" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="url(#gCorona)"/>
+    <circle cx="32" cy="32" r="18" fill="url(#gRahu)"/><circle cx="32" cy="32" r="18" fill="none" stroke="#FFE7A3" stroke-width="1.4"/>
+    <path d="M24 37c0-7 4-11 8-11s8 4 8 11" fill="none" stroke="#FFD66B" stroke-width="2" stroke-linecap="round" opacity=".9"/><circle cx="24" cy="38.5" r="2.2" fill="none" stroke="#FFD66B" stroke-width="1.6"/><circle cx="40" cy="38.5" r="2.2" fill="none" stroke="#FFD66B" stroke-width="1.6"/></symbol>
+  <symbol id="gr-Ketu" viewBox="0 0 64 64"><path d="M43 21 C30 30 14 42 2 62 C18 50 30 44 46 26Z" fill="url(#gTail)"/><path d="M41 18 C33 23 20 30 8 40 C22 34 32 30 44 24Z" fill="url(#gTail)" opacity=".7"/>
+    <circle cx="45" cy="19" r="12" fill="url(#gKetu)"/><circle cx="45" cy="19" r="12" fill="none" stroke="#FFF1DE" stroke-width="1" opacity=".8"/>
+    <path d="M38 17c0 5 3 9 7 9s7-4 7-9" fill="none" stroke="#5E301A" stroke-width="1.8" stroke-linecap="round" opacity=".55"/></symbol>
+
+  <!-- Rashi glyphs -->
+  <symbol id="rs-0" viewBox="0 0 24 24"><path d="M12 21V10C12 6.5 9.8 4 7 4 4.8 4 3 5.6 3 7.7 3 9.6 4.4 10.8 6 10.8M12 10c0-3.5 2.2-6 5-6 2.2 0 4 1.6 4 3.7 0 1.9-1.4 3.1-3 3.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-1" viewBox="0 0 24 24"><circle cx="12" cy="15" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 3.5C4.8 7.6 8 9.8 12 9.8s7.2-2.2 8-6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-2" viewBox="0 0 24 24"><path d="M5 4c4.6 2 9.4 2 14 0M5 20c4.6-2 9.4-2 14 0M9 5.6v12.8M15 5.6v12.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-3" viewBox="0 0 24 24"><circle cx="7" cy="9.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="14.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.4 8.6C6 5 14 3.6 21 6.5M19.6 15.4C18 19 10 20.4 3 17.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-4" viewBox="0 0 24 24"><circle cx="7" cy="15" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.2 15C10.2 7 12.6 4 16 4s4.6 3.2 2.6 6.4c-1.8 2.8-1.6 6.4.6 8.4 1 .9 2.2.6 2.8-.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-5" viewBox="0 0 24 24"><path d="M3 6.5c1.2-1.5 2.6-.8 2.6 1V18M5.6 8c0-3 4-3 4 0v10M9.6 8c0-3 4-3 4 0v8.5c0 2.4 2.2 3.8 4.6 2.6M13.6 12c1.6-3 5.4-3 5.4.4 0 3.2-3.6 6.2-8 8.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="rs-6" viewBox="0 0 24 24"><path d="M3 20h18M3 15.5h5.4C6.4 13.6 6.2 6.5 12 6.5s5.6 7.1 3.6 9H21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-7" viewBox="0 0 24 24"><path d="M3 6.5c1.2-1.5 2.6-.8 2.6 1V18M5.6 8c0-3 4-3 4 0v10M9.6 8c0-3 4-3 4 0v9c0 1.8 1.6 2.6 3.4 1.8L21 16M21 16h-3.4M21 16v3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-8" viewBox="0 0 24 24"><path d="M4 20 20 4M12.5 4H20v7.5M7.5 11.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-9" viewBox="0 0 24 24"><path d="M3 5.5 6.2 16 9.4 5.5c.8-1.6 3-1.4 3 .8V17c0 2.8 3.4 3.8 5.6 2.2 2-1.5 1.6-5.4-1.4-5.4-2.6 0-3.6 3-5.2 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-10" viewBox="0 0 24 24"><path d="M3 10l3-3 3 3 3-3 3 3 3-3 3 3M3 17l3-3 3 3 3-3 3 3 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-11" viewBox="0 0 24 24"><path d="M5 3.5c5 4.4 5 12.6 0 17M19 3.5c-5 4.4-5 12.6 0 17M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+
+  <!-- UI icons -->
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 7.5v6M12 17h.01" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.6 6.2 6.6.5-5 4.4 1.5 6.5L12 17l-5.7 3.4 1.5-6.5-5-4.4 6.6-.5z" fill="currentColor"/></symbol>
+  <symbol id="i-yoga" viewBox="0 0 24 24"><path d="M12 3l2.2 5.3L20 9l-4.4 3.8L17 18.5 12 15.5 7 18.5l1.4-5.7L4 9l5.8-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="11.5" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-rise" viewBox="0 0 24 24"><path d="M3 19h18M6 15.5a6 6 0 0 1 12 0M12 3v6M9 6l3-3 3 3M3.5 12.5l1.5.8M20.5 12.5l-1.5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-set" viewBox="0 0 24 24"><path d="M3 19h18M6 15.5a6 6 0 0 1 12 0M12 3v6M9 6l3 3 3-3M3.5 12.5l1.5.8M20.5 12.5l-1.5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M7 8.5a3.5 3.5 0 1 0 0 7c4 0 6-7 10-7a3.5 3.5 0 1 1 0 7c-4 0-6-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5M12 7.6h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="logo" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#D3971C" stroke-width="1.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="#2A2E7C" stroke-width="1"/>
+    <path d="M20 1.5 22.2 16 20 20 17.8 16zM20 38.5 17.8 24 20 20 22.2 24zM1.5 20 16 17.8 20 20 16 22.2zM38.5 20 24 22.2 20 20 24 17.8z" fill="#D3971C"/><path d="M7 7 17.5 17.5M33 33 22.5 22.5M33 7 22.5 17.5M7 33 17.5 22.5" stroke="#2A2E7C" stroke-width="1"/><circle cx="20" cy="20" r="3.2" fill="#2A2E7C"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Kundali Ganit home"><svg><use href="#logo"/></svg><span><b>Kundali Ganit</b> <small lang="sa">कुण्डली गणित</small></span></a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#highlights">Highlights</a><a href="#charts">Charts</a><a href="#grahas">Grahas</a><a href="#yogas">Yogas</a><a href="#dasha">Dasha</a><a href="#panchang">Panchang</a><a href="#bhavas">Bhavas</a><a href="#gochar">Gochar</a>
+    </nav>
+    <a class="btn-cta" href="#top">New Kundali</a>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">Vedic Jyotish · computed, not guessed</span>
+      <h1>Your Janma Kundali, <em>calculated from the sky itself.</em></h1>
+      <p class="sub">Enter a birth date, time and place. Every graha, the Lagna, panchang, yogas and dasha periods are worked out by astronomical mathematics, right in your browser.</p>
+      <div class="trust">
+        <span><svg><use href="#i-check"/></svg>Within 1′ of Swiss Ephemeris for the Moon</span>
+        <span><svg><use href="#i-check"/></svg>Lahiri ayanamsa</span>
+        <span><svg><use href="#i-check"/></svg>220+ birth places</span>
+      </div>
+      <div class="formcard">
+        <h2>Birth details <small>Exact time gives an exact Lagna</small></h2>
+        <form id="form" novalidate autocomplete="off">
+          <div class="field full"><label for="f-name">Full name</label><input id="f-name" type="text" placeholder="e.g. Aarav Mehta"></div>
+          <div class="field"><label for="f-date">Birth date</label><input id="f-date" type="date" required></div>
+          <div class="field"><label for="f-time">Birth time</label><input id="f-time" type="time" step="60" required></div>
+          <div class="field full">
+            <label for="f-place">Birth place</label>
+            <input id="f-place" type="text" placeholder="Start typing a city" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+            <div class="place-meta" id="place-meta"></div>
+            <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+          </div>
+          <details class="coords" id="coords">
+            <summary>Coordinates and time zone</summary>
+            <div class="inner">
+              <div class="field"><label for="f-lat">Latitude</label><input id="f-lat" type="text" inputmode="decimal" placeholder="23.0225"></div>
+              <div class="field"><label for="f-lon">Longitude</label><input id="f-lon" type="text" inputmode="decimal" placeholder="72.5714"></div>
+              <div class="field"><label for="f-off">UTC offset</label><input id="f-off" type="text" placeholder="+05:30"></div>
+              <p class="small-note">North and East are positive. The offset fills in automatically for listed cities, including daylight saving abroad and India's 1942–45 war time.</p>
+              <button type="button" class="btn-ghost" id="online">Look up place online</button>
+            </div>
+          </details>
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn-cta go" type="submit">Generate Kundali</button>
+        </form>
+      </div>
+    </div>
+    <div class="wheel-col">
+      <div id="wheel"></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="results" aria-live="polite"></main>
+
+<footer class="wrap">
+  <div class="brand"><svg><use href="#logo"/></svg><b>Kundali Ganit</b></div>
+  <p>Positions computed from orbital mathematics with Lahiri ayanamsa. Readings follow classical rules and are a guide, not a certainty.</p>
+</footer>
+
+<script src="engine.js"></script>
+<script src="analysis.js"></script>
+<script>
+(() => {
+const J = window.Jyotish, A = window.KundaliAnalysis;
+const SKT = { Sun: 'Surya', Moon: 'Chandra', Mars: 'Mangal', Mercury: 'Budh', Jupiter: 'Guru', Venus: 'Shukra', Saturn: 'Shani', Rahu: 'Rahu', Ketu: 'Ketu' };
+const DEV = { Sun: 'सूर्य', Moon: 'चन्द्र', Mars: 'मंगल', Mercury: 'बुध', Jupiter: 'गुरु', Venus: 'शुक्र', Saturn: 'शनि', Rahu: 'राहु', Ketu: 'केतु' };
+const AB = { Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury: 'Me', Jupiter: 'Ju', Venus: 'Ve', Saturn: 'Sa', Rahu: 'Ra', Ketu: 'Ke' };
+const COL = { Sun: '#C25A0E', Moon: '#56627E', Mars: '#C2311F', Mercury: '#1C7E4B', Jupiter: '#9A6F00', Venus: '#B83C74', Saturn: '#2B47B8', Rahu: '#3E4559', Ketu: '#7A4A2C' };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const g = (name, cls = 'gimg') => `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><use href="#gr-${name}"/></svg>`;
+const rg = (s, cls = 'rg') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#rs-${s}"/></svg>`;
+const ic = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#${id}"/></svg>`;
+
+// ---------- Places ----------
+const IN = `Ahmedabad|Gujarat|23.0225|72.5714
+Surat|Gujarat|21.1702|72.8311
+Vadodara|Gujarat|22.3072|73.1812
+Rajkot|Gujarat|22.3039|70.8022
+Bhavnagar|Gujarat|21.7645|72.1519
+Jamnagar|Gujarat|22.4707|70.0577
+Junagadh|Gujarat|21.5222|70.4579
+Gandhinagar|Gujarat|23.2156|72.6369
+Anand|Gujarat|22.5645|72.9289
+Nadiad|Gujarat|22.6916|72.8634
+Mehsana|Gujarat|23.5880|72.3693
+Bhuj|Gujarat|23.2420|69.6669
+Morbi|Gujarat|22.8173|70.8377
+Porbandar|Gujarat|21.6417|69.6293
+Navsari|Gujarat|20.9467|72.9520
+Valsad|Gujarat|20.5992|72.9342
+Vapi|Gujarat|20.3893|72.9106
+Bharuch|Gujarat|21.7051|72.9959
+Ankleshwar|Gujarat|21.6264|73.0152
+Amreli|Gujarat|21.6032|71.2221
+Surendranagar|Gujarat|22.7277|71.6480
+Palanpur|Gujarat|24.1725|72.4381
+Deesa|Gujarat|24.2585|72.1907
+Patan|Gujarat|23.8493|72.1266
+Godhra|Gujarat|22.7788|73.6143
+Dahod|Gujarat|22.8345|74.2531
+Gondal|Gujarat|21.9619|70.7923
+Botad|Gujarat|22.1700|71.6684
+Veraval|Gujarat|20.9159|70.3629
+Jetpur|Gujarat|21.7548|70.6234
+Dwarka|Gujarat|22.2394|68.9678
+Gandhidham|Gujarat|23.0753|70.1337
+Himmatnagar|Gujarat|23.5980|72.9630
+Kalol|Gujarat|23.2464|72.4967
+Dholka|Gujarat|22.7270|72.4410
+Viramgam|Gujarat|23.1200|72.0300
+Upleta|Gujarat|21.7409|70.2827
+Mahuva|Gujarat|21.0902|71.7600
+Savarkundla|Gujarat|21.3370|71.3030
+Keshod|Gujarat|21.3000|70.2500
+Visnagar|Gujarat|23.6980|72.5450
+Modasa|Gujarat|23.4630|73.2990
+Una|Gujarat|20.8230|71.0380
+Mumbai|Maharashtra|19.0760|72.8777
+Thane|Maharashtra|19.2183|72.9781
+Navi Mumbai|Maharashtra|19.0330|73.0297
+Pune|Maharashtra|18.5204|73.8567
+Nagpur|Maharashtra|21.1458|79.0882
+Nashik|Maharashtra|19.9975|73.7898
+Chhatrapati Sambhajinagar (Aurangabad)|Maharashtra|19.8762|75.3433
+Solapur|Maharashtra|17.6599|75.9064
+Kolhapur|Maharashtra|16.7050|74.2433
+Amravati|Maharashtra|20.9320|77.7523
+Jalgaon|Maharashtra|21.0077|75.5626
+Akola|Maharashtra|20.7002|77.0082
+Sangli|Maharashtra|16.8524|74.5815
+Nanded|Maharashtra|19.1383|77.3210
+Ahilyanagar (Ahmednagar)|Maharashtra|19.0948|74.7480
+Delhi|Delhi|28.7041|77.1025
+New Delhi|Delhi|28.6139|77.2090
+Gurugram|Haryana|28.4595|77.0266
+Faridabad|Haryana|28.4089|77.3178
+Noida|Uttar Pradesh|28.5355|77.3910
+Ghaziabad|Uttar Pradesh|28.6692|77.4538
+Bengaluru|Karnataka|12.9716|77.5946
+Mysuru|Karnataka|12.2958|76.6394
+Mangaluru|Karnataka|12.9141|74.8560
+Hubballi|Karnataka|15.3647|75.1240
+Belagavi|Karnataka|15.8497|74.4977
+Udupi|Karnataka|13.3409|74.7421
+Chennai|Tamil Nadu|13.0827|80.2707
+Coimbatore|Tamil Nadu|11.0168|76.9558
+Madurai|Tamil Nadu|9.9252|78.1198
+Tiruchirappalli|Tamil Nadu|10.7905|78.7047
+Salem|Tamil Nadu|11.6643|78.1460
+Tirunelveli|Tamil Nadu|8.7139|77.7567
+Vellore|Tamil Nadu|12.9165|79.1325
+Hyderabad|Telangana|17.3850|78.4867
+Warangal|Telangana|17.9689|79.5941
+Visakhapatnam|Andhra Pradesh|17.6868|83.2185
+Vijayawada|Andhra Pradesh|16.5062|80.6480
+Tirupati|Andhra Pradesh|13.6288|79.4192
+Guntur|Andhra Pradesh|16.3067|80.4365
+Nellore|Andhra Pradesh|14.4426|79.9865
+Kolkata|West Bengal|22.5726|88.3639
+Howrah|West Bengal|22.5958|88.2636
+Siliguri|West Bengal|26.7271|88.3953
+Durgapur|West Bengal|23.5204|87.3119
+Jaipur|Rajasthan|26.9124|75.7873
+Jodhpur|Rajasthan|26.2389|73.0243
+Udaipur|Rajasthan|24.5854|73.7125
+Kota|Rajasthan|25.2138|75.8648
+Ajmer|Rajasthan|26.4499|74.6399
+Bikaner|Rajasthan|28.0229|73.3119
+Bhilwara|Rajasthan|25.3407|74.6313
+Mount Abu|Rajasthan|24.5926|72.7156
+Sri Ganganagar|Rajasthan|29.9038|73.8772
+Lucknow|Uttar Pradesh|26.8467|80.9462
+Kanpur|Uttar Pradesh|26.4499|80.3319
+Varanasi|Uttar Pradesh|25.3176|82.9739
+Agra|Uttar Pradesh|27.1767|78.0081
+Prayagraj|Uttar Pradesh|25.4358|81.8463
+Meerut|Uttar Pradesh|28.9845|77.7064
+Gorakhpur|Uttar Pradesh|26.7606|83.3732
+Mathura|Uttar Pradesh|27.4924|77.6737
+Ayodhya|Uttar Pradesh|26.7922|82.1998
+Bareilly|Uttar Pradesh|28.3670|79.4304
+Aligarh|Uttar Pradesh|27.8974|78.0880
+Jhansi|Uttar Pradesh|25.4484|78.5685
+Bhopal|Madhya Pradesh|23.2599|77.4126
+Indore|Madhya Pradesh|22.7196|75.8577
+Gwalior|Madhya Pradesh|26.2183|78.1828
+Jabalpur|Madhya Pradesh|23.1815|79.9864
+Ujjain|Madhya Pradesh|23.1765|75.7885
+Sagar|Madhya Pradesh|23.8388|78.7378
+Ratlam|Madhya Pradesh|23.3315|75.0367
+Patna|Bihar|25.5941|85.1376
+Gaya|Bihar|24.7955|85.0002
+Muzaffarpur|Bihar|26.1209|85.3647
+Bhagalpur|Bihar|25.2425|86.9842
+Darbhanga|Bihar|26.1542|85.8918
+Ranchi|Jharkhand|23.3441|85.3096
+Jamshedpur|Jharkhand|22.8046|86.2029
+Dhanbad|Jharkhand|23.7957|86.4304
+Bhubaneswar|Odisha|20.2961|85.8245
+Cuttack|Odisha|20.4625|85.8830
+Puri|Odisha|19.8135|85.8312
+Rourkela|Odisha|22.2604|84.8536
+Raipur|Chhattisgarh|21.2514|81.6296
+Bhilai|Chhattisgarh|21.1938|81.3509
+Bilaspur|Chhattisgarh|22.0797|82.1409
+Chandigarh|Chandigarh|30.7333|76.7794
+Ludhiana|Punjab|30.9010|75.8573
+Amritsar|Punjab|31.6340|74.8723
+Jalandhar|Punjab|31.3260|75.5762
+Patiala|Punjab|30.3398|76.3869
+Ambala|Haryana|30.3782|76.7767
+Panipat|Haryana|29.3909|76.9635
+Hisar|Haryana|29.1492|75.7217
+Rohtak|Haryana|28.8955|76.6066
+Shimla|Himachal Pradesh|31.1048|77.1734
+Dharamshala|Himachal Pradesh|32.2190|76.3234
+Manali|Himachal Pradesh|32.2432|77.1892
+Dehradun|Uttarakhand|30.3165|78.0322
+Haridwar|Uttarakhand|29.9457|78.1642
+Rishikesh|Uttarakhand|30.0869|78.2676
+Nainital|Uttarakhand|29.3803|79.4636
+Srinagar|Jammu and Kashmir|34.0837|74.7973
+Jammu|Jammu and Kashmir|32.7266|74.8570
+Leh|Ladakh|34.1526|77.5771
+Guwahati|Assam|26.1445|91.7362
+Dibrugarh|Assam|27.4728|94.9120
+Silchar|Assam|24.8333|92.7789
+Shillong|Meghalaya|25.5788|91.8933
+Imphal|Manipur|24.8170|93.9368
+Aizawl|Mizoram|23.7271|92.7176
+Agartala|Tripura|23.8315|91.2868
+Kohima|Nagaland|25.6751|94.1086
+Itanagar|Arunachal Pradesh|27.0844|93.6053
+Gangtok|Sikkim|27.3389|88.6065
+Thiruvananthapuram|Kerala|8.5241|76.9366
+Kochi|Kerala|9.9312|76.2673
+Kozhikode|Kerala|11.2588|75.7804
+Thrissur|Kerala|10.5276|76.2144
+Kannur|Kerala|11.8745|75.3704
+Panaji|Goa|15.4909|73.8278
+Margao|Goa|15.2832|73.9862
+Puducherry|Puducherry|11.9416|79.8083
+Port Blair|Andaman and Nicobar|11.6234|92.7265
+Daman|Dadra Nagar Haveli and Daman Diu|20.3974|72.8328
+Silvassa|Dadra Nagar Haveli and Daman Diu|20.2766|73.0083`;
+const WORLD = `London|United Kingdom|51.5074|-0.1278|Europe/London
+Leicester|United Kingdom|52.6369|-1.1398|Europe/London
+Birmingham|United Kingdom|52.4862|-1.8904|Europe/London
+New York|USA|40.7128|-74.0060|America/New_York
+Edison, New Jersey|USA|40.5187|-74.4121|America/New_York
+Boston|USA|42.3601|-71.0589|America/New_York
+Washington DC|USA|38.9072|-77.0369|America/New_York
+Atlanta|USA|33.7490|-84.3880|America/New_York
+Chicago|USA|41.8781|-87.6298|America/Chicago
+Houston|USA|29.7604|-95.3698|America/Chicago
+Dallas|USA|32.7767|-96.7970|America/Chicago
+Phoenix|USA|33.4484|-112.0740|America/Phoenix
+Los Angeles|USA|34.0522|-118.2437|America/Los_Angeles
+San Francisco|USA|37.7749|-122.4194|America/Los_Angeles
+San Jose|USA|37.3382|-121.8863|America/Los_Angeles
+Seattle|USA|47.6062|-122.3321|America/Los_Angeles
+Toronto|Canada|43.6532|-79.3832|America/Toronto
+Brampton|Canada|43.7315|-79.7624|America/Toronto
+Calgary|Canada|51.0447|-114.0719|America/Edmonton
+Vancouver|Canada|49.2827|-123.1207|America/Vancouver
+Dubai|UAE|25.2048|55.2708|Asia/Dubai
+Abu Dhabi|UAE|24.4539|54.3773|Asia/Dubai
+Sharjah|UAE|25.3463|55.4209|Asia/Dubai
+Muscat|Oman|23.5880|58.3829|Asia/Muscat
+Doha|Qatar|25.2854|51.5310|Asia/Qatar
+Riyadh|Saudi Arabia|24.7136|46.6753|Asia/Riyadh
+Jeddah|Saudi Arabia|21.4858|39.1925|Asia/Riyadh
+Kuwait City|Kuwait|29.3759|47.9774|Asia/Kuwait
+Manama|Bahrain|26.2285|50.5860|Asia/Bahrain
+Singapore|Singapore|1.3521|103.8198|Asia/Singapore
+Kuala Lumpur|Malaysia|3.1390|101.6869|Asia/Kuala_Lumpur
+Bangkok|Thailand|13.7563|100.5018|Asia/Bangkok
+Hong Kong|China|22.3193|114.1694|Asia/Hong_Kong
+Tokyo|Japan|35.6762|139.6503|Asia/Tokyo
+Sydney|Australia|-33.8688|151.2093|Australia/Sydney
+Melbourne|Australia|-37.8136|144.9631|Australia/Melbourne
+Perth|Australia|-31.9505|115.8605|Australia/Perth
+Auckland|New Zealand|-36.8485|174.7633|Pacific/Auckland
+Kathmandu|Nepal|27.7172|85.3240|Asia/Kathmandu
+Dhaka|Bangladesh|23.8103|90.4125|Asia/Dhaka
+Colombo|Sri Lanka|6.9271|79.8612|Asia/Colombo
+Karachi|Pakistan|24.8607|67.0011|Asia/Karachi
+Lahore|Pakistan|31.5204|74.3587|Asia/Karachi
+Nairobi|Kenya|-1.2921|36.8219|Africa/Nairobi
+Kampala|Uganda|0.3476|32.5825|Africa/Kampala
+Dar es Salaam|Tanzania|-6.7924|39.2083|Africa/Dar_es_Salaam
+Johannesburg|South Africa|-26.2041|28.0473|Africa/Johannesburg
+Durban|South Africa|-29.8587|31.0218|Africa/Johannesburg
+Port Louis|Mauritius|-20.1609|57.5012|Indian/Mauritius
+Paris|France|48.8566|2.3522|Europe/Paris
+Berlin|Germany|52.5200|13.4050|Europe/Berlin
+Frankfurt|Germany|50.1109|8.6821|Europe/Berlin
+Amsterdam|Netherlands|52.3676|4.9041|Europe/Amsterdam
+Zurich|Switzerland|47.3769|8.5417|Europe/Zurich
+Moscow|Russia|55.7558|37.6173|Europe/Moscow
+Suva|Fiji|-18.1248|178.4501|Pacific/Fiji
+Port of Spain|Trinidad and Tobago|10.6549|-61.5019|America/Port_of_Spain`;
+const PLACES = [
+  ...IN.split('\n').map(l => { const [n, r, a, o] = l.split('|'); return { name: n, region: r + ', India', lat: +a, lon: +o, tz: 'Asia/Kolkata' }; }),
+  ...WORLD.split('\n').map(l => { const [n, r, a, o, t] = l.split('|'); return { name: n, region: r, lat: +a, lon: +o, tz: t }; })
+];
+
+// ---------- Formatting ----------
+const dm = x => { let d = Math.floor(x), m = Math.round((x - d) * 60); if (m === 60) { d++; m = 0; } return `${d}°${String(m).padStart(2, '0')}′`; };
+const dms = x => { const d = Math.floor(x), mf = (x - d) * 60, m = Math.floor(mf), s = Math.floor((mf - m) * 60); return `${d}°${String(m).padStart(2, '0')}′${String(s).padStart(2, '0')}″`; };
+const offStr = min => { const s = min < 0 ? '−' : '+', a = Math.abs(min); return `${s}${String(Math.floor(a / 60)).padStart(2, '0')}:${String(Math.round(a % 60)).padStart(2, '0')}`; };
+const parseOff = s => { const m = String(s).trim().replace('−', '-').match(/^(?:UTC|GMT)?\s*([+-])?\s*(\d{1,2})(?::?(\d{2}))?$/i); if (!m) return null; const v = (+m[2]) * 60 + (+(m[3] || 0)); return m[1] === '-' ? -v : v; };
+const shift = (ms, tz) => new Date(ms + tz * 60000);
+const fDate = (ms, tz) => { const d = shift(ms, tz); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
+const fTime = (ms, tz) => { const d = shift(ms, tz); return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
+const jdMs = jd => (jd - 2440587.5) * 86400000;
+const ymd = yrs => { const y = Math.floor(yrs), mf = (yrs - y) * 12, m = Math.floor(mf), d = Math.round((mf - m) * 30.4375); return `${y}y ${m}m ${d}d`; };
+const latStr = v => `${Math.abs(v).toFixed(4)}°${v >= 0 ? 'N' : 'S'}`, lonStr = v => `${Math.abs(v).toFixed(4)}°${v >= 0 ? 'E' : 'W'}`;
+
+// ---------- Place picker ----------
+const fPlace = $('#f-place'), sug = $('#suggest'), meta = $('#place-meta');
+let chosen = null, offAuto = true, activeIdx = -1, matches = [];
+function showMeta() { meta.innerHTML = chosen ? `<b>✓ ${esc(chosen.name)}</b> · ${latStr(chosen.lat)}, ${lonStr(chosen.lon)}${chosen.tz ? ' · ' + esc(chosen.tz) : ''}` : ''; }
+function autoOffset() {
+  if (!chosen || !chosen.tz || !offAuto) return;
+  const [y, mo, d] = ($('#f-date').value || '2000-01-01').split('-').map(Number);
+  const [h, mi] = ($('#f-time').value || '12:00').split(':').map(Number);
+  try { $('#f-off').value = offStr(J.tzOffsetMinutes(chosen.tz, y, mo, d, h, mi)); } catch (e) { }
+}
+function choose(p) { chosen = p; fPlace.value = `${p.name}, ${p.region}`; $('#f-lat').value = p.lat; $('#f-lon').value = p.lon; offAuto = true; autoOffset(); showMeta(); closeSug(); }
+function closeSug() { sug.hidden = true; fPlace.setAttribute('aria-expanded', 'false'); activeIdx = -1; }
+function renderSug() {
+  sug.innerHTML = matches.map((p, i) => `<li role="option" aria-selected="${i === activeIdx}" data-i="${i}">${esc(p.name)}<small>${esc(p.region)}</small></li>`).join('');
+  sug.hidden = !matches.length; fPlace.setAttribute('aria-expanded', String(!!matches.length));
+}
+fPlace.addEventListener('input', () => {
+  chosen = null; showMeta();
+  const q = fPlace.value.trim().toLowerCase().split(',')[0].trim();
+  if (q.length < 2) { matches = []; renderSug(); return; }
+  const starts = PLACES.filter(p => p.name.toLowerCase().startsWith(q));
+  const has = PLACES.filter(p => !starts.includes(p) && (p.name + ' ' + p.region).toLowerCase().includes(q));
+  matches = [...starts, ...has].slice(0, 8); activeIdx = matches.length ? 0 : -1; renderSug();
+});
+fPlace.addEventListener('keydown', e => {
+  if (sug.hidden) return;
+  if (e.key === 'ArrowDown') { activeIdx = Math.min(matches.length - 1, activeIdx + 1); renderSug(); e.preventDefault(); }
+  else if (e.key === 'ArrowUp') { activeIdx = Math.max(0, activeIdx - 1); renderSug(); e.preventDefault(); }
+  else if (e.key === 'Enter' && activeIdx >= 0) { choose(matches[activeIdx]); e.preventDefault(); }
+  else if (e.key === 'Escape') closeSug();
+});
+sug.addEventListener('mousedown', e => { const li = e.target.closest('li'); if (li) { e.preventDefault(); choose(matches[+li.dataset.i]); } });
+fPlace.addEventListener('blur', () => setTimeout(closeSug, 120));
+$('#f-date').addEventListener('change', autoOffset);
+$('#f-time').addEventListener('change', autoOffset);
+$('#f-off').addEventListener('input', () => { offAuto = false; });
+['#f-lat', '#f-lon'].forEach(s => $(s).addEventListener('input', () => { if (chosen) { chosen = { ...chosen, lat: +$('#f-lat').value, lon: +$('#f-lon').value }; showMeta(); } }));
+$('#online').addEventListener('click', async () => {
+  const q = fPlace.value.trim().split(',')[0];
+  if (!q) { $('#err').textContent = 'Type a place name first.'; return; }
+  $('#err').textContent = 'Looking up…';
+  try {
+    const res = await fetch('https://geocoding-api.open-meteo.com/v1/search?count=8&language=en&name=' + encodeURIComponent(q));
+    const js = await res.json();
+    if (!js.results || !js.results.length) { $('#err').textContent = `No place called “${q}” found. Enter latitude and longitude instead.`; return; }
+    matches = js.results.map(r => ({ name: r.name, region: [r.admin1, r.country].filter(Boolean).join(', '), lat: r.latitude, lon: r.longitude, tz: r.timezone }));
+    activeIdx = 0; renderSug(); $('#err').textContent = '';
+  } catch (e) { $('#err').textContent = 'Online lookup is not available here. Enter latitude, longitude and UTC offset by hand.'; }
+});
+
+// ---------- Hero wheel ----------
+function drawWheel(r) {
+  const C = 270, asc = r.lagna.lon;
+  const pt = (lon, rad) => { const a = (180 + (lon - asc)) * Math.PI / 180; return [C + rad * Math.cos(a), C - rad * Math.sin(a)]; };
+  const f = n => n.toFixed(1);
+  const R1 = 258, R2 = 212, R3 = 196;
+  let s = `<svg class="wheel" viewBox="0 0 540 540" role="img" aria-label="Zodiac wheel with the birth positions of all nine grahas">`;
+  s += `<g class="halo"><circle cx="${C}" cy="${C}" r="266" fill="none" stroke="#D3971C" stroke-width="1" stroke-dasharray="2 7" opacity=".7"/></g>`;
+  s += `<g class="spinner"><circle cx="${C}" cy="${C}" r="${R1}" fill="#fff" stroke="#D9B66B" stroke-width="1.5"/>`;
+  for (let i = 0; i < 12; i++) {
+    const a = i * 30, b = a + 30, [x1, y1] = pt(a, R1), [x2, y2] = pt(b, R1), [x3, y3] = pt(b, R2), [x4, y4] = pt(a, R2);
+    const fill = i === r.lagna.sign ? '#F7E1AE' : i % 2 ? '#FDF8EC' : '#FFFFFF';
+    s += `<path d="M${f(x1)} ${f(y1)} A${R1} ${R1} 0 0 0 ${f(x2)} ${f(y2)} L${f(x3)} ${f(y3)} A${R2} ${R2} 0 0 1 ${f(x4)} ${f(y4)}Z" fill="${fill}" stroke="#D9B66B" stroke-width="1"/>`;
+    const [gx, gy] = pt(a + 15, 238);
+    s += `<use href="#rs-${i}" x="${f(gx - 11)}" y="${f(gy - 15)}" width="22" height="22" style="color:${i === r.lagna.sign ? '#8C5E05' : '#2A2E7C'}"/>`;
+    const [tx, ty] = pt(a + 15, 220);
+    s += `<text x="${f(tx)}" y="${f(ty + 4)}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#7A7C9C">${J.RASHI[i].slice(0, 4).toUpperCase()}</text>`;
+  }
+  s += `<circle cx="${C}" cy="${C}" r="${R2}" fill="#FDFCF7" stroke="#D9B66B"/>`;
+  for (let k = 0; k < 27; k++) { const [a1, b1] = pt(k * 360 / 27, R2), [a2, b2] = pt(k * 360 / 27, R3); s += `<line x1="${f(a1)}" y1="${f(b1)}" x2="${f(a2)}" y2="${f(b2)}" stroke="#D9B66B" stroke-width="1"/>`; }
+  s += `<circle cx="${C}" cy="${C}" r="${R3}" fill="none" stroke="#E8D3A3"/>`;
+  for (let i = 0; i < 12; i++) {
+    const [x1, y1] = pt(i * 30, R3), [x2, y2] = pt(i * 30, 62);
+    s += `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#EFE3C6" stroke-width="1"/>`;
+    const [hx, hy] = pt(i * 30 + 15, 182), h = (i - r.lagna.sign + 12) % 12 + 1;
+    s += `<text x="${f(hx)}" y="${f(hy + 4)}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#B8A06A">${h}</text>`;
+  }
+  s += `<circle cx="${C}" cy="${C}" r="62" fill="#fff" stroke="#E8D3A3"/><use href="#logo" x="${C - 34}" y="${C - 34}" width="68" height="68"/>`;
+  const [l1x, l1y] = pt(asc, 62), [l2x, l2y] = pt(asc, R1 + 2), [lt, lty] = pt(asc, 202);
+  s += `<line x1="${f(l1x)}" y1="${f(l1y)}" x2="${f(l2x)}" y2="${f(l2y)}" stroke="#C2352D" stroke-width="2"/><text x="${f(lt + 6)}" y="${f(lty - 6)}" font-family="Hind, sans-serif" font-weight="700" font-size="12" fill="#C2352D">ASC</text>`;
+  const pts = [...r.planets].sort((a, b) => a.lon - b.lon), levels = [], radii = [160, 128, 96];
+  pts.forEach((p, i) => {
+    let lv = 0; while (levels[lv] !== undefined && Math.abs(J.norm(p.lon - levels[lv] + 180) - 180) < 13 && lv < 2) lv++;
+    levels[lv] = p.lon;
+    const rad = radii[lv], [x, y] = pt(p.lon, rad), [ox, oy] = pt(p.lon, R3);
+    s += `<g class="pm" style="--d:${i * 90}ms"><line x1="${f(ox)}" y1="${f(oy)}" x2="${f(x)}" y2="${f(y)}" stroke="${COL[p.name]}" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>`;
+    s += `<circle cx="${f(x)}" cy="${f(y)}" r="17" fill="#fff" stroke="${COL[p.name]}" stroke-opacity=".35"/><use href="#gr-${p.name}" x="${f(x - 15)}" y="${f(y - 15)}" width="30" height="30"><title>${SKT[p.name]} ${J.RASHI[p.sign]} ${dm(p.deg)}</title></use></g>`;
+  });
+  s += `</g></svg><p class="wheel-legend">Bhachakra at birth · Lagna on the left · grahas at their exact sidereal degrees</p>`;
+  $('#wheel').innerHTML = s;
+}
+
+// ---------- Charts ----------
+const NORTH = {
+  1: [[200, 100], [200, 178], 'd'], 2: [[100, 36], [100, 86], 'h'], 3: [[36, 100], [84, 104], 'v'], 4: [[100, 200], [178, 204], 'd'],
+  5: [[36, 300], [84, 304], 'v'], 6: [[100, 364], [100, 322], 'h'], 7: [[200, 300], [200, 230], 'd'], 8: [[300, 364], [300, 322], 'h'],
+  9: [[364, 300], [316, 304], 'v'], 10: [[300, 200], [222, 204], 'd'], 11: [[364, 100], [316, 104], 'v'], 12: [[300, 36], [300, 86], 'h']
+};
+function labels(items, cx, cy, cols, delay) {
+  if (!items.length) return '';
+  const lh = 15, rows = Math.ceil(items.length / cols), colW = 48;
+  return items.map((it, i) => {
+    const c = cols > 1 ? i % cols : 0, r = cols > 1 ? Math.floor(i / cols) : i;
+    const x = cx + (c - (cols - 1) / 2) * colW, y = cy - (rows - 1) * lh / 2 + r * lh + 4;
+    return `<text class="${it.asc ? 'asc' : 'pl'} fadein" style="--d:${delay + i * 40}ms" x="${x}" y="${y}" text-anchor="middle"${it.c ? ` fill="${it.c}"` : ''}>${it.t}${it.r ? '<tspan class="r" dx="1">R</tspan>' : ''}</text>`;
+  }).join('');
+}
+function drawNorth(d) {
+  let s = `<svg viewBox="-4 -4 408 408" role="img" aria-label="${esc(d.title)} chart, North Indian style"><rect class="ch-bg" x="0" y="0" width="400" height="400"/>`;
+  s += `<polygon class="lagna-fill" points="200,0 300,100 200,200 100,100"/>`;
+  s += `<rect class="frame draw" pathLength="1" x="0" y="0" width="400" height="400"/><line class="ln draw" pathLength="1" x1="0" y1="0" x2="400" y2="400"/><line class="ln draw" pathLength="1" x1="400" y1="0" x2="0" y2="400"/><polygon class="ln draw" pathLength="1" points="200,0 400,200 200,400 0,200"/>`;
+  for (let h = 1; h <= 12; h++) {
+    const sign = (d.asc + h - 1) % 12, [[lx, ly], [nx, ny], kind] = NORTH[h];
+    s += `<text class="sn fadein" x="${nx}" y="${ny + 4}" text-anchor="middle">${sign + 1}</text>`;
+    const items = (h === 1 ? [{ t: 'Asc', asc: true }] : []).concat(d.bySign[sign]);
+    const n = items.length, cols = kind === 'h' ? (n > 2 ? 2 : 1) : kind === 'd' ? (n > 4 ? 2 : 1) : 1;
+    s += labels(items, lx, ly, cols, h * 50);
+  }
+  return s + '</svg>';
+}
+const SOUTH_POS = [[1, 0], [2, 0], [3, 0], [3, 1], [3, 2], [3, 3], [2, 3], [1, 3], [0, 3], [0, 2], [0, 1], [0, 0]];
+function drawSouth(d) {
+  let s = `<svg viewBox="-4 -4 408 408" role="img" aria-label="${esc(d.title)} chart, South Indian style"><rect class="ch-bg" x="0" y="0" width="400" height="400"/>`;
+  for (let sg = 0; sg < 12; sg++) {
+    const [c, r] = SOUTH_POS[sg], x = c * 100, y = r * 100;
+    s += `<rect class="${sg === d.asc ? 'lagna-fill' : 'cell'}" x="${x}" y="${y}" width="100" height="100"/>`;
+    if (sg === d.asc) s += `<line class="ascline draw" pathLength="1" x1="${x}" y1="${y + 24}" x2="${x + 24}" y2="${y}"/>`;
+    s += `<use href="#rs-${sg}" x="${x + 74}" y="${y + 76}" width="18" height="18" style="color:#B8A06A"/>`;
+    const items = (sg === d.asc ? [{ t: 'Asc', asc: true }] : []).concat(d.bySign[sg]);
+    s += labels(items, x + 50, y + 46, items.length > 4 ? 2 : 1, sg * 50);
+  }
+  s += `<rect class="ln draw" pathLength="1" x="0" y="0" width="400" height="400" style="stroke:#D9B66B"/><rect class="frame draw" pathLength="1" x="0" y="0" width="400" height="400"/><rect class="frame draw" pathLength="1" x="100" y="100" width="200" height="200" style="fill:#fff"/>`;
+  s += `<text class="ctitle fadein" x="200" y="196" text-anchor="middle">${esc(d.title)}</text><text class="csub fadein" x="200" y="220" text-anchor="middle">${esc(d.sub)}</text>`;
+  return s + '</svg>';
+}
+function chartSets(r) {
+  const mk = (asc, key, deg) => {
+    const bySign = Array.from({ length: 12 }, () => []);
+    r.planets.forEach(p => bySign[p[key]].push({ t: AB[p.name] + (deg ? ' ' + Math.floor(p.deg) + '°' : ''), c: COL[p.name], r: p.retro && p.name !== 'Rahu' && p.name !== 'Ketu' }));
+    return { asc, bySign };
+  };
+  return [
+    { ...mk(r.lagna.sign, 'sign', true), title: 'Lagna', sub: 'D1 · Rashi chart', h: 'Lagna chart · D1', p: `The main birth chart. Houses counted from ${J.RASHI[r.lagna.sign]} Lagna.` },
+    { ...mk(r.lagna.navamsa, 'navamsa', false), title: 'Navamsa', sub: 'D9 chart', h: 'Navamsa · D9', p: 'Each sign split into nine parts of 3°20′. Read for marriage and inner strength.' },
+    { ...mk(r.P.Moon.sign, 'sign', true), title: 'Chandra', sub: 'Moon as Lagna', h: 'Chandra chart', p: `Houses counted from the Moon in ${J.RASHI[r.P.Moon.sign]}. Read for the mind and transits.` }
+  ];
+}
+let chartStyle = 'north';
+try { chartStyle = localStorage.getItem('kg-style') || 'north'; } catch (e) { }
+function chartsHtml(r) {
+  return chartSets(r).map(c => `<div class="card chart">${chartStyle === 'north' ? drawNorth(c) : drawSouth(c)}<h3>${c.h}</h3><p>${c.p}</p></div>`).join('');
+}
+
+// ---------- Belt ----------
+function drawBelt(r) {
+  const W = 1100, X0 = 14, X1 = W - 14, x = l => X0 + l / 360 * (X1 - X0);
+  let s = `<svg class="belt" viewBox="0 0 ${W} 210" role="img" aria-label="The 360° sidereal zodiac with signs, nakshatras and graha positions">`;
+  for (let i = 0; i < 12; i++) {
+    s += `<rect x="${x(i * 30)}" y="34" width="${x(30) - x(0)}" height="40" fill="${i === r.lagna.sign ? '#F7E1AE' : i % 2 ? '#FDF8EC' : '#FFFFFF'}" stroke="#E3D2A6"/>`;
+    s += `<use href="#rs-${i}" x="${x(i * 30 + 15) - 30}" y="44" width="18" height="18" style="color:#2A2E7C"/><text x="${x(i * 30 + 15) - 8}" y="58" font-family="Hind, sans-serif" font-size="13" font-weight="600" fill="#16173B">${J.RASHI[i]}</text>`;
+  }
+  for (let k = 0; k <= 27; k++) {
+    const lx = x(k * 360 / 27);
+    s += `<line x1="${lx}" y1="74" x2="${lx}" y2="96" stroke="#D9B66B"/>`;
+    if (k < 27) s += `<text x="${x((k + .5) * 360 / 27)}" y="89" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#7A7C9C">${J.NAK[k].replace('Purva ', 'P.').replace('Uttara ', 'U.').slice(0, 7)}</text>`;
+  }
+  s += `<line x1="${X0}" y1="108" x2="${X1}" y2="108" stroke="#16173B" stroke-width="1.3"/>`;
+  const la = x(r.lagna.lon);
+  s += `<line x1="${la}" y1="22" x2="${la}" y2="114" stroke="#C2352D" stroke-width="2"/><text x="${la}" y="16" text-anchor="middle" font-family="Hind, sans-serif" font-size="12" font-weight="700" fill="#C2352D">ASC ${dm(r.lagna.deg)}</text>`;
+  const rows = [];
+  [...r.planets].sort((a, b) => a.lon - b.lon).forEach(p => {
+    const px = x(p.lon); let row = 0;
+    while (rows[row] !== undefined && px - rows[row] < 78) row++;
+    rows[row] = px;
+    const cy = 138 + row * 34;
+    s += `<line x1="${px}" y1="108" x2="${px}" y2="${cy - 12}" stroke="${COL[p.name]}" stroke-dasharray="2 2"/><circle cx="${px}" cy="108" r="4" fill="${COL[p.name]}"/>`;
+    s += `<use href="#gr-${p.name}" x="${px - 13}" y="${cy - 13}" width="26" height="26"/><text x="${px + 15}" y="${cy + 4}" font-family="IBM Plex Mono, monospace" font-size="11" fill="${COL[p.name]}" font-weight="500">${AB[p.name]} ${dm(p.deg)}</text>`;
+  });
+  return s + '</svg>';
+}
+
+// ---------- Moon phase drawing ----------
+function moonPhase(elong) {
+  const cx = 20, cy = 20, rr = 15, e = elong * Math.PI / 180, rx = Math.abs(rr * Math.cos(e)), wax = elong < 180;
+  const outer = wax ? 1 : 0;
+  let term; if (wax) term = elong < 90 ? 0 : 1; else term = elong > 270 ? 1 : 0;
+  return `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#3A3F78"/><path d="M${cx} ${cy - rr} A${rr} ${rr} 0 0 ${outer} ${cx} ${cy + rr} A${rx.toFixed(2)} ${rr} 0 0 ${term} ${cx} ${cy - rr}Z" fill="#F4E7C2"/></svg>`;
+}
+
+// ---------- Sade Sati ----------
+function sadeSati(utMs, moonSign) {
+  const start = utMs / 86400000 + 2440587.5, list = []; let cur = null;
+  for (let jd = start; jd < start + 100 * 365.25; jd += 5) {
+    const rel = (Math.floor(J.transit(jd).lon.Saturn / 30) - moonSign + 12) % 12, inn = rel === 11 || rel === 0 || rel === 1;
+    if (inn) { if (!cur) cur = { start: jd, end: jd }; else cur.end = jd; } else if (cur) { list.push(cur); cur = null; }
+  }
+  if (cur) list.push(cur);
+  const merged = [];
+  list.forEach(p => { const last = merged[merged.length - 1]; if (last && p.start - last.end < 400) last.end = p.end; else merged.push({ ...p }); });
+  return merged;
+}
+
+// ---------- Dasha ribbon ----------
+function drawRibbon(r, tz) {
+  const YEAR = 365.25 * 86400000, t0 = r.utMs, t1 = t0 + 100 * YEAR, W = 1000, x = t => 10 + (t - t0) / (t1 - t0) * (W - 20);
+  let s = `<svg class="ribbon" viewBox="0 0 ${W} 96" role="img" aria-label="Mahadasha periods across the first 100 years of life">`;
+  r.dashas.forEach(m => {
+    const a = Math.max(m.start, t0), b = Math.min(m.end, t1); if (b <= a) return;
+    const w = x(b) - x(a);
+    s += `<rect x="${x(a)}" y="18" width="${w}" height="38" rx="6" fill="${COL[m.lord]}" fill-opacity=".16" stroke="${COL[m.lord]}" stroke-opacity=".5"/>`;
+    if (w > 44) s += `<use href="#gr-${m.lord}" x="${x(a) + 5}" y="25" width="24" height="24"/>`;
+    if (w > 88) s += `<text x="${x(a) + 33}" y="42" font-family="Hind, sans-serif" font-size="13" font-weight="600" fill="${COL[m.lord]}">${SKT[m.lord]}</text>`;
+  });
+  for (let yr = 0; yr <= 100; yr += 10) { const tx = x(t0 + yr * YEAR); s += `<line x1="${tx}" y1="60" x2="${tx}" y2="66" stroke="#9A9CB8"/><text x="${tx}" y="80" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#7A7C9C">${yr === 0 ? 'Birth' : 'Age ' + yr}</text>`; }
+  const now = Date.now();
+  if (now > t0 && now < t1) { const nx = x(now); s += `<line x1="${nx}" y1="8" x2="${nx}" y2="62" stroke="#C2352D" stroke-width="2"/><circle cx="${nx}" cy="8" r="4" fill="#C2352D"/><text x="${nx + 7}" y="12" font-family="Hind, sans-serif" font-size="12" font-weight="700" fill="#C2352D">Today</text>`; }
+  return s + '</svg>';
+}
+
+// ---------- Render ----------
+let lastCalc = null;
+function render(input, r, isExample) {
+  const tz = input.tzMinutes, now = Date.now(), nowJd = now / 86400000 + 2440587.5;
+  const P = r.P, av = r.avakahada, pc = r.panchang, an = A.analyze(r), ord = an.ord;
+  const md = r.dashas.find(m => m.start <= now && now < m.end), ad = md && md.sub.find(a => a.start <= now && now < a.end);
+  const name = input.name || 'Your Kundali';
+  drawWheel(r);
+
+  // Highlights
+  const total = an.good.length + an.bad.length, gp = total ? Math.round(an.good.length / total * 100) : 50;
+  const hlItem = (it, i) => `<li class="reveal" style="--d:${i * 50}ms"><span class="ic">${it.icon ? g(it.icon) : ic(it.kind === 'yoga' ? 'i-yoga' : it.kind === 'ashtaka' ? 'i-house' : it.tone === 'good' ? 'i-star' : 'i-alert')}</span><span><b>${esc(it.title)}</b><p>${esc(it.text)}</p></span></li>`;
+
+  // Grahas
+  const grahaCards = r.planets.map((p, i) => {
+    const tone = an.reading[p.name + '_tone'], st = an.strength[p.name];
+    const tags = [];
+    if (p.dignity === 'Exalted') tags.push('<span class="tag good">Exalted</span>');
+    else if (p.dignity === 'Own sign') tags.push('<span class="tag good">Own sign</span>');
+    else if (p.dignity === 'Debilitated') tags.push('<span class="tag bad">Debilitated</span>');
+    else if (p.dignity === 'Friendly') tags.push('<span class="tag gold">Friendly sign</span>');
+    else if (p.dignity === 'Enemy') tags.push('<span class="tag warn">Enemy sign</span>');
+    else if (p.dignity) tags.push('<span class="tag">Neutral sign</span>');
+    if (p.retro && p.name !== 'Rahu' && p.name !== 'Ketu') tags.push('<span class="tag warn">Retrograde</span>');
+    if (p.combust) tags.push('<span class="tag bad">Combust</span>');
+    tags.push(`<span class="tag">House ${p.house}</span>`, `<span class="tag">Navamsa ${J.RASHI[p.navamsa]}</span>`);
+    return `<article class="card graha reveal" style="--gc:${COL[p.name]};--d:${(i % 3) * 70}ms">
+      <div class="top"><div class="art" style="--d:${i * .4}s">${g(p.name, '')}</div><div><h3>${SKT[p.name]}<small>${p.name} · <span lang="sa" style="font-family:var(--f-dev)">${DEV[p.name]}</span></small></h3></div>
+      <span class="verdict ${tone}">${tone === 'good' ? 'Strong' : tone === 'bad' ? 'Weak' : 'Moderate'}</span></div>
+      <div class="pos">${rg(p.sign)}<span><b>${J.RASHI[p.sign]}</b> <span style="color:var(--ink-3);font-size:14px">${J.SIGNS[p.sign]}</span><br><span style="font-size:13.5px;color:var(--ink-2)">${J.NAK[p.nak]} · pada ${p.pada}</span></span><span class="deg">${dms(p.deg)}</span></div>
+      <div class="meta">${tags.join('')}</div>
+      <div class="strength"><div class="row"><span>Strength (indicative)</span><b>${st}/100</b></div><div class="meter"><i class="${tone}" style="width:${st}%"></i></div></div>
+      <p class="read">${esc(an.reading[p.name])}</p></article>`;
+  }).join('');
+
+  // Yogas
+  const ys = [...an.yogas].sort((a, b) => (b.present - a.present) || (a.tone === 'good' ? -1 : 1));
+  const yogaCards = ys.map((y, i) => `<article class="card yoga reveal ${y.present ? 'on' : 'off'} ${y.tone}" data-tone="${y.tone}" data-on="${y.present}" style="--d:${(i % 4) * 50}ms">
+      <div class="yh"><h3>${esc(y.name)}</h3><span class="verdict ${y.present ? (y.tone === 'good' ? 'good' : 'bad') : ''}" style="${y.present ? '' : 'background:var(--bg);color:var(--ink-3)'}">${y.present ? (y.tone === 'good' ? 'Present · good' : 'Present · caution') : 'Not formed'}</span></div>
+      <p class="rule">${esc(y.rule)}</p><p>${esc(y.text)}</p></article>`).join('');
+
+  // Sade Sati
+  const tr = J.transit(nowJd), satSign = Math.floor(tr.lon.Saturn / 30), rel = (satSign - P.Moon.sign + 12) % 12;
+  const ssNow = rel === 11 ? 'Rising phase' : rel === 0 ? 'Peak phase' : rel === 1 ? 'Setting phase' : null;
+  const dhaiya = rel === 3 ? 'Kantaka Shani (4th from Moon)' : rel === 7 ? 'Ashtama Shani (8th from Moon)' : null;
+  const ssList = sadeSati(r.utMs, P.Moon.sign).map(p => `<span class="tag ${p.start <= nowJd && nowJd <= p.end ? 'bad' : ''}">${fDate(jdMs(p.start), tz)} → ${fDate(jdMs(p.end), tz)}</span>`).join(' ');
+  const ssCard = `<article class="card yoga reveal ${ssNow ? 'on bad' : dhaiya ? 'on bad' : 'off'}"><div class="yh"><h3>Sade Sati</h3><span class="verdict ${ssNow || dhaiya ? 'bad' : 'good'}">${ssNow ? 'Running now' : dhaiya ? 'Dhaiya now' : 'Not running'}</span></div>
+      <p class="rule">Shani transiting the 12th, 1st or 2nd from the Moon sign</p><p>Shani is now in ${J.RASHI[satSign]}, ${ord(rel + 1)} from your Moon sign ${J.RASHI[P.Moon.sign]}.${ssNow ? ' ' + ssNow + ' of the 7½-year period.' : dhaiya ? ' ' + dhaiya + '.' : ''}</p>
+      <div class="meta" style="margin-top:4px">${ssList || '<span class="tag">None in the first 100 years</span>'}</div></article>`;
+
+  // Dasha
+  const progress = md ? (now - md.start) / (md.end - md.start) : 0, circ = 2 * Math.PI * 40;
+  const nowCard = md ? `<div class="card now-card reveal"><div class="pair">${g(md.lord)}${ad ? g(ad.lord) : ''}</div>
+      <div><span class="eyebrow">Running now</span><h3>${SKT[md.lord]} Mahadasha · ${SKT[ad.lord]} Antardasha</h3>
+      <p>${SKT[md.lord]} period runs ${fDate(md.start, tz)} to ${fDate(md.end, tz)}. The current ${SKT[ad.lord]} sub-period ends on <b>${fDate(ad.end, tz)}</b>. ${SKT[md.lord]} is ${an.reading[md.lord + '_tone'] === 'good' ? '<b style="color:var(--good)">strong</b> in this chart, which supports this period' : an.reading[md.lord + '_tone'] === 'bad' ? '<b style="color:var(--bad)">weak</b> in this chart, so this period asks for patience' : 'of moderate strength in this chart'}.</p></div>
+      <svg class="ring" viewBox="0 0 100 100" role="img" aria-label="${Math.round(progress * 100)}% of the mahadasha completed"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" id="ringfg" cx="50" cy="50" r="40" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/><text x="50" y="56" text-anchor="middle">${Math.round(progress * 100)}%</text></svg></div>` : '';
+  const dashaList = r.dashas.filter(m => m.end > r.utMs && m.start < r.utMs + 110 * 365.25 * 86400000).map((m, i) => {
+    const isNow = m === md, past = m.end < now;
+    const sub = m.sub.filter(a => a.end > r.utMs).map(a => `<div class="${a === ad ? 'now' : ''}">${g(a.lord)}<span><b>${SKT[m.lord]} / ${SKT[a.lord]}</b><span>${fDate(Math.max(a.start, r.utMs), tz)} → ${fDate(a.end, tz)}</span></span></div>`).join('');
+    return `<details class="${isNow ? 'now' : ''}" ${isNow ? 'open' : ''}><summary>${g(m.lord)}<span class="lord">${SKT[m.lord]} Mahadasha<span>${m.lord} · ${J.DASHA_YEARS[m.lord]} years${i === 0 ? ' · balance ' + ymd(r.balance.years) : ''}</span></span>
+      <span class="when">${fDate(Math.max(m.start, r.utMs), tz)} → ${fDate(m.end, tz)}</span><span class="pill ${isNow ? '' : past ? 'past' : 'fut'}">${isNow ? 'Now' : past ? 'Past' : 'Ahead'}</span>${ic('i-chev', 'chev')}</summary>
+      <div class="sub"><div class="subgrid">${sub}</div></div></details>`;
+  }).join('');
+
+  // Panchang
+  const sunrise = pc.sunrise ? fTime(jdMs(pc.sunrise), tz) : '—', sunset = pc.sunset ? fTime(jdMs(pc.sunset), tz) : '—';
+  const pan = [
+    [`<span class="ic moonph">${moonPhase(pc.elong)}</span>`, 'Tithi', `${pc.paksha} ${pc.tithiName}`, `${pc.tithi} of 30 · Moon ${Math.round((1 - Math.cos(pc.elong * Math.PI / 180)) / 2 * 100)}% lit`],
+    [`<span class="ic">${ic('i-cal')}</span>`, 'Vara', pc.vara.split(' (')[0], pc.vara.match(/\((.*)\)/)[1] + ` · lord ${SKT[pc.varaLord]}${pc.bornBeforeSunrise ? ' · before sunrise' : ''}`],
+    [`<span class="ic">${ic('i-star')}</span>`, 'Nakshatra', J.NAK[P.Moon.nak], `pada ${P.Moon.pada} · lord ${SKT[av.nakLord]}`],
+    [`<span class="ic">${ic('i-loop')}</span>`, 'Yoga', pc.yoga, `${pc.yogaIdx + 1} of 27`],
+    [`<span class="ic">${ic('i-half')}</span>`, 'Karana', pc.karana, 'half of a tithi'],
+    [`<span class="ic">${ic('i-rise')}</span>`, 'Sunrise', sunrise, 'local time at birth place'],
+    [`<span class="ic">${ic('i-set')}</span>`, 'Sunset', sunset, 'local time at birth place'],
+    [`<span class="ic">${ic('i-sun')}</span>`, 'Paksha', `${pc.paksha} Paksha`, pc.paksha === 'Shukla' ? 'waxing Moon' : 'waning Moon']
+  ].map(([icon, k, v, sub], i) => `<div class="card pan reveal" style="--d:${(i % 4) * 50}ms">${icon}<dl style="margin:0"><dt>${k}</dt><dd>${v}<span>${sub}</span></dd></dl></div>`).join('');
+
+  // Bhavas
+  const bhavas = Array.from({ length: 12 }, (_, i) => {
+    const sign = (r.lagna.sign + i) % 12, lord = J.SIGN_LORD[sign], occ = r.planets.filter(p => p.house === i + 1), sav = r.sav[sign];
+    const tone = sav >= 28 ? 'good' : sav < 25 ? 'bad' : 'mixed';
+    return `<article class="card bhava reveal ${i === 0 ? 'lagna' : ''}" style="--d:${(i % 4) * 50}ms"><div class="bh"><span class="no">${i + 1}</span><h3>${an.HOUSE_NAME[i]} Bhava<small>${J.RASHI[sign]} · ${J.SIGNS[sign]}</small></h3>${rg(sign)}</div>
+      <p class="means">${an.HOUSE[i].charAt(0).toUpperCase() + an.HOUSE[i].slice(1)}</p>
+      <div class="occ">${occ.length ? occ.map(p => `<span title="${SKT[p.name]}">${g(p.name, '')}</span>`).join('') : '<span class="none">No graha</span>'}</div>
+      <p class="lordline">Lord <b>${SKT[lord]}</b> in the ${ord(P[lord].house)} house</p>
+      <div class="savbar"><span style="color:var(--ink-3)">SAV</span><div class="meter"><i class="${tone}" style="width:${Math.min(100, sav / 45 * 100)}%"></i></div><b style="color:var(--${tone === 'mixed' ? 'warn' : tone})">${sav}</b></div></article>`;
+  }).join('');
+
+  // Ashtakavarga heatmap
+  const heat = v => { const t = Math.max(0, Math.min(1, v / 8)); return t >= .5 ? `rgba(17,128,78,${((t - .5) * 2 * .55 + .06).toFixed(2)})` : `rgba(194,53,45,${((.5 - t) * 2 * .45 + .05).toFixed(2)})`; };
+  const savHeat = v => v >= 28 ? `rgba(17,128,78,${Math.min(.6, (v - 26) / 14).toFixed(2)})` : `rgba(194,53,45,${Math.min(.5, (30 - v) / 16).toFixed(2)})`;
+  const avHead = J.RASHI.map((n, i) => `<th class="${i === r.lagna.sign ? 'lg' : ''}">${rg(i, 'th-glyph')}${n.slice(0, 4)}</th>`).join('');
+  const avRows = Object.keys(r.bav).map(p => `<tr><td><span style="display:inline-flex;align-items:center;gap:8px">${g(p).replace('class="gimg"', 'class="gimg" style="width:24px;height:24px"')}<b>${SKT[p]}</b></span></td>${r.bav[p].map(v => `<td class="hm" style="background:${heat(v)}">${v}</td>`).join('')}<td class="hm"><b>${r.bav[p].reduce((a, b) => a + b)}</b></td></tr>`).join('');
+  const savRow = `<tr class="sav"><td>Sarva total</td>${r.sav.map(v => `<td class="hm" style="background:${savHeat(v)}">${v}</td>`).join('')}<td class="hm">337</td></tr>`;
+
+  // Gochar
+  const trPrev = J.transit(nowJd - 0.5).lon, trNext = J.transit(nowJd + 0.5).lon;
+  const gochar = J.PLANETS.map((p, i) => {
+    const L = tr.lon[p], sg = Math.floor(L / 30), fm = (sg - P.Moon.sign + 12) % 12 + 1, good = an.GOCHAR_GOOD[p].includes(fm);
+    const retro = !['Sun', 'Moon', 'Rahu', 'Ketu'].includes(p) && (J.norm(trNext[p] - trPrev[p] + 180) - 180) < 0;
+    return `<div class="card goc reveal" style="--d:${(i % 4) * 50}ms">${g(p)}<div><b>${SKT[p]} in ${J.RASHI[sg]}</b><span>${dm(L - sg * 30)} · ${ord(fm)} from Moon${retro ? ' · retrograde' : ''}</span><span class="tag ${good ? 'good' : 'bad'}">${good ? 'Favourable' : 'Unfavourable'}</span></div></div>`;
+  }).join('');
+
+  const a = J.ascendant(r.jd, input.lat, input.lon), lstH = a.lst / 15;
+  const lst = `${Math.floor(lstH)}h ${String(Math.floor((lstH % 1) * 60)).padStart(2, '0')}m`;
+  const ex = isExample ? `<div class="example-note">${ic('i-info')}<span><b>This is an example chart</b> for a birth on 15 Aug 1990 at 06:30 in Ahmedabad. Enter your own details above to generate your Kundali.</span></div>` : '';
+
+  $('#results').innerHTML = `${ex}
+  <div class="card profile reveal">
+    <div class="who"><span class="eyebrow">Janma Kundali</span><h2>${esc(name)}</h2>
+      <p class="birthline"><span>${ic('i-cal')}${fDate(r.utMs, tz)}</span><span>${ic('i-clock')}${fTime(r.utMs, tz)} (UTC${offStr(tz)})</span><span>${ic('i-pin')}${esc(input.placeLabel)}</span></p>
+      <div class="lagna-trait"><span class="glyph">${rg(r.lagna.sign, '')}</span><p><b>${J.RASHI[r.lagna.sign]} Lagna (${J.SIGNS[r.lagna.sign]} rising).</b> ${an.LAGNA_TRAITS[r.lagna.sign]}. Lagna lord ${SKT[J.SIGN_LORD[r.lagna.sign]]} sits in the ${ord(P[J.SIGN_LORD[r.lagna.sign]].house)} house.</p></div>
+    </div>
+    <dl class="facts">
+      <div class="fact"><span class="ic">${rg(r.lagna.sign, '')}</span><div><dt>Lagna</dt><dd>${J.RASHI[r.lagna.sign]} ${dm(r.lagna.deg)}<span>${J.NAK[r.lagna.nak]} pada ${r.lagna.pada}</span></dd></div></div>
+      <div class="fact"><span class="ic">${g('Moon')}</span><div><dt>Rashi · Moon sign</dt><dd>${J.RASHI[P.Moon.sign]} <span style="display:inline;font-family:var(--f-dev)">${J.RASHI_DEV[P.Moon.sign]}</span><span>${J.SIGNS[P.Moon.sign]} · lord ${SKT[av.rashiLord]}</span></dd></div></div>
+      <div class="fact"><span class="ic">${ic('i-star')}</span><div><dt>Janma Nakshatra</dt><dd>${J.NAK[P.Moon.nak]} · ${P.Moon.pada}<span>Name letter “${av.syllable}”</span></dd></div></div>
+      <div class="fact"><span class="ic">${md ? g(md.lord) : ''}</span><div><dt>Running dasha</dt><dd>${md ? `${SKT[md.lord]} / ${SKT[ad.lord]}` : '—'}<span>${ad ? 'until ' + fDate(ad.end, tz) : ''}</span></dd></div></div>
+    </dl>
+  </div>
+
+  <section id="highlights">
+    <div class="sec-head"><div><p class="eyebrow">शुभ · अशुभ</p><h2>Strengths and challenges</h2><p class="lede">Every point below comes from a classical rule applied to this chart: dignities, yogas, doshas, Lagna lord placement and Ashtakavarga bindus.</p></div></div>
+    <div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${an.good.length} strengths</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${an.bad.length} challenges</span></div></div>
+    <div class="hl-grid">
+      <div class="card hl-col good"><h3><span class="badge">${ic('i-check')}</span>Strengths<small>${an.good.length}</small></h3><ul class="hl-list">${an.good.map(hlItem).join('') || '<li class="empty">No major strengths flagged.</li>'}</ul></div>
+      <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>Challenges<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || '<li class="empty">No major challenges flagged.</li>'}</ul></div>
+    </div>
+  </section>
+
+  <section id="charts">
+    <div class="sec-head"><div><p class="eyebrow">कुण्डली चक्र</p><h2>Kundali charts</h2><p class="lede">Birth chart, Navamsa and Moon chart. Graha colours match the cards below; <b style="color:var(--bad)">R</b> marks a retrograde graha.</p></div>
+      <div class="seg" role="group" aria-label="Chart style"><button type="button" data-style="north" aria-pressed="${chartStyle === 'north'}">North Indian</button><button type="button" data-style="south" aria-pressed="${chartStyle === 'south'}">South Indian</button></div></div>
+    <div class="charts drawing" id="chartsbox">${chartsHtml(r)}</div>
+    <div class="chart-key">${J.PLANETS.map(p => `<span><b style="color:${COL[p]}">${AB[p]}</b>${SKT[p]}</span>`).join('')}</div>
+  </section>
+
+  <section id="belt">
+    <div class="sec-head"><div><p class="eyebrow">भचक्र</p><h2>The zodiac at birth</h2><p class="lede">The full 360° laid flat: 12 rashis of 30°, 27 nakshatras of 13°20′, and each graha at its exact sidereal degree.</p></div></div>
+    <div class="card belt-card reveal">${drawBelt(r)}</div>
+  </section>
+
+  <section id="grahas">
+    <div class="sec-head"><div><p class="eyebrow">नवग्रह</p><h2>The nine grahas</h2><p class="lede">Position, dignity and an indicative strength score for each graha. The score combines dignity, house, combustion, retrogression and its own Ashtakavarga bindus; it is a guide, not Shadbala.</p></div></div>
+    <div class="graha-grid">${grahaCards}</div>
+  </section>
+
+  <section id="yogas">
+    <div class="sec-head"><div><p class="eyebrow">योग · दोष</p><h2>Yogas and doshas</h2><p class="lede">${an.yogas.filter(y => y.present && y.tone === 'good').length} beneficial yogas and ${an.yogas.filter(y => y.present && y.tone === 'bad').length + (ssNow || dhaiya ? 1 : 0)} doshas found. Each card shows the rule that was checked.</p></div>
+      <div class="seg yoga-filter" role="group" aria-label="Filter yogas"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="present" aria-pressed="false">Present</button><button type="button" data-f="good" aria-pressed="false">Good</button><button type="button" data-f="bad" aria-pressed="false">Doshas</button></div></div>
+    <div class="yoga-grid" id="yogagrid">${ssCard}${yogaCards}</div>
+  </section>
+
+  <section id="dasha">
+    <div class="sec-head"><div><p class="eyebrow">विंशोत्तरी दशा</p><h2>Vimshottari Dasha</h2><p class="lede">The 120-year cycle starts from the Moon's nakshatra lord. The Moon had covered ${((1 - r.balance.years / J.DASHA_YEARS[r.balance.lord]) * 100).toFixed(1)}% of ${J.NAK[P.Moon.nak]} at birth, leaving ${ymd(r.balance.years)} of ${SKT[r.balance.lord]} dasha.</p></div></div>
+    ${nowCard}
+    <div class="card ribbon-card reveal">${drawRibbon(r, tz)}</div>
+    <div class="dasha-list">${dashaList}</div>
+  </section>
+
+  <section id="panchang">
+    <div class="sec-head"><div><p class="eyebrow">पञ्चाङ्ग</p><h2>Panchang at birth</h2><p class="lede">The five limbs of the Hindu calendar at the moment of birth. The Moon drawing shows its real phase.</p></div></div>
+    <div class="pan-grid">${pan}</div>
+    <div class="card ava reveal"><h3>Avakahada details</h3><dl class="ava-grid">
+      ${[['Varna', av.varna], ['Vashya', av.vashya], ['Yoni', av.yoni], ['Gana', av.gana], ['Nadi', av.nadi], ['Tatva', av.tatva], ['Lagna lord', SKT[av.lagnaLord]], ['Rashi lord', SKT[av.rashiLord]], ['Nakshatra lord', SKT[av.nakLord]], ['Name letter', av.syllable]].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}
+    </dl></div>
+  </section>
+
+  <section id="bhavas">
+    <div class="sec-head"><div><p class="eyebrow">द्वादश भाव</p><h2>The twelve bhavas</h2><p class="lede">Whole-sign houses from the Lagna. The SAV bar shows Sarvashtakavarga bindus: <b style="color:var(--good)">28 or more is strong</b>, <b style="color:var(--bad)">below 25 is weak</b>.</p></div></div>
+    <div class="bhava-grid">${bhavas}</div>
+  </section>
+
+  <section id="ashtaka">
+    <div class="sec-head"><div><p class="eyebrow">अष्टकवर्ग</p><h2>Ashtakavarga</h2><p class="lede">Benefic points each graha receives in every sign from the eight reference points. The Sarva total always adds up to 337.</p></div></div>
+    <div class="card tbl-card reveal"><table><thead><tr><th>Graha</th>${avHead}<th>Total</th></tr></thead><tbody>${avRows}${savRow}</tbody></table></div>
+    <div class="legend"><span><i style="background:rgba(17,128,78,.5)"></i>High bindus (good)</span><span><i style="background:rgba(194,53,45,.4)"></i>Low bindus (weak)</span><span style="color:var(--gold-deep)">Gold column header = Lagna sign</span></div>
+  </section>
+
+  <section id="gochar">
+    <div class="sec-head"><div><p class="eyebrow">गोचर</p><h2>Transits today</h2><p class="lede">Where the grahas are on ${fDate(now, tz)}, counted from your Moon sign. Favourable houses follow the classical gochar rules for each graha.</p></div></div>
+    <div class="gochar-grid">${gochar}</div>
+  </section>
+
+  <section id="method">
+    <div class="sec-head"><div><p class="eyebrow">गणित</p><h2>How it is calculated</h2></div></div>
+    <div class="card method reveal">
+      <p class="mono">UT ${fDate(r.utMs, 0)} ${fTime(r.utMs, 0)} · Julian Day ${r.jd.toFixed(5)} · Local sidereal time ${lst} · Lahiri ayanamsa ${dms(r.ayanamsa)} · Sayana Lagna ${dms(a.asc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p>
+      <p>The Sun and planets come from Keplerian orbital elements with the main Jupiter–Saturn perturbations. The Moon uses the 60-term lunar series from Meeus, <i>Astronomical Algorithms</i>. Rahu is the mean lunar node. Tropical positions are converted to sidereal with the Lahiri ayanamsa, and the Lagna is solved from local sidereal time and latitude.</p>
+      <p>Checked against the Swiss Ephemeris on 3,000 random dates from 1900 to 2100: Moon within about 1′, Lagna within 1′, other grahas within 3½′. Houses are whole-sign. Dasha years are 365.25 days. Yogas and doshas use the rules shown on each card; traditions differ on cancellations.</p>
+    </div>
+  </section>`;
+
+  // Interactions
+  document.querySelectorAll('#charts .seg button').forEach(b => b.addEventListener('click', () => {
+    chartStyle = b.dataset.style; try { localStorage.setItem('kg-style', chartStyle); } catch (e) { }
+    document.querySelectorAll('#charts .seg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.style === chartStyle)));
+    const box = $('#chartsbox'); box.classList.remove('drawing'); box.innerHTML = chartsHtml(lastCalc.r); void box.offsetWidth; box.classList.add('drawing');
+  }));
+  document.querySelectorAll('.yoga-filter button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.yoga-filter button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    const f = b.dataset.f;
+    document.querySelectorAll('#yogagrid .yoga').forEach(c => {
+      const on = c.classList.contains('on'), tone = c.classList.contains('good') ? 'good' : 'bad';
+      c.hidden = f === 'present' ? !on : f === 'good' ? !(on && tone === 'good') : f === 'bad' ? !(on && tone === 'bad') : false;
+    });
+  }));
+  requestAnimationFrame(() => { const fg = $('#ringfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - progress); });
+  observeReveals();
+}
+
+// ---------- Scroll reveal (content is visible at rest; this only adds motion) ----------
+let io = null;
+function observeReveals() {
+  if (!('IntersectionObserver' in window)) return;
+  if (io) io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px 120px 0px' });
+  document.querySelectorAll('.reveal, .graha, .bhava').forEach(el => io.observe(el));
+}
+
+function run(input, isExample) {
+  const r = J.compute(input);
+  lastCalc = { input, r };
+  render(input, r, isExample);
+}
+
+$('#form').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = $('#err'); err.textContent = '';
+  const date = $('#f-date').value, time = $('#f-time').value;
+  if (!date) { err.textContent = 'Enter the birth date.'; return; }
+  if (!time) { err.textContent = 'Enter the birth time. Use 12:00 if unknown; the Lagna will then be unreliable.'; return; }
+  if (!chosen && matches.length && fPlace.value.trim()) choose(matches[0]);
+  const lat = parseFloat($('#f-lat').value), lon = parseFloat($('#f-lon').value);
+  if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 89 || Math.abs(lon) > 180) {
+    err.textContent = 'Choose a birth place from the list, or open “Coordinates and time zone” and enter latitude and longitude.';
+    $('#coords').open = true; return;
+  }
+  autoOffset();
+  const off = parseOff($('#f-off').value);
+  if (off === null) { err.textContent = 'Enter the UTC offset at birth, for example +05:30.'; $('#coords').open = true; return; }
+  const [year, month, day] = date.split('-').map(Number), [hour, minute] = time.split(':').map(Number);
+  const placeLabel = chosen ? `${chosen.name}, ${chosen.region}` : (fPlace.value.trim() || 'Custom coordinates');
+  const input = { name: $('#f-name').value.trim(), year, month, day, hour, minute, lat, lon, tzMinutes: off, placeLabel };
+  run(input, false);
+  try { localStorage.setItem('kg-last', JSON.stringify({ input, place: chosen, offAuto })); } catch (e) { }
+  setTimeout(() => $('#results').scrollIntoView({ behavior: 'smooth' }), 60);
+});
+
+function fill(input, place) {
+  $('#f-name').value = input.name || '';
+  $('#f-date').value = `${input.year}-${String(input.month).padStart(2, '0')}-${String(input.day).padStart(2, '0')}`;
+  $('#f-time').value = `${String(input.hour).padStart(2, '0')}:${String(input.minute).padStart(2, '0')}`;
+  $('#f-lat').value = input.lat; $('#f-lon').value = input.lon; $('#f-off').value = offStr(input.tzMinutes);
+  chosen = place || null; fPlace.value = input.placeLabel; showMeta();
+}
+let saved = null;
+try { saved = JSON.parse(localStorage.getItem('kg-last') || 'null'); } catch (e) { }
+if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offAuto !== false; run(saved.input, false); }
+else {
+  const amd = PLACES[0];
+  const input = { name: 'Aarav Mehta (example)', year: 1990, month: 8, day: 15, hour: 6, minute: 30, lat: amd.lat, lon: amd.lon, tzMinutes: 330, placeLabel: `${amd.name}, ${amd.region}` };
+  fill({ ...input, name: '' }, amd);
+  run(input, true);
+}
+})();
+</script>
