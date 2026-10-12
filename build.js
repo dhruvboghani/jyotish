@@ -8,6 +8,8 @@ const ROOT = __dirname, OUT = path.join(ROOT, 'public');
 const SITE_URL = (process.env.SITE_URL || 'https://kundali-ganit.vercel.app').replace(/\/$/, '');
 const LANGS = ['en', 'hi', 'gu', 'ta', 'te', 'kn'];
 const BUILD = Date.now().toString(36);
+const PUBLIC_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
+if (/^sb_secret_|service_role/.test(PUBLIC_KEY)) throw new Error('A Supabase SECRET key was given as the public key. Use the publishable (sb_publishable_…) key instead.');
 
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const json = p => JSON.parse(read(p));
@@ -128,7 +130,7 @@ for (const l of LANGS) {
 for (const f of ['app.js', 'places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 
-fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '' })};\n`);
+fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY })};\n`);
 
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
@@ -146,7 +148,7 @@ ${LANGS.map(a => `    <xhtml:link rel="alternate" hreflang="${ALL[a].meta.htmlLa
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
 const missing = [];
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) missing.push('SUPABASE_URL / SUPABASE_ANON_KEY (login will be disabled)');
+if (!process.env.SUPABASE_URL || !PUBLIC_KEY) missing.push('SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY (login will be disabled)');
 if (!process.env.SITE_URL) missing.push('SITE_URL (using ' + SITE_URL + ' for canonical URLs and sitemap)');
 console.log(`Built ${LANGS.length} language pages into ./public (build ${BUILD}).`);
 if (missing.length) console.warn('Note: env not set → ' + missing.join('; '));

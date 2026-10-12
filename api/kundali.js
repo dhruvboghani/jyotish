@@ -5,7 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 const { validate, clean, preview, full } = require('../lib/report.js');
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+// Publishable key (sb_publishable_…) or legacy anon key. Never the secret/service_role key.
+const SUPABASE_ANON_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY;
 
 async function userFromToken(token) {
   if (!token || !SUPABASE_URL || !SUPABASE_ANON_KEY) return { user: null, sb: null };
