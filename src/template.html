@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="{{meta.htmlLang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--HEAD-->
+<link rel="stylesheet" href="/assets/styles.css?v={{build}}">
+</head>
+<body>
+<!--SPRITE-->
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="{{home}}" aria-label="{{brand.name}}"><svg><use href="#logo"/></svg><span><b>{{brand.name}}</b> <small lang="sa">कुण्डली गणित</small></span></a>
+    <nav class="topnav" aria-label="{{nav.sections}}">
+      <a href="#features">{{nav.features}}</a><a href="#about">{{nav.about}}</a><a href="#faq">{{nav.faq}}</a>
+    </nav>
+    <div class="actions">
+      <label class="lang"><span class="sr" hidden>{{nav.language}}</span><select id="lang" aria-label="{{nav.language}}"><!--LANGOPTS--></select></label>
+      <span id="authslot"><button class="btn-line" type="button" data-auth="login">{{nav.login}}</button></span>
+      <a class="btn-cta newk" href="#top">{{nav.new}}</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">{{hero.kicker}}</span>
+      <h1>{{hero.h1a}} <em>{{hero.h1b}}</em></h1>
+      <p class="sub">{{hero.sub}}</p>
+      <div class="trust">
+        <span><svg><use href="#i-check"/></svg>{{hero.trust1}}</span>
+        <span><svg><use href="#i-check"/></svg>{{hero.trust2}}</span>
+        <span><svg><use href="#i-check"/></svg>{{hero.trust3}}</span>
+      </div>
+      <div class="formcard">
+        <h2>{{form.title}} <small>{{form.note}}</small></h2>
+        <form id="form" novalidate autocomplete="off">
+          <div class="field full"><label for="f-name">{{form.name}}</label><input id="f-name" type="text" placeholder="{{form.namePh}}"></div>
+          <div class="field"><label for="f-date">{{form.date}}</label><input id="f-date" type="date" required></div>
+          <div class="field"><label for="f-time">{{form.time}}</label><input id="f-time" type="time" step="60" required></div>
+          <div class="field full">
+            <label for="f-place">{{form.place}}</label>
+            <input id="f-place" type="text" placeholder="{{form.placePh}}" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+            <div class="place-meta" id="place-meta"></div>
+            <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+          </div>
+          <details class="coords" id="coords">
+            <summary>{{form.coords}}</summary>
+            <div class="inner">
+              <div class="field"><label for="f-lat">{{form.lat}}</label><input id="f-lat" type="text" inputmode="decimal" placeholder="23.0225"></div>
+              <div class="field"><label for="f-lon">{{form.lon}}</label><input id="f-lon" type="text" inputmode="decimal" placeholder="72.5714"></div>
+              <div class="field"><label for="f-off">{{form.offset}}</label><input id="f-off" type="text" placeholder="+05:30"></div>
+              <p class="small-note">{{form.coordsNote}}</p>
+              <button type="button" class="btn-ghost" id="online">{{form.lookup}}</button>
+            </div>
+          </details>
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn-cta go" type="submit" id="go">{{form.submit}}</button>
+        </form>
+      </div>
+    </div>
+    <div class="wheel-col"><div id="wheel"></div></div>
+  </div>
+</div>
+
+<main class="wrap" id="results" aria-live="polite"></main>
+
+<div class="wrap">
+  <section class="static-sec" id="features">
+    <div class="sec-head"><div><p class="eyebrow">{{static.featEye}}</p><h2>{{static.featTitle}}</h2><p class="lede">{{static.featLede}}</p></div></div>
+    <div class="features"><!--FEATURES--></div>
+  </section>
+
+  <section class="static-sec" id="about">
+    <div class="sec-head"><div><p class="eyebrow">{{static.aboutEye}}</p><h2>{{static.aboutTitle}}</h2></div></div>
+    <div class="about"><!--ABOUT--></div>
+  </section>
+
+  <section class="static-sec" id="faq">
+    <div class="sec-head"><div><p class="eyebrow">{{static.faqEye}}</p><h2>{{static.faqTitle}}</h2><p class="lede">{{static.faqLede}}</p></div></div>
+    <div class="faq"><!--FAQ--></div>
+  </section>
+</div>
+
+<footer class="wrap">
+  <div class="brand"><svg><use href="#logo"/></svg><b>{{brand.name}}</b></div>
+  <p>{{footer.text}}</p>
+  <p style="margin-top:8px"><!--LANGLINKS--></p>
+</footer>
+
+<div id="modal"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/config.js?v={{build}}"></script>
+<script src="/assets/places.js?v={{build}}" defer></script>
+<script src="/assets/app.js?v={{build}}" defer></script>
+</body>
+</html>

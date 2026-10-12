@@ -1,0 +1,16 @@
+{
+  "name": "kundali-ganit",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Vedic Kundali calculator with Supabase login, multi-language SEO pages and a serverless calculation API.",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

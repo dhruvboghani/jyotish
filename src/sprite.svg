@@ -1,0 +1,85 @@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="gSun" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#FFF7C2"/><stop offset=".45" stop-color="#FFC233"/><stop offset="1" stop-color="#EE6A10"/></radialGradient>
+    <linearGradient id="gRay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB020"/><stop offset="1" stop-color="#F07818"/></linearGradient>
+    <radialGradient id="gMoon" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E4E7EF"/><stop offset="1" stop-color="#AEB5C6"/></radialGradient>
+    <radialGradient id="gMars" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFA27E"/><stop offset=".55" stop-color="#E04A2E"/><stop offset="1" stop-color="#8E2210"/></radialGradient>
+    <radialGradient id="gMerc" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#D9F2DF"/><stop offset=".55" stop-color="#6FBF8A"/><stop offset="1" stop-color="#2B6F45"/></radialGradient>
+    <radialGradient id="gVenus" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFBEF"/><stop offset=".55" stop-color="#F8CFE0"/><stop offset="1" stop-color="#D2508A"/></radialGradient>
+    <radialGradient id="gSat" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#DCE4FF"/><stop offset=".55" stop-color="#7C93E8"/><stop offset="1" stop-color="#2E46B5"/></radialGradient>
+    <radialGradient id="gShade" cx="35%" cy="32%" r="75%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".32"/></radialGradient>
+    <radialGradient id="gCorona" cx="50%" cy="50%" r="50%"><stop offset=".55" stop-color="#FFD66B" stop-opacity=".95"/><stop offset=".75" stop-color="#FFB547" stop-opacity=".45"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gRahu" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#5B6378"/><stop offset="1" stop-color="#161A28"/></radialGradient>
+    <linearGradient id="gTail" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C08457" stop-opacity=".95"/><stop offset="1" stop-color="#C08457" stop-opacity="0"/></linearGradient>
+    <radialGradient id="gKetu" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF4E6"/><stop offset=".5" stop-color="#D9A27A"/><stop offset="1" stop-color="#7A4528"/></radialGradient>
+    <clipPath id="cJup"><circle cx="32" cy="32" r="22"/></clipPath>
+    <clipPath id="cMars"><circle cx="32" cy="32" r="21"/></clipPath>
+  </defs>
+  <symbol id="gr-Sun" viewBox="0 0 64 64"><g fill="url(#gRay)">
+    <path d="M32 1 36 12 28 12Z"/><path d="M32 63 28 52 36 52Z"/><path d="M1 32 12 28 12 36Z"/><path d="M63 32 52 36 52 28Z"/>
+    <path d="M10 10 19 15 15 19Z"/><path d="M54 54 45 49 49 45Z"/><path d="M54 10 49 19 45 15Z"/><path d="M10 54 15 45 19 49Z"/>
+    <path d="M18 3.5 24 12 19 14Z" opacity=".7"/><path d="M46 60.5 40 52 45 50Z" opacity=".7"/><path d="M3.5 46 12 40 14 45Z" opacity=".7"/><path d="M60.5 18 52 24 50 19Z" opacity=".7"/>
+    <path d="M46 3.5 45 14 40 12Z" opacity=".7"/><path d="M18 60.5 19 50 24 52Z" opacity=".7"/><path d="M60.5 46 50 45 52 40Z" opacity=".7"/><path d="M3.5 18 14 19 12 24Z" opacity=".7"/></g>
+    <circle cx="32" cy="32" r="18" fill="url(#gSun)"/><circle cx="32" cy="32" r="18" fill="none" stroke="#FFE08A" stroke-width="1" opacity=".8"/></symbol>
+  <symbol id="gr-Moon" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="url(#gMoon)"/>
+    <g fill="#C3C9D6" opacity=".75"><circle cx="24" cy="25" r="4.5"/><circle cx="38" cy="22" r="2.5"/><circle cx="40" cy="38" r="5.5"/><circle cx="26" cy="42" r="3"/><circle cx="33" cy="31" r="1.8"/></g>
+    <circle cx="32" cy="32" r="24" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Mars" viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="url(#gMars)"/>
+    <g clip-path="url(#cMars)" fill="#7E1D0D" opacity=".35"><ellipse cx="25" cy="34" rx="9" ry="4"/><ellipse cx="42" cy="26" rx="6" ry="3"/><ellipse cx="36" cy="44" rx="10" ry="3"/></g>
+    <ellipse cx="32" cy="13.5" rx="7" ry="2.6" fill="#FFF3EE" opacity=".9"/><circle cx="32" cy="32" r="21" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Mercury" viewBox="0 0 64 64"><circle cx="32" cy="32" r="18" fill="url(#gMerc)"/>
+    <g fill="#2F7A4C" opacity=".35"><circle cx="26" cy="27" r="3.2"/><circle cx="37" cy="36" r="4"/><circle cx="29" cy="40" r="2"/><circle cx="39" cy="24" r="1.8"/></g>
+    <circle cx="32" cy="32" r="18" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Jupiter" viewBox="0 0 64 64"><g clip-path="url(#cJup)"><rect x="8" y="8" width="48" height="48" fill="#F2D59C"/>
+    <rect x="8" y="17" width="48" height="5" fill="#D99A4E"/><rect x="8" y="25" width="48" height="3" fill="#F8E7C6"/><rect x="8" y="30" width="48" height="6" fill="#C9813C"/>
+    <rect x="8" y="38" width="48" height="3" fill="#F8E7C6"/><rect x="8" y="43" width="48" height="5" fill="#D99A4E"/><ellipse cx="40" cy="39.5" rx="5" ry="2.8" fill="#C0452A"/>
+    <circle cx="32" cy="32" r="22" fill="url(#gShade)"/></g></symbol>
+  <symbol id="gr-Venus" viewBox="0 0 64 64"><circle cx="32" cy="32" r="21" fill="url(#gVenus)"/>
+    <g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M17 27c6-4 14-4 22 0s10 3 13 1"/><path d="M14 36c7 3 15 2 22-2s12-3 15 0"/><path d="M22 45c5 1 11 0 16-3"/></g>
+    <circle cx="32" cy="32" r="21" fill="url(#gShade)"/></symbol>
+  <symbol id="gr-Saturn" viewBox="0 0 64 64"><g transform="rotate(-18 32 32)">
+    <ellipse cx="32" cy="32" rx="30" ry="8.5" fill="none" stroke="#A9B7EE" stroke-width="3.5"/>
+    <circle cx="32" cy="32" r="16" fill="url(#gSat)"/><path d="M17 29h30M16.5 35h31" stroke="#253C9E" stroke-width="1.6" opacity=".35"/>
+    <circle cx="32" cy="32" r="16" fill="url(#gShade)"/>
+    <path d="M2 32 A30 8.5 0 0 0 62 32" fill="none" stroke="#C7D1F7" stroke-width="3.5"/><path d="M5 33.5 A27 7 0 0 0 59 33.5" fill="none" stroke="#6E83D8" stroke-width="1" opacity=".7"/></g></symbol>
+  <symbol id="gr-Rahu" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="url(#gCorona)"/>
+    <circle cx="32" cy="32" r="18" fill="url(#gRahu)"/><circle cx="32" cy="32" r="18" fill="none" stroke="#FFE7A3" stroke-width="1.4"/>
+    <path d="M24 37c0-7 4-11 8-11s8 4 8 11" fill="none" stroke="#FFD66B" stroke-width="2" stroke-linecap="round" opacity=".9"/><circle cx="24" cy="38.5" r="2.2" fill="none" stroke="#FFD66B" stroke-width="1.6"/><circle cx="40" cy="38.5" r="2.2" fill="none" stroke="#FFD66B" stroke-width="1.6"/></symbol>
+  <symbol id="gr-Ketu" viewBox="0 0 64 64"><path d="M43 21 C30 30 14 42 2 62 C18 50 30 44 46 26Z" fill="url(#gTail)"/><path d="M41 18 C33 23 20 30 8 40 C22 34 32 30 44 24Z" fill="url(#gTail)" opacity=".7"/>
+    <circle cx="45" cy="19" r="12" fill="url(#gKetu)"/><circle cx="45" cy="19" r="12" fill="none" stroke="#FFF1DE" stroke-width="1" opacity=".8"/>
+    <path d="M38 17c0 5 3 9 7 9s7-4 7-9" fill="none" stroke="#5E301A" stroke-width="1.8" stroke-linecap="round" opacity=".55"/></symbol>
+
+  <!-- Rashi glyphs -->
+  <symbol id="rs-0" viewBox="0 0 24 24"><path d="M12 21V10C12 6.5 9.8 4 7 4 4.8 4 3 5.6 3 7.7 3 9.6 4.4 10.8 6 10.8M12 10c0-3.5 2.2-6 5-6 2.2 0 4 1.6 4 3.7 0 1.9-1.4 3.1-3 3.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-1" viewBox="0 0 24 24"><circle cx="12" cy="15" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 3.5C4.8 7.6 8 9.8 12 9.8s7.2-2.2 8-6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-2" viewBox="0 0 24 24"><path d="M5 4c4.6 2 9.4 2 14 0M5 20c4.6-2 9.4-2 14 0M9 5.6v12.8M15 5.6v12.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-3" viewBox="0 0 24 24"><circle cx="7" cy="9.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="14.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.4 8.6C6 5 14 3.6 21 6.5M19.6 15.4C18 19 10 20.4 3 17.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-4" viewBox="0 0 24 24"><circle cx="7" cy="15" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.2 15C10.2 7 12.6 4 16 4s4.6 3.2 2.6 6.4c-1.8 2.8-1.6 6.4.6 8.4 1 .9 2.2.6 2.8-.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="rs-5" viewBox="0 0 24 24"><path d="M3 6.5c1.2-1.5 2.6-.8 2.6 1V18M5.6 8c0-3 4-3 4 0v10M9.6 8c0-3 4-3 4 0v8.5c0 2.4 2.2 3.8 4.6 2.6M13.6 12c1.6-3 5.4-3 5.4.4 0 3.2-3.6 6.2-8 8.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="rs-6" viewBox="0 0 24 24"><path d="M3 20h18M3 15.5h5.4C6.4 13.6 6.2 6.5 12 6.5s5.6 7.1 3.6 9H21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-7" viewBox="0 0 24 24"><path d="M3 6.5c1.2-1.5 2.6-.8 2.6 1V18M5.6 8c0-3 4-3 4 0v10M9.6 8c0-3 4-3 4 0v9c0 1.8 1.6 2.6 3.4 1.8L21 16M21 16h-3.4M21 16v3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-8" viewBox="0 0 24 24"><path d="M4 20 20 4M12.5 4H20v7.5M7.5 11.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-9" viewBox="0 0 24 24"><path d="M3 5.5 6.2 16 9.4 5.5c.8-1.6 3-1.4 3 .8V17c0 2.8 3.4 3.8 5.6 2.2 2-1.5 1.6-5.4-1.4-5.4-2.6 0-3.6 3-5.2 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-10" viewBox="0 0 24 24"><path d="M3 10l3-3 3 3 3-3 3 3 3-3 3 3M3 17l3-3 3 3 3-3 3 3 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rs-11" viewBox="0 0 24 24"><path d="M5 3.5c5 4.4 5 12.6 0 17M19 3.5c-5 4.4-5 12.6 0 17M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+
+  <!-- UI icons -->
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 7.5v6M12 17h.01" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.6 6.2 6.6.5-5 4.4 1.5 6.5L12 17l-5.7 3.4 1.5-6.5-5-4.4 6.6-.5z" fill="currentColor"/></symbol>
+  <symbol id="i-yoga" viewBox="0 0 24 24"><path d="M12 3l2.2 5.3L20 9l-4.4 3.8L17 18.5 12 15.5 7 18.5l1.4-5.7L4 9l5.8-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="11.5" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-rise" viewBox="0 0 24 24"><path d="M3 19h18M6 15.5a6 6 0 0 1 12 0M12 3v6M9 6l3-3 3 3M3.5 12.5l1.5.8M20.5 12.5l-1.5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-set" viewBox="0 0 24 24"><path d="M3 19h18M6 15.5a6 6 0 0 1 12 0M12 3v6M9 6l3 3 3-3M3.5 12.5l1.5.8M20.5 12.5l-1.5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M7 8.5a3.5 3.5 0 1 0 0 7c4 0 6-7 10-7a3.5 3.5 0 1 1 0 7c-4 0-6-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5M12 7.6h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="logo" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="none" stroke="#D3971C" stroke-width="1.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="#2A2E7C" stroke-width="1"/>
+    <path d="M20 1.5 22.2 16 20 20 17.8 16zM20 38.5 17.8 24 20 20 22.2 24zM1.5 20 16 17.8 20 20 16 22.2zM38.5 20 24 22.2 20 20 24 17.8z" fill="#D3971C"/><path d="M7 7 17.5 17.5M33 33 22.5 22.5M33 7 22.5 17.5M7 33 17.5 22.5" stroke="#2A2E7C" stroke-width="1"/><circle cx="20" cy="20" r="3.2" fill="#2A2E7C"/></symbol>
+</svg>
