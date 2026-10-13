@@ -18,7 +18,7 @@ async function load() {
   const year = +ySel.value, city = cc.city, tz = cc.offset(year, 6, 1), my = ++seqC;
   $('#calbox').innerHTML = `<div class="card" style="padding:40px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('cal.computing'))}</p></div>`;
   try {
-    const data = await api(`/api/calendar?year=${year}&lat=${city.lat.toFixed(3)}&lon=${city.lon.toFixed(3)}&tz=${tz}`);
+    const data = await api(`/api/calendar/?year=${year}&lat=${city.lat.toFixed(3)}&lon=${city.lon.toFixed(3)}&tz=${tz}`);
     if (my !== seqC) return;
     events = data.events; loadedTz = tz; draw();
   } catch (e) { $('#calbox').innerHTML = `<p class="err">${esc(t('err.server'))}</p>`; }

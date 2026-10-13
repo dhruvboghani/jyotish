@@ -227,7 +227,7 @@ function authModal(mode, featureKey) {
       // 1) Instant account (already confirmed) through our server, then log straight in.
       let direct = null;
       try {
-        const r = await fetch('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, name: fullName, lang: LANG }) });
+        const r = await fetch('/api/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, name: fullName, lang: LANG }) });
         direct = { status: r.status, data: await r.json().catch(() => ({})) };
       } catch (e) { }
       if (direct && direct.status === 200) {
@@ -408,7 +408,7 @@ if ($('#histbtn')) $('#histbtn').addEventListener('click', historyModal);
 async function saveTrialChart(s) {
   const trial = store.get('kg-trial'); store.del('kg-trial');
   if (!trial || !s) return;
-  try { await fetch('/api/kundali', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token }, body: JSON.stringify(trial) }); } catch (e) { }
+  try { await fetch('/api/kundali/', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token }, body: JSON.stringify(trial) }); } catch (e) { }
 }
 
 // ---------- Admin panel (accounts listed in public.admins) ----------

@@ -13,7 +13,7 @@ async function loadR() {
   const my = ++seqR, box = $('#rbox');
   box.innerHTML = '<div class="card" style="padding:40px;text-align:center"><span class="spin"></span></div>';
   try {
-    const data = await api('/api/rashifal?date=' + rDate.value);
+    const data = await api('/api/rashifal/?date=' + rDate.value);
     if (my !== seqR) return;
     const [y, m, d] = data.date.split('-').map(Number);
     $('#r-when').textContent = longDateFmt.format(new Date(Date.UTC(y, m - 1, d)));

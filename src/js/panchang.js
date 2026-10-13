@@ -14,7 +14,7 @@ async function load() {
   const [y, m, d] = pDate.value.split('-').map(Number), city = cp.city, tz = cp.offset(y, m, d), my = ++seq;
   const box = $('#pbox'); box.innerHTML = '<div class="card" style="padding:40px;text-align:center"><span class="spin"></span></div>';
   try {
-    const data = await api(`/api/panchang?y=${y}&m=${m}&d=${d}&lat=${city.lat.toFixed(4)}&lon=${city.lon.toFixed(4)}&tz=${tz}`);
+    const data = await api(`/api/panchang/?y=${y}&m=${m}&d=${d}&lat=${city.lat.toFixed(4)}&lon=${city.lon.toFixed(4)}&tz=${tz}`);
     if (my !== seq) return;
     render(data, tz, city);
   } catch (e) { box.innerHTML = `<p class="err">${esc(t('err.server'))}</p>`; }

@@ -11,7 +11,7 @@ $('#muform').addEventListener('submit', async e => {
   const people = [p1, p2].map(s => s.value !== '' && rowsM[+s.value] ? rowsM[+s.value].birth : null).filter(Boolean);
   const box = $('#mures'); box.innerHTML = `<div class="card" style="padding:30px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('mu.searching'))}</p></div>`;
   try {
-    const r = await api('/api/muhurta', { method: 'POST', body: JSON.stringify({ purpose: mPurpose.value, from: mFrom.value, days: +mDays.value, lat: city.lat, lon: city.lon, tz, people }) });
+    const r = await api('/api/muhurta/', { method: 'POST', body: JSON.stringify({ purpose: mPurpose.value, from: mFrom.value, days: +mDays.value, lat: city.lat, lon: city.lon, tz, people }) });
     drawM(r, tz, city, people);
   } catch (err) { box.innerHTML = `<p class="err">${esc(err.status === 401 ? t('members.lockText') : t('err.server'))}</p>`; if (err.status === 401) requireLogin('muhurta'); }
 });

@@ -21,7 +21,7 @@ async function drawPush() {
   const on = $('#push-on'), off = $('#push-off'), test = $('#push-test');
   if (on) on.onclick = enablePush;
   if (off) off.onclick = async () => { const s = await currentSub(); if (s) { await sb.from('push_subscriptions').delete().eq('endpoint', s.endpoint); await s.unsubscribe(); } pushOn = false; await saveSettings({ reminders: collect() }); drawPush(); toast(t('st.saved')); };
-  if (test) test.onclick = async () => { try { const r = await api('/api/push-test', { method: 'POST', body: '{}' }); toast(r.sent ? t('st.pushSent') : t('st.pushNone')); } catch (e) { toast(e.status === 503 ? t('st.pushNotReady') : t('err.server')); } };
+  if (test) test.onclick = async () => { try { const r = await api('/api/push-test/', { method: 'POST', body: '{}' }); toast(r.sent ? t('st.pushSent') : t('st.pushNone')); } catch (e) { toast(e.status === 503 ? t('st.pushNotReady') : t('err.server')); } };
 }
 async function enablePush() {
   try {
@@ -37,7 +37,7 @@ async function enablePush() {
     toast(t('st.saved')); drawPush();
   } catch (e) { toast(e.message || t('err.server')); }
 }
-const feedUrl = tok => `${location.origin}/api/ics?t=${tok}`;
+const feedUrl = tok => `${location.origin}/api/ics/?t=${tok}`;
 function showFeed(tok) {
   const box = $('#feedbox');
   if (!tok) { box.innerHTML = `<button class="btn-cta" type="button" id="mkfeed">${esc(t('st.feedMake'))}</button>`; $('#mkfeed').onclick = makeFeed; return; }

@@ -218,14 +218,14 @@ async function shareChart(input) {
   openModal(`<h2>${esc(t('share.title'))}</h2><p class="muted">${esc(t('share.lede'))}</p><div id="sharebox"><span class="spin"></span></div>`);
   try {
     const { log, lang, save, ...birth } = input;
-    const { token } = await api('/api/share', { method: 'POST', body: JSON.stringify(birth) });
+    const { token } = await api('/api/share/', { method: 'POST', body: JSON.stringify(birth) });
     const link = `${location.origin}${HOME}share/?t=${token}`;
     const wa = 'https://wa.me/?text=' + encodeURIComponent(t('share.waText', { n: input.name || t('res.defaultName') }) + ' ' + link);
     $('#sharebox').innerHTML = `<div class="sharelink"><input id="sharelink" type="text" readonly value="${esc(link)}" aria-label="${esc(t('share.link'))}"><button class="btn-cta" type="button" id="copylink">${esc(t('share.copy'))}</button></div>
       <div class="share-actions"><a class="btn-line" href="${esc(wa)}" target="_blank" rel="noopener">${ic('i-whatsapp')}${esc(t('share.whatsapp'))}</a><button class="linkbtn" type="button" id="revoke">${esc(t('share.revoke'))}</button></div>
       <p class="muted small">${esc(t('share.note'))}</p>`;
     $('#copylink').onclick = async () => { const el = $('#sharelink'); try { await navigator.clipboard.writeText(link); toast(t('share.copied')); } catch (e) { el.select(); } };
-    $('#revoke').onclick = async () => { try { await api('/api/share?t=' + token, { method: 'DELETE' }); closeModal(); toast(t('share.revoked')); } catch (e) { toast(e.message); } };
+    $('#revoke').onclick = async () => { try { await api('/api/share/?t=' + token, { method: 'DELETE' }); closeModal(); toast(t('share.revoked')); } catch (e) { toast(e.message); } };
   } catch (e) {
     $('#sharebox').innerHTML = `<p class="err">${esc(e.message === 'login_required' ? t('members.lockText') : t('share.error'))}</p>`;
   }

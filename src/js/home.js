@@ -14,12 +14,13 @@ async function run(input, opts = {}) {
   try {
     const body = { ...input, log: !!(opts.log && session), lang: LANG };
     if (opts.save === false) body.save = false;
-    const data = await api('/api/kundali', { method: 'POST', body: JSON.stringify(body) });
+    const data = await api('/api/kundali/', { method: 'POST', body: JSON.stringify(body) });
     if (data.trial) store.set('kg-trial', input);
     if (opts.log && !session) addLocalHistory(input, data);
     if (data.locked) renderPreview(data); else { renderFull(data); if (data.saved && !opts.silent) toast(t('saved.saved')); }
     if (opts.scroll) setTimeout(() => { const r = $('#report'); if (r) r.scrollIntoView({ behavior: 'smooth' }); }, 80);
   } catch (e) {
+    console.error('kundali failed', e);
     $('#err').textContent = e.status === 429 ? t('err.busy') : e.status === 400 && e.data && e.data.error ? e.data.error : t('err.server');
   } finally { btn.removeAttribute('aria-busy'); btn.textContent = label; }
 }

@@ -23,7 +23,7 @@ async function run() {
   if (from.dataset.birth) body.birth = JSON.parse(from.dataset.birth);
   else { body.nak = +nkSel.value; if (padaSel.value) body.pada = +padaSel.value; if (y) Object.assign(body, { year: y, month: m, day: d }); }
   if (from.dataset.birth && !padaSel.value) body.allPadas = false;
-  try { lastN = await api('/api/names', { method: 'POST', body: JSON.stringify(body) }); if (from.dataset.birth) { nkSel.value = lastN.nak; fillPadas(); padaSel.value = lastN.pada || ''; } draw(lastN); }
+  try { lastN = await api('/api/names/', { method: 'POST', body: JSON.stringify(body) }); if (from.dataset.birth) { nkSel.value = lastN.nak; fillPadas(); padaSel.value = lastN.pada || ''; } draw(lastN); }
   catch (e) { box.innerHTML = `<p class="err">${esc(e.status === 401 ? t('members.lockText') : t('err.server'))}</p>`; if (e.status === 401) requireLogin('names'); }
 }
 function draw(r) {

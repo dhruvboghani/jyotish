@@ -45,7 +45,7 @@ $('#mform').addEventListener('submit', async e => {
   store.set('kg-match', { boy, girl });
   const btn = $('#m-go'), label = btn.textContent;
   btn.setAttribute('aria-busy', 'true'); btn.innerHTML = `<span class="spin"></span>${esc(t('form.working'))}`;
-  try { renderMatch(await api('/api/match', { method: 'POST', body: JSON.stringify({ boy, girl }) })); setTimeout(() => $('#mres').scrollIntoView({ behavior: 'smooth' }), 80); }
+  try { renderMatch(await api('/api/match/', { method: 'POST', body: JSON.stringify({ boy, girl }) })); setTimeout(() => $('#mres').scrollIntoView({ behavior: 'smooth' }), 80); }
   catch (err) { er.textContent = err.status === 401 ? t('members.lockText') : err.data && err.data.error ? err.data.error : t('err.server'); if (err.status === 401) requireLogin('matching'); }
   finally { btn.removeAttribute('aria-busy'); btn.textContent = label; }
 });

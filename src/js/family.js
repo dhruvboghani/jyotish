@@ -8,7 +8,7 @@ async function loadFamily() {
   const order = r => { const i = RELATIONS.indexOf(r.relation); return i < 0 ? 99 : i; };
   rows.sort((a, b) => order(a) - order(b));
   try {
-    const data = await api('/api/family', { method: 'POST', body: JSON.stringify({ births: rows.map(r => ({ ...r.birth, id: r.id, relation: r.relation || undefined })) }) });
+    const data = await api('/api/family/', { method: 'POST', body: JSON.stringify({ births: rows.map(r => ({ ...r.birth, id: r.id, relation: r.relation || undefined })) }) });
     const now = data.at, byId = Object.fromEntries(rows.map(r => [r.id, r]));
     box.innerHTML = `<div class="fam-grid">${data.members.map(m => {
       const tz = m.birth.tzMinutes, ss = m.sadeSati;
