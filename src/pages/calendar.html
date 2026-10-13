@@ -1,0 +1,10 @@
+<main class="wrap page">
+  <div class="page-hero"><p class="eyebrow">{{cal.eye}}</p><h1>{{cal.title}}</h1><p class="lede">{{cal.lede}}</p></div>
+  <div class="card toolbar">
+    <div class="field"><label for="y-sel">{{cal.year}}</label><select id="y-sel"></select></div>
+    <!--CITY-->
+    <div class="seg" role="group" id="cal-filter" aria-label="{{cal.filter}}"><button type="button" data-f="all" aria-pressed="true">{{cal.f.all}}</button><button type="button" data-f="festival" aria-pressed="false">{{cal.f.festival}}</button><button type="button" data-f="vrat" aria-pressed="false">{{cal.f.vrat}}</button></div>
+  </div>
+  <div id="calbox"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

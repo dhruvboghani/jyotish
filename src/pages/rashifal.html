@@ -1,0 +1,10 @@
+<main class="wrap page">
+  <div class="page-hero"><p class="eyebrow">{{rf.eye}}</p><h1>{{rf.title}}</h1><p class="lede">{{rf.lede}}</p></div>
+  <div class="card toolbar">
+    <div class="seg" role="group" id="r-tabs" aria-label="{{rf.date}}"><button type="button" data-n="-1" aria-pressed="false">{{rf.yesterday}}</button><button type="button" data-n="0" aria-pressed="true">{{rf.today}}</button><button type="button" data-n="1" aria-pressed="false">{{rf.tomorrow}}</button></div>
+    <div class="field"><label for="r-date">{{rf.date}}</label><input id="r-date" type="date"></div>
+    <p class="r-when"><b id="r-when"></b></p>
+  </div>
+  <div id="rbox"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="{{meta.htmlLang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--HEAD-->
+<link rel="stylesheet" href="/assets/styles.css?v={{build}}">
+</head>
+<body class="page-<!--PAGEID-->">
+<!--SPRITE-->
+
+<header class="topbar">
+  <div class="wrap">
+    <button class="navbtn" type="button" id="navbtn" aria-controls="drawer" aria-expanded="false" aria-label="{{nav.menu}}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    <a class="brand" href="{{home}}" aria-label="{{brand.name}}"><svg><use href="#logo"/></svg><span><b>{{brand.name}}</b> <small lang="sa">कुण्डली गणित</small></span></a>
+    <nav class="topnav" aria-label="{{nav.sections}}"><!--NAV--></nav>
+    <div class="actions">
+      <label class="lang"><span class="sr" hidden>{{nav.language}}</span><select id="lang" aria-label="{{nav.language}}"><!--LANGOPTS--></select></label>
+      <button class="btn-line histbtn" type="button" id="histbtn" aria-label="{{nav.history}}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg><span>{{nav.history}}</span></button>
+      <span id="authslot"><button class="btn-line" type="button" data-auth="login">{{nav.login}}</button></span>
+      <a class="btn-cta newk" href="<!--NEWHREF-->">{{nav.new}}</a>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" hidden><nav class="drawer-in" aria-label="{{nav.sections}}"><!--NAV--></nav></div>
+
+<!--BODY-->
+
+<footer class="wrap">
+  <div class="brand"><svg><use href="#logo"/></svg><b>{{brand.name}}</b></div>
+  <nav class="footnav" aria-label="{{nav.sections}}"><!--NAV--><a href="{{home}}privacy/">{{legal.privacyTitle}}</a><a href="{{home}}terms/">{{legal.termsTitle}}</a></nav>
+  <p>{{footer.text}}</p>
+  <p style="margin-top:8px"><!--LANGLINKS--></p>
+</footer>
+
+<div id="modal"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="/config.js?v={{build}}"></script>
+<!--SCRIPTS-->
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

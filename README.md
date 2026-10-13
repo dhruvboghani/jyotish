@@ -1,11 +1,11 @@
-# Kundali Ganit v2
+# Kundali Ganit v3
 
 Vedic Kundali site with Supabase login, a login-gated full report, saved charts, six languages and SEO pages.
 
 ## How it fits together
 
 ```
-Browser (public/<lang>/index.html + assets/app.js)
+Browser (public/<lang>/<page>/index.html + assets/<page>.js)
    │  POST /api/kundali  { birth details }  + Authorization: Bearer <supabase access token, if logged in>
    ▼
 Vercel function api/kundali.js
@@ -20,12 +20,17 @@ All astronomy runs on the server (`lib/engine.js`, `lib/analysis.js`, `lib/repor
 
 | Path | Purpose |
 |---|---|
-| `api/kundali.js` | Serverless endpoint: verifies the Supabase JWT, gates the response, saves the chart |
-| `lib/` | Calculation engine, rule-based analysis, report builder |
-| `src/` | Page template, styles, client app, illustration sprite, birth-place list |
+| `api/kundali.js` | Serverless endpoint: verifies the Supabase JWT, gates the response, saves the chart (members also get vargas, upcoming events and birth-time sensitivity) |
+| `api/panchang.js`, `api/calendar.js`, `api/rashifal.js` | Free, cached: daily panchang, yearly festival calendar, daily rashifal |
+| `api/match.js` | Ashtakoot Guna Milan (login required) |
+| `api/share.js` | Private share links for a Kundali (create/revoke needs login; anyone with the link can view) |
+| `lib/` | Calculation engine, analysis, report builder, `varga.js`, `panchang.js`, `match.js`, `rashifal.js`, shared `server.js` helpers |
+| `src/` | `layout.html` (header/footer), `pages/*.html` (page bodies), `js/*.js` (core + per-page scripts, bundled by `build.js`), styles, sprite, birth places |
 | `locales/*.json` | Translations: `en` `hi` `gu` `ta` `te` `kn`. `_sanskrit.json` holds Sanskrit terms that are transliterated automatically |
-| `build.js` | Generates `/`, `/hi/`, `/gu/`, `/ta/`, `/te/`, `/kn/` with per-language SEO tags, JSON-LD, sitemap and robots |
-| `supabase/schema.sql` | Table + Row Level Security policies |
+| `build.js` | Generates every page in all six languages (home, matching, panchang, calendar, rashifal, share, privacy, terms and 120 Learn pages each) with SEO tags, JSON-LD, sitemap and robots |
+| `locales/add/*.js` | Source for the v3 strings; `node locales/add/merge.js en hi gu ta te kn` merges them into the JSON files |
+| `supabase/schema.sql` | All tables + Row Level Security policies (run once on a new project) |
+| `supabase/v3_features.sql` | Upgrade for existing projects: `relation` column, share links table and `get_shared_kundali()` |
 
 ## 1. Supabase
 
@@ -36,7 +41,7 @@ All astronomy runs on the server (`lib/engine.js`, `lib/analysis.js`, `lib/repor
    - Redirect URLs: `https://your-domain.com/**`, plus `https://*-your-team.vercel.app/**` for preview deploys and `http://localhost:3000/**` for local dev.
 4. **Authentication → Providers**
    - Email: turn **off** "Confirm email" so registration logs users in immediately with no verification mail.
-   - Google (optional): create an OAuth client in Google Cloud, set its redirect URI to `https://<project-ref>.supabase.co/auth/v1/callback`, then paste the client ID and secret here. If you skip this, hide the Google button in `src/app.js` (`authModal`).
+   - Google (optional): create an OAuth client in Google Cloud, set its redirect URI to `https://<project-ref>.supabase.co/auth/v1/callback`, then paste the client ID and secret here. If you skip this, hide the Google button in `src/js/core.js` (`authModal`).
 5. **Project Settings → API**: copy the Project URL and the `anon` public key.
 
 ## 2. Vercel
@@ -44,7 +49,8 @@ All astronomy runs on the server (`lib/engine.js`, `lib/analysis.js`, `lib/repor
 1. Replace the old files in your repo with this project and push.
 2. **Settings → Environment Variables** (Production, Preview and Development):
    - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
+   - `SUPABASE_PUBLISHABLE_KEY` (the `sb_publishable_…` key; never the secret key)
+   - `FREE_TRIAL_SECRET`, any long random string, used to sign the free-trial cookie
    - `SITE_URL`, your live domain without a trailing slash. This is used in canonical, hreflang, sitemap and og:image URLs.
 3. Redeploy. `vercel.json` sets the build command (`npm run build`), the output folder (`public`) and no framework preset. If the project settings override these, clear the overrides.
 
@@ -60,7 +66,7 @@ npx vercel dev
 
 - Each language has its own URL and fully translated HTML: title, description, hero, features, about and FAQ. Search engines index each one separately.
 - Each page includes `hreflang` alternates and `x-default`, a canonical URL, Open Graph and Twitter tags, and JSON-LD for WebApplication, FAQPage and WebSite.
-- `sitemap.xml` lists all six URLs with alternates; `robots.txt` blocks `/api/`.
+- `sitemap.xml` lists every page in all six languages with alternates; `robots.txt` blocks `/api/` and `/share/` (shared charts are also `noindex`).
 - After the first deploy: add the domain in Google Search Console, submit `https://your-domain.com/sitemap.xml`, and request indexing for the six language URLs.
 - Google currently shows FAQ rich results mostly for government and health sites. The FAQ schema still helps search engines understand the page, and the visible FAQ text targets long-tail queries such as "manglik dosha kya hai".
 
@@ -86,6 +92,14 @@ npx vercel dev
 - Optional env var `FREE_TRIAL_SECRET` (any long random string) signs the cookie. Set it in Vercel.
 - After signup, the free chart is copied into the new account automatically.
 - Clearing cookies or using a private window gives another free chart. That is the practical limit of anonymous trials; add per-IP rate limiting if abuse appears.
+
+## Free and members-only features
+
+Everything is free. Some features need a (free) account:
+
+| Free without login | Free with login |
+|---|---|
+| First Kundali (full report), Panchang, festival calendar, Rashifal, Learn pages, opening a shared link | Unlimited Kundalis saved to "My Kundalis" with family relations, divisional charts D2–D12, upcoming events timeline, birth-time sensitivity, pratyantar dashas, Kundali matching, share links, PDF download |
 
 ## 5. Admin
 
