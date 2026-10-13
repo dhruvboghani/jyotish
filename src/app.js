@@ -687,7 +687,7 @@ function renderAuthSlot() {
   if (!session) { slot.innerHTML = `<button class="btn-line" type="button" data-auth="login">${esc(t('nav.login'))}</button>`; return; }
   const u = session.user, nm = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email;
   slot.innerHTML = `<span class="user"><button type="button" id="userbtn" aria-haspopup="true" aria-expanded="false"><span class="av">${esc(String(nm).charAt(0).toUpperCase())}</span><span class="nm">${esc(nm)}</span></button>
-    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-cal')}${esc(t('nav.myCharts'))}</button>${isAdmin ? `<button type="button" data-menu="admin">${ic('i-lock')}${esc(t('admin.title'))}</button>` : ''}<button type="button" data-menu="logout">${ic('i-chev')}${esc(t('nav.logout'))}</button></div></span>`;
+    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-cal')}${esc(t('nav.myCharts'))}</button>${isAdmin ? `<button type="button" data-menu="admin">${ic('i-shield')}${esc(t('admin.title'))}</button>` : ''}<button type="button" data-menu="logout">${ic('i-logout')}${esc(t('nav.logout'))}</button></div></span>`;
   const btn = $('#userbtn'), menu = $('#usermenu');
   btn.onclick = () => { menu.hidden = !menu.hidden; btn.setAttribute('aria-expanded', String(!menu.hidden)); };
   document.addEventListener('click', e => { if (!e.target.closest('.user')) menu.hidden = true; });
