@@ -114,7 +114,9 @@
   "b5": "Panchang, bhavas, Ashtakavarga and today's transits",
   "login": "Log in",
   "signup": "Sign up free",
-  "free": "Free · your charts are saved privately to your account"
+  "free": "Free · your charts are saved privately to your account",
+  "usedTitle": "Create a free account to continue",
+  "usedText": "Your free Kundali has been used on this device. Sign up in a few seconds, with no email verification, to make Kundalis for anyone and save them all:"
  },
  "saved": {
   "title": "My Kundalis",
@@ -1003,7 +1005,7 @@
   },
   {
    "q": "Why do I need to log in, and is my data private?",
-   "a": "Logging in is free. It lets you see the full Kundali and saves each chart to your account so you can open it later. Your charts are stored with row-level security, so only you can read them."
+   "a": "Your first Kundali is free with no account. To make more Kundalis, create a free account. It takes a few seconds and needs no email verification. Each chart is saved to your account so you can open it later, with row-level security so only you can read it."
   }
  ],
  "footer": {
@@ -1027,5 +1029,10 @@
   "confirmed": "Confirmed",
   "pending": "Not confirmed",
   "none": "Nothing here yet."
+ },
+ "trial": {
+  "title": "Your free Kundali",
+  "text": "Your first Kundali is free. To make Kundalis for family and friends and keep them saved, create a free account.",
+  "cta": "Create free account"
  }
 }

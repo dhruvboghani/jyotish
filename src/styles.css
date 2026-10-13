@@ -467,3 +467,11 @@ footer .brand { justify-content: center; margin-bottom: 8px; }
 .admin-body { max-height: 52vh; overflow: auto; }
 .admin-body table th, .admin-body table td { text-align: left; }
 .admin-body input[type=search] { width: 100%; }
+
+/* Free-trial banner */
+.trial-banner { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; padding: 16px 20px; border-radius: 16px; background: linear-gradient(120deg, var(--gold-softer), #fff); border: 1px solid #F0DDB0; box-shadow: var(--shadow); }
+.trial-banner .ic { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 12px; background: var(--gold-soft); color: var(--gold-deep); }
+.trial-banner .ic svg { width: 22px; height: 22px; }
+.trial-banner div { flex: 1; min-width: 220px; }
+.trial-banner b { font-size: 16.5px; }
+.trial-banner p { color: var(--ink-2); font-size: 14.5px; }

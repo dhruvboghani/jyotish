@@ -9,7 +9,9 @@ Browser (public/<lang>/index.html + assets/app.js)
    │  POST /api/kundali  { birth details }  + Authorization: Bearer <supabase access token, if logged in>
    ▼
 Vercel function api/kundali.js
-   ├─ no / invalid token → preview only: Lagna, Moon sign, Nakshatra
+   ├─ no token, first chart in this browser → full report (free trial), signed httpOnly cookie `kg_free` set for 5 years
+   ├─ no token, same chart again later      → full report (the free chart can always be reopened)
+   ├─ no token, any other birth details     → preview only + "create a free account" gate
    └─ valid token        → full report (charts, grahas, yogas, dasha, panchang, bhavas, ashtakavarga, gochar)
                            and upserts the birth details into Supabase table `kundalis` (RLS: owner only)
 ```
@@ -33,7 +35,7 @@ All astronomy runs on the server (`lib/engine.js`, `lib/analysis.js`, `lib/repor
    - Site URL: `https://your-domain.com`
    - Redirect URLs: `https://your-domain.com/**`, plus `https://*-your-team.vercel.app/**` for preview deploys and `http://localhost:3000/**` for local dev.
 4. **Authentication → Providers**
-   - Email is on by default. Keep "Confirm email" on; the site tells users to check their inbox.
+   - Email: turn **off** "Confirm email" so registration logs users in immediately with no verification mail.
    - Google (optional): create an OAuth client in Google Cloud, set its redirect URI to `https://<project-ref>.supabase.co/auth/v1/callback`, then paste the client ID and secret here. If you skip this, hide the Google button in `src/app.js` (`authModal`).
 5. **Project Settings → API**: copy the Project URL and the `anon` public key.
 
@@ -69,6 +71,13 @@ npx vercel dev
 - Yoga, karana, Avakahada values, house names and name syllables come from `locales/_sanskrit.json`. They are transliterated automatically into Gujarati, Telugu and Kannada (one-to-one script mapping) and into Tamil (approximate mapping). A locale can override any of these lists.
 - Hindi and Gujarati are ready to use. Have a native speaker review Tamil, Telugu and Kannada before launch, especially regional terms.
 - To add a language: create `locales/xx.json`, add `xx` to `LANGS` in `build.js`, and add a font in `FONTS`.
+
+## Free trial
+
+- One full Kundali per browser without an account. The server remembers it in a signed, httpOnly cookie, so returning days or months later still shows that chart, and a different birth asks for login.
+- Optional env var `FREE_TRIAL_SECRET` (any long random string) signs the cookie. Set it in Vercel.
+- After signup, the free chart is copied into the new account automatically.
+- Clearing cookies or using a private window gives another free chart. That is the practical limit of anonymous trials; add per-IP rate limiting if abuse appears.
 
 ## 5. Admin
 

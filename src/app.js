@@ -241,7 +241,7 @@ function profileHtml(input, utMs, lagna, moon, extraFacts) {
 
 // ---------- Preview (logged out) ----------
 function renderPreview(data) {
-  const { input, preview: pv } = data;
+  const { input, preview: pv } = data, used = data.reason === 'trial_used';
   drawWheel({ ascLon: pv.lagna.sign * 30 + pv.lagna.deg, lagnaSign: pv.lagna.sign, planets: [] });
   const benefits = ['b1', 'b2', 'b3', 'b4', 'b5'].map(k => `<li>${ic('i-check')}<span>${esc(t('gate.' + k))}</span></li>`).join('');
   const mock = ['Sun', 'Jupiter', 'Saturn'].map(n => `<div class="m">${g(n)}<div class="ln"></div><div class="ln s"></div><div class="ln g"></div><div class="ln b"></div><div class="ln"></div></div>`).join('');
@@ -249,10 +249,11 @@ function renderPreview(data) {
     <div style="margin-top:28px"><span class="preview-badge">${ic('i-info')}${esc(t('gate.preview'))}</span></div>
     ${profileHtml(input, pv.utMs, pv.lagna, pv.moon, {})}
     <div class="gate reveal"><div class="mock" aria-hidden="true">${mock}${mock}</div>
-      <div class="over"><div class="panel"><div class="lock">${ic('i-lock')}</div><h3>${esc(t('gate.title'))}</h3><p>${esc(t('gate.text'))}</p><ul>${benefits}</ul>
+      <div class="over"><div class="panel"><div class="lock">${ic('i-lock')}</div><h3>${esc(t(used ? 'gate.usedTitle' : 'gate.title'))}</h3><p>${esc(t(used ? 'gate.usedText' : 'gate.text'))}</p><ul>${benefits}</ul>
         <div class="btns"><button class="btn-cta go" type="button" data-auth="signup" style="grid-column:auto">${esc(t('gate.signup'))}</button><button class="btn-line" type="button" data-auth="login">${esc(t('gate.login'))}</button></div>
         <small>${esc(t('gate.free'))}</small></div></div></div>`;
   observeReveals();
+  if (used && sb) setTimeout(() => authModal('signup'), 700);
 }
 
 // ---------- Full report (logged in) ----------
@@ -350,7 +351,9 @@ function renderFull(data) {
   const dashaFact = `<div class="fact"><span class="ic">${md ? g(md.lord) : ''}</span><div><dt>${esc(t('res.dasha'))}</dt><dd>${md ? `${esc(gn(md.lord))} / ${esc(gn(ad.lord))}` : '—'}<span>${ad ? esc(t('res.until', { d: fDate(ad.end, tz) })) : ''}</span></dd></div></div>`;
   const sec = (id, k, body, right = '', lede) => `<section id="${id}"><div class="sec-head"><div><p class="eyebrow">${esc(t('sec.' + k + '.eye'))}</p><h2>${esc(t('sec.' + k + '.title'))}</h2><p class="lede">${lede !== undefined ? lede : esc(t('sec.' + k + '.lede'))}</p></div>${right}</div>${body}</section>`;
 
+  const trialBanner = data.trial && !session ? `<div class="trial-banner reveal"><span class="ic">${ic('i-star')}</span><div><b>${esc(t('trial.title'))}</b><p>${esc(t('trial.text'))}</p></div><button class="btn-cta" type="button" data-auth="signup">${esc(t('trial.cta'))}</button></div>` : '';
   $('#results').innerHTML = `
+  ${trialBanner}
   ${profileHtml(input, c.utMs, c.lagna, P.Moon, { llHouse: P[SIGN_LORD[c.lagna.sign]].house, dasha: dashaFact })}
   <nav class="jump-nav" aria-label="${esc(t('nav.sections'))}" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:18px">${['highlights', 'charts', 'grahas', 'yogas', 'dasha', 'panchang', 'bhavas', 'gochar'].map(k => `<a class="tag" style="text-decoration:none;font-size:14px;padding:6px 12px" href="#${k}">${esc(t('nav.' + k))}</a>`).join('')}</nav>
   ${sec('highlights', 'hl', `<div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${esc(t('sec.hl.nGood', { n: an.good.length }))}</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${esc(t('sec.hl.nBad', { n: an.bad.length }))}</span></div></div>
@@ -407,6 +410,7 @@ async function run(input, opts = {}) {
     const res = await fetch('/api/kundali', { method: 'POST', headers, body: JSON.stringify(input) });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
+    if (data.trial) { try { localStorage.setItem('kg-trial', JSON.stringify(input)); } catch (e) { } }
     if (data.locked) renderPreview(data); else { renderFull(data); if (data.saved && !opts.silent) toast(t('saved.saved')); }
     if (opts.scroll) setTimeout(() => $('#results').scrollIntoView({ behavior: 'smooth' }), 80);
   } catch (e) {
@@ -522,6 +526,14 @@ async function savedModal() {
   });
 }
 
+// The free chart made before signing up is copied into the new account once.
+async function saveTrialChart(s) {
+  let trial = null;
+  try { trial = JSON.parse(localStorage.getItem('kg-trial') || 'null'); localStorage.removeItem('kg-trial'); } catch (e) { }
+  if (!trial || !s) return;
+  try { await fetch('/api/kundali', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token }, body: JSON.stringify(trial) }); } catch (e) { }
+}
+
 // ---------- Admin panel (users listed in public.admins) ----------
 async function checkAdmin() {
   isAdmin = false;
@@ -624,6 +636,7 @@ if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offA
     sb.auth.onAuthStateChange((event, s) => {
       const was = !!session; session = s; renderAuthSlot(); checkAdmin().then(renderAuthSlot);
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
+      if (event === 'SIGNED_IN' && !was) saveTrialChart(s);
       if (event === 'SIGNED_IN' && !was && lastInput) { closeModal(); run(lastInput, { silent: false }); }
       if (event === 'SIGNED_OUT' && lastInput) run(lastInput, { silent: true });
     });
