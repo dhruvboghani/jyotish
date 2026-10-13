@@ -847,10 +847,6 @@ h3.grp small { color: var(--ink-3); font-weight: 500; }
   a { text-decoration: none; }
 }
 /* Header fit: icons go first, then the history label, then the whole nav moves into the drawer */
-@media (max-width: 1320px) { .topnav a svg { display: none; } .topnav a { padding: 6px 9px; } }
-@media (max-width: 1240px) { .histbtn span { display: none; } .histbtn { padding: 8px 10px; } }
-@media (max-width: 1140px) { .topnav { display: none; } .navbtn { display: grid; } .topbar .actions { margin-left: auto; } }
-@media (max-width: 1500px) { .brand small { display: none; } }
 @media (max-width: 1440px) { .topbar .user > button span.nm { display: none; } .topbar .user > button { padding: 4px; } }
 /* Antardasha buttons + pratyantar list inside the dasha grid */
 .subgrid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
@@ -1032,3 +1028,25 @@ textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 4px
 .week li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
 .week li b { min-width: 64px; } .week li small { min-width: 54px; } .week li .stars { margin-right: auto; }
 .today-week, .today-main { min-width: 0; }
+
+/* ===== Header: full width; the menu never scrolls. core.js switches to the menu button when it would not fit. ===== */
+.topbar .wrap { max-width: none; padding-inline: clamp(16px, 2.4vw, 36px); }
+.topnav { overflow: visible; flex-wrap: nowrap; margin-inline: auto; }
+.brand { flex-shrink: 0; }
+.brand b { overflow: visible; text-overflow: clip; white-space: nowrap; }
+body.nav-tight .topnav a svg { display: none; }
+body.nav-tight .topnav a { padding: 6px 8px; }
+body.nav-tight .histbtn span { display: none; }
+body.nav-tight .histbtn { padding: 8px 10px; }
+body.nav-tight .topbar .user > button span.nm { display: none; }
+body.nav-tight .topbar .user > button { padding: 4px; }
+body.nav-collapsed .topnav { display: none; }
+body.nav-collapsed .navbtn { display: grid; }
+body.nav-collapsed .topbar .actions { margin-left: auto; }
+@media (max-width: 1440px) { .topbar .user > button span.nm { display: inline; } .topbar .user > button { padding: 4px 12px 4px 4px; } }
+@media (max-width: 560px) { .topbar .user > button span.nm { display: none; } .topbar .user > button { padding: 4px; } }
+@media (max-width: 440px) { .brand > span { display: none; } }
+.pushbox { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.pushbox .btn-cta { justify-self: start; } .pushbox .btn-cta svg { width: 18px; height: 18px; }
+.pushbox p { display: flex; gap: 8px; align-items: flex-start; } .pushbox p svg { width: 18px; height: 18px; flex: none; margin-top: 2px; }
+.push-on { color: var(--good); font-weight: 600; }

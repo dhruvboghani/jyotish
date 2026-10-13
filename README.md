@@ -100,13 +100,12 @@ Everything is free. Some features need a (free) account:
 
 | Free without login | Free with login |
 |---|---|
-| First Kundali (full report), Panchang, festival calendar, Rashifal, Learn pages, opening a shared link | Unlimited Kundalis saved to "My Kundalis" with family relations, divisional charts D2–D12, upcoming events, birth-time sensitivity, pratyantar dashas, Today for you (personal daily horoscope), life-area reports, remedies, private chart notes, Kundali matching (Ashtakoot + 10 Porutham + full compatibility report), baby names with numerology, Muhurta finder, family dashboard, share links, branded PDF, reminders (calendar feed, e-mail, WhatsApp) |
+| First Kundali (full report), Panchang, festival calendar, Rashifal, Learn pages, opening a shared link | Unlimited Kundalis saved to "My Kundalis" with family relations, divisional charts D2–D12, upcoming events, birth-time sensitivity, pratyantar dashas, Today for you (personal daily horoscope), life-area reports, remedies, private chart notes, Kundali matching (Ashtakoot + 10 Porutham + full compatibility report), baby names with numerology, Muhurta finder, family dashboard, share links, branded PDF, reminders (calendar feed and browser notifications) |
 
 ### Reminders
 
 - **Calendar feed** (works out of the box): Settings → "Create my calendar link" gives a private `/api/ics?t=…` link for Google Calendar, iPhone or Outlook, with festivals, vrats and transit alerts and a phone reminder the evening before.
-- **E-mail**: set `SUPABASE_SECRET_KEY`, `CRON_SECRET`, `RESEND_API_KEY` and `EMAIL_FROM` in Vercel. `vercel.json` runs `/api/cron-reminders` daily at 18:00 IST.
-- **WhatsApp**: needs a WhatsApp Business (Meta Cloud API) number with an approved template that has one `{{1}}` text variable; set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_ID`, `WHATSAPP_TEMPLATE`.
+- **Browser notifications**: run `supabase/v5_push.sql`, then set `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `SUPABASE_SECRET_KEY` and `CRON_SECRET` in Vercel and redeploy. Members turn them on in Settings; `vercel.json` runs `/api/cron-reminders` daily at 18:00 IST. On iPhone/iPad the site must first be added to the Home Screen.
 
 ## 5. Admin
 

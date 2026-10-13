@@ -105,6 +105,8 @@ ${ogLocales}
 <meta name="twitter:image" content="${SITE_URL}/og.png">
 <meta name="theme-color" content="#16173B">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -261,7 +263,7 @@ for (const [name, parts] of Object.entries(BUNDLES)) {
 for (const f of ['places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 
-fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY })};\n`);
+fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '' })};\n`);
 
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>

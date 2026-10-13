@@ -2206,12 +2206,27 @@
   "bWeb": "Website",
   "bAddr": "Address",
   "bLogo": "Logo (PNG or JPG)",
-  "bClear": "Remove logo"
+  "bClear": "Remove logo",
+  "pushLede": "Get a notification in this browser the evening before each reminder, and a week before big transits.",
+  "pushEnable": "Turn on browser notifications",
+  "pushOn": "Notifications are on for this browser.",
+  "pushOff": "Turn off for this browser",
+  "pushTest": "Send a test notification",
+  "pushSent": "Test notification sent",
+  "pushNone": "No browser is registered yet",
+  "pushDenied": "Notifications are blocked for this site. Allow them in your browser's site settings, then reload.",
+  "pushUnsupported": "This browser does not support notifications. Use Chrome, Edge, Firefox or Safari, or the calendar link below.",
+  "pushIos": "On iPhone and iPad: tap Share → Add to Home Screen, open the site from the home screen, then turn on notifications here.",
+  "pushNotReady": "Browser notifications are not set up on the server yet.",
+  "pushTestBody": "Notifications are working. You will be reminded the evening before."
  },
  "rem": {
   "mailSubject": "{n} reminder(s) from Kundali Ganit",
   "mailIntro": "Here is what is coming up:",
-  "mailFooter": "You get this because reminders are on in your Kundali Ganit settings. Turn them off there at any time."
+  "mailFooter": "You get this because reminders are on in your Kundali Ganit settings. Turn them off there at any time.",
+  "pushTitle": "Kundali Ganit reminder",
+  "tomorrow": "Tomorrow",
+  "nextWeek": "Next week"
  },
  "pr": {
   "passNote": "Rajju and Vedha both match, which is required in the South Indian system.",

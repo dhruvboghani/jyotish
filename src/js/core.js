@@ -81,6 +81,21 @@ if (navBtn && drawer) {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !drawer.hidden) setOpen(false); });
 }
 
+// Header fit: drop icons and labels first, then move the menu into the drawer — never a scrolling menu.
+function fitHeader() {
+  const bar = $('.topbar .wrap'), nav = $('.topnav'); if (!bar || !nav) return;
+  const cls = document.body.classList;
+  const over = () => bar.scrollWidth > bar.clientWidth + 1 || nav.scrollWidth > nav.clientWidth + 1 || [...bar.children].reduce((w, el) => w + (el.offsetParent ? el.getBoundingClientRect().width : 0), 0) > bar.clientWidth - 24;
+  cls.remove('nav-tight', 'nav-collapsed');
+  if (innerWidth <= 980) { cls.add('nav-collapsed'); return; }
+  if (over()) cls.add('nav-tight');
+  if (over()) cls.add('nav-collapsed');
+}
+let fitT = null;
+addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitHeader, 80); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeader);
+fitHeader();
+
 // ---------- Place picker (reusable) ----------
 // ids: { input, suggest, meta, lat?, lon?, off?, date?, time?, err?, online? } ; onPick(place)
 function placePicker(ids, onPick) {
@@ -496,6 +511,9 @@ function lockCard(featureKey, extra = '') {
   return `<div class="card lock-card reveal"><span class="lock">${ic('i-lock')}</span><div><b>${esc(t('members.f.' + featureKey))}</b><p>${esc(t('members.lockText'))}</p>${extra}</div><button class="btn-cta" type="button" data-auth="signup" data-feature="${featureKey}">${esc(t('members.cta'))}</button></div>`;
 }
 
+// Service worker for browser notifications
+if ('serviceWorker' in navigator && location.protocol !== 'file:') addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => { }); });
+
 // ---------- Boot ----------
 async function boot() {
   if (sb) {
@@ -504,14 +522,14 @@ async function boot() {
     if (session && /type=(signup|magiclink|email)/.test(INITIAL_HASH)) setTimeout(() => toast(t('auth.confirmed')), 300);
     sb.auth.onAuthStateChange((event, s) => {
       const was = !!session; session = s;
-      renderAuthSlot(); checkAdmin().then(renderAuthSlot);
+      renderAuthSlot(); fitHeader(); checkAdmin().then(() => { renderAuthSlot(); fitHeader(); });
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
       if (event === 'SIGNED_IN' && !was) { saveTrialChart(s); moveLocalHistory(s); if (modal.querySelector('#authform')) closeModal(); }
       authHooks.forEach(f => { try { f(event, s, was); } catch (e) { console.error(e); } });
     });
   }
   await checkAdmin();
-  renderAuthSlot();
+  renderAuthSlot(); fitHeader();
   const linkErr = readAuthError();
   if (linkErr && sb) linkErrorModal(linkErr);
   readyHooks.forEach(f => { try { f(session); } catch (e) { console.error(e); } });
