@@ -317,17 +317,23 @@ function renderFull(data, host = $('#results'), opts = {}) {
   const trialBanner = data.trial && !session ? `<div class="trial-banner reveal"><span class="ic">${ic('i-star')}</span><div><b>${esc(t('trial.title'))}</b><p>${esc(t('trial.text'))}</p></div><button class="btn-cta" type="button" data-auth="signup">${esc(t('trial.cta'))}</button></div>` : '';
   const sharedBanner = data.shared ? `<div class="trial-banner reveal"><span class="ic">${ic('i-link')}</span><div><b>${esc(t('share.viewTitle'))}</b><p>${esc(t('share.viewText'))}</p></div><a class="btn-cta" href="${HOME}">${esc(t('share.makeOwn'))}</a></div>` : '';
   const actions = `<div class="report-actions no-print">${!data.shared ? `<button class="btn-line" type="button" id="act-share">${ic('i-link')}${esc(t('share.button'))}${session ? '' : ic('i-lock', 'lk')}</button>` : ''}<button class="btn-line" type="button" id="act-pdf">${ic('i-download')}${esc(t('pdf.button'))}${session ? '' : ic('i-lock', 'lk')}</button><a class="btn-line" href="${HOME}matching/">${ic('i-heart')}${esc(t('nav.matching'))}</a></div>`;
-  const NAV = ['highlights', 'charts', 'grahas', 'yogas', 'dasha', 'events', 'panchang', 'bhavas', 'gochar'];
+  const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'panchang', 'bhavas', 'gochar', 'notes'];
+  const todaySec = mSec('today', 'my', premium && premium.today ? todayHtml(premium.today, tz) : lockCard('today'));
+  const areasSec = mSec('areas', 'la', premium && premium.areas ? areasHtml(premium.areas, tz) : lockCard('areas', `<p class="muted small">${['career', 'marriage', 'finance', 'health', 'education', 'children'].map(k => t('la.' + k + '.name')).join(' · ')}</p>`));
+  const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies) : lockCard('remedies'));
+  const notesSec = data.shared ? '' : mSec('notes', 'notes', session ? '<div id="notesbox"><span class="spin"></span></div>' : lockCard('notes'));
 
   host.innerHTML = `
   ${trialBanner}${sharedBanner}
   <div class="print-head"><b>${esc(t('brand.name'))}</b> · ${esc(location.host)} · ${esc(fDate(now, tz))}</div>
   ${profileHtml(input, c.utMs, c.lagna, P.Moon, { llHouse: P[SIGN_LORD[c.lagna.sign]].house, dasha: dashaFact })}
   ${actions}
-  <nav class="jump-nav no-print" aria-label="${esc(t('nav.sections'))}">${NAV.map(k => `<a class="tag" href="#${k}">${esc(t('nav.' + k))}</a>`).join('')}</nav>
+  <nav class="jump-nav no-print" aria-label="${esc(t('nav.sections'))}">${NAV.filter(k => k !== 'notes' || !data.shared).map(k => `<a class="tag" href="#${k}">${esc(t('nav.' + k))}</a>`).join('')}</nav>
   ${sec('highlights', 'hl', `<div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${esc(t('sec.hl.nGood', { n: an.good.length }))}</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${esc(t('sec.hl.nBad', { n: an.bad.length }))}</span></div></div>
     <div class="hl-grid"><div class="card hl-col good"><h3><span class="badge">${ic('i-check')}</span>${esc(t('sec.hl.good'))}<small>${an.good.length}</small></h3><ul class="hl-list">${an.good.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneGood'))}</li>`}</ul></div>
     <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>${esc(t('sec.hl.bad'))}<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneBad'))}</li>`}</ul></div></div>`)}
+  ${todaySec}
+  ${areasSec}
   ${sec('charts', 'charts', `<div class="charts drawing" id="chartsbox">${chartsHtml(c)}</div><div class="chart-key">${ORDER.map(p => `<span><b style="color:${COL[p]}">${esc(ga(p))}</b>${esc(gn(p))}</span>`).join('')}</div>
     <div class="varga-wrap"><h3 class="sub-h">${esc(t('varga.title'))} ${premium ? '' : `<span class="tag gold">${esc(t('members.badge'))}</span>`}</h3><p class="lede">${esc(t('varga.lede'))}</p>${vargaSection}</div>`,
     `<div class="seg no-print" role="group" aria-label="${esc(t('sec.charts.style'))}" id="stylesel"><button type="button" data-style="north" aria-pressed="${chartStyle === 'north'}">${esc(t('sec.charts.north'))}</button><button type="button" data-style="south" aria-pressed="${chartStyle === 'south'}">${esc(t('sec.charts.south'))}</button></div>`)}
@@ -336,6 +342,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${sec('yogas', 'yogas', `<div class="yoga-grid" id="yogagrid">${ssCard}${yogaCards}</div>`,
     `<div class="seg yoga-filter no-print" role="group" aria-label="${esc(t('sec.yogas.filter'))}">${['all', 'present', 'good', 'bad'].map((f, i) => `<button type="button" data-f="${f}" aria-pressed="${i === 0}">${esc(t('sec.yogas.' + f))}</button>`).join('')}</div>`,
     esc(t('sec.yogas.lede', { g: nGoodY, b: nBadY })))}
+  ${remSec}
   ${sec('dasha', 'dasha', `${nowCard}<div class="card ribbon-card reveal">${drawRibbon(c, now)}</div><div class="dasha-list">${dashaList}</div>`, '',
     esc(t('sec.dasha.lede', { p: ((1 - c.balance.years / DASHA_YEARS[c.balance.lord]) * 100).toFixed(1), nk: { nk: P.Moon.nak }, v: ymd(c.balance.years), g: { g: c.balance.lord } })))}
   ${mSec('events', 'events', upcomingHtml)}
@@ -345,6 +352,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
     <div class="legend"><span><i style="background:rgba(17,128,78,.5)"></i>${esc(t('sec.ashtaka.high'))}</span><span><i style="background:rgba(194,53,45,.4)"></i>${esc(t('sec.ashtaka.low'))}</span><span style="color:var(--gold-deep)">${esc(t('sec.ashtaka.lagnaCol'))}</span></div>`)}
   ${sec('gochar', 'gochar', `<div class="gochar-grid">${goc}</div>`, '', esc(t('sec.gochar.lede', { d: fDate(now, tz) })))}
   ${mSec('rectify', 'rect', rectHtml)}
+  ${notesSec}
   ${sec('method', 'method', `<div class="card method reveal"><p class="mono">UT ${fDate(c.utMs, 0)} ${fTime(c.utMs, 0)} · JD ${c.jd.toFixed(5)} · LST ${lst} · Lahiri ${dms(c.ayanamsa)} · Sayana Lagna ${dms(method.sayanaAsc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p><p>${esc(t('sec.method.p1'))}</p><p>${esc(t('sec.method.p2'))}</p></div>`, '', '')}`;
 
   // Interactions
@@ -378,6 +386,11 @@ function renderFull(data, host = $('#results'), opts = {}) {
   });
   const sh = $('#act-share'); if (sh) sh.addEventListener('click', () => shareChart(input));
   $('#act-pdf').addEventListener('click', downloadPdf);
+  if (premium && premium.areas) $$('.area-tabs button').forEach(b => b.addEventListener('click', () => {
+    $$('.area-tabs button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    $('#areabox').innerHTML = areaBody(premium.areas[b.dataset.area], b.dataset.area, tz);
+  }));
+  if (session && !data.shared) { mountNotes(input); brandHead(); }
   requestAnimationFrame(() => { const fg = $('#ringfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - progress); });
   observeReveals();
 }

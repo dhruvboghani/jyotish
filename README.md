@@ -31,6 +31,7 @@ All astronomy runs on the server (`lib/engine.js`, `lib/analysis.js`, `lib/repor
 | `locales/add/*.js` | Source for the v3 strings; `node locales/add/merge.js en hi gu ta te kn` merges them into the JSON files |
 | `supabase/schema.sql` | All tables + Row Level Security policies (run once on a new project) |
 | `supabase/v3_features.sql` | Upgrade for existing projects: `relation` column, share links table and `get_shared_kundali()` |
+| `supabase/v4_features.sql` | Upgrade: chart notes, user settings (branding, reminders, calendar feed) and `get_feed()` |
 
 ## 1. Supabase
 
@@ -99,7 +100,13 @@ Everything is free. Some features need a (free) account:
 
 | Free without login | Free with login |
 |---|---|
-| First Kundali (full report), Panchang, festival calendar, Rashifal, Learn pages, opening a shared link | Unlimited Kundalis saved to "My Kundalis" with family relations, divisional charts D2–D12, upcoming events timeline, birth-time sensitivity, pratyantar dashas, Kundali matching, share links, PDF download |
+| First Kundali (full report), Panchang, festival calendar, Rashifal, Learn pages, opening a shared link | Unlimited Kundalis saved to "My Kundalis" with family relations, divisional charts D2–D12, upcoming events, birth-time sensitivity, pratyantar dashas, Today for you (personal daily horoscope), life-area reports, remedies, private chart notes, Kundali matching (Ashtakoot + 10 Porutham + full compatibility report), baby names with numerology, Muhurta finder, family dashboard, share links, branded PDF, reminders (calendar feed, e-mail, WhatsApp) |
+
+### Reminders
+
+- **Calendar feed** (works out of the box): Settings → "Create my calendar link" gives a private `/api/ics?t=…` link for Google Calendar, iPhone or Outlook, with festivals, vrats and transit alerts and a phone reminder the evening before.
+- **E-mail**: set `SUPABASE_SECRET_KEY`, `CRON_SECRET`, `RESEND_API_KEY` and `EMAIL_FROM` in Vercel. `vercel.json` runs `/api/cron-reminders` daily at 18:00 IST.
+- **WhatsApp**: needs a WhatsApp Business (Meta Cloud API) number with an approved template that has one `{{1}}` text variable; set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_ID`, `WHATSAPP_TEMPLATE`.
 
 ## 5. Admin
 

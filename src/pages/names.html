@@ -1,0 +1,16 @@
+<main class="wrap page">
+  <div class="page-hero"><p class="eyebrow">{{nm.eye}} <span class="tag gold">{{members.badge}}</span></p><h1>{{nm.title}}</h1><p class="lede">{{nm.lede}}</p></div>
+  <div class="premium-why" id="n-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg><span><b>{{members.title}}</b>{{nm.lockNote}}</span></div>
+  <form id="nform" class="card toolbar" novalidate>
+    <div class="field"><label for="n-from">{{nm.fromChart}}</label><select id="n-from" hidden></select></div>
+    <div class="field"><label for="n-nak">{{res.nakshatra}}</label><select id="n-nak"></select></div>
+    <div class="field"><label for="n-pada">{{nm.pada}}</label><select id="n-pada"></select></div>
+    <div class="field"><label for="n-gender">{{nm.gender}}</label><select id="n-gender"><option value="any">{{nm.g.any}}</option><option value="m">{{nm.g.m}}</option><option value="f">{{nm.g.f}}</option></select></div>
+    <div class="field"><label for="n-date">{{nm.date}}</label><input id="n-date" type="date"></div>
+    <div class="field"><label for="n-check">{{nm.check}}</label><input id="n-check" type="text" placeholder="{{nm.checkPh}}"></div>
+    <button class="btn-cta" type="submit">{{nm.submit}}</button>
+  </form>
+  <div class="field" style="max-width:340px;margin:0 0 14px"><input id="n-filter" type="search" placeholder="{{nm.filter}}" aria-label="{{nm.filter}}"></div>
+  <div id="nres"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

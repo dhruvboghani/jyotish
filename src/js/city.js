@@ -9,6 +9,7 @@ function cityPicker(onChange) {
   pk.set(city);
   return {
     get city() { return city; },
+    set(c) { city = c; store.set('kg-city', c); pk.set(c); },
     // UTC offset (minutes) of the city on a given civil date (DST-aware where the zone has it)
     offset(y, m, d) { try { return tzOffsetMinutes(city.tz || 'Asia/Kolkata', y, m, d, 12, 0); } catch (e) { return 330; } }
   };

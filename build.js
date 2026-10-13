@@ -20,7 +20,7 @@ const deepMap = (v, f) => Array.isArray(v) ? v.map(x => deepMap(x, f)) : isObj(v
 
 // ---- Transliteration of Sanskrit terms from Devanagari ----
 const BASE = { gu: 0x0A80, te: 0x0C00, kn: 0x0C80 };
-const offsetTr = (s, base) => [...s].map(ch => { const c = ch.codePointAt(0); return c >= 0x0900 && c <= 0x097F ? String.fromCodePoint(c - 0x0900 + base) : ch; }).join('');
+const offsetTr = (s, base) => [...s].map(ch => { const c = ch.codePointAt(0); return c >= 0x0900 && c <= 0x097F && c !== 0x0950 ? String.fromCodePoint(c - 0x0900 + base) : ch; }).join('');
 const TA_C = { 'क': 'க', 'ख': 'க', 'ग': 'க', 'घ': 'க', 'ङ': 'ங', 'च': 'ச', 'छ': 'ச', 'ज': 'ஜ', 'झ': 'ஜ', 'ञ': 'ஞ', 'ट': 'ட', 'ठ': 'ட', 'ड': 'ட', 'ढ': 'ட', 'ण': 'ண', 'त': 'த', 'थ': 'த', 'द': 'த', 'ध': 'த', 'न': 'ந', 'प': 'ப', 'फ': 'ப', 'ब': 'ப', 'भ': 'ப', 'म': 'ம', 'य': 'ய', 'र': 'ர', 'ल': 'ல', 'व': 'வ', 'श': 'ஷ', 'ष': 'ஷ', 'स': 'ஸ', 'ह': 'ஹ', 'ळ': 'ள' };
 const TA_V = { 'अ': 'அ', 'आ': 'ஆ', 'इ': 'இ', 'ई': 'ஈ', 'उ': 'உ', 'ऊ': 'ஊ', 'ऋ': 'ரு', 'ए': 'ஏ', 'ऐ': 'ஐ', 'ओ': 'ஓ', 'औ': 'ஔ' };
 const TA_M = { 'ा': 'ா', 'ि': 'ி', 'ी': 'ீ', 'ु': 'ு', 'ू': 'ூ', 'ृ': '்ரு', 'े': 'ே', 'ै': 'ை', 'ो': 'ோ', 'ौ': 'ௌ', '्': '்', 'ं': 'ம்', 'ः': '' };
@@ -32,7 +32,7 @@ const EN = json('locales/en.json'), SKT = json('locales/_sanskrit.json');
 function locale(lang) {
   if (lang === 'en') return EN;
   const own = json(`locales/${lang}.json`);
-  const fromSanskrit = { names: deepMap({ yoga27: SKT.yoga27, karana: SKT.karana, val: SKT.val, houseName: SKT.houseName, syll: SKT.syll }, s => translit(lang, s)) };
+  const fromSanskrit = { names: deepMap({ yoga27: SKT.yoga27, karana: SKT.karana, val: SKT.val, houseName: SKT.houseName, syll: SKT.syll, mantra: SKT.mantra }, s => translit(lang, s)) };
   return merge(merge(EN, fromSanskrit), own);
 }
 const ALL = Object.fromEntries(LANGS.map(l => [l, locale(l)]));
@@ -56,8 +56,9 @@ const BENEFIC = { Moon: 1, Mercury: 1, Jupiter: 1, Venus: 1 };
 const DIGBALA = { Sun: 10, Mars: 10, Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7 };
 const GOCHAR_GOOD = { Sun: [3, 6, 10, 11], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 11], Mercury: [2, 4, 6, 8, 10, 11], Jupiter: [2, 5, 7, 9, 11], Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12], Saturn: [3, 6, 11], Rahu: [3, 6, 11], Ketu: [3, 6, 11] };
 const NAVS = [['', 'kundali', 'i-chart'], ['matching/', 'matching', 'i-heart'], ['panchang/', 'panchang', 'i-sun'], ['calendar/', 'calendar', 'i-cal'], ['rashifal/', 'rashifal', 'i-star'], ['learn/', 'learn', 'i-book']];
-const BUNDLES = { home: ['core', 'report', 'home'], panchang: ['core', 'report', 'city', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'share'], base: ['core'] };
-const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching']);
+const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['settings/', 'settings', 'i-shield']];
+const BUNDLES = { home: ['core', 'report', 'report-plus', 'home'], panchang: ['core', 'report', 'city', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'report-plus', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], settings: ['core', 'city', 'settings'], base: ['core'] };
+const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings']);
 
 const url = (l, slug = '') => SITE_URL + ALL[l].meta.path + slug;
 const tr = (L, key, params) => {
@@ -196,6 +197,10 @@ function pagesFor(L) {
     P('panchang', 'panchang/', { priority: '0.9', freq: 'daily' }),
     P('calendar', 'calendar/', { priority: '0.9', freq: 'monthly' }),
     P('rashifal', 'rashifal/', { priority: '0.9', freq: 'daily' }),
+    P('names', 'names/', { priority: '0.8', freq: 'monthly' }),
+    P('muhurta', 'muhurta/', { priority: '0.8', freq: 'weekly' }),
+    P('family', 'family/', { noindex: true }),
+    P('settings', 'settings/', { noindex: true }),
     P('learn', 'learn/', { priority: '0.8', freq: 'monthly', body: learnIndex(L) }),
     P('share', 'share/', { noindex: true }),
     P('privacy', 'privacy/', { priority: '0.3', freq: 'yearly', body: legalBody(L, 'privacy') }),
@@ -209,13 +214,14 @@ function pagesFor(L) {
 function render(lang, pg) {
   const L = ALL[lang], base = L.meta.path;
   const navActive = pg.id === 'learn-ph' || pg.id === 'learn-lagna' ? 'learn/' : pg.slug;
-  const nav = NAVS.map(([slug, key, ico]) => `<a href="${base}${slug}"${slug === navActive ? ' aria-current="page"' : ''}>${icon('i:' + ico)}<span>${esc(L.nav[key])}</span></a>`).join('');
+  const navLink = ([slug, key, ico]) => `<a href="${base}${slug}"${slug === navActive ? ' aria-current="page"' : ''}>${icon('i:' + ico)}<span>${esc(L.nav[key])}</span></a>`;
+  const nav = NAVS.map(navLink).join(''), navAll = NAVS.concat(NAVS_MORE).map(navLink).join('');
   let body = pg.body || read(`src/pages/${pg.id}.html`);
   body = body.replace('<!--CITY-->', cityHtml(L))
     .replace('<!--PERSON:b-->', personHtml(L, 'b')).replace('<!--PERSON:g-->', personHtml(L, 'g'))
     .replace('<!--INFO-->', infoHtml(L.info[pg.id]))
     .replace('<!--RELOPTS-->', ['self', 'spouse', 'father', 'mother', 'son', 'daughter', 'brother', 'sister', 'friend', 'other'].map(r => `<option value="${r}">${esc(L.rel[r])}</option>`).join(''))
-    .replace('<!--TOOLS-->', NAVS.slice(1).map(([slug, key, ico]) => `<a class="card tool" href="${base}${slug}"><span class="fi">${icon('i:' + ico)}</span><h3>${esc(L.tools[key].h)}</h3><p>${esc(L.tools[key].p)}</p><span class="go-arrow">→</span></a>`).join(''))
+    .replace('<!--TOOLS-->', NAVS.slice(1).concat(NAVS_MORE.slice(0, 3)).map(([slug, key, ico]) => `<a class="card tool" href="${base}${slug}"><span class="fi">${icon('i:' + ico)}</span><h3>${esc(L.tools[key].h)}</h3><p>${esc(L.tools[key].p)}</p><span class="go-arrow">→</span></a>`).join(''))
     .replace('<!--FEATURES-->', () => L.static.features.map(f => `<article class="card feature"><span class="fi">${icon(f.icon)}</span><h3>${esc(f.h)}</h3><p>${esc(f.p)}</p></article>`).join(''))
     .replace('<!--ABOUT-->', () => L.static.about.map(a => `<article class="card"><h3>${esc(a.h)}</h3>${a.p.map(p => `<p>${esc(p)}</p>`).join('')}</article>`).join(''))
     .replace('<!--FAQ-->', () => L.faq.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q.q)}<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="ans">${esc(q.a)}</div></details>`).join(''));
@@ -224,7 +230,7 @@ function render(lang, pg) {
   html = html.replace('<!--HEAD-->', () => head(lang, pg))
     .replace('<!--SPRITE-->', () => read('src/sprite.svg'))
     .replace('<!--PAGEID-->', pg.id)
-    .replace(/<!--NAV-->/g, () => nav)
+    .replace('<!--NAV-->', () => nav).replace('<!--NAVALL-->', () => navAll).replace('<!--NAVALL-->', () => navAll)
     .replace('<!--NEWHREF-->', pg.id === 'home' ? '#top' : base)
     .replace('<!--LANGOPTS-->', LANGS.map(l => `<option value="${l}" data-href="${ALL[l].meta.path}${pg.slug}"${l === lang ? ' selected' : ''}>${esc(ALL[l].meta.langName)}</option>`).join(''))
     .replace('<!--LANGLINKS-->', LANGS.map(l => `<a href="${ALL[l].meta.path}${pg.slug}" hreflang="${ALL[l].meta.htmlLang}" lang="${ALL[l].meta.htmlLang}" style="margin:0 6px">${esc(ALL[l].meta.langName)}</a>`).join(''))

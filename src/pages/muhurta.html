@@ -1,0 +1,15 @@
+<main class="wrap page">
+  <div class="page-hero"><p class="eyebrow">{{mu.eye}} <span class="tag gold">{{members.badge}}</span></p><h1>{{mu.title}}</h1><p class="lede">{{mu.lede}}</p></div>
+  <div class="premium-why" id="mu-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg><span><b>{{members.title}}</b>{{mu.lockNote}}</span></div>
+  <form id="muform" class="card toolbar" novalidate>
+    <div class="field"><label for="mu-purpose">{{mu.purpose}}</label><select id="mu-purpose"><option value="marriage">{{mu.p.marriage}}</option><option value="griha">{{mu.p.griha}}</option><option value="vehicle">{{mu.p.vehicle}}</option><option value="business">{{mu.p.business}}</option><option value="general">{{mu.p.general}}</option></select></div>
+    <!--CITY-->
+    <div class="field"><label for="mu-from">{{mu.from}}</label><input id="mu-from" type="date"></div>
+    <div class="field"><label for="mu-days">{{mu.days}}</label><select id="mu-days"><option value="30">30</option><option value="60">60</option><option value="90" selected>90</option><option value="120">120</option></select></div>
+    <div class="field"><label for="mu-p1">{{mu.for1}}</label><select id="mu-p1"><option value="">{{mu.nobody}}</option></select></div>
+    <div class="field"><label for="mu-p2">{{mu.for2}}</label><select id="mu-p2"><option value="">{{mu.nobody}}</option></select></div>
+    <button class="btn-cta" type="submit">{{mu.submit}}</button>
+  </form>
+  <div id="mures"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

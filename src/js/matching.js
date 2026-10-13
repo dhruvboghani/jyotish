@@ -58,6 +58,20 @@ function kVal(k, side) {
   if (k.id === 'bhakoot') return rn(v);
   return V(v);
 }
+const TABS = ['ta', 'te', 'kn'].includes(LANG) ? ['porutham', 'ashtakoot', 'report'] : ['ashtakoot', 'porutham', 'report'];
+const RAJJU_N = ['pada', 'kati', 'nabhi', 'kanta', 'siro'];
+function poruthamHtml(p) {
+  const val = x => x.id === 'gana' ? `${V(x.boy)} / ${V(x.girl)}` : x.id === 'rasiAdhipati' ? `${gn(x.boy)} / ${gn(x.girl)}` : x.id === 'rajju' ? `${t('pr.rajjuN.' + RAJJU_N[x.boy])} / ${t('pr.rajjuN.' + RAJJU_N[x.girl])}` : x.n != null ? t('pr.count', { n: x.n }) : '';
+  const tone = st => st === 'good' ? 'good' : st === 'mid' ? 'warn' : 'bad';
+  return `<div class="card pr-sum reveal ${p.mustPass ? '' : 'bad'}"><div class="gnum"><b>${p.good}</b><span>/ 10</span></div><div><h3>${esc(t('mt.v.' + p.verdict))}</h3><p>${esc(t(p.mustPass ? 'pr.passNote' : 'pr.failNote'))}</p></div></div>
+    <div class="koota-grid">${p.list.map(x => `<article class="card koota reveal ${tone(x.status)}"><div class="kh"><h3>${esc(t('pr.' + x.id + '.name'))}<small>${esc(t('pr.' + x.id + '.area'))}</small></h3><span class="tag ${tone(x.status)}">${esc(t('pr.st.' + x.status))}</span></div>${val(x) ? `<p class="kv"><span>${esc(t('mt.boy'))} / ${esc(t('mt.girl'))}: <b>${esc(val(x))}</b></span></p>` : ''}<p class="rule">${esc(t('pr.' + x.id + '.rule'))}</p>${['rajju', 'vedha'].includes(x.id) ? `<p class="tag gold">${esc(t('pr.must'))}</p>` : ''}</article>`).join('')}</div>`;
+}
+function reportHtml(rep, r) {
+  const fl = list => `<ul class="factor-list">${list.map(x => `<li class="${x.tone}">${x.tone === 'good' ? ic('i-check') : x.tone === 'bad' ? ic('i-alert') : ic('i-info')}<span>${esc(msg(x.msg))}</span></li>`).join('')}</ul>`;
+  const side = (who, d, p) => `<div class="card cp-side reveal"><div class="area-head"><div class="area-score ${d.score >= 66 ? 'strong' : d.score >= 45 ? 'moderate' : 'care'}"><b>${d.score}</b><span>/100</span></div><div><span class="eyebrow">${esc(t('mt.' + who))}</span><h3>${esc(p.name || t('res.defaultName'))}</h3><p class="muted small">${esc(t('cp.sideNote'))}</p></div></div>${fl(d.factors)}</div>`;
+  return `<div class="card cp-sum reveal"><div class="area-head"><div class="area-score ${rep.band}"><b>${rep.score}</b><span>/100</span></div><div><h3>${esc(t('cp.title'))}</h3><p><span class="tag ${rep.band === 'strong' ? 'good' : rep.band === 'care' ? 'bad' : 'warn'}">${esc(t('la.band.' + rep.band))}</span> ${esc(t('cp.band.' + rep.band))}</p></div></div><h4>${esc(t('cp.cross'))}</h4>${fl(rep.cross)}</div>
+    <div class="cp-grid">${side('boy', rep.boy, r.boy)}${side('girl', rep.girl, r.girl)}</div>`;
+}
 function renderMatch(r) {
   const pct = r.total / r.max, circ = 2 * Math.PI * 52;
   const tone = r.verdict === 'excellent' || r.verdict === 'good' ? 'good' : r.verdict === 'average' ? 'warn' : 'bad';
@@ -74,8 +88,14 @@ function renderMatch(r) {
     <div class="card mscore reveal"><div class="gauge"><svg viewBox="0 0 120 120" role="img" aria-label="${r.total}/36"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg ${tone}" id="mfg" cx="60" cy="60" r="52" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/></svg><div class="gnum"><b>${r.total}</b><span>/ 36</span></div></div>
       <div><span class="eyebrow">${esc(t('mt.result'))}</span><h2 class="${tone}">${esc(t('mt.v.' + r.verdict))}</h2><p>${esc(t('mt.vt.' + r.verdict))}</p><div class="mpair">${person(r.boy, 'boy')}<span class="heart">${ic('i-heart')}</span>${person(r.girl, 'girl')}</div></div></div>
     <div class="card manglik reveal ${mg.status === 'one' ? 'warn' : 'good'}"><h3>${esc(t('mt.manglik'))}</h3><p><b>${esc(t('mt.boy'))}:</b> ${esc(mg.boy ? t('mt.isManglik') + ' (' + md(mg.boyDetail) + ')' : t('mt.notManglik'))}</p><p><b>${esc(t('mt.girl'))}:</b> ${esc(mg.girl ? t('mt.isManglik') + ' (' + md(mg.girlDetail) + ')' : t('mt.notManglik'))}</p><p class="muted">${esc(t('mt.m.' + mg.status))}</p></div>
-    <h3 class="sub-h">${esc(t('mt.kootas'))}</h3><div class="koota-grid">${rows}</div>
+    <div class="seg mt-tabs no-print" role="tablist">${TABS.map((k, i) => `<button type="button" data-tab="${k}" aria-pressed="${i === 0}">${esc(t('mt.tab.' + k))}</button>`).join('')}</div>
+    <div class="mt-pane" data-pane="ashtakoot"><h3 class="sub-h">${esc(t('mt.kootas'))}</h3><div class="koota-grid">${rows}</div></div>
+    <div class="mt-pane" data-pane="porutham">${poruthamHtml(r.porutham)}</div>
+    <div class="mt-pane" data-pane="report">${reportHtml(r.report, r)}</div>
     <p class="muted small">${esc(t('mt.disclaimer'))}</p>`;
+  const show = k => { $$('.mt-tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === k))); $$('.mt-pane').forEach(p => { p.hidden = p.dataset.pane !== k; }); };
+  $$('.mt-tabs button').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
+  show(TABS[0]);
   requestAnimationFrame(() => { const fg = $('#mfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - pct); });
   observeReveals();
 }

@@ -57,6 +57,7 @@ const latStr = v => `${Math.abs(v).toFixed(4)}°${v >= 0 ? 'N' : 'S'}`, lonStr =
 const g = (name, cls = 'gimg') => `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><use href="#gr-${name}"/></svg>`;
 const rg = (s, cls = 'rg') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#rs-${s}"/></svg>`;
 const ic = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#${id}"/></svg>`;
+const starRow = n => `<span class="stars" aria-label="${n}/5">${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`;
 const syllables = (n, pada) => L.names.syll[n].map((s, i) => i === pada - 1 ? `<b style="color:var(--gold-deep)">${esc(s)}</b>` : esc(s)).join(', ');
 function toast(text) { const el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); el.textContent = text; document.body.appendChild(el); setTimeout(() => el.remove(), 2800); }
 const store = { get(k, d = null) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }, del(k) { try { localStorage.removeItem(k); } catch (e) { } } };
@@ -311,6 +312,13 @@ async function savedModal() {
   });
 }
 
+// Fill a <select> with the member's saved Kundalis; returns the rows
+async function fillKundaliSelect(sel, placeholder) {
+  const rows = await loadMyKundalis();
+  sel.innerHTML = `<option value="">${esc(placeholder)}</option>` + rows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
+  return rows;
+}
+
 // ---------- History: every Kundali entered ----------
 const HKEY = 'kg-history', HMAX = 100;
 const readLocal = () => store.get(HKEY, []);
@@ -443,7 +451,7 @@ function renderAuthSlot() {
   if (!session) { slot.innerHTML = `<button class="btn-line" type="button" data-auth="login">${esc(t('nav.login'))}</button>`; return; }
   const u = session.user, nm = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email;
   slot.innerHTML = `<span class="user"><button type="button" id="userbtn" aria-haspopup="true" aria-expanded="false"><span class="av">${esc(String(nm).charAt(0).toUpperCase())}</span><span class="nm">${esc(nm)}</span></button>
-    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-users')}${esc(t('nav.myCharts'))}</button><a href="${HOME}matching/" class="menu-link">${ic('i-heart')}${esc(t('nav.matching'))}</a>${isAdmin ? `<button type="button" data-menu="admin">${ic('i-shield')}${esc(t('admin.title'))}</button>` : ''}<button type="button" data-menu="logout">${ic('i-logout')}${esc(t('nav.logout'))}</button></div></span>`;
+    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-users')}${esc(t('nav.myCharts'))}</button><a href="${HOME}family/" class="menu-link">${ic('i-users')}${esc(t('nav.family'))}</a><a href="${HOME}matching/" class="menu-link">${ic('i-heart')}${esc(t('nav.matching'))}</a><a href="${HOME}names/" class="menu-link">${ic('i-star')}${esc(t('nav.names'))}</a><a href="${HOME}muhurta/" class="menu-link">${ic('i-cal')}${esc(t('nav.muhurta'))}</a><a href="${HOME}settings/" class="menu-link">${ic('i-shield')}${esc(t('nav.settings'))}</a>${isAdmin ? `<button type="button" data-menu="admin">${ic('i-shield')}${esc(t('admin.title'))}</button>` : ''}<button type="button" data-menu="logout">${ic('i-logout')}${esc(t('nav.logout'))}</button></div></span>`;
   const btn = $('#userbtn'), menu = $('#usermenu');
   btn.onclick = () => { menu.hidden = !menu.hidden; btn.setAttribute('aria-expanded', String(!menu.hidden)); };
   menu.onclick = async e => {
@@ -457,6 +465,22 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.user')) { const m = $('#usermenu'); if (m) m.hidden = true; }
   const a = e.target.closest('[data-auth]'); if (a) authModal(a.dataset.auth, a.dataset.feature);
 });
+
+// ---------- Account settings (branding, reminders, calendar feed) ----------
+let settingsCache = null;
+async function loadSettings(force) {
+  if (!sb || !session) return null;
+  if (settingsCache && !force) return settingsCache;
+  const { data, error } = await sb.from('user_settings').select('brand,reminders,feed_token').eq('user_id', session.user.id).maybeSingle();
+  settingsCache = error ? { error } : (data || {});
+  return settingsCache;
+}
+async function saveSettings(patch) {
+  const { error } = await sb.from('user_settings').upsert({ user_id: session.user.id, ...patch, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+  if (!error) settingsCache = { ...(settingsCache || {}), ...patch };
+  return error;
+}
+authHooks.push(() => { settingsCache = null; });
 
 // ---------- Reveal-on-scroll ----------
 let io = null;

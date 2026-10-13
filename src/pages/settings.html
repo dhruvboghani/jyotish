@@ -1,0 +1,34 @@
+<main class="wrap page">
+  <div class="page-hero"><p class="eyebrow">{{st.eye}} <span class="tag gold">{{members.badge}}</span></p><h1>{{st.title}}</h1><p class="lede">{{st.lede}}</p></div>
+  <div id="st-lock"></div>
+  <div id="st-body" hidden>
+    <p class="err" id="st-note"></p>
+    <section class="card st-sec">
+      <h2 class="h3">{{st.remTitle}}</h2><p class="muted">{{st.remLede}}</p>
+      <form id="remform" novalidate class="st-form">
+        <!--CITY-->
+        <fieldset class="kinds"><legend>{{st.kinds}}</legend><div id="r-kinds" class="chk-grid"></div></fieldset>
+        <div class="field"><label for="r-alert-for">{{st.alertFor}}</label><select id="r-alert-for"></select><span class="place-meta">{{st.alertNote}}</span></div>
+        <label class="chk"><input type="checkbox" id="r-email"><span>{{st.byEmail}}</span></label>
+        <label class="chk"><input type="checkbox" id="r-wa"><span>{{st.byWa}}</span></label>
+        <div class="field"><label for="r-phone">{{st.phone}}</label><input id="r-phone" type="tel" placeholder="+91 98xxxxxxx" autocomplete="tel"></div>
+        <button class="btn-cta" type="submit">{{st.save}}</button>
+      </form>
+    </section>
+    <section class="card st-sec">
+      <h2 class="h3">{{st.feed}}</h2><p class="muted">{{st.feedLede}}</p>
+      <div id="feedbox"></div>
+    </section>
+    <section class="card st-sec">
+      <h2 class="h3">{{st.brandTitle}}</h2><p class="muted">{{st.brandLede}}</p>
+      <form id="brandform" novalidate class="st-form">
+        <label class="chk"><input type="checkbox" id="b-on"><span>{{st.brandOn}}</span></label>
+        <div class="row2"><div class="field"><label for="b-name">{{st.bName}}</label><input id="b-name" type="text" maxlength="80"></div><div class="field"><label for="b-phone">{{st.phone}}</label><input id="b-phone" type="tel" maxlength="40"></div></div>
+        <div class="row2"><div class="field"><label for="b-email">{{auth.email}}</label><input id="b-email" type="email" maxlength="80"></div><div class="field"><label for="b-web">{{st.bWeb}}</label><input id="b-web" type="text" maxlength="80"></div></div>
+        <div class="field"><label for="b-addr">{{st.bAddr}}</label><input id="b-addr" type="text" maxlength="160"></div>
+        <div class="field"><label for="b-logo">{{st.bLogo}}</label><input id="b-logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"><div class="logo-prev" id="b-prev"></div><button class="linkbtn" type="button" id="b-clear">{{st.bClear}}</button></div>
+        <button class="btn-cta" type="submit">{{st.save}}</button>
+      </form>
+    </section>
+  </div>
+</main>
