@@ -1,4 +1,4 @@
-/* Kundali Ganit — shared browser code used by every page: i18n, formatting, icons, Supabase login,
+/* Grahavani — shared browser code used by every page: i18n, formatting, icons, Supabase login,
    account menu, history, saved charts, admin panel, place picker and mobile navigation.
    build.js concatenates core.js + the page's own scripts inside one function scope. */
 const L = window.I18N, LANG = L.meta.code, LOCALE = L.meta.locale, HOME = L.meta.path;

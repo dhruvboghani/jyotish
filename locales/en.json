@@ -6,11 +6,11 @@
   "ogLocale": "en_IN",
   "langName": "English",
   "path": "/",
-  "title": "Free Kundali Online – Janma Kundali with Dasha, Yogas & Doshas | Kundali Ganit",
+  "title": "Free Kundali Online – Janma Kundali with Dasha, Yogas & Doshas | Grahavani",
   "description": "Make your free Janma Kundali online from birth date, time and place. Accurate Lagna, Navamsa, planet positions, Vimshottari dasha, Manglik dosha, Sade Sati, panchang and yogas with Lahiri ayanamsa."
  },
  "brand": {
-  "name": "Kundali Ganit"
+  "name": "Grahavani"
  },
  "nav": {
   "sections": "Sections",
@@ -88,7 +88,7 @@
   "busy": "Too many requests. Please wait a minute and try again."
  },
  "auth": {
-  "loginTitle": "Log in to Kundali Ganit",
+  "loginTitle": "Log in to Grahavani",
   "signupTitle": "Create your free account",
   "nameField": "Your name",
   "email": "Email",
@@ -999,7 +999,7 @@
  "static": {
   "featEye": "What you get",
   "featTitle": "A complete Vedic birth chart, free",
-  "featLede": "Kundali Ganit calculates your chart from first principles, then reads it with classical Jyotish rules.",
+  "featLede": "Grahavani calculates your chart from first principles, then reads it with classical Jyotish rules.",
   "features": [
    {
     "icon": "gr:Sun",
@@ -1053,7 +1053,7 @@
     ]
    },
    {
-    "h": "How Kundali Ganit calculates it",
+    "h": "How Grahavani calculates it",
     "p": [
      "Your birth time is converted to Universal Time using the time zone history of your birth place. The positions of the Sun, Moon and planets are then computed from orbital mathematics and converted to the sidereal zodiac with the Lahiri ayanamsa, the standard used by the Government of India's calendar.",
      "The Lagna is solved from local sidereal time and your latitude. Yogas, doshas and strengths are then checked with stated classical rules, so you can see why each result appears."
@@ -1082,16 +1082,16 @@
    "a": "Planet positions are calculated with astronomical formulas and were tested against the Swiss Ephemeris for 1900 to 2100. The Moon and Lagna agree within about one arc-minute, and the other planets within about three and a half arc-minutes."
   },
   {
-   "q": "Which ayanamsa does Kundali Ganit use?",
+   "q": "Which ayanamsa does Grahavani use?",
    "a": "It uses the Lahiri (Chitrapaksha) ayanamsa, the standard adopted by the Indian Calendar Reform Committee and used by most Indian astrologers and panchangs."
   },
   {
    "q": "What is Mangal dosha (Manglik)?",
-   "a": "Mangal dosha is present when Mars sits in the 1st, 2nd, 4th, 7th, 8th or 12th house. Kundali Ganit checks it from the Lagna, the Moon and Venus. Many traditions also apply cancellation rules, so discuss important decisions with an astrologer."
+   "a": "Mangal dosha is present when Mars sits in the 1st, 2nd, 4th, 7th, 8th or 12th house. Grahavani checks it from the Lagna, the Moon and Venus. Many traditions also apply cancellation rules, so discuss important decisions with an astrologer."
   },
   {
    "q": "What is Vimshottari dasha?",
-   "a": "Vimshottari is a 120-year cycle of planetary periods. Your starting period depends on the nakshatra of the Moon at birth. Each mahadasha is divided into nine antardashas, and Kundali Ganit lists the dates for 100 years."
+   "a": "Vimshottari is a 120-year cycle of planetary periods. Your starting period depends on the nakshatra of the Moon at birth. Each mahadasha is divided into nine antardashas, and Grahavani lists the dates for 100 years."
   },
   {
    "q": "Why do I need to log in, and is my data private?",
@@ -1197,7 +1197,7 @@
   "copy": "Copy",
   "copied": "Link copied",
   "whatsapp": "Send on WhatsApp",
-  "waText": "Kundali of {n} on Kundali Ganit:",
+  "waText": "Kundali of {n} on Grahavani:",
   "revoke": "Turn off this link",
   "revoked": "Link turned off",
   "note": "The link shows the chart only. It does not show your email or your other Kundalis.",
@@ -1321,62 +1321,62 @@
  "pages": {
   "matching": {
    "name": "Kundali Matching",
-   "title": "Kundali Matching – Ashtakoot Guna Milan out of 36 | Kundali Ganit",
+   "title": "Kundali Matching – Ashtakoot Guna Milan out of 36 | Grahavani",
    "description": "Free Kundali matching for marriage: Ashtakoot Guna Milan with all 8 kootas, Nadi and Bhakoot dosha, and Manglik check, calculated from exact birth details."
   },
   "panchang": {
    "name": "Panchang",
-   "title": "Today's Panchang – Tithi, Nakshatra, Rahu Kaal & Choghadiya | Kundali Ganit",
+   "title": "Today's Panchang – Tithi, Nakshatra, Rahu Kaal & Choghadiya | Grahavani",
    "description": "Daily Panchang for any city: tithi, nakshatra, yoga and karana with end times, sunrise, Rahu Kaal, Abhijit muhurta and day and night Choghadiya."
   },
   "calendar": {
    "name": "Festival Calendar",
-   "title": "Hindu Festival Calendar – Vrat, Ekadashi & Festival Dates | Kundali Ganit",
+   "title": "Hindu Festival Calendar – Vrat, Ekadashi & Festival Dates | Grahavani",
    "description": "Hindu calendar with festival dates, Ekadashi, Purnima, Amavasya, Pradosh, Sankashti and Sankranti, calculated for your city."
   },
   "rashifal": {
    "name": "Rashifal",
-   "title": "Daily Rashifal – Today's Horoscope for All 12 Rashis | Kundali Ganit",
+   "title": "Daily Rashifal – Today's Horoscope for All 12 Rashis | Grahavani",
    "description": "Daily Rashifal based on real planetary transits for all twelve Moon signs, with career, money, love and health ratings and Chandrashtama days."
   },
   "learn": {
    "name": "Learn",
-   "title": "Learn Vedic Astrology – Planets in Houses & Lagnas | Kundali Ganit",
+   "title": "Learn Vedic Astrology – Planets in Houses & Lagnas | Grahavani",
    "description": "Free guide to Vedic astrology: the effects of each of the nine grahas in all twelve houses, and the nature of all twelve Lagnas."
   },
   "share": {
    "name": "Shared Kundali",
-   "title": "Shared Kundali | Kundali Ganit",
-   "description": "A Kundali shared with you on Kundali Ganit."
+   "title": "Shared Kundali | Grahavani",
+   "description": "A Kundali shared with you on Grahavani."
   },
   "privacy": {
    "name": "Privacy",
-   "title": "Privacy Policy | Kundali Ganit",
-   "description": "How Kundali Ganit handles your birth details and account data."
+   "title": "Privacy Policy | Grahavani",
+   "description": "How Grahavani handles your birth details and account data."
   },
   "terms": {
    "name": "Terms",
-   "title": "Terms of Use | Kundali Ganit",
-   "description": "Terms of use for Kundali Ganit."
+   "title": "Terms of Use | Grahavani",
+   "description": "Terms of use for Grahavani."
   },
   "names": {
    "name": "Baby names",
-   "title": "Baby Names by Nakshatra & Rashi with Numerology | Kundali Ganit",
+   "title": "Baby Names by Nakshatra & Rashi with Numerology | Grahavani",
    "description": "Find baby names from the nakshatra and pada syllable of the birth Moon, with Chaldean numerology against the birth date. Boy and girl names with meanings."
   },
   "muhurta": {
    "name": "Muhurta",
-   "title": "Shubh Muhurta Finder – Marriage, Griha Pravesh, Vehicle | Kundali Ganit",
+   "title": "Shubh Muhurta Finder – Marriage, Griha Pravesh, Vehicle | Grahavani",
    "description": "Find auspicious dates and time windows for marriage, griha pravesh, vehicle purchase and business for your city, avoiding Rahu Kaal, Vishti and Chaturmas."
   },
   "family": {
    "name": "Family",
-   "title": "Family Dashboard | Kundali Ganit",
+   "title": "Family Dashboard | Grahavani",
    "description": "Dashas, Sade Sati and daily ratings for all your saved Kundalis."
   },
   "settings": {
    "name": "Settings",
-   "title": "Settings | Kundali Ganit",
+   "title": "Settings | Grahavani",
    "description": "Reminders, calendar subscription and PDF branding."
   }
  },
@@ -1737,7 +1737,7 @@
    {
     "h": "Use of the service",
     "p": [
-     "Kundali Ganit is a free tool for calculating Vedic astrology charts and related information. You may use it for personal purposes. Do not misuse the service or try to access other people's data."
+     "Grahavani is a free tool for calculating Vedic astrology charts and related information. You may use it for personal purposes. Do not misuse the service or try to access other people's data."
     ]
    },
    {
@@ -1782,7 +1782,7 @@
    "12th"
   ],
   "phH1": "{g} in the {n} house",
-  "phTitle": "{g} in the {n} House – Effects in Vedic Astrology | Kundali Ganit",
+  "phTitle": "{g} in the {n} House – Effects in Vedic Astrology | Grahavani",
   "phDesc": "Effects of {g} in the {n} house of the Kundali: what it means for {m}, when it is strong or weak, and its transit results.",
   "intro": "{g} is the karaka (significator) of {kk}. The {n} house, called {hn} Bhava, shows {m}. When {g} sits here, these matters take on its colour.",
   "nat": {
@@ -1844,7 +1844,7 @@
   "otherPlanets": "Other grahas in the {n} house",
   "disclaimer": "A single placement is never read alone: sign, aspects, conjunctions, dasha and the whole chart change the outcome.",
   "lgH1": "{r} Lagna",
-  "lgTitle": "{r} Lagna (Ascendant) – Nature, Lords & Yogakaraka | Kundali Ganit",
+  "lgTitle": "{r} Lagna (Ascendant) – Nature, Lords & Yogakaraka | Grahavani",
   "lgDesc": "{r} Lagna in Vedic astrology: personality, lagna lord, functional benefics and malefics, and the Yogakaraka graha.",
   "lgIntro": "People born with {r} rising in the east have it as their Lagna (ascendant).",
   "lgLord": "The Lagna lord is {g}. It is a {el} sign of {q} nature.",
@@ -2221,10 +2221,10 @@
   "pushTestBody": "Notifications are working. You will be reminded the evening before."
  },
  "rem": {
-  "mailSubject": "{n} reminder(s) from Kundali Ganit",
+  "mailSubject": "{n} reminder(s) from Grahavani",
   "mailIntro": "Here is what is coming up:",
-  "mailFooter": "You get this because reminders are on in your Kundali Ganit settings. Turn them off there at any time.",
-  "pushTitle": "Kundali Ganit reminder",
+  "mailFooter": "You get this because reminders are on in your Grahavani settings. Turn them off there at any time.",
+  "pushTitle": "Grahavani reminder",
   "tomorrow": "Tomorrow",
   "nextWeek": "Next week"
  },

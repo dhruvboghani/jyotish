@@ -102,7 +102,7 @@ module.exports = {
     brandTitle: 'PDF branding', brandLede: 'For astrologers: put your name, logo and contact details on every PDF you download.',
     brandOn: 'Show my branding on PDFs', bName: 'Name or business', bWeb: 'Website', bAddr: 'Address', bLogo: 'Logo (PNG or JPG)', bClear: 'Remove logo'
   },
-  rem: { mailSubject: '{n} reminder(s) from Kundali Ganit', mailIntro: 'Here is what is coming up:', mailFooter: 'You get this because reminders are on in your Kundali Ganit settings. Turn them off there at any time.' },
+  rem: { mailSubject: '{n} reminder(s) from Grahavani', mailIntro: 'Here is what is coming up:', mailFooter: 'You get this because reminders are on in your Grahavani settings. Turn them off there at any time.' },
   mt: { tab: { ashtakoot: 'Ashtakoot (36)', porutham: '10 Porutham', report: 'Full report' } },
   pr: {
     passNote: 'Rajju and Vedha both match, which is required in the South Indian system.', failNote: 'Rajju or Vedha does not match — traditionally this is treated as not compatible whatever the other scores.',
@@ -139,10 +139,10 @@ module.exports = {
     muhurta: { h: 'Muhurta finder', p: 'Good dates for marriage, griha pravesh, vehicle or business in your city.' }
   },
   pages: {
-    names: { name: 'Baby names', title: 'Baby Names by Nakshatra & Rashi with Numerology | Kundali Ganit', description: 'Find baby names from the nakshatra and pada syllable of the birth Moon, with Chaldean numerology against the birth date. Boy and girl names with meanings.' },
-    muhurta: { name: 'Muhurta', title: 'Shubh Muhurta Finder – Marriage, Griha Pravesh, Vehicle | Kundali Ganit', description: 'Find auspicious dates and time windows for marriage, griha pravesh, vehicle purchase and business for your city, avoiding Rahu Kaal, Vishti and Chaturmas.' },
-    family: { name: 'Family', title: 'Family Dashboard | Kundali Ganit', description: 'Dashas, Sade Sati and daily ratings for all your saved Kundalis.' },
-    settings: { name: 'Settings', title: 'Settings | Kundali Ganit', description: 'Reminders, calendar subscription and PDF branding.' }
+    names: { name: 'Baby names', title: 'Baby Names by Nakshatra & Rashi with Numerology | Grahavani', description: 'Find baby names from the nakshatra and pada syllable of the birth Moon, with Chaldean numerology against the birth date. Boy and girl names with meanings.' },
+    muhurta: { name: 'Muhurta', title: 'Shubh Muhurta Finder – Marriage, Griha Pravesh, Vehicle | Grahavani', description: 'Find auspicious dates and time windows for marriage, griha pravesh, vehicle purchase and business for your city, avoiding Rahu Kaal, Vishti and Chaturmas.' },
+    family: { name: 'Family', title: 'Family Dashboard | Grahavani', description: 'Dashas, Sade Sati and daily ratings for all your saved Kundalis.' },
+    settings: { name: 'Settings', title: 'Settings | Grahavani', description: 'Reminders, calendar subscription and PDF branding.' }
   },
   info: {
     names: [

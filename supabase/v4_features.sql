@@ -1,5 +1,5 @@
 -- =====================================================================
--- Kundali Ganit v4: chart notes, PDF branding, reminder settings and a private calendar feed.
+-- Grahavani v4: chart notes, PDF branding, reminder settings and a private calendar feed.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- Also confirms any account that was left waiting for email verification.
 -- =====================================================================

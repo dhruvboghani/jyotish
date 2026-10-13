@@ -1,4 +1,4 @@
--- Kundali Ganit: run this once in Supabase → SQL Editor.
+-- Grahavani: run this once in Supabase → SQL Editor.
 -- Stores each chart a logged-in user generates. Row Level Security keeps every user's charts private.
 
 create table if not exists public.kundalis (
@@ -101,7 +101,7 @@ create policy "History delete own" on public.kundali_history for delete using (a
 -- Admins can read everyone's history (needs admin.sql to have been run first)
 create policy "History admin read" on public.kundali_history for select using (public.is_admin());
 -- =====================================================================
--- Kundali Ganit v3: family relation tags and private share links.
+-- Grahavani v3: family relation tags and private share links.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- =====================================================================
 
@@ -136,7 +136,7 @@ $$;
 revoke all on function public.get_shared_kundali(text) from public;
 grant execute on function public.get_shared_kundali(text) to anon, authenticated;
 -- =====================================================================
--- Kundali Ganit v4: chart notes, PDF branding, reminder settings and a private calendar feed.
+-- Grahavani v4: chart notes, PDF branding, reminder settings and a private calendar feed.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- Also confirms any account that was left waiting for email verification.
 -- =====================================================================
@@ -179,7 +179,7 @@ grant execute on function public.get_feed(text) to anon, authenticated;
 -- Accounts created while "Confirm email" was on can log in straight away
 update auth.users set email_confirmed_at = now() where email_confirmed_at is null;
 -- =====================================================================
--- Kundali Ganit v5: browser (web push) notifications.
+-- Grahavani v5: browser (web push) notifications.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- =====================================================================
 create table if not exists public.push_subscriptions (

@@ -14,7 +14,7 @@ module.exports = {
   "pushTestBody": "સૂચનાઓ કામ કરે છે. તમને આગલા દિવસે સાંજે યાદ અપાશે."
  },
  "rem": {
-  "pushTitle": "કુંડળી ગણિત યાદ",
+  "pushTitle": "ગ્રહવાણી યાદ",
   "tomorrow": "આવતીકાલે",
   "nextWeek": "આવતા અઠવાડિયે"
  }

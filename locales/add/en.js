@@ -12,7 +12,7 @@ module.exports = {
   learn: { moreAbout: 'Read about {g} in house {h}' },
   share: {
     button: 'Share', title: 'Share this Kundali', lede: 'Anyone with this private link can view the full report. You can switch the link off at any time.',
-    link: 'Share link', copy: 'Copy', copied: 'Link copied', whatsapp: 'Send on WhatsApp', waText: 'Kundali of {n} on Kundali Ganit:', revoke: 'Turn off this link', revoked: 'Link turned off',
+    link: 'Share link', copy: 'Copy', copied: 'Link copied', whatsapp: 'Send on WhatsApp', waText: 'Kundali of {n} on Grahavani:', revoke: 'Turn off this link', revoked: 'Link turned off',
     note: 'The link shows the chart only. It does not show your email or your other Kundalis.', error: 'Could not create the link. Please try again.',
     viewTitle: 'Shared Kundali', viewText: 'Someone shared this Kundali with you. Make your own in a minute; your first one is free.', makeOwn: 'Make my Kundali',
     missing: 'This link is incomplete.', gone: 'This link no longer works', goneText: 'The owner may have turned it off, or the link was copied incompletely.'
@@ -47,14 +47,14 @@ module.exports = {
     learn: { h: 'Learn Jyotish', p: 'What each graha means in each house, and a guide to all twelve Lagnas.' }
   },
   pages: {
-    matching: { name: 'Kundali Matching', title: 'Kundali Matching – Ashtakoot Guna Milan out of 36 | Kundali Ganit', description: 'Free Kundali matching for marriage: Ashtakoot Guna Milan with all 8 kootas, Nadi and Bhakoot dosha, and Manglik check, calculated from exact birth details.' },
-    panchang: { name: 'Panchang', title: 'Today\'s Panchang – Tithi, Nakshatra, Rahu Kaal & Choghadiya | Kundali Ganit', description: 'Daily Panchang for any city: tithi, nakshatra, yoga and karana with end times, sunrise, Rahu Kaal, Abhijit muhurta and day and night Choghadiya.' },
-    calendar: { name: 'Festival Calendar', title: 'Hindu Festival Calendar – Vrat, Ekadashi & Festival Dates | Kundali Ganit', description: 'Hindu calendar with festival dates, Ekadashi, Purnima, Amavasya, Pradosh, Sankashti and Sankranti, calculated for your city.' },
-    rashifal: { name: 'Rashifal', title: 'Daily Rashifal – Today\'s Horoscope for All 12 Rashis | Kundali Ganit', description: 'Daily Rashifal based on real planetary transits for all twelve Moon signs, with career, money, love and health ratings and Chandrashtama days.' },
-    learn: { name: 'Learn', title: 'Learn Vedic Astrology – Planets in Houses & Lagnas | Kundali Ganit', description: 'Free guide to Vedic astrology: the effects of each of the nine grahas in all twelve houses, and the nature of all twelve Lagnas.' },
-    share: { name: 'Shared Kundali', title: 'Shared Kundali | Kundali Ganit', description: 'A Kundali shared with you on Kundali Ganit.' },
-    privacy: { name: 'Privacy', title: 'Privacy Policy | Kundali Ganit', description: 'How Kundali Ganit handles your birth details and account data.' },
-    terms: { name: 'Terms', title: 'Terms of Use | Kundali Ganit', description: 'Terms of use for Kundali Ganit.' }
+    matching: { name: 'Kundali Matching', title: 'Kundali Matching – Ashtakoot Guna Milan out of 36 | Grahavani', description: 'Free Kundali matching for marriage: Ashtakoot Guna Milan with all 8 kootas, Nadi and Bhakoot dosha, and Manglik check, calculated from exact birth details.' },
+    panchang: { name: 'Panchang', title: 'Today\'s Panchang – Tithi, Nakshatra, Rahu Kaal & Choghadiya | Grahavani', description: 'Daily Panchang for any city: tithi, nakshatra, yoga and karana with end times, sunrise, Rahu Kaal, Abhijit muhurta and day and night Choghadiya.' },
+    calendar: { name: 'Festival Calendar', title: 'Hindu Festival Calendar – Vrat, Ekadashi & Festival Dates | Grahavani', description: 'Hindu calendar with festival dates, Ekadashi, Purnima, Amavasya, Pradosh, Sankashti and Sankranti, calculated for your city.' },
+    rashifal: { name: 'Rashifal', title: 'Daily Rashifal – Today\'s Horoscope for All 12 Rashis | Grahavani', description: 'Daily Rashifal based on real planetary transits for all twelve Moon signs, with career, money, love and health ratings and Chandrashtama days.' },
+    learn: { name: 'Learn', title: 'Learn Vedic Astrology – Planets in Houses & Lagnas | Grahavani', description: 'Free guide to Vedic astrology: the effects of each of the nine grahas in all twelve houses, and the nature of all twelve Lagnas.' },
+    share: { name: 'Shared Kundali', title: 'Shared Kundali | Grahavani', description: 'A Kundali shared with you on Grahavani.' },
+    privacy: { name: 'Privacy', title: 'Privacy Policy | Grahavani', description: 'How Grahavani handles your birth details and account data.' },
+    terms: { name: 'Terms', title: 'Terms of Use | Grahavani', description: 'Terms of use for Grahavani.' }
   },
   pp: {
     eye: 'Daily Panchang', title: 'Panchang', lede: 'The five limbs of the day — tithi, vara, nakshatra, yoga and karana — with their end times, plus auspicious and inauspicious periods for your city.',
@@ -161,7 +161,7 @@ module.exports = {
       { h: 'Your choices', p: ['You can delete any saved Kundali or history entry from your account at any time. To delete your account completely, contact us from your registered email.'] }
     ],
     terms: [
-      { h: 'Use of the service', p: ['Kundali Ganit is a free tool for calculating Vedic astrology charts and related information. You may use it for personal purposes. Do not misuse the service or try to access other people\'s data.'] },
+      { h: 'Use of the service', p: ['Grahavani is a free tool for calculating Vedic astrology charts and related information. You may use it for personal purposes. Do not misuse the service or try to access other people\'s data.'] },
       { h: 'Not professional advice', p: ['Readings follow classical rules and are for guidance and interest only. They are not medical, legal, financial or psychological advice, and important decisions should not be based on them alone.'] },
       { h: 'Accuracy', p: ['Positions are calculated mathematically and checked against standard ephemerides, but results depend on the accuracy of the birth details entered. Festival dates can differ by a day from other calendars because of location and tradition.'] },
       { h: 'Accounts', p: ['You are responsible for keeping your password safe. We may suspend accounts that abuse the service. These terms may be updated; the date at the top shows the latest version.'] }
@@ -171,7 +171,7 @@ module.exports = {
     indexEye: 'Free guide', indexH1: 'Learn Vedic Astrology', indexLede: 'What each of the nine grahas does in each of the twelve houses, and the nature of all twelve Lagnas — written from classical principles.',
     phSection: 'Planets in houses', lgSection: 'The twelve Lagnas', bhava: 'Bhava',
     ord: ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th'],
-    phH1: '{g} in the {n} house', phTitle: '{g} in the {n} House – Effects in Vedic Astrology | Kundali Ganit', phDesc: 'Effects of {g} in the {n} house of the Kundali: what it means for {m}, when it is strong or weak, and its transit results.',
+    phH1: '{g} in the {n} house', phTitle: '{g} in the {n} House – Effects in Vedic Astrology | Grahavani', phDesc: 'Effects of {g} in the {n} house of the Kundali: what it means for {m}, when it is strong or weak, and its transit results.',
     intro: '{g} is the karaka (significator) of {kk}. The {n} house, called {hn} Bhava, shows {m}. When {g} sits here, these matters take on its colour.',
     nat: {
       ben: [
@@ -220,7 +220,7 @@ module.exports = {
     gocharH: 'In transit (gochar)', gocharFav: 'When {g} transits the {n} house counted from your Moon sign, the period is traditionally favourable.', gocharUnfav: 'When {g} transits the {n} house counted from your Moon sign, the period traditionally needs more care.',
     cta: 'See which house {g} occupies in your own chart, with its strength and dignity.', ctaBtn: 'Make free Kundali', otherHouses: '{g} in other houses', otherPlanets: 'Other grahas in the {n} house',
     disclaimer: 'A single placement is never read alone: sign, aspects, conjunctions, dasha and the whole chart change the outcome.',
-    lgH1: '{r} Lagna', lgTitle: '{r} Lagna (Ascendant) – Nature, Lords & Yogakaraka | Kundali Ganit', lgDesc: '{r} Lagna in Vedic astrology: personality, lagna lord, functional benefics and malefics, and the Yogakaraka graha.',
+    lgH1: '{r} Lagna', lgTitle: '{r} Lagna (Ascendant) – Nature, Lords & Yogakaraka | Grahavani', lgDesc: '{r} Lagna in Vedic astrology: personality, lagna lord, functional benefics and malefics, and the Yogakaraka graha.',
     lgIntro: 'People born with {r} rising in the east have it as their Lagna (ascendant).',
     lgLord: 'The Lagna lord is {g}. It is a {el} sign of {q} nature.',
     lgBen: 'For {r} Lagna, {list} rule the trines (1st, 5th, 9th) and act as functional benefics.',

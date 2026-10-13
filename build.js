@@ -1,11 +1,11 @@
-/* Kundali Ganit — static build for Vercel.
+/* Grahavani — static build for Vercel.
    Generates one SEO-ready page per language (/, /hi/, /gu/, /ta/, /te/, /kn/) into ./public,
    plus config.js (Supabase public keys from env), sitemap.xml and robots.txt. */
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname, OUT = path.join(ROOT, 'public');
-const SITE_URL = (process.env.SITE_URL || 'https://kundali-ganit.vercel.app').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://grahavani.vercel.app').replace(/\/$/, '');
 const LANGS = ['en', 'hi', 'gu', 'ta', 'te', 'kn'];
 const BUILD = Date.now().toString(36);
 const PUBLIC_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
@@ -74,12 +74,12 @@ function head(lang, pg) {
   const fam = ['Marcellus', 'Hind:wght@400;500;600;700', 'IBM+Plex+Mono:wght@400;500', 'Tiro+Devanagari+Sanskrit', ...f.families].map(x => 'family=' + x).join('&');
   const alternates = LANGS.map(l => `<link rel="alternate" hreflang="${ALL[l].meta.htmlLang}" href="${url(l, pg.slug)}">`).join('\n') + `\n<link rel="alternate" hreflang="x-default" href="${url('en', pg.slug)}">`;
   const crumbs = [{ name: L.brand.name, item: url(lang) }].concat(pg.crumbs ? pg.crumbs(L) : []);
-  const graph = [{ '@type': 'WebSite', '@id': SITE_URL + '/#site', name: 'Kundali Ganit', url: SITE_URL + '/', inLanguage: LANGS.map(l => ALL[l].meta.htmlLang) }];
+  const graph = [{ '@type': 'WebSite', '@id': SITE_URL + '/#site', name: 'Grahavani', url: SITE_URL + '/', inLanguage: LANGS.map(l => ALL[l].meta.htmlLang) }];
   if (pg.id === 'home') graph.push(
     { '@type': 'WebApplication', '@id': here + '#app', name: L.brand.name, url: here, description: pg.desc, inLanguage: L.meta.htmlLang, applicationCategory: 'LifestyleApplication', operatingSystem: 'Any', isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' } },
     { '@type': 'FAQPage', '@id': here + '#faq', inLanguage: L.meta.htmlLang, mainEntity: L.faq.map(q => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.a } })) });
   else {
-    graph.push({ '@type': pg.article ? 'Article' : 'WebPage', '@id': here + '#page', [pg.article ? 'headline' : 'name']: pg.h1 || pg.title, description: pg.desc, url: here, inLanguage: L.meta.htmlLang, isPartOf: { '@id': SITE_URL + '/#site' }, ...(pg.article ? { author: { '@type': 'Organization', name: 'Kundali Ganit' }, publisher: { '@type': 'Organization', name: 'Kundali Ganit' } } : {}) });
+    graph.push({ '@type': pg.article ? 'Article' : 'WebPage', '@id': here + '#page', [pg.article ? 'headline' : 'name']: pg.h1 || pg.title, description: pg.desc, url: here, inLanguage: L.meta.htmlLang, isPartOf: { '@id': SITE_URL + '/#site' }, ...(pg.article ? { author: { '@type': 'Organization', name: 'Grahavani' }, publisher: { '@type': 'Organization', name: 'Grahavani' } } : {}) });
     graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })) });
   }
   const { static: _s, faq: _f, info: _i, lp: _lp, legal, tools: _t, pages: _p, ...rest } = L;
@@ -91,7 +91,7 @@ function head(lang, pg) {
 <link rel="canonical" href="${here}">
 ${alternates}
 <meta property="og:type" content="${pg.article ? 'article' : 'website'}">
-<meta property="og:site_name" content="Kundali Ganit">
+<meta property="og:site_name" content="Grahavani">
 <meta property="og:title" content="${esc(pg.title)}">
 <meta property="og:description" content="${esc(pg.desc)}">
 <meta property="og:url" content="${here}">

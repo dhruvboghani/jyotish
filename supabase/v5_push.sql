@@ -1,5 +1,5 @@
 -- =====================================================================
--- Kundali Ganit v5: browser (web push) notifications.
+-- Grahavani v5: browser (web push) notifications.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- =====================================================================
 create table if not exists public.push_subscriptions (

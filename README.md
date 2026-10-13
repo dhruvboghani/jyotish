@@ -1,4 +1,4 @@
-# Kundali Ganit v3
+# Grahavani v3
 
 Vedic Kundali site with Supabase login, a login-gated full report, saved charts, six languages and SEO pages.
 

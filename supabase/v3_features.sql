@@ -1,5 +1,5 @@
 -- =====================================================================
--- Kundali Ganit v3: family relation tags and private share links.
+-- Grahavani v3: family relation tags and private share links.
 -- Run in Supabase → SQL Editor after the earlier scripts. Safe to run more than once.
 -- =====================================================================
 

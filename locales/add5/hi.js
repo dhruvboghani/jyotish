@@ -14,7 +14,7 @@ module.exports = {
   "pushTestBody": "सूचनाएँ काम कर रही हैं। आपको एक दिन पहले शाम को याद दिलाया जाएगा।"
  },
  "rem": {
-  "pushTitle": "कुण्डली गणित याद",
+  "pushTitle": "ग्रहवाणी याद",
   "tomorrow": "कल",
   "nextWeek": "अगले सप्ताह"
  }

@@ -14,7 +14,7 @@ module.exports = {
   "pushTestBody": "Notifications are working. You will be reminded the evening before."
  },
  "rem": {
-  "pushTitle": "Kundali Ganit reminder",
+  "pushTitle": "Grahavani reminder",
   "tomorrow": "Tomorrow",
   "nextWeek": "Next week"
  }

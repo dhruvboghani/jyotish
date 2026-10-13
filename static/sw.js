@@ -1,10 +1,10 @@
-/* Kundali Ganit service worker: shows reminder notifications pushed by the server. */
+/* Grahavani service worker: shows reminder notifications pushed by the server. */
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (err) { d = { body: e.data && e.data.text() }; }
-  e.waitUntil(self.registration.showNotification(d.title || 'Kundali Ganit', {
+  e.waitUntil(self.registration.showNotification(d.title || 'Grahavani', {
     body: d.body || '', icon: '/icon-192.png', badge: '/icon-192.png', tag: d.tag || 'kg-reminder', renotify: true,
     data: { url: d.url || '/' }, lang: d.lang || undefined
   }));
