@@ -1058,3 +1058,35 @@ body.nav-tight .topbar .brand .brand-text small { letter-spacing: .04em; }
 @media (max-width: 720px) { .topbar .brand .brand-text small { font-size: 10.5px; letter-spacing: .04em; } }
 html:not([lang="en"]) .topbar .brand .brand-text small { letter-spacing: 0; text-transform: none; font-size: 12.5px; }
 @media (max-width: 440px) { .topbar .brand .brand-text { display: none; } }
+
+/* Live wheel: twinkling stars, a slow radar sweep, breathing graha glows, an orbiting dot on the halo and a pulsing core */
+.wheel .stars .star { fill: #C9A24A; opacity: .25; }
+.wheel .orbit { transform-box: view-box; transform-origin: 270px 270px; }
+.wheel .sweep, .wheel .pg, .wheel .orbit-dot, .wheel .core-pulse, .wheel .lg-line { transform-box: view-box; }
+.wheel .sweep { transform-origin: 270px 270px; opacity: 0; }
+.wheel .core-pulse { transform-origin: 270px 270px; opacity: 0; stroke-width: 1.5; }
+.wheel .orbit-dot { opacity: 0; }
+.wheel .glow { opacity: .55; }
+.wheel.no-intro .spinner, .wheel.no-intro .pm { animation: none; }
+.live-legend { display: grid; gap: 4px; justify-items: center; }
+.live-badge { display: inline-flex; align-items: center; gap: 7px; padding: 3px 11px 3px 9px; border-radius: 999px; background: #fff; border: 1px solid #F0D7D4; color: #B02A23; font-weight: 600; font-size: 12.5px; letter-spacing: .02em; box-shadow: 0 2px 8px rgba(176, 42, 35, .08); }
+.live-badge i { width: 8px; height: 8px; border-radius: 50%; background: #D93A30; box-shadow: 0 0 0 0 rgba(217, 58, 48, .5); }
+@media (prefers-reduced-motion: no-preference) {
+  .wheel .stars .star { animation: twinkle var(--t, 3s) ease-in-out var(--w, 0s) infinite; }
+  .wheel .sweep { opacity: 1; animation: spin 14s linear infinite reverse; }
+  .wheel .core-pulse { animation: corePulse 3.2s ease-out infinite; }
+  .wheel .orbit-dot { opacity: 1; }
+  .wheel .orbit { animation: spin 26s linear infinite; }
+  .wheel .pg { animation: breathe 4.6s ease-in-out var(--b, 0s) infinite; }
+  .wheel .glow { animation: glow 4.6s ease-in-out var(--b, 0s) infinite; }
+  .wheel .lg-line { animation: lagnaGlow 2.6s ease-in-out infinite; }
+  .wheel .lg-seg { animation: lagnaSeg 2.6s ease-in-out infinite; }
+  .live-badge i { animation: liveDot 1.6s ease-out infinite; }
+}
+@keyframes twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .85; } }
+@keyframes corePulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.75); opacity: 0; } }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+@keyframes glow { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes lagnaGlow { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: .45; } }
+@keyframes lagnaSeg { 0%, 100% { fill: #F7E1AE; } 50% { fill: #FBEDCB; } }
+@keyframes liveDot { 0% { box-shadow: 0 0 0 0 rgba(217, 58, 48, .55); } 100% { box-shadow: 0 0 0 9px rgba(217, 58, 48, 0); } }

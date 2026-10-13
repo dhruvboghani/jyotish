@@ -227,7 +227,7 @@ function render(lang, pg) {
     .replace('<!--FEATURES-->', () => L.static.features.map(f => `<article class="card feature"><span class="fi">${icon(f.icon)}</span><h3>${esc(f.h)}</h3><p>${esc(f.p)}</p></article>`).join(''))
     .replace('<!--ABOUT-->', () => L.static.about.map(a => `<article class="card"><h3>${esc(a.h)}</h3>${a.p.map(p => `<p>${esc(p)}</p>`).join('')}</article>`).join(''))
     .replace('<!--FAQ-->', () => L.faq.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q.q)}<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="ans">${esc(q.a)}</div></details>`).join(''));
-  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
+  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
   let html = read('src/layout.html');
   html = html.replace('<!--HEAD-->', () => head(lang, pg))
     .replace('<!--SPRITE-->', () => read('src/sprite.svg'))
@@ -261,6 +261,7 @@ for (const [name, parts] of Object.entries(BUNDLES)) {
   fs.writeFileSync(path.join(OUT, 'assets', name + '.js'), `(function () {\n'use strict';\n${src}\nboot();\n})();\n`);
 }
 for (const f of ['places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
+fs.copyFileSync(path.join(ROOT, 'lib', 'engine.js'), path.join(OUT, 'assets', 'engine.js')); // same maths in the browser for the live sky wheel
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 
 fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '' })};\n`);

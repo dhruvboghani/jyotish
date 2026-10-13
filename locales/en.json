@@ -56,7 +56,10 @@
   "trust1": "Moon within 1′ of Swiss Ephemeris",
   "trust2": "Lahiri ayanamsa",
   "trust3": "Free · 6 languages",
-  "wheel": "Bhachakra · Lagna on the left · grahas at their exact sidereal degrees"
+  "wheel": "Bhachakra · Lagna on the left · grahas at their exact sidereal degrees",
+  "live": "Live sky",
+  "liveNote": "Grahas where they are right now · enter your birth details to see your own chart",
+  "rising": "Rising now"
  },
  "form": {
   "title": "Birth details",

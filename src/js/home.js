@@ -61,10 +61,10 @@ openChartHere = (birth, opts = {}) => {
 $$('a.newk').forEach(a => a.addEventListener('click', () => setTimeout(() => fName.focus(), 300)));
 
 // ---------- Start ----------
-drawWheel(null);
 const savedLast = store.get('kg-last');
 const noSave = store.get('kg-open-nosave'); store.del('kg-open-nosave');
 if (savedLast && savedLast.input) { fill(savedLast.input, savedLast.place); picker.offAuto = savedLast.offAuto !== false; }
+drawWheel(null); // live sky until a chart is made
 
 authHooks.push((event, s, was) => {
   showRelField();

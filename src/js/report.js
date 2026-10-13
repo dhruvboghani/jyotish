@@ -1,40 +1,82 @@
 /* Kundali report rendering (home page and shared-link page). Uses helpers from core.js. */
 
 // ---------- Wheel ----------
-function drawWheel(data) {
+// With no chart yet the wheel shows the live sky: grahas where they are this minute and the
+// Lagna rising over the chosen place, recomputed every 30 s with the same engine as the server.
+let liveTimer = null, liveFirst = true;
+const LIVE_PLACE = { lat: 23.18, lon: 75.78 }; // Ujjain, the traditional Jyotish meridian
+function liveSky() {
+  const E = window.Jyotish; if (!E) return null;
+  const lat = parseFloat(($('#f-lat') || {}).value), lon = parseFloat(($('#f-lon') || {}).value);
+  const pl = isFinite(lat) && isFinite(lon) && Math.abs(lat) <= 66 ? { lat, lon } : LIVE_PLACE;
+  const jd = Date.now() / 86400000 + 2440587.5, sid = E.sidereal(jd), prev = E.sidereal(jd - .5).lon, next = E.sidereal(jd + .5).lon;
+  const ascLon = E.norm(E.ascendant(jd, pl.lat, pl.lon).asc - sid.ayanamsa);
+  const planets = E.PLANETS.map(n => { const L = sid.lon[n]; return { name: n, lon: L, sign: Math.floor(L / 30), deg: L % 30, retro: n === 'Rahu' || n === 'Ketu' || (n !== 'Sun' && n !== 'Moon' && E.norm(next[n] - prev[n] + 180) - 180 < 0) }; });
+  return { ascLon, lagnaSign: Math.floor(ascLon / 30), planets, live: true };
+}
+function startLive() {
+  clearInterval(liveTimer); liveFirst = true;
+  const tick = () => { const d = liveSky(); if (d) { drawWheel(d, true); liveFirst = false; } };
+  if (window.Jyotish) tick(); else drawWheel(null, true);
+  liveTimer = setInterval(() => { if (!document.hidden) tick(); }, 30000);
+}
+function stars(C) { // fixed pseudo-random starfield inside the house ring
+  let seed = 7, s = '';
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 46; i++) {
+    const a = rnd() * 360, r = 70 + rnd() * 120, x = C + r * Math.cos(a * Math.PI / 180), y = C - r * Math.sin(a * Math.PI / 180);
+    s += `<circle class="star" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(.6 + rnd() * 1.1).toFixed(2)}" style="--t:${(2.2 + rnd() * 3.5).toFixed(2)}s;--w:${(rnd() * 4).toFixed(2)}s"/>`;
+  }
+  return `<g class="stars" aria-hidden="true">${s}</g>`;
+}
+function drawWheel(data, keepLive) {
   const host = $('#wheel'); if (!host) return;
+  if (!keepLive) { clearInterval(liveTimer); liveTimer = null; if (!data) return startLive(); }
+  const live = !!(data && data.live), intro = !live || liveFirst;
   const C = 270, asc = data ? data.ascLon : 0, lagnaSign = data ? data.lagnaSign : -1;
   const pt = (lon, rad) => { const a = (180 + (lon - asc)) * Math.PI / 180; return [C + rad * Math.cos(a), C - rad * Math.sin(a)]; };
   const f = n => n.toFixed(1), R1 = 258, R2 = 212, R3 = 196;
-  let s = `<svg class="wheel" viewBox="0 0 540 540" role="img" aria-label="${esc(t('hero.wheel'))}"><g class="halo"><circle cx="${C}" cy="${C}" r="266" fill="none" stroke="#D3971C" stroke-width="1" stroke-dasharray="2 7" opacity=".7"/></g>`;
+  let s = `<svg class="wheel${live ? ' is-live' : ''}${intro ? '' : ' no-intro'}" viewBox="0 0 540 540" role="img" aria-label="${esc(t(live ? 'hero.live' : 'hero.wheel'))}">
+<defs><linearGradient id="swp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#D3971C" stop-opacity="0"/><stop offset="1" stop-color="#D3971C" stop-opacity=".22"/></linearGradient>
+<radialGradient id="pglow"><stop offset="0" stop-color="currentColor" stop-opacity=".38"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs>
+<g class="halo"><circle cx="${C}" cy="${C}" r="266" fill="none" stroke="#D3971C" stroke-width="1" stroke-dasharray="2 7" opacity=".7"/></g><g class="orbit" aria-hidden="true"><circle class="orbit-dot" cx="${C}" cy="${C - 266}" r="3.4" fill="#D3971C"/><circle class="orbit-dot" cx="${C}" cy="${C + 266}" r="2.2" fill="#2A2E7C"/></g>`;
   s += `<g class="spinner"><circle cx="${C}" cy="${C}" r="${R1}" fill="#fff" stroke="#D9B66B" stroke-width="1.5"/>`;
   for (let i = 0; i < 12; i++) {
     const a = i * 30, b = a + 30, [x1, y1] = pt(a, R1), [x2, y2] = pt(b, R1), [x3, y3] = pt(b, R2), [x4, y4] = pt(a, R2);
-    s += `<path d="M${f(x1)} ${f(y1)} A${R1} ${R1} 0 0 0 ${f(x2)} ${f(y2)} L${f(x3)} ${f(y3)} A${R2} ${R2} 0 0 1 ${f(x4)} ${f(y4)}Z" fill="${i === lagnaSign ? '#F7E1AE' : i % 2 ? '#FDF8EC' : '#FFFFFF'}" stroke="#D9B66B"/>`;
+    s += `<path class="${i === lagnaSign ? 'lg-seg' : ''}" d="M${f(x1)} ${f(y1)} A${R1} ${R1} 0 0 0 ${f(x2)} ${f(y2)} L${f(x3)} ${f(y3)} A${R2} ${R2} 0 0 1 ${f(x4)} ${f(y4)}Z" fill="${i === lagnaSign ? '#F7E1AE' : i % 2 ? '#FDF8EC' : '#FFFFFF'}" stroke="#D9B66B"/>`;
     const [gx, gy] = pt(a + 15, 235);
     s += `<use href="#rs-${i}" x="${f(gx - 12)}" y="${f(gy - 12)}" width="24" height="24" style="color:${i === lagnaSign ? '#8C5E05' : '#2A2E7C'}"><title>${esc(rn(i))}</title></use>`;
   }
   s += `<circle cx="${C}" cy="${C}" r="${R2}" fill="#FDFCF7" stroke="#D9B66B"/>`;
   for (let k = 0; k < 27; k++) { const [a1, b1] = pt(k * 360 / 27, R2), [a2, b2] = pt(k * 360 / 27, R3); s += `<line x1="${f(a1)}" y1="${f(b1)}" x2="${f(a2)}" y2="${f(b2)}" stroke="#D9B66B"/>`; }
   s += `<circle cx="${C}" cy="${C}" r="${R3}" fill="none" stroke="#E8D3A3"/>`;
+  s += stars(C);
+  // Radar-style sweep inside the house ring
+  const [sx, sy] = [C + R3, C], [ex, ey] = [C + R3 * Math.cos(-40 * Math.PI / 180), C + R3 * Math.sin(-40 * Math.PI / 180)];
+  s += `<g class="sweep" aria-hidden="true"><path d="M${C} ${C} L${f(ex)} ${f(ey)} A${R3} ${R3} 0 0 1 ${f(sx)} ${f(sy)}Z" fill="url(#swp)"/><line x1="${C}" y1="${C}" x2="${f(sx)}" y2="${f(sy)}" stroke="#D3971C" stroke-opacity=".35"/></g>`;
   for (let i = 0; i < 12; i++) {
     const [x1, y1] = pt(i * 30, R3), [x2, y2] = pt(i * 30, 62);
     s += `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#EFE3C6"/>`;
     if (data) { const [hx, hy] = pt(i * 30 + 15, 182); s += `<text x="${f(hx)}" y="${f(hy + 4)}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#B8A06A">${(i - lagnaSign + 12) % 12 + 1}</text>`; }
   }
-  s += `<circle cx="${C}" cy="${C}" r="62" fill="#fff" stroke="#E8D3A3"/><use href="#logo" x="${C - 34}" y="${C - 34}" width="68" height="68"/>`;
+  s += `<circle class="core-pulse" cx="${C}" cy="${C}" r="62" fill="none" stroke="#D3971C"/><circle cx="${C}" cy="${C}" r="62" fill="#fff" stroke="#E8D3A3"/><use class="core-logo" href="#logo" x="${C - 34}" y="${C - 34}" width="68" height="68"/>`;
   if (data) {
     const [l1x, l1y] = pt(asc, 62), [l2x, l2y] = pt(asc, R1 + 2), [lt, lty] = pt(asc, 202);
-    s += `<line x1="${f(l1x)}" y1="${f(l1y)}" x2="${f(l2x)}" y2="${f(l2y)}" stroke="#C2352D" stroke-width="2"/><text x="${f(lt + 6)}" y="${f(lty - 6)}" font-weight="700" font-size="12" fill="#C2352D">${esc(t('sec.charts.asc'))}</text>`;
+    s += `<line class="lg-line" x1="${f(l1x)}" y1="${f(l1y)}" x2="${f(l2x)}" y2="${f(l2y)}" stroke="#C2352D" stroke-width="2"/><text x="${f(lt + 6)}" y="${f(lty - 6)}" font-weight="700" font-size="12" fill="#C2352D">${esc(t(live ? 'hero.rising' : 'sec.charts.asc'))}</text>`;
     const levels = [], radii = [160, 128, 96];
     [...(data.planets || [])].sort((a, b) => a.lon - b.lon).forEach((p, i) => {
       let lv = 0; while (levels[lv] !== undefined && Math.abs(((p.lon - levels[lv] + 540) % 360) - 180) < 13 && lv < 2) lv++;
       levels[lv] = p.lon;
       const [x, y] = pt(p.lon, radii[lv]), [ox, oy] = pt(p.lon, R3);
-      s += `<g class="pm" style="--d:${i * 90}ms"><line x1="${f(ox)}" y1="${f(oy)}" x2="${f(x)}" y2="${f(y)}" stroke="${COL[p.name]}" stroke-dasharray="2 3" opacity=".6"/><circle cx="${f(x)}" cy="${f(y)}" r="17" fill="#fff" stroke="${COL[p.name]}" stroke-opacity=".35"/><use href="#gr-${p.name}" x="${f(x - 15)}" y="${f(y - 15)}" width="30" height="30"><title>${esc(gn(p.name))} · ${esc(rn(p.sign))} ${dm(p.deg)}</title></use></g>`;
+      s += `<g class="pm" style="--d:${i * 90}ms;color:${COL[p.name]}"><line x1="${f(ox)}" y1="${f(oy)}" x2="${f(x)}" y2="${f(y)}" stroke="${COL[p.name]}" stroke-dasharray="2 3" opacity=".6"/><g class="pg" style="--b:${(i * .43).toFixed(2)}s;transform-origin:${f(x)}px ${f(y)}px"><circle class="glow" cx="${f(x)}" cy="${f(y)}" r="27" fill="url(#pglow)"/><circle cx="${f(x)}" cy="${f(y)}" r="17" fill="#fff" stroke="${COL[p.name]}" stroke-opacity=".35"/><use href="#gr-${p.name}" x="${f(x - 15)}" y="${f(y - 15)}" width="30" height="30"><title>${esc(gn(p.name))} · ${esc(rn(p.sign))} ${dm(p.deg)}${p.retro && p.name !== 'Rahu' && p.name !== 'Ketu' ? ' ℞' : ''}</title></use>${p.retro && p.name !== 'Rahu' && p.name !== 'Ketu' ? `<text x="${f(x + 13)}" y="${f(y - 10)}" font-size="10" font-weight="700" fill="${COL[p.name]}">℞</text>` : ''}</g></g>`;
     });
   }
-  host.innerHTML = s + `</g></svg><p class="wheel-legend">${esc(t('hero.wheel'))}</p>`;
+  let legend = `<p class="wheel-legend">${esc(t('hero.wheel'))}</p>`;
+  if (live || keepLive) {
+    const now = new Date().toLocaleTimeString(LOCALE, { hour: '2-digit', minute: '2-digit' });
+    legend = `<p class="wheel-legend live-legend"><span class="live-badge"><i></i>${esc(t('hero.live'))} · ${esc(now)}</span><span>${esc(t('hero.liveNote'))}</span></p>`;
+  }
+  host.innerHTML = s + `</g></svg>` + legend;
 }
 
 // ---------- Square charts ----------
