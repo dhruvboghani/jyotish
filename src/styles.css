@@ -456,3 +456,14 @@ footer .brand { justify-content: center; margin-bottom: 8px; }
 .faq details[open] { box-shadow: var(--shadow); border-color: #F0DDB0; }
 .faq .ans { padding: 0 18px 16px; color: var(--ink-2); font-size: 15.5px; }
 .static-sec { padding-block: 64px 8px; scroll-margin-top: 72px; }
+
+/* Admin panel */
+.modal .box.admin { width: min(1040px, 100%); }
+.admin-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+@media (max-width: 620px) { .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.admin-stats div { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--bg); }
+.admin-stats b { display: block; font-family: var(--f-mono); font-size: 24px; font-variant-numeric: tabular-nums; }
+.admin-stats span { font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.admin-body { max-height: 52vh; overflow: auto; }
+.admin-body table th, .admin-body table td { text-align: left; }
+.admin-body input[type=search] { width: 100%; }

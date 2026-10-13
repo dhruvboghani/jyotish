@@ -1008,5 +1008,24 @@
  ],
  "footer": {
   "text": "Positions are computed from orbital mathematics with Lahiri ayanamsa. Readings follow classical rules and are a guide, not a certainty."
+ },
+ "admin": {
+  "title": "Admin panel",
+  "lede": "Every account and every saved Kundali. Only accounts listed in the admins table can see this.",
+  "users": "Users",
+  "charts": "All Kundalis",
+  "search": "Search by email, name or place",
+  "sUsers": "Users",
+  "sConfirmed": "Confirmed",
+  "sCharts": "Kundalis",
+  "sNew": "New this week",
+  "email": "Email",
+  "name": "Name",
+  "status": "Status",
+  "joined": "Joined",
+  "lastLogin": "Last login",
+  "confirmed": "Confirmed",
+  "pending": "Not confirmed",
+  "none": "Nothing here yet."
  }
 }

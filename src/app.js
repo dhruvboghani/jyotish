@@ -395,7 +395,7 @@ function observeReveals() {
 }
 
 // ---------- API ----------
-let session = null, lastInput = null;
+let session = null, lastInput = null, isAdmin = false;
 async function run(input, opts = {}) {
   lastInput = input;
   try { localStorage.setItem('kg-last', JSON.stringify({ input, place: chosen, offAuto })); } catch (e) { }
@@ -443,7 +443,7 @@ function fill(input, place) {
 const modal = $('#modal');
 function closeModal() { modal.innerHTML = ''; document.body.style.overflow = ''; }
 function openModal(html, wide) {
-  modal.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="box${wide ? ' wide' : ''}"><button class="x" type="button" aria-label="${esc(t('auth.close'))}">×</button>${html}</div></div>`;
+  modal.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="box${wide === 'admin' ? ' admin' : wide ? ' wide' : ''}"><button class="x" type="button" aria-label="${esc(t('auth.close'))}">×</button>${html}</div></div>`;
   document.body.style.overflow = 'hidden';
   modal.querySelector('.x').onclick = closeModal;
   modal.querySelector('.modal').addEventListener('mousedown', e => { if (e.target.classList.contains('modal')) closeModal(); });
@@ -510,7 +510,7 @@ function newPasswordModal() {
 
 async function savedModal() {
   openModal(`<h2>${esc(t('saved.title'))}</h2><ul class="saved-list" id="savedlist"><li><span class="spin"></span></li></ul>`, true);
-  const { data, error } = await sb.from('kundalis').select('id,name,birth,created_at').order('updated_at', { ascending: false }).limit(100);
+  const { data, error } = await sb.from('kundalis').select('id,name,birth,created_at').eq('user_id', session.user.id).order('updated_at', { ascending: false }).limit(100);
   const list = $('#savedlist'); if (!list) return;
   if (error || !data.length) { list.innerHTML = `<li><span>${esc(error ? error.message : t('saved.empty'))}</span></li>`; return; }
   list.innerHTML = data.map(row => { const b = row.birth; return `<li data-id="${row.id}"><span class="rgic">${esc((b.name || '?').trim().charAt(0).toUpperCase() || '?')}</span><div><b>${esc(b.name || t('res.defaultName'))}</b><span>${b.day}/${b.month}/${b.year} · ${String(b.hour).padStart(2, '0')}:${String(b.minute).padStart(2, '0')} · ${esc(b.placeLabel || '')}</span></div><button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button><button class="del" type="button" data-del>${esc(t('saved.delete'))}</button></li>`; }).join('');
@@ -520,6 +520,50 @@ async function savedModal() {
     if (e.target.closest('[data-open]')) { closeModal(); fill(row.birth, null); run(row.birth, { scroll: true, silent: true }); }
     if (e.target.closest('[data-del]')) { const { error } = await sb.from('kundalis').delete().eq('id', row.id); if (!error) { li.remove(); toast(t('saved.deleted')); } }
   });
+}
+
+// ---------- Admin panel (users listed in public.admins) ----------
+async function checkAdmin() {
+  isAdmin = false;
+  if (!sb || !session) return;
+  try { const { data, error } = await sb.rpc('is_admin'); isAdmin = !error && data === true; } catch (e) { }
+}
+const fmtTs = v => v ? new Date(v).toLocaleString(LOCALE, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+async function adminModal() {
+  openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
+    <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
+    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button></div>
+    <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
+    <div id="ad-body" class="admin-body"></div>`, 'admin');
+  const [u, k] = await Promise.all([
+    sb.rpc('admin_users'),
+    sb.from('kundalis').select('id,user_id,name,birth,created_at,updated_at').order('updated_at', { ascending: false }).limit(1000)
+  ]);
+  const body = $('#ad-body'); if (!body) return;
+  if (u.error || k.error) { $('#ad-stats').innerHTML = ''; body.innerHTML = `<p class="err">${esc((u.error || k.error).message)}</p>`; return; }
+  const users = u.data || [], charts = k.data || [], byId = Object.fromEntries(users.map(x => [x.id, x]));
+  const weekAgo = Date.now() - 7 * 864e5;
+  const stat = (n, l) => `<div><b>${n}</b><span>${esc(l)}</span></div>`;
+  $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew'));
+  let tab = 'users';
+  const draw = () => {
+    const q = ($('#ad-q').value || '').trim().toLowerCase();
+    if (tab === 'users') {
+      const rows = users.filter(x => !q || (x.email + ' ' + (x.full_name || '')).toLowerCase().includes(q));
+      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.status'))}</th><th>${esc(t('admin.joined'))}</th><th>${esc(t('admin.lastLogin'))}</th><th>${esc(t('admin.sCharts'))}</th></tr></thead><tbody>${rows.map(x => `<tr><td>${esc(x.email)}</td><td>${esc(x.full_name || '—')}</td><td><span class="tag ${x.confirmed ? 'good' : 'warn'}">${esc(t(x.confirmed ? 'admin.confirmed' : 'admin.pending'))}</span></td><td class="num">${fmtTs(x.created_at)}</td><td class="num">${fmtTs(x.last_sign_in_at)}</td><td class="num">${x.charts}</td></tr>`).join('') || `<tr><td colspan="6">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>`;
+    } else {
+      const rows = charts.filter(r => { const b = r.birth || {}, ow = byId[r.user_id]; return !q || [b.name, b.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
+      body.innerHTML = `<ul class="saved-list">${rows.map(r => { const b = r.birth || {}, ow = byId[r.user_id]; return `<li data-id="${r.id}"><span class="rgic">${esc((b.name || '?').trim().charAt(0).toUpperCase() || '?')}</span><div><b>${esc(b.name || t('res.defaultName'))}</b><span>${b.day}/${b.month}/${b.year} · ${String(b.hour).padStart(2, '0')}:${String(b.minute).padStart(2, '0')} · ${esc(b.placeLabel || '')}</span><span style="display:block">${esc(ow ? ow.email : '')} · ${fmtTs(r.updated_at)}</span></div><button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button></li>`; }).join('') || `<li><span>${esc(t('admin.none'))}</span></li>`}</ul>`;
+    }
+  };
+  $('#ad-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $('#ad-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+  $('#ad-q').addEventListener('input', draw);
+  body.addEventListener('click', e => {
+    const li = e.target.closest('li[data-id]'); if (!li || !e.target.closest('[data-open]')) return;
+    const row = charts.find(r => r.id === li.dataset.id);
+    closeModal(); fill(row.birth, null); run({ ...row.birth, save: false }, { scroll: true, silent: true });
+  });
+  draw();
 }
 
 // Email links come back as #error=…&error_code=otp_expired when the link was used already or is too old.
@@ -553,13 +597,14 @@ function renderAuthSlot() {
   if (!session) { slot.innerHTML = `<button class="btn-line" type="button" data-auth="login">${esc(t('nav.login'))}</button>`; return; }
   const u = session.user, nm = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email;
   slot.innerHTML = `<span class="user"><button type="button" id="userbtn" aria-haspopup="true" aria-expanded="false"><span class="av">${esc(String(nm).charAt(0).toUpperCase())}</span><span class="nm">${esc(nm)}</span></button>
-    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-cal')}${esc(t('nav.myCharts'))}</button><button type="button" data-menu="logout">${ic('i-chev')}${esc(t('nav.logout'))}</button></div></span>`;
+    <div class="menu" id="usermenu" hidden><div class="who">${esc(u.email || '')}</div><button type="button" data-menu="saved">${ic('i-cal')}${esc(t('nav.myCharts'))}</button>${isAdmin ? `<button type="button" data-menu="admin">${ic('i-lock')}${esc(t('admin.title'))}</button>` : ''}<button type="button" data-menu="logout">${ic('i-chev')}${esc(t('nav.logout'))}</button></div></span>`;
   const btn = $('#userbtn'), menu = $('#usermenu');
   btn.onclick = () => { menu.hidden = !menu.hidden; btn.setAttribute('aria-expanded', String(!menu.hidden)); };
   document.addEventListener('click', e => { if (!e.target.closest('.user')) menu.hidden = true; });
   menu.onclick = async e => {
     const m = e.target.closest('[data-menu]'); if (!m) return; menu.hidden = true;
     if (m.dataset.menu === 'saved') savedModal();
+    if (m.dataset.menu === 'admin') adminModal();
     if (m.dataset.menu === 'logout') { await sb.auth.signOut(); }
   };
 }
@@ -577,12 +622,13 @@ if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offA
     session = data.session;
     if (session && /type=(signup|magiclink|email)/.test(INITIAL_HASH)) setTimeout(() => toast(t('auth.confirmed')), 300);
     sb.auth.onAuthStateChange((event, s) => {
-      const was = !!session; session = s; renderAuthSlot();
+      const was = !!session; session = s; renderAuthSlot(); checkAdmin().then(renderAuthSlot);
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
       if (event === 'SIGNED_IN' && !was && lastInput) { closeModal(); run(lastInput, { silent: false }); }
       if (event === 'SIGNED_OUT' && lastInput) run(lastInput, { silent: true });
     });
   }
+  await checkAdmin();
   renderAuthSlot();
   const linkErr = readAuthError();
   if (linkErr && sb) linkErrorModal(linkErr);

@@ -70,7 +70,19 @@ npx vercel dev
 - Hindi and Gujarati are ready to use. Have a native speaker review Tamil, Telugu and Kannada before launch, especially regional terms.
 - To add a language: create `locales/xx.json`, add `xx` to `LANGS` in `build.js`, and add a font in `FONTS`.
 
-## 5. Before launch
+## 5. Admin
+
+1. Create the admin account first: sign up on the site, or Supabase → **Authentication → Users → Add user → Create new user** with "Auto Confirm User" ticked.
+2. Run `supabase/admin.sql` in the SQL Editor. It creates the `admins` table, lets admins read every Kundali, adds the `admin_users()` function and makes `ramboghani726@gmail.com` an admin.
+3. Log in. The account menu now has **Admin panel**, with every user (confirmed or not, joined, last login, chart count) and every saved Kundali.
+
+To add another admin: `insert into public.admins (user_id) select id from auth.users where email = 'someone@example.com';`
+
+## 6. Email delivery
+
+Supabase's built-in mailer sends only about 2 emails per hour, and only to members of your Supabase team. For real users, set up custom SMTP (Resend, Brevo, Amazon SES or similar) under **Authentication → Emails → SMTP Settings**.
+
+## 7. Before launch
 
 - Add rate limiting to `/api/kundali`, for example with Upstash Redis or Vercel's firewall rules. Each full report takes about 150 ms of compute.
 - Customise Supabase's auth email templates (confirm signup, reset password) with your branding.
