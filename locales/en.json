@@ -29,7 +29,8 @@
   "dasha": "Dasha",
   "panchang": "Panchang",
   "bhavas": "Bhavas",
-  "gochar": "Gochar"
+  "gochar": "Gochar",
+  "history": "History"
  },
  "hero": {
   "kicker": "Vedic Jyotish · computed, not guessed",
@@ -140,7 +141,9 @@
   "lord": "lord {g}",
   "nameLetter": "Name letters",
   "navamsa": "Navamsa {r}",
-  "house": "House {h}"
+  "house": "House {h}",
+  "lagnaShort": "{r} Lagna",
+  "rashiShort": "{r} Rashi"
  },
  "sec": {
   "hl": {
@@ -1028,11 +1031,32 @@
   "lastLogin": "Last login",
   "confirmed": "Confirmed",
   "pending": "Not confirmed",
-  "none": "Nothing here yet."
+  "none": "Nothing here yet.",
+  "history": "All history",
+  "sHistory": "History entries",
+  "when": "When",
+  "birth": "Birth",
+  "place": "Place",
+  "result": "Result",
+  "lang": "Language",
+  "fromSession": "from session",
+  "historyMissing": "Run supabase/history.sql to start recording history."
  },
  "trial": {
   "title": "Your free Kundali",
   "text": "Your first Kundali is free. To make Kundalis for family and friends and keep them saved, create a free account.",
   "cta": "Create free account"
+ },
+ "history": {
+  "title": "Kundali history",
+  "search": "Search by name, place or date",
+  "localNote": "Saved in this browser only. Create a free account to keep your history safe and see it on any device.",
+  "accountNote": "Every Kundali you have made, newest first. Saved privately to your account.",
+  "clear": "Clear history",
+  "clearSure": "Click again to delete all",
+  "count": "{n} entries",
+  "empty": "No Kundalis yet. Fill in the birth details above to make one.",
+  "noMatch": "Nothing matches your search.",
+  "locked": "login needed"
  }
 }

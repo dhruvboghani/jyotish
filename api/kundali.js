@@ -77,5 +77,17 @@ module.exports = async (req, res) => {
     saved = !error;
     if (error) console.error('save failed', error.message);
   }
-  return res.status(200).json({ ...report, saved });
+  // History: one row per explicit request (form submit), not for silent re-opens.
+  let logged = false;
+  if (body.log === true) {
+    const c = report.chart, moon = c.planets.find(p => p.name === 'Moon');
+    const { error } = await auth.sb.from('kundali_history').insert({
+      user_id: auth.user.id, name: input.name || null, birth: input,
+      summary: { lagna: c.lagna.sign, moon: moon.sign, nak: moon.nak, pada: moon.pada },
+      lang: String(body.lang || '').slice(0, 5) || null
+    });
+    logged = !error;
+    if (error) console.error('history failed', error.message);
+  }
+  return res.status(200).json({ ...report, saved, logged });
 };

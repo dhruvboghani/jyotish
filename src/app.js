@@ -407,10 +407,11 @@ async function run(input, opts = {}) {
   try {
     const headers = { 'Content-Type': 'application/json' };
     if (session) headers.Authorization = 'Bearer ' + session.access_token;
-    const res = await fetch('/api/kundali', { method: 'POST', headers, body: JSON.stringify(input) });
+    const res = await fetch('/api/kundali', { method: 'POST', headers, body: JSON.stringify({ ...input, log: !!(opts.log && session), lang: LANG }) });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.trial) { try { localStorage.setItem('kg-trial', JSON.stringify(input)); } catch (e) { } }
+    if (opts.log && !session) addLocalHistory(input, data);
     if (data.locked) renderPreview(data); else { renderFull(data); if (data.saved && !opts.silent) toast(t('saved.saved')); }
     if (opts.scroll) setTimeout(() => $('#results').scrollIntoView({ behavior: 'smooth' }), 80);
   } catch (e) {
@@ -432,7 +433,7 @@ $('#form').addEventListener('submit', e => {
   if (off === null) { err.textContent = t('err.offset'); $('#coords').open = true; return; }
   const [year, month, day] = date.split('-').map(Number), [hour, minute] = time.split(':').map(Number);
   const placeLabel = chosen ? `${chosen.name}, ${chosen.region}` : (fPlace.value.trim() || latStr(lat) + ', ' + lonStr(lon));
-  run({ name: $('#f-name').value.trim(), year, month, day, hour, minute, lat, lon, tzMinutes: off, placeLabel }, { scroll: true });
+  run({ name: $('#f-name').value.trim(), year, month, day, hour, minute, lat, lon, tzMinutes: off, placeLabel }, { scroll: true, log: true });
 });
 
 function fill(input, place) {
@@ -526,6 +527,78 @@ async function savedModal() {
   });
 }
 
+// ---------- History: every Kundali entered ----------
+// Logged out: kept in this browser (kg-history). Logged in: Supabase table kundali_history.
+const HKEY = 'kg-history', HMAX = 100;
+const readLocal = () => { try { return JSON.parse(localStorage.getItem(HKEY) || '[]'); } catch (e) { return []; } };
+const writeLocal = list => { try { localStorage.setItem(HKEY, JSON.stringify(list.slice(0, HMAX))); } catch (e) { } };
+function summaryOf(data) {
+  if (data.preview) return { lagna: data.preview.lagna.sign, moon: data.preview.moon.sign, nak: data.preview.moon.nak, pada: data.preview.moon.pada };
+  if (data.chart) { const m = data.chart.planets.find(p => p.name === 'Moon'); return { lagna: data.chart.lagna.sign, moon: m.sign, nak: m.nak, pada: m.pada }; }
+  return null;
+}
+function addLocalHistory(input, data) {
+  const { log, lang, save, ...birth } = input;
+  const list = readLocal();
+  list.unshift({ id: 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: birth.name || null, birth, summary: summaryOf(data), lang: LANG, created_at: new Date().toISOString(), locked: !!data.locked });
+  writeLocal(list);
+}
+async function moveLocalHistory(s) {
+  const list = readLocal();
+  if (!list.length || !s) return;
+  const rows = list.map(h => ({ user_id: s.user.id, name: h.name, birth: h.birth, summary: h.summary, lang: h.lang, source: 'session', created_at: h.created_at }));
+  const { error } = await sb.from('kundali_history').insert(rows);
+  if (!error) { try { localStorage.removeItem(HKEY); } catch (e) { } }
+}
+async function loadHistory() {
+  if (!session) return { rows: readLocal(), local: true };
+  const { data, error } = await sb.from('kundali_history').select('id,name,birth,summary,lang,created_at').eq('user_id', session.user.id).order('created_at', { ascending: false }).limit(500);
+  return { rows: data || [], local: false, error };
+}
+const histWhen = v => new Date(v).toLocaleString(LOCALE, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+const histBirth = b => `${String(b.day).padStart(2, '0')}/${String(b.month).padStart(2, '0')}/${b.year} · ${String(b.hour).padStart(2, '0')}:${String(b.minute).padStart(2, '0')}`;
+const histSum = sm => sm ? `${t('res.lagnaShort', { r: { r: sm.lagna } })} · ${t('res.rashiShort', { r: { r: sm.moon } })} · ${nk(sm.nak)}` : '';
+async function historyModal() {
+  openModal(`<h2>${esc(t('history.title'))}</h2><p class="muted" id="h-note"></p>
+    <div class="field" style="margin-top:12px"><input id="h-q" type="search" placeholder="${esc(t('history.search'))}" aria-label="${esc(t('history.search'))}"></div>
+    <ul class="saved-list hist-list" id="h-list"><li><span class="spin"></span></li></ul>
+    <div class="links"><span id="h-count"></span><button class="linkbtn" type="button" id="h-clear">${esc(t('history.clear'))}</button></div>`, true);
+  const { rows, local, error } = await loadHistory();
+  const list = $('#h-list'); if (!list) return;
+  $('#h-note').innerHTML = local ? `${esc(t('history.localNote'))} <button class="linkbtn" type="button" data-auth="signup">${esc(t('trial.cta'))}</button>` : esc(t('history.accountNote'));
+  let items = rows;
+  const draw = () => {
+    const q = ($('#h-q').value || '').trim().toLowerCase();
+    const shown = items.filter(h => !q || [h.name, h.birth.placeLabel, histBirth(h.birth)].join(' ').toLowerCase().includes(q));
+    $('#h-count').textContent = t('history.count', { n: items.length });
+    $('#h-clear').hidden = !items.length;
+    if (error) { list.innerHTML = `<li><span>${esc(error.message)}</span></li>`; return; }
+    list.innerHTML = shown.map(h => `<li data-id="${esc(h.id)}"><span class="rgic">${esc(((h.name || '?').trim().charAt(0) || '?').toUpperCase())}</span>
+      <div><b>${esc(h.name || t('res.defaultName'))}</b><span>${esc(histBirth(h.birth))} · ${esc(h.birth.placeLabel || '')}</span><span class="hs">${esc(histSum(h.summary))}</span><span class="hw">${ic('i-clock')}${esc(histWhen(h.created_at))}${h.locked ? ` · <em>${esc(t('history.locked'))}</em>` : ''}</span></div>
+      <button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button><button class="del" type="button" data-del aria-label="${esc(t('saved.delete'))}">${esc(t('saved.delete'))}</button></li>`).join('') || `<li><span>${esc(t(items.length ? 'history.noMatch' : 'history.empty'))}</span></li>`;
+  };
+  $('#h-q').addEventListener('input', draw);
+  list.addEventListener('click', async e => {
+    const li = e.target.closest('li[data-id]'); if (!li) return;
+    const h = items.find(x => String(x.id) === li.dataset.id);
+    if (e.target.closest('[data-open]')) { closeModal(); fill(h.birth, null); run(h.birth, { scroll: true, silent: true }); }
+    if (e.target.closest('[data-del]')) {
+      if (local) { items = items.filter(x => x !== h); writeLocal(items); }
+      else { const { error: er } = await sb.from('kundali_history').delete().eq('id', h.id); if (er) return; items = items.filter(x => x !== h); }
+      draw();
+    }
+  });
+  const clr = $('#h-clear');
+  clr.addEventListener('click', async () => {
+    if (!clr.dataset.sure) { clr.dataset.sure = '1'; clr.textContent = t('history.clearSure'); return; }
+    if (local) writeLocal([]);
+    else { const { error: er } = await sb.from('kundali_history').delete().eq('user_id', session.user.id); if (er) return; }
+    items = []; clr.removeAttribute('data-sure'); clr.textContent = t('history.clear'); draw();
+  });
+  draw();
+}
+$('#histbtn').addEventListener('click', historyModal);
+
 // The free chart made before signing up is copied into the new account once.
 async function saveTrialChart(s) {
   let trial = null;
@@ -544,23 +617,28 @@ const fmtTs = v => v ? new Date(v).toLocaleString(LOCALE, { day: 'numeric', mont
 async function adminModal() {
   openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
     <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
-    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button></div>
+    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button></div>
     <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
     <div id="ad-body" class="admin-body"></div>`, 'admin');
-  const [u, k] = await Promise.all([
+  const [u, k, hs] = await Promise.all([
     sb.rpc('admin_users'),
-    sb.from('kundalis').select('id,user_id,name,birth,created_at,updated_at').order('updated_at', { ascending: false }).limit(1000)
+    sb.from('kundalis').select('id,user_id,name,birth,created_at,updated_at').order('updated_at', { ascending: false }).limit(1000),
+    sb.from('kundali_history').select('id,user_id,name,birth,summary,lang,source,created_at').order('created_at', { ascending: false }).limit(2000)
   ]);
+  const history = hs.error ? [] : (hs.data || []);
   const body = $('#ad-body'); if (!body) return;
   if (u.error || k.error) { $('#ad-stats').innerHTML = ''; body.innerHTML = `<p class="err">${esc((u.error || k.error).message)}</p>`; return; }
   const users = u.data || [], charts = k.data || [], byId = Object.fromEntries(users.map(x => [x.id, x]));
   const weekAgo = Date.now() - 7 * 864e5;
   const stat = (n, l) => `<div><b>${n}</b><span>${esc(l)}</span></div>`;
-  $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew'));
+  $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew')) + stat(history.length, t('admin.sHistory'));
   let tab = 'users';
   const draw = () => {
     const q = ($('#ad-q').value || '').trim().toLowerCase();
-    if (tab === 'users') {
+    if (tab === 'history') {
+      const rows = history.filter(h => { const ow = byId[h.user_id]; return !q || [h.name, h.birth.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
+      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(histBirth(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td></tr>`; }).join('') || `<tr><td colspan="7">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;
+    } else if (tab === 'users') {
       const rows = users.filter(x => !q || (x.email + ' ' + (x.full_name || '')).toLowerCase().includes(q));
       body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.status'))}</th><th>${esc(t('admin.joined'))}</th><th>${esc(t('admin.lastLogin'))}</th><th>${esc(t('admin.sCharts'))}</th></tr></thead><tbody>${rows.map(x => `<tr><td>${esc(x.email)}</td><td>${esc(x.full_name || '—')}</td><td><span class="tag ${x.confirmed ? 'good' : 'warn'}">${esc(t(x.confirmed ? 'admin.confirmed' : 'admin.pending'))}</span></td><td class="num">${fmtTs(x.created_at)}</td><td class="num">${fmtTs(x.last_sign_in_at)}</td><td class="num">${x.charts}</td></tr>`).join('') || `<tr><td colspan="6">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>`;
     } else {
@@ -636,7 +714,7 @@ if (saved && saved.input) { fill(saved.input, saved.place); offAuto = saved.offA
     sb.auth.onAuthStateChange((event, s) => {
       const was = !!session; session = s; renderAuthSlot(); checkAdmin().then(renderAuthSlot);
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
-      if (event === 'SIGNED_IN' && !was) saveTrialChart(s);
+      if (event === 'SIGNED_IN' && !was) { saveTrialChart(s); moveLocalHistory(s); }
       if (event === 'SIGNED_IN' && !was && lastInput) { closeModal(); run(lastInput, { silent: false }); }
       if (event === 'SIGNED_OUT' && lastInput) run(lastInput, { silent: true });
     });

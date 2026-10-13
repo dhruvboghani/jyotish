@@ -475,3 +475,16 @@ footer .brand { justify-content: center; margin-bottom: 8px; }
 .trial-banner div { flex: 1; min-width: 220px; }
 .trial-banner b { font-size: 16.5px; }
 .trial-banner p { color: var(--ink-2); font-size: 14.5px; }
+
+/* History */
+.histbtn svg { width: 17px; height: 17px; color: var(--gold-deep); }
+@media (max-width: 720px) { .histbtn span { display: none; } .histbtn { padding: 8px 10px; } }
+.hist-list { max-height: 56vh; overflow: auto; }
+.hist-list li { align-items: flex-start; }
+.hist-list .hs { display: block; color: var(--indigo); font-size: 13px; margin-top: 2px; }
+.hist-list .hw { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.hist-list .hw svg { width: 13px; height: 13px; }
+.hist-list .hw em { font-style: normal; color: var(--warn); font-weight: 600; }
+.hist-list .btn-line, .hist-list .del { align-self: center; }
+@media (max-width: 520px) { .hist-list li { flex-wrap: wrap; } .hist-list li > div { flex-basis: calc(100% - 52px); } }
+.admin-stats { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }

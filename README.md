@@ -72,6 +72,14 @@ npx vercel dev
 - Hindi and Gujarati are ready to use. Have a native speaker review Tamil, Telugu and Kannada before launch, especially regional terms.
 - To add a language: create `locales/xx.json`, add `xx` to `LANGS` in `build.js`, and add a font in `FONTS`.
 
+## History
+
+- Every Kundali generated from the form is recorded with its full birth details, language, a short result summary (Lagna, Rashi, Nakshatra) and the time.
+- Logged out: kept in the browser (`localStorage`, up to 100 entries) and shown under **History**.
+- Logged in: stored in the Supabase table `kundali_history` (run `supabase/history.sql`). On login or signup, the browser's session history is moved into the account.
+- Users can search, open, delete single entries or clear their history. Admins see everyone's history in the Admin panel.
+- `kundalis` still keeps one row per unique person (My Kundalis); `kundali_history` keeps every entry.
+
 ## Free trial
 
 - One full Kundali per browser without an account. The server remembers it in a signed, httpOnly cookie, so returning days or months later still shows that chart, and a different birth asks for login.
