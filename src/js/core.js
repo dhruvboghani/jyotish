@@ -207,14 +207,36 @@ function authModal(mode, featureKey) {
     if (!email || password.length < 6) { er.textContent = t('auth.invalid'); return; }
     btn.setAttribute('aria-busy', 'true');
     if (signup) {
-      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: ($('#a-name').value || '').trim(), lang: LANG }, emailRedirectTo: redirectTo() } });
+      const fullName = ($('#a-name').value || '').trim();
+      // 1) Instant account (already confirmed) through our server, then log straight in.
+      let direct = null;
+      try {
+        const r = await fetch('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, name: fullName, lang: LANG }) });
+        direct = { status: r.status, data: await r.json().catch(() => ({})) };
+      } catch (e) { }
+      if (direct && direct.status === 200) {
+        const { error } = await sb.auth.signInWithPassword({ email, password });
+        btn.removeAttribute('aria-busy');
+        if (error) { er.textContent = error.message; return; }
+        closeModal(); return;
+      }
+      if (direct && direct.status === 409) {
+        // Already registered: try logging in with the password they typed.
+        const { error } = await sb.auth.signInWithPassword({ email, password });
+        btn.removeAttribute('aria-busy');
+        if (error) { er.textContent = t('auth.exists'); return; }
+        closeModal(); return;
+      }
+      if (direct && direct.status === 400) { btn.removeAttribute('aria-busy'); er.textContent = direct.data.error === 'weak_password' || direct.data.error === 'invalid_email' ? t('auth.invalid') : (direct.data.error || t('auth.invalid')); return; }
+      // 2) Fallback: normal Supabase sign-up (direct login when "Confirm email" is off in Supabase).
+      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: fullName, lang: LANG }, emailRedirectTo: redirectTo() } });
+      if (!error && !data.session) {
+        const s2 = await sb.auth.signInWithPassword({ email, password });
+        if (!s2.error) { btn.removeAttribute('aria-busy'); closeModal(); return; }
+      }
       btn.removeAttribute('aria-busy');
       if (error) { er.textContent = error.message; return; }
-      if (!data.session) {
-        er.className = 'ok'; er.textContent = t('auth.checkEmail', { email });
-        const again = document.createElement('button'); again.type = 'button'; again.className = 'linkbtn'; again.style.display = 'block'; again.style.marginTop = '6px';
-        again.textContent = t('auth.resend'); again.onclick = () => resend(email, er); er.after(again); return;
-      }
+      if (!data.session) { er.textContent = t('auth.signupOff'); return; }
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password });
       btn.removeAttribute('aria-busy');

@@ -110,7 +110,9 @@
   "linkError": "Something went wrong with the email link. Enter your email and we'll send a new one.",
   "resend": "Send a new confirmation email",
   "resent": "A new confirmation link was sent to {email}. Open the latest email and click the link once.",
-  "confirmed": "Email confirmed. You are logged in."
+  "confirmed": "Email confirmed. You are logged in.",
+  "exists": "This email already has an account. Log in with its password.",
+  "signupOff": "Instant sign-up is not switched on yet. Please try again in a few minutes."
  },
  "gate": {
   "preview": "Free preview",

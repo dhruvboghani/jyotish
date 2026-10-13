@@ -1,4 +1,5 @@
 module.exports = {
+  auth: { exists: "This email already has an account. Log in with its password.", signupOff: "Instant sign-up is not switched on yet. Please try again in a few minutes." },
   nav: { menu: 'Menu', kundali: 'Kundali', matching: 'Matching', calendar: 'Calendar', rashifal: 'Rashifal', learn: 'Learn', events: 'Events' },
   err: { busy: 'Too many requests. Please wait a minute and try again.' },
   members: {
