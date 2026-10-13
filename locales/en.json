@@ -10,7 +10,8 @@
   "description": "Make your free Janma Kundali online from birth date, time and place. Accurate Lagna, Navamsa, planet positions, Vimshottari dasha, Manglik dosha, Sade Sati, panchang and yogas with Lahiri ayanamsa."
  },
  "brand": {
-  "name": "Grahavani"
+  "name": "Grahavani",
+  "tagline": "Voice of the planets"
  },
  "nav": {
   "sections": "Sections",
