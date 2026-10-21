@@ -4,3 +4,7 @@ public/
 .env
 .env.local
 .DS_Store
+
+# Android app build output
+mobile/www/
+mobile/node_modules/

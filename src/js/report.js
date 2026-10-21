@@ -219,11 +219,12 @@ async function shareChart(input) {
   try {
     const { log, lang, save, ...birth } = input;
     const { token } = await api('/api/share/', { method: 'POST', body: JSON.stringify(birth) });
-    const link = `${location.origin}${HOME}share/?t=${token}`;
+    const link = `${SITE_ORIGIN}${HOME}share/?t=${token}`;
     const wa = 'https://wa.me/?text=' + encodeURIComponent(t('share.waText', { n: input.name || t('res.defaultName') }) + ' ' + link);
     $('#sharebox').innerHTML = `<div class="sharelink"><input id="sharelink" type="text" readonly value="${esc(link)}" aria-label="${esc(t('share.link'))}"><button class="btn-cta" type="button" id="copylink">${esc(t('share.copy'))}</button></div>
-      <div class="share-actions"><a class="btn-line" href="${esc(wa)}" target="_blank" rel="noopener">${ic('i-whatsapp')}${esc(t('share.whatsapp'))}</a><button class="linkbtn" type="button" id="revoke">${esc(t('share.revoke'))}</button></div>
+      <div class="share-actions">${APP && APP.share ? `<button class="btn-cta" type="button" id="natshare">${ic('i-link')}${esc(t('app.share'))}</button>` : ''}<a class="btn-line" href="${esc(wa)}" target="_blank" rel="noopener">${ic('i-whatsapp')}${esc(t('share.whatsapp'))}</a><button class="linkbtn" type="button" id="revoke">${esc(t('share.revoke'))}</button></div>
       <p class="muted small">${esc(t('share.note'))}</p>`;
+    if ($('#natshare')) $('#natshare').onclick = () => APP.share({ title: t('share.title'), text: t('share.waText', { n: input.name || t('res.defaultName') }), url: link });
     $('#copylink').onclick = async () => { const el = $('#sharelink'); try { await navigator.clipboard.writeText(link); toast(t('share.copied')); } catch (e) { el.select(); } };
     $('#revoke').onclick = async () => { try { await api('/api/share/?t=' + token, { method: 'DELETE' }); closeModal(); toast(t('share.revoked')); } catch (e) { toast(e.message); } };
   } catch (e) {
@@ -237,7 +238,7 @@ function downloadPdf() {
   const done = () => { document.body.classList.remove('printing'); opened.forEach(d => d.removeAttribute('open')); window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   toast(t('pdf.hint'));
-  setTimeout(() => { window.print(); setTimeout(done, 1500); }, 300);
+  setTimeout(() => { if (APP && APP.print) APP.print(t('brand.name') + ' – ' + (($('.profile h2') || {}).textContent || t('res.defaultName')).trim(), done); else { window.print(); setTimeout(done, 1500); } }, 300);
 }
 
 // ---------- Full report ----------
@@ -434,6 +435,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   }));
   if (session && !data.shared) { mountNotes(input); brandHead(); }
   if (session) mountSadhana(input);
+  if (APP && APP.chartRendered && !data.shared) APP.chartRendered(data);
   requestAnimationFrame(() => { const fg = $('#ringfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - progress); });
   observeReveals();
 }

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Grahavani</string>
+    <string name="title_activity_main">Grahavani</string>
+    <string name="package_name">com.grahavani.app</string>
+    <string name="custom_url_scheme">com.grahavani.app</string>
+    <string name="widget_name">Today\'s Panchang</string>
+    <string name="widget_desc">Tithi, nakshatra, sunrise, Rahu Kaal and your day\'s rating</string>
+</resources>

@@ -16,7 +16,22 @@ const ROUTES = {
   'push-test': () => require('../lib/routes/push-test.js')
 };
 
+// The Android app (Capacitor) serves its pages from https://localhost and calls this API cross-origin.
+const APP_ORIGINS = new Set(['https://localhost', 'http://localhost', 'capacitor://localhost']);
+function cors(req, res) {
+  const o = req.headers.origin;
+  if (!o || !APP_ORIGINS.has(o)) return false;
+  res.setHeader('Access-Control-Allow-Origin', o);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-KG-Free');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Expose-Headers', 'X-KG-Free');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  return true;
+}
+
 module.exports = async (req, res) => {
+  if (cors(req, res) && req.method === 'OPTIONS') return res.status(204).end();
   const q = req.query || Object.fromEntries(new URL(req.url, 'http://x').searchParams);
   const name = String(q.fn || new URL(req.url, 'http://x').pathname.split('/').filter(Boolean)[1] || '');
   const load = Object.prototype.hasOwnProperty.call(ROUTES, name) && ROUTES[name];

@@ -7,7 +7,30 @@ let rowsS = [], cur = {}, pushOn = false;
 const b64ToBytes = s => { const p = '='.repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(b, c => c.charCodeAt(0)); };
 const pushSupported = () => 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
 async function currentSub() { try { const reg = await navigator.serviceWorker.ready; return await reg.pushManager.getSubscription(); } catch (e) { return null; } }
+// In the Android app the same box turns on phone notifications (Firebase); the token is stored as endpoint "fcm:<token>"
+async function drawNativePush() {
+  const box = $('#pushbox'); if (!box) return;
+  const st = await APP.push.status();
+  if (st.state === 'unavailable') { box.innerHTML = `<p class="muted">${ic('i-info')} ${esc(t('st.pushNotReady'))}</p>`; return; }
+  if (st.state === 'denied') { box.innerHTML = `<p class="err">${esc(t('app.pushDenied'))}</p>`; return; }
+  pushOn = st.state === 'on';
+  box.innerHTML = pushOn
+    ? `<p class="push-on">${ic('i-check')} ${esc(t('app.pushOn'))}</p><div class="share-actions"><button class="btn-line" type="button" id="push-test">${esc(t('st.pushTest'))}</button><button class="linkbtn" type="button" id="push-off">${esc(t('app.pushOff'))}</button></div>`
+    : `<p class="muted">${esc(t('app.pushLede'))}</p><button class="btn-cta" type="button" id="push-on">${ic('i-bell')}${esc(t('app.pushEnable'))}</button>`;
+  const on = $('#push-on'), off = $('#push-off'), test = $('#push-test');
+  if (on) on.onclick = async () => {
+    try {
+      const tok = await APP.push.enable(); if (!tok) { drawNativePush(); return; }
+      const { error } = await sb.from('push_subscriptions').upsert({ endpoint: 'fcm:' + tok, user_id: session.user.id, p256dh: '', auth: '', lang: LANG }, { onConflict: 'endpoint' });
+      if (error) { toast(error.message); return; }
+      pushOn = true; await saveSettings({ reminders: collect() }); toast(t('st.saved')); drawNativePush();
+    } catch (e) { toast(e.message || t('err.server')); }
+  };
+  if (off) off.onclick = async () => { if (st.token) await sb.from('push_subscriptions').delete().eq('endpoint', 'fcm:' + st.token); await APP.push.disable(); pushOn = false; await saveSettings({ reminders: collect() }); drawNativePush(); toast(t('st.saved')); };
+  if (test) test.onclick = async () => { try { const r = await api('/api/push-test/', { method: 'POST', body: '{}' }); toast(r.sent ? t('st.pushSent') : t('st.pushNone')); } catch (e) { toast(e.status === 503 ? t('st.pushNotReady') : t('err.server')); } };
+}
 async function drawPush() {
+  if (APP && APP.push) return drawNativePush();
   const box = $('#pushbox'); if (!box) return;
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone;
   if (!pushSupported()) { box.innerHTML = `<p class="muted">${ic('i-info')} ${esc(t(ios ? 'st.pushIos' : 'st.pushUnsupported'))}</p>`; return; }
@@ -37,7 +60,7 @@ async function enablePush() {
     toast(t('st.saved')); drawPush();
   } catch (e) { toast(e.message || t('err.server')); }
 }
-const feedUrl = tok => `${location.origin}/api/ics/?t=${tok}`;
+const feedUrl = tok => `${SITE_ORIGIN}/api/ics/?t=${tok}`;
 function showFeed(tok) {
   const box = $('#feedbox');
   if (!tok) { box.innerHTML = `<button class="btn-cta" type="button" id="mkfeed">${esc(t('st.feedMake'))}</button>`; $('#mkfeed').onclick = makeFeed; return; }

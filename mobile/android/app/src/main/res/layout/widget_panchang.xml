@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/w_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="14dp" android:background="@drawable/widget_bg">
+    <TextView android:id="@+id/w_brand" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Grahavani" android:textColor="#8C5E05" android:textSize="11sp" android:textStyle="bold"
+        android:maxLines="1" android:ellipsize="end" android:letterSpacing="0.04" />
+    <TextView android:id="@+id/w_title" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="2dp" android:text="Grahavani" android:textColor="#16173B" android:textSize="16sp"
+        android:textStyle="bold" android:maxLines="1" android:ellipsize="end" />
+    <TextView android:id="@+id/w_tithi" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:textColor="#2A2E7C" android:textSize="14sp" android:textStyle="bold"
+        android:maxLines="2" android:ellipsize="end" />
+    <TextView android:id="@+id/w_nak" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="#474A72" android:textSize="13sp" android:maxLines="1" android:ellipsize="end" />
+    <TextView android:id="@+id/w_sun" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:textColor="#474A72" android:textSize="12sp" android:maxLines="1" android:ellipsize="end" />
+    <TextView android:id="@+id/w_rahu" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="#C2352D" android:textSize="12sp" android:maxLines="1" android:ellipsize="end" />
+    <TextView android:id="@+id/w_stars" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:textColor="#D3971C" android:textSize="13sp" android:textStyle="bold"
+        android:maxLines="1" android:ellipsize="end" />
+</LinearLayout>

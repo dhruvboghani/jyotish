@@ -1,0 +1,12 @@
+{
+  "appId": "com.grahavani.app",
+  "appName": "Grahavani",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#FFFFFF", "allowMixedContent": false },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 900, "launchAutoHide": true, "backgroundColor": "#16173B", "showSpinner": false, "androidScaleType": "CENTER_INSIDE" },
+    "SystemBars": { "insetsHandling": "css", "style": "LIGHT" },
+    "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] }
+  }
+}

@@ -1,0 +1,99 @@
+# Builds the Grahavani Android app (Capacitor) from this repo.
+# Output (Actions → this run → Artifacts):
+#   grahavani-debug-apk   — install directly on a phone for testing
+#   grahavani-release     — signed APK + AAB for Google Play (only when the signing secrets exist)
+# Optional repository secrets:
+#   GOOGLE_SERVICES_JSON  — contents of Firebase's google-services.json (turns on phone notifications)
+#   ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD — release signing
+name: Android app
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mobile/**', 'src/**', 'lib/**', 'locales/**', 'static/**', 'build.js', '.github/workflows/android.yml']
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GV_VERSION_CODE: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            mobile/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Install
+        run: |
+          npm ci
+          npm ci --prefix mobile
+
+      - name: Build web content for the app
+        run: node mobile/build-app.js
+
+      - name: Firebase config (optional)
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" > mobile/android/app/google-services.json
+            echo "Firebase config added — phone notifications enabled"
+          else
+            echo "No GOOGLE_SERVICES_JSON secret — app builds without phone notifications"
+          fi
+
+      - name: Capacitor sync
+        working-directory: mobile
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grahavani-debug-apk
+          path: mobile/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Build signed release (APK + AAB)
+        id: release
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          GV_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          GV_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          GV_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        working-directory: mobile/android
+        run: |
+          if [ -z "$KS_B64" ]; then echo "No signing secrets — skipping release build"; exit 0; fi
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          export GV_KEYSTORE="$RUNNER_TEMP/release.keystore"
+          ./gradlew --no-daemon assembleRelease bundleRelease
+          echo "built=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        if: steps.release.outputs.built == 'true'
+        with:
+          name: grahavani-release
+          path: |
+            mobile/android/app/build/outputs/apk/release/*.apk
+            mobile/android/app/build/outputs/bundle/release/*.aab

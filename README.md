@@ -131,3 +131,16 @@ Supabase's built-in mailer sends only about 2 emails per hour, and only to membe
 - My Sadhana (`/sadhana/`, members): start a mantra, fast, donation or other practice for 21/40/108 days
   or 7–21 weeks, tick each day, restart, and get an evening browser reminder when today is not ticked.
 - Run `supabase/v6_sadhana.sql` in Supabase. Reminders use the existing daily cron and VAPID keys.
+
+## Android app (Capacitor) — `mobile/`
+The app carries the whole site (every page, all six languages) and calls the live API; with no internet the
+same calculations run on the phone (`mobile/src/offline.js` bundles the server's route code).
+- Build: GitHub Actions → **Android app** workflow → artifact `grahavani-debug-apk` (install on a phone).
+- Locally (needs Android SDK + JDK 21): `cd mobile && npm ci && npm run sync && cd android && ./gradlew assembleDebug`.
+- App-only parts: `mobile/src/app-bridge.js` (navigation, back button, share sheet, print to PDF, push, widget data)
+  and `mobile/android/app/src/main/java/com/grahavani/app/` (GvNativePlugin, PanchangWidget).
+- Phone notifications: create a Firebase project with Android app id `com.grahavani.app`, add its
+  `google-services.json` as the repo secret `GOOGLE_SERVICES_JSON`, and put a Firebase service-account JSON
+  in Vercel as `FCM_SERVICE_ACCOUNT` (server only — never in the repo).
+- Play Store release: add `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`,
+  `ANDROID_KEY_PASSWORD` secrets; the workflow then also builds a signed APK and AAB.

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gv_navy">#16173B</color>
+    <color name="gv_indigo">#2A2E7C</color>
+    <color name="gv_gold">#D3971C</color>
+    <color name="gv_gold_soft">#FBF0D8</color>
+    <color name="gv_ink">#16173B</color>
+    <color name="gv_ink2">#474A72</color>
+    <color name="gv_white">#FFFFFF</color>
+</resources>

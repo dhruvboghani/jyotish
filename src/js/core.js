@@ -168,8 +168,28 @@ let session = null, isAdmin = false;
 const authHooks = [];           // page code: authHooks.push((event, session, wasLoggedIn) => …)
 const readyHooks = [];          // page code: readyHooks.push(session => …) runs once after the session is known
 const authHeaders = () => session ? { Authorization: 'Bearer ' + session.access_token } : {};
+// In the Android app (window.GV_APP, see mobile/src/app-bridge.js) pages are local files, so API calls go to
+// KG_CONFIG.apiBase; with no connection, window.GV_OFFLINE runs the same calculations on the phone.
+const APP = window.GV_APP || null, API_BASE = (window.KG_CONFIG && window.KG_CONFIG.apiBase) || '';
+const apiUrl = path => API_BASE + path;
+const SITE_ORIGIN = API_BASE || location.origin; // public address for links people share
+let offlineToastShown = false;
+async function offlineApi(path, opts) {
+  const out = await window.GV_OFFLINE.handle(path, { method: opts.method || 'GET', body: opts.body, headers: { ...authHeaders(), 'X-KG-Free': store.get('kg-free-token') || '' } });
+  if (!out) { const err = new Error(t('app.needNet')); err.status = 503; err.data = { error: t('app.needNet') }; throw err; }
+  if (out.trialToken) store.set('kg-free-token', out.trialToken);
+  if (!offlineToastShown) { offlineToastShown = true; toast(t('app.offline')); }
+  if (out.status >= 400) { const err = new Error((out.data && out.data.error) || 'HTTP ' + out.status); err.status = out.status; err.data = out.data; throw err; }
+  return out.data;
+}
 async function api(path, opts = {}) {
-  const res = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', ...authHeaders(), ...(opts.headers || {}) } });
+  const canOffline = APP && window.GV_OFFLINE;
+  if (canOffline && navigator.onLine === false) return offlineApi(path, opts);
+  const trial = APP ? store.get('kg-free-token') : null;
+  let res;
+  try { res = await fetch(apiUrl(path), { ...opts, headers: { 'Content-Type': 'application/json', ...authHeaders(), ...(trial ? { 'X-KG-Free': trial } : {}), ...(opts.headers || {}) } }); }
+  catch (e) { if (canOffline) return offlineApi(path, opts); throw e; }
+  if (APP) { const tk = res.headers.get('X-KG-Free'); if (tk) store.set('kg-free-token', tk); }
   let data = null; try { data = await res.json(); } catch (e) { }
   if (!res.ok) { const err = new Error((data && data.error) || 'HTTP ' + res.status); err.status = res.status; err.data = data; throw err; }
   return data;
@@ -184,7 +204,7 @@ function openChart(birth, opts = {}) {
 }
 
 const GOOGLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.6 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.2 14.6 2.2 12 2.2 6.6 2.2 2.2 6.6 2.2 12s4.4 9.8 9.8 9.8c5.7 0 9.4-4 9.4-9.6 0-.6-.1-1.1-.2-1.6H12z"/></svg>';
-const redirectTo = () => location.origin + location.pathname;
+const redirectTo = () => SITE_ORIGIN + location.pathname.replace(/index\.html$/, "");
 
 // Members-only features call this; it explains why login is needed, then opens signup.
 function requireLogin(featureKey) {
@@ -198,8 +218,8 @@ function authModal(mode, featureKey) {
   const signup = mode === 'signup';
   const why = featureKey ? `<div class="premium-why">${ic('i-star')}<span><b>${esc(t('members.title'))}</b>${esc(t('members.why', { f: t('members.f.' + featureKey) }))}</span></div>` : '';
   openModal(`<h2>${esc(t(signup ? 'auth.signupTitle' : 'auth.loginTitle'))}</h2><p class="muted">${esc(t('gate.free'))}</p>${why}
-    <button type="button" class="btn-line google" id="g-btn">${GOOGLE}${esc(t('auth.google'))}</button>
-    <p class="or">${esc(t('auth.or'))}</p>
+    ${APP ? '' : `<button type="button" class="btn-line google" id="g-btn">${GOOGLE}${esc(t('auth.google'))}</button>
+    <p class="or">${esc(t('auth.or'))}</p>`}
     <form id="authform" novalidate>
       ${signup ? `<div class="field"><label for="a-name">${esc(t('auth.nameField'))}</label><input id="a-name" type="text" autocomplete="name"></div>` : ''}
       <div class="field"><label for="a-email">${esc(t('auth.email'))}</label><input id="a-email" type="email" autocomplete="email" required></div>
@@ -208,7 +228,7 @@ function authModal(mode, featureKey) {
       <button class="btn-cta go" type="submit">${esc(t(signup ? 'auth.signup' : 'auth.login'))}</button>
     </form>
     <div class="links">${signup ? `<span>${esc(t('auth.haveAccount'))} <button class="linkbtn" type="button" data-auth="login"${featureKey ? ` data-feature="${featureKey}"` : ''}>${esc(t('auth.toLogin'))}</button></span>` : `<button class="linkbtn" type="button" id="forgot">${esc(t('auth.forgot'))}</button><span>${esc(t('auth.noAccount'))} <button class="linkbtn" type="button" data-auth="signup"${featureKey ? ` data-feature="${featureKey}"` : ''}>${esc(t('auth.toSignup'))}</button></span>`}</div>`);
-  $('#g-btn').onclick = () => sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: redirectTo() } });
+  if ($('#g-btn')) $('#g-btn').onclick = () => sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: redirectTo() } });
   const fp = $('#forgot');
   if (fp) fp.onclick = async () => {
     const email = $('#a-email').value.trim(), er = $('#a-err');
@@ -227,7 +247,7 @@ function authModal(mode, featureKey) {
       // 1) Instant account (already confirmed) through our server, then log straight in.
       let direct = null;
       try {
-        const r = await fetch('/api/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, name: fullName, lang: LANG }) });
+        const r = await fetch(apiUrl('/api/signup/'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, name: fullName, lang: LANG }) });
         direct = { status: r.status, data: await r.json().catch(() => ({})) };
       } catch (e) { }
       if (direct && direct.status === 200) {
@@ -302,7 +322,9 @@ async function loadMyKundalis() {
   if (!session) return [];
   let { data, error } = await sb.from('kundalis').select('id,name,birth,relation,updated_at').eq('user_id', session.user.id).order('updated_at', { ascending: false }).limit(200);
   if (error && /relation/.test(error.message)) ({ data, error } = await sb.from('kundalis').select('id,name,birth,updated_at').eq('user_id', session.user.id).order('updated_at', { ascending: false }).limit(200));
-  return error ? [] : data || [];
+  if (error) return store.get('kg-saved-cache', []);
+  store.set('kg-saved-cache', data || []);
+  return data || [];
 }
 async function savedModal() {
   openModal(`<h2>${esc(t('saved.title'))}</h2><p class="muted">${esc(t('saved.lede'))}</p><div id="savedwrap"><span class="spin"></span></div>`, true);
@@ -408,7 +430,7 @@ if ($('#histbtn')) $('#histbtn').addEventListener('click', historyModal);
 async function saveTrialChart(s) {
   const trial = store.get('kg-trial'); store.del('kg-trial');
   if (!trial || !s) return;
-  try { await fetch('/api/kundali/', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token }, body: JSON.stringify(trial) }); } catch (e) { }
+  try { await fetch(apiUrl('/api/kundali/'), { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + s.access_token }, body: JSON.stringify(trial) }); } catch (e) { }
 }
 
 // ---------- Admin panel (accounts listed in public.admins) ----------
@@ -512,7 +534,7 @@ function lockCard(featureKey, extra = '') {
 }
 
 // Service worker for browser notifications
-if ('serviceWorker' in navigator && location.protocol !== 'file:') addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => { }); });
+if (!APP && 'serviceWorker' in navigator && location.protocol !== 'file:') addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => { }); });
 
 // ---------- Boot ----------
 async function boot() {
@@ -533,4 +555,5 @@ async function boot() {
   const linkErr = readAuthError();
   if (linkErr && sb) linkErrorModal(linkErr);
   readyHooks.forEach(f => { try { f(session); } catch (e) { console.error(e); } });
+  if (APP && APP.attach) APP.attach({ t, L, LANG, LOCALE, HOME, store, toast, sb, api, openChart, closeModal, authHooks, getSession: () => session, modalOpen: () => !!(modal && modal.innerHTML) });
 }
