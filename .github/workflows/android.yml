@@ -13,6 +13,9 @@ on:
     branches: [main]
     paths: ['mobile/**', 'src/**', 'lib/**', 'locales/**', 'static/**', 'build.js', '.github/workflows/android.yml']
 
+permissions:
+  contents: write   # to publish the APK as the "android-latest" release
+
 concurrency:
   group: android-${{ github.ref }}
   cancel-in-progress: true
@@ -68,6 +71,30 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon assembleDebug
+
+      - name: Check the APK
+        run: |
+          APK=mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          ls -la "$APK"
+          for f in assets/public/index.html assets/public/hi/index.html assets/public/panchang/index.html assets/public/offline.js \
+                   assets/public/app-bridge.js assets/public/vendor/supabase.js assets/public/config.js assets/capacitor.plugins.json; do
+            unzip -l "$APK" "$f" > /dev/null || { echo "Missing in APK: $f"; exit 1; }
+          done
+          unzip -p "$APK" assets/capacitor.plugins.json
+          unzip -p "$APK" assets/public/config.js | grep -q '"apiBase":"https://' || { echo "config.js has no apiBase"; exit 1; }
+          if unzip -p "$APK" assets/public/config.js | grep -q 'sb_secret_'; then echo "Secret key in APK!"; exit 1; fi
+          echo "Pages in APK: $(unzip -l "$APK" | grep -c 'assets/public/.*index.html')"
+
+      - name: Publish as the android-latest release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp mobile/android/app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/grahavani.apk"
+          gh release delete android-latest --yes --cleanup-tag 2>/dev/null || true
+          gh release create android-latest "$RUNNER_TEMP/grahavani.apk" --prerelease --target "$GITHUB_SHA" \
+            --title "Grahavani Android — build ${{ github.run_number }}" \
+            --notes "Test build (debug-signed) from commit ${GITHUB_SHA::7}. On your Android phone: download grahavani.apk, open it and allow installing from this source."
 
       - uses: actions/upload-artifact@v4
         with:
