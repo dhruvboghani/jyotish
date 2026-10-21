@@ -55,7 +55,9 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          if [ -f mobile/android/app/google-services.json ]; then
+            echo "Using the google-services.json committed in the repo"
+          elif [ -n "$GOOGLE_SERVICES_JSON" ]; then
             printf '%s' "$GOOGLE_SERVICES_JSON" > mobile/android/app/google-services.json
             echo "Firebase config added — phone notifications enabled"
           else
@@ -88,6 +90,9 @@ jobs:
           "$BT/apksigner" verify --verbose --print-certs "$APK" | grep -E "Verified using|Signer #1 certificate DN|SHA-256"
           "$BT/aapt2" dump badging "$APK" | grep -E "^package|sdkVersion|targetSdkVersion|testOnly" || true
           if "$BT/aapt2" dump badging "$APK" | grep -q "testOnly"; then echo "APK is test-only — phones refuse it"; exit 1; fi
+          if [ -f mobile/android/app/google-services.json ]; then
+            "$BT/aapt2" dump resources "$APK" | grep -q "string/google_app_id" && echo "Firebase is built in (phone notifications on)" || { echo "google-services.json present but Firebase was not applied"; exit 1; }
+          fi
 
       - name: Publish as the android-latest release
         if: github.ref == 'refs/heads/main'

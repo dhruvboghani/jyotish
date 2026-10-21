@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845999648012",
+    "project_id": "grahvani-66918",
+    "storage_bucket": "grahvani-66918.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845999648012:android:272d0c7066e60a3290ed29",
+        "android_client_info": {
+          "package_name": "com.grahavani.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Je_J9Puz5K1IMOUvuijS7vDSX6S7Md4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
