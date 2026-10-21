@@ -123,3 +123,11 @@ Supabase's built-in mailer sends only about 2 emails per hour, and only to membe
 
 - Add rate limiting to `/api/kundali`, for example with Upstash Redis or Vercel's firewall rules. Each full report takes about 150 ms of compute.
 - Customise Supabase's auth email templates (confirm signup, reset password) with your branding.
+
+## v6 — More remedies and the sadhana tracker
+- Report → Remedies now also shows lucky factors (from the Lagna and Rashi lords), dosha remedies
+  (Mangal, Kaal Sarp, Sade Sati, Shani Dhaiya, Pitra, Grahan, Guru Chandal, Kemadruma, Shrapit)
+  and, per graha, Rudraksha, colour, number, Yantra and a daily habit.
+- My Sadhana (`/sadhana/`, members): start a mantra, fast, donation or other practice for 21/40/108 days
+  or 7–21 weeks, tick each day, restart, and get an evening browser reminder when today is not ticked.
+- Run `supabase/v6_sadhana.sql` in Supabase. Reminders use the existing daily cron and VAPID keys.

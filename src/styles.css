@@ -1090,3 +1090,75 @@ html:not([lang="en"]) .topbar .brand .brand-text small { letter-spacing: 0; text
 @keyframes lagnaGlow { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: .45; } }
 @keyframes lagnaSeg { 0%, 100% { fill: #F7E1AE; } 50% { fill: #FBEDCB; } }
 @keyframes liveDot { 0% { box-shadow: 0 0 0 0 rgba(217, 58, 48, .55); } 100% { box-shadow: 0 0 0 9px rgba(217, 58, 48, 0); } }
+
+/* ---------- Remedies v2: lucky factors, dosha remedies, more upaya ---------- */
+.rem-top { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px; align-items: start; margin-bottom: 18px; }
+@media (max-width: 900px) { .rem-top { grid-template-columns: minmax(0, 1fr); } }
+.lucky { padding: 18px; display: grid; gap: 12px; border-top: 4px solid var(--gc); background: linear-gradient(180deg, var(--gold-softer), #fff 55%); }
+.lucky .rh { display: flex; gap: 12px; align-items: center; } .lucky .rh svg.gimg { width: 46px; height: 46px; flex: none; }
+.lucky .rh h3 { font-family: var(--f-display); font-size: 21px; } .lucky .rh small { color: var(--ink-3); font-size: 13.5px; }
+.lucky-dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+.lucky-dl dt { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+html:not([lang="en"]) .lucky-dl dt { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.lucky-dl dd { margin: 2px 0 0; font-weight: 600; color: var(--ink); font-size: 14.5px; }
+.lucky-dl dd.num { font-family: var(--f-mono, 'IBM Plex Mono', monospace); font-size: 17px; color: var(--gold-deep); }
+.dosha-col .sub-h { font-family: var(--f-display); font-size: 21px; }
+.dosha-col > p { margin: 2px 0 10px; }
+.dosha-grid { display: grid; gap: 10px; }
+details.dosha { padding: 0; overflow: hidden; border-left: 4px solid var(--bad); }
+details.dosha summary { list-style: none; cursor: pointer; padding: 13px 44px 13px 16px; display: grid; gap: 3px; position: relative; }
+details.dosha summary::-webkit-details-marker { display: none; }
+details.dosha summary::after { content: '+'; position: absolute; right: 16px; top: 12px; font-size: 22px; line-height: 1; color: var(--gold-deep); transition: transform .2s; }
+details.dosha[open] summary::after { transform: rotate(45deg); }
+details.dosha .dn { font-weight: 700; color: var(--ink); font-size: 15.5px; }
+details.dosha .dw { font-size: 14px; color: var(--ink-2); }
+details.dosha ol { margin: 0; padding: 2px 18px 14px 36px; display: grid; gap: 6px; font-size: 14.5px; color: var(--ink); }
+details.dosha ol li::marker { color: var(--gold-deep); font-weight: 700; }
+.rem-more { border-top: 1px dashed var(--line-2); padding-top: 8px; }
+.rem-more summary { cursor: pointer; color: var(--gold-deep); font-weight: 600; font-size: 14px; }
+.rem-more .rem-dl { margin-top: 10px; }
+.rem-act { display: flex; justify-content: flex-end; }
+.rem-act .btn-line svg { width: 16px; height: 16px; color: var(--good); }
+
+/* ---------- Sadhana tracker ---------- */
+.sd-bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 18px; }
+.sd-bar a { display: inline-flex; gap: 6px; align-items: center; color: var(--gold-deep); }
+.sd-bar a svg { width: 16px; height: 16px; }
+.sd-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+@media (max-width: 860px) { .sd-list { grid-template-columns: minmax(0, 1fr); } }
+.sd-mini .sd-list { margin-bottom: 16px; }
+.sd-card { padding: 16px 18px; display: grid; gap: 12px; border-top: 4px solid var(--gc); align-content: start; }
+.sd-card.complete { background: linear-gradient(180deg, var(--good-bg), #fff 60%); }
+.sd-head { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.sd-head svg.gimg { width: 42px; height: 42px; flex: none; }
+.sd-ic { width: 42px; height: 42px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--gold-softer); color: var(--gold-deep); } .sd-ic svg { width: 20px; height: 20px; }
+.sd-tt { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.sd-tt b { font-size: 15.5px; line-height: 1.3; overflow-wrap: anywhere; }
+.sd-tt small { color: var(--ink-3); font-size: 13px; }
+.sd-ring { --p: 0; width: 58px; height: 58px; flex: none; border-radius: 50%; display: grid; place-content: center; text-align: center; background: radial-gradient(closest-side, #fff 76%, transparent 78% 100%), conic-gradient(var(--gc) calc(var(--p) * 1%), var(--line) 0); }
+.sd-ring b { font-size: 17px; line-height: 1; } .sd-ring small { font-size: 11px; color: var(--ink-3); }
+.sd-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 13.5px; color: var(--ink-2); }
+.sd-meta .bad { color: var(--bad); font-weight: 600; }
+.sd-meta .tag svg { width: 13px; height: 13px; }
+.sd-grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
+.sd-grid.dense { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; }
+.sd-cell { aspect-ratio: 1; min-width: 0; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink-3); font: 600 11px/1 var(--f-mono, 'IBM Plex Mono', monospace); cursor: pointer; padding: 0; transition: transform .15s, background .2s; }
+.sd-cell:not(:disabled):hover { transform: scale(1.08); border-color: var(--gold); }
+.sd-cell.done { background: var(--gc); border-color: var(--gc); color: #fff; }
+.sd-cell.miss { background: var(--bad-bg); border-color: var(--bad-line); color: var(--bad); }
+.sd-cell.today { border: 2px solid var(--gold); color: var(--gold-deep); background: #fff; }
+.sd-cell.done.today { border-color: var(--gc); color: #fff; background: var(--gc); }
+.sd-cell.future { opacity: .55; cursor: default; }
+@media (prefers-reduced-motion: no-preference) { .sd-cell.today:not(.done) { animation: sdPulse 1.8s ease-in-out infinite; } }
+@keyframes sdPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(211, 151, 28, .45); } 50% { box-shadow: 0 0 0 5px rgba(211, 151, 28, 0); } }
+.sd-actions { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.sd-actions .linkbtn { display: inline-flex; gap: 5px; align-items: center; font-size: 13.5px; } .sd-actions .linkbtn svg { width: 14px; height: 14px; }
+.sd-actions .del { background: none; border: 0; color: var(--bad); cursor: pointer; font-size: 13.5px; font-weight: 600; margin-left: auto; }
+.sd-today svg { width: 16px; height: 16px; }
+.sd-rule { display: flex; gap: 8px; align-items: flex-start; } .sd-rule svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--gold-deep); }
+#sd .sub-h { font-family: var(--f-display); font-size: 22px; margin: 6px 0 12px; }
+.modal form.sd-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; display: grid; }
+.sd-form .full { grid-column: 1 / -1; }
+.sd-form .field[hidden] { display: none; }
+@media (max-width: 520px) { .modal form.sd-form { grid-template-columns: minmax(0, 1fr); } }
+@media print { .sd-mini, .rem-act { display: none !important; } .rem-more { display: block; } .rem-more > * { display: block; } details.dosha ol { display: grid; } }

@@ -362,7 +362,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'panchang', 'bhavas', 'gochar', 'notes'];
   const todaySec = mSec('today', 'my', premium && premium.today ? todayHtml(premium.today, tz) : lockCard('today'));
   const areasSec = mSec('areas', 'la', premium && premium.areas ? areasHtml(premium.areas, tz) : lockCard('areas', `<p class="muted small">${['career', 'marriage', 'finance', 'health', 'education', 'children'].map(k => t('la.' + k + '.name')).join(' · ')}</p>`));
-  const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies) : lockCard('remedies'));
+  const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies, premium.remedyExtras) : lockCard('remedies'));
   const notesSec = data.shared ? '' : mSec('notes', 'notes', session ? '<div id="notesbox"><span class="spin"></span></div>' : lockCard('notes'));
 
   host.innerHTML = `
@@ -433,6 +433,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
     $('#areabox').innerHTML = areaBody(premium.areas[b.dataset.area], b.dataset.area, tz);
   }));
   if (session && !data.shared) { mountNotes(input); brandHead(); }
+  if (session) mountSadhana(input);
   requestAnimationFrame(() => { const fg = $('#ringfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - progress); });
   observeReveals();
 }

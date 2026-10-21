@@ -56,8 +56,8 @@ const BENEFIC = { Moon: 1, Mercury: 1, Jupiter: 1, Venus: 1 };
 const DIGBALA = { Sun: 10, Mars: 10, Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7 };
 const GOCHAR_GOOD = { Sun: [3, 6, 10, 11], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 11], Mercury: [2, 4, 6, 8, 10, 11], Jupiter: [2, 5, 7, 9, 11], Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12], Saturn: [3, 6, 11], Rahu: [3, 6, 11], Ketu: [3, 6, 11] };
 const NAVS = [['', 'kundali', 'i-chart'], ['matching/', 'matching', 'i-heart'], ['panchang/', 'panchang', 'i-sun'], ['calendar/', 'calendar', 'i-cal'], ['rashifal/', 'rashifal', 'i-star'], ['learn/', 'learn', 'i-book']];
-const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['settings/', 'settings', 'i-shield']];
-const BUNDLES = { home: ['core', 'report', 'report-plus', 'home'], panchang: ['core', 'report', 'city', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'report-plus', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], settings: ['core', 'city', 'settings'], base: ['core'] };
+const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['settings/', 'settings', 'i-shield']];
+const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'home'], panchang: ['core', 'report', 'city', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], settings: ['core', 'city', 'settings'], base: ['core'] };
 const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings']);
 
 const url = (l, slug = '') => SITE_URL + ALL[l].meta.path + slug;
@@ -202,6 +202,7 @@ function pagesFor(L) {
     P('names', 'names/', { priority: '0.8', freq: 'monthly' }),
     P('muhurta', 'muhurta/', { priority: '0.8', freq: 'weekly' }),
     P('family', 'family/', { noindex: true }),
+    P('sadhana', 'sadhana/', { noindex: true }),
     P('settings', 'settings/', { noindex: true }),
     P('learn', 'learn/', { priority: '0.8', freq: 'monthly', body: learnIndex(L) }),
     P('share', 'share/', { noindex: true }),

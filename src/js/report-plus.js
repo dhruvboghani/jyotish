@@ -28,12 +28,40 @@ function areasHtml(areas, tz) {
     <div class="print-only">${keys.slice(1).map(k => `<div class="card area-card">${areaBody(areas[k], k, tz)}</div>`).join('')}</div>`;
 }
 
-function remediesHtml(list) {
-  if (!list.length) return `<p class="empty">${esc(t('rm.none'))}</p>`;
+function luckyHtml(lk) {
+  const d = (p, k) => t('rm.p.' + p + '.' + k);
+  return `<article class="card lucky reveal" style="--gc:${COL[lk.lagnaLord]}"><div class="rh">${g(lk.lagnaLord)}<div><h3>${esc(t('rm.luckyH'))}</h3><small>${esc(t('rm.luckyLede', { g: { g: lk.lagnaLord }, m: { g: lk.moonLord } }))}</small></div></div>
+    <dl class="lucky-dl">
+      <div><dt>${esc(t('rm.colorLabel'))}</dt><dd>${esc(d(lk.lagnaLord, 'color'))}</dd></div>
+      <div><dt>${esc(t('rm.luckyNums'))}</dt><dd class="num">${lk.numbers.join(' · ')}</dd></div>
+      <div><dt>${esc(t('rm.luckyDay'))}</dt><dd>${esc(d(lk.lagnaLord, 'day'))}</dd></div>
+      <div><dt>${esc(t('rm.lifeStone'))}</dt><dd>${esc(d(lk.lagnaLord, 'gem'))}</dd></div>
+      <div><dt>${esc(t('rm.rudraLabel'))}</dt><dd>${esc(t('rm.rudra', { n: lk.rudra }))}</dd></div>
+      <div><dt>${esc(t('rm.deity'))}</dt><dd>${esc(d(lk.lagnaLord, 'deity'))}</dd></div>
+    </dl></article>`;
+}
+function doshaHtml(doshas) {
+  if (!doshas.length) return `<p class="empty">${esc(t('rm.doshaNone'))}</p>`;
+  return `<div class="dosha-grid">${doshas.map(x => {
+    const k = 'rm.d.' + x.id, steps = t(k + '.do');
+    return `<details class="card dosha reveal"><summary><span class="dn">${esc(t(k + '.name'))}</span><span class="dw">${esc(t(k + '.what', x.params))}${x.id === 'manglik' && x.params.list ? ' ' + esc(t('rm.houses', x.params)) : ''}</span></summary>
+      <ol>${(Array.isArray(steps) ? steps : []).map(st => `<li>${esc(st)}</li>`).join('')}</ol></details>`;
+  }).join('')}</div>`;
+}
+function remediesHtml(list, ex) {
   const P = k => L.names && L.names.mantra ? L.names.mantra[k] : '';
-  return `<div class="rem-grid">${list.map(r => {
+  const top = ex ? `<div class="rem-top">${luckyHtml(ex.lucky)}<div class="dosha-col"><h3 class="sub-h">${esc(t('rm.doshaH'))}</h3><p class="muted small">${esc(t('rm.doshaLede'))}</p>${doshaHtml(ex.doshas)}</div></div>` : '';
+  const sd = session ? `<div id="sdbox" class="sd-mini"></div>` : '';
+  if (!list.length) return top + sd + `<p class="empty">${esc(t('rm.none'))}</p>`;
+  return top + sd + `<div class="rem-grid">${list.map(r => {
     const d = k => t('rm.p.' + r.planet + '.' + k);
     const gemCls = r.gem === 'yes' ? 'good' : r.gem === 'no' ? 'bad' : r.gem === 'skip' ? '' : 'warn';
+    const more = ex ? `<details class="rem-more"><summary>${esc(t('rm.moreUpaya'))}</summary><dl class="rem-dl">
+        <div><dt>${esc(t('rm.rudraLabel'))}</dt><dd>${esc(t('rm.rudra', { n: ex.rudra[r.planet] }))}</dd></div>
+        <div><dt>${esc(t('rm.colorLabel'))}</dt><dd>${esc(d('color'))}</dd></div>
+        <div><dt>${esc(t('rm.numLabel'))}</dt><dd class="num">${ex.number[r.planet]}</dd></div>
+        <div><dt>${esc(t('rm.yantraLabel'))}</dt><dd>${esc(t('rm.yantra', { g: { g: r.planet } }))}</dd></div>
+        <div><dt>${esc(t('rm.habitLabel'))}</dt><dd>${esc(d('habit'))}</dd></div></dl></details>` : '';
     return `<article class="card rem reveal" style="--gc:${COL[r.planet]}"><div class="rh">${g(r.planet)}<div><h3>${esc(gn(r.planet))}</h3><small>${esc(t('sec.grahas.strength'))}: ${r.strength}/100</small></div></div>
       <ul class="why">${r.reasons.map(m => `<li>${ic('i-alert')}${esc(msg(m))}</li>`).join('')}</ul>
       <dl class="rem-dl">
@@ -42,8 +70,25 @@ function remediesHtml(list) {
         <div><dt>${esc(t('rm.donate'))}</dt><dd>${esc(d('donate'))}</dd></div>
         <div><dt>${esc(t('rm.deity'))}</dt><dd>${esc(d('deity'))}</dd></div>
         <div><dt>${esc(t('rm.gemLabel'))}</dt><dd><span class="tag ${gemCls}">${esc(t('rm.gemStatus.' + r.gem))}</span> ${esc(d('gem'))}${r.gem === 'yes' || r.gem === 'maybe' ? ` · ${esc(t('rm.wear', { m: d('metal'), f: d('finger'), d: d('day') }))}` : ''}<small>${esc(msg(r.gemWhy))}</small></dd></div>
-      </dl></article>`;
+      </dl>${more}
+      ${session ? `<div class="rem-act no-print"><button type="button" class="btn-line" data-sd-start="${r.planet}">${ic('i-check')}${esc(t('sd.start'))}</button></div>` : ''}</article>`;
   }).join('')}</div><p class="muted small rem-note">${ic('i-info')}${esc(t('rm.disclaimer'))}</p>`;
+}
+
+// Active sadhanas for this chart, shown above the remedy cards; "Start sadhana" buttons open the form
+async function mountSadhana(input) {
+  const sec = $('#remedies'); if (!sec || !session || !sb) return;
+  const key = birthKeyOf(input), person = input.name || '';
+  sec.querySelectorAll('[data-sd-start]').forEach(b => b.onclick = () => sdStartModal({ planet: b.dataset.sdStart, kind: 'mantra', birth_key: key, person }, draw));
+  const box = $('#sdbox'); if (!box) return;
+  async function draw() {
+    const { rows, error } = await sdLoad({ birth_key: key });
+    if (error) { box.innerHTML = ''; return; }
+    const act = rows.filter(r => r.status !== 'stopped' && !sdStats(r).ended);
+    box.innerHTML = act.length ? `<div class="sd-list compact">${act.map(r => sdCard(r, { compact: true })).join('')}</div>` : '';
+    sdWire(box, act, draw); observeReveals();
+  }
+  draw();
 }
 
 // ---------- Notes ----------
