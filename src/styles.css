@@ -1162,3 +1162,15 @@ details.dosha ol li::marker { color: var(--gold-deep); font-weight: 700; }
 .sd-form .field[hidden] { display: none; }
 @media (max-width: 520px) { .modal form.sd-form { grid-template-columns: minmax(0, 1fr); } }
 @media print { .sd-mini, .rem-act { display: none !important; } .rem-more { display: block; } .rem-more > * { display: block; } details.dosha ol { display: grid; } }
+
+/* Notch / status bar (Android app, iPhone with viewport-fit=cover): the header itself covers the safe area,
+   so page content can never show between the status bar and the header. */
+:root { --sat: var(--safe-area-inset-top, env(safe-area-inset-top, 0px)); --sab: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)); }
+.topbar { top: 0; padding-top: var(--sat); background: rgba(244, 245, 250, .96); }
+.drawer { top: calc(58px + var(--sat)); }
+.jump-nav { top: calc(62px + var(--sat)); }
+main section, .static-sec { scroll-margin-top: calc(72px + var(--sat)); }
+.anchor { scroll-margin-top: calc(70px + var(--sat)); }
+.modal { padding-top: calc(16px + var(--sat)); padding-bottom: calc(16px + var(--sab)); }
+body { padding-bottom: var(--sab); }
+@media (max-width: 720px) { .jump-nav { top: calc(58px + var(--sat)); } }
