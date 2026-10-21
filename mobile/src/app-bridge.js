@@ -5,6 +5,8 @@
 (function () {
   const C = window.Capacitor;
   if (!C || !C.isNativePlatform || !C.isNativePlatform()) return;
+  const PLATFORM = C.getPlatform ? C.getPlatform() : 'android';
+  const PUSH_PREFIX = PLATFORM === 'ios' ? 'apns:' : 'fcm:'; // iOS tokens go to Apple directly, Android ones via Firebase
   const P = C.Plugins || {}, App = P.App, Share = P.Share, Push = P.PushNotifications, Native = P.GvNative;
   document.documentElement.classList.add('is-app');
 
@@ -49,8 +51,8 @@
     const old = ls.get('gv-fcm-token'); ls.set('gv-fcm-token', tok);
     const s = core && core.getSession();
     if (!s || !core.sb || !ls.get('gv-push-on')) return;
-    if (old && old !== tok) await core.sb.from('push_subscriptions').delete().eq('endpoint', 'fcm:' + old);
-    await core.sb.from('push_subscriptions').upsert({ endpoint: 'fcm:' + tok, user_id: s.user.id, p256dh: '', auth: '', lang: core.LANG }, { onConflict: 'endpoint' });
+    if (old && old !== tok) await core.sb.from('push_subscriptions').delete().eq('endpoint', PUSH_PREFIX + old);
+    await core.sb.from('push_subscriptions').upsert({ endpoint: PUSH_PREFIX + tok, user_id: s.user.id, p256dh: '', auth: '', lang: core.LANG }, { onConflict: 'endpoint' });
   }
   if (Push) {
     Push.addListener('registration', t => { if (regWaiter) { regWaiter(t.value); regWaiter = null; } saveToken(t.value).catch(() => { }); });
@@ -59,6 +61,7 @@
     Push.addListener('pushNotificationActionPerformed', a => { const url = a && a.notification && a.notification.data && a.notification.data.url; if (url) { if (core) go(url); else pendingUrl = url; } });
   }
   const push = {
+    prefix: PUSH_PREFIX,
     async status() {
       if (!(await pushAvailable())) return { state: 'unavailable' };
       const p = await Push.checkPermissions();
@@ -128,7 +131,7 @@
       if (!Native) { window.print(); setTimeout(done, 1500); return; }
       let finished = false; const end = () => { if (finished) return; finished = true; if (h) h.then(x => x.remove()); done(); };
       const h = App ? App.addListener('resume', () => setTimeout(end, 400)) : null;
-      Native.print({ name: String(name || 'Grahavani').slice(0, 80) }).catch(end);
+      Native.print({ name: String(name || 'Grahavani').slice(0, 80) }).then(r => { if (r && r.done) end(); }).catch(end);
       setTimeout(end, 120000);
     },
     share({ title, text, url }) { return Share ? Share.share({ title, text, url, dialogTitle: title }).catch(() => { }) : openExternal('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url)); },

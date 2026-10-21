@@ -19,6 +19,13 @@ android {
     }
     // Release signing comes from env (CI secrets). Without it only the debug APK is built.
     signingConfigs {
+        // A fixed test key (committed on purpose; it is only for test builds) so each new build installs over the last
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
         release {
             def ks = System.getenv("GV_KEYSTORE")
             if (ks) {

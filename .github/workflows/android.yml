@@ -84,6 +84,10 @@ jobs:
           unzip -p "$APK" assets/public/config.js | grep -q '"apiBase":"https://' || { echo "config.js has no apiBase"; exit 1; }
           if unzip -p "$APK" assets/public/config.js | grep -q 'sb_secret_'; then echo "Secret key in APK!"; exit 1; fi
           echo "Pages in APK: $(unzip -l "$APK" | grep -c 'assets/public/.*index.html')"
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          "$BT/apksigner" verify --verbose --print-certs "$APK" | grep -E "Verified using|Signer #1 certificate DN|SHA-256"
+          "$BT/aapt2" dump badging "$APK" | grep -E "^package|sdkVersion|targetSdkVersion|testOnly" || true
+          if "$BT/aapt2" dump badging "$APK" | grep -q "testOnly"; then echo "APK is test-only — phones refuse it"; exit 1; fi
 
       - name: Publish as the android-latest release
         if: github.ref == 'refs/heads/main'

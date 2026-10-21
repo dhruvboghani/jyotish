@@ -21,12 +21,12 @@ async function drawNativePush() {
   if (on) on.onclick = async () => {
     try {
       const tok = await APP.push.enable(); if (!tok) { drawNativePush(); return; }
-      const { error } = await sb.from('push_subscriptions').upsert({ endpoint: 'fcm:' + tok, user_id: session.user.id, p256dh: '', auth: '', lang: LANG }, { onConflict: 'endpoint' });
+      const { error } = await sb.from('push_subscriptions').upsert({ endpoint: APP.push.prefix + tok, user_id: session.user.id, p256dh: '', auth: '', lang: LANG }, { onConflict: 'endpoint' });
       if (error) { toast(error.message); return; }
       pushOn = true; await saveSettings({ reminders: collect() }); toast(t('st.saved')); drawNativePush();
     } catch (e) { toast(e.message || t('err.server')); }
   };
-  if (off) off.onclick = async () => { if (st.token) await sb.from('push_subscriptions').delete().eq('endpoint', 'fcm:' + st.token); await APP.push.disable(); pushOn = false; await saveSettings({ reminders: collect() }); drawNativePush(); toast(t('st.saved')); };
+  if (off) off.onclick = async () => { if (st.token) await sb.from('push_subscriptions').delete().eq('endpoint', APP.push.prefix + st.token); await APP.push.disable(); pushOn = false; await saveSettings({ reminders: collect() }); drawNativePush(); toast(t('st.saved')); };
   if (test) test.onclick = async () => { try { const r = await api('/api/push-test/', { method: 'POST', body: '{}' }); toast(r.sent ? t('st.pushSent') : t('st.pushNone')); } catch (e) { toast(e.status === 503 ? t('st.pushNotReady') : t('err.server')); } };
 }
 async function drawPush() {

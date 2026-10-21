@@ -1,0 +1,112 @@
+# Builds the Grahavani iPhone app (Capacitor) on a macOS runner.
+# Always: a full build for the iOS Simulator (proves the app compiles; artifact grahavani-ios-simulator).
+# With Apple signing secrets: a signed App Store build, uploaded to TestFlight for installing on iPhones.
+# Secrets for the signed build (all needed):
+#   APPLE_TEAM_ID                 — 10-character Team ID from developer.apple.com → Membership
+#   IOS_DIST_CERT_P12_BASE64      — Apple Distribution certificate exported as .p12, base64
+#   IOS_DIST_CERT_PASSWORD        — password of that .p12
+#   IOS_PROFILE_BASE64            — App Store provisioning profile for com.grahavani.app (with Push), base64
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8_BASE64 — App Store Connect API key (Users and Access → Integrations)
+# macOS minutes count 10× on private repos, so this runs only when iOS or app files change, or by hand.
+name: iOS app
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mobile/ios/**', 'mobile/src/**', 'mobile/build-app.js', 'mobile/package.json', 'mobile/capacitor.config.json', '.github/workflows/ios.yml']
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            mobile/package-lock.json
+
+      - name: Install
+        run: |
+          npm ci
+          npm ci --prefix mobile
+
+      - name: Build web content for the app
+        run: node mobile/build-app.js
+
+      - name: Capacitor sync
+        working-directory: mobile
+        run: npx cap sync ios
+
+      - name: Xcode version
+        run: xcodebuild -version
+
+      - name: Build for the iOS Simulator (no signing)
+        working-directory: mobile/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/dd" \
+            CODE_SIGNING_ALLOWED=NO CURRENT_PROJECT_VERSION=$BUILD_NUMBER build | tail -60
+          cd "$RUNNER_TEMP/dd/Build/Products/Debug-iphonesimulator" && zip -qr "$RUNNER_TEMP/grahavani-ios-simulator.zip" App.app
+          ls -la "$RUNNER_TEMP/grahavani-ios-simulator.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grahavani-ios-simulator
+          path: ${{ runner.temp }}/grahavani-ios-simulator.zip
+
+      - name: Signed build and TestFlight upload
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          CERT_B64: ${{ secrets.IOS_DIST_CERT_P12_BASE64 }}
+          CERT_PW: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
+          PROFILE_B64: ${{ secrets.IOS_PROFILE_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_B64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        working-directory: mobile/ios/App
+        run: |
+          if [ -z "$TEAM_ID" ] || [ -z "$CERT_B64" ] || [ -z "$PROFILE_B64" ]; then echo "No Apple signing secrets — skipping the signed build"; exit 0; fi
+          set -o pipefail
+          KC="$RUNNER_TEMP/build.keychain-db"; KCPW=$(uuidgen)
+          echo "$CERT_B64" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KCPW" "$KC"; security set-keychain-settings -lut 21600 "$KC"; security unlock-keychain -p "$KCPW" "$KC"
+          security import "$RUNNER_TEMP/cert.p12" -P "$CERT_PW" -A -t cert -f pkcs12 -k "$KC"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KCPW" "$KC"
+          security list-keychains -d user -s "$KC" $(security list-keychains -d user | tr -d '"')
+          echo "$PROFILE_B64" | base64 --decode > "$RUNNER_TEMP/app.mobileprovision"
+          PROFILE_UUID=$(security cms -D -i "$RUNNER_TEMP/app.mobileprovision" | plutil -extract UUID raw -)
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/app.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" -derivedDataPath "$RUNNER_TEMP/dd-rel" \
+            DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" CURRENT_PROJECT_VERSION=$BUILD_NUMBER archive | tail -40
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>provisioningProfiles</key><dict><key>com.grahavani.app</key><string>$PROFILE_UUID</string></dict>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportPath "$RUNNER_TEMP/export" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+          if [ -n "$ASC_KEY_B64" ]; then
+            mkdir -p "$HOME/private_keys"; echo "$ASC_KEY_B64" | base64 --decode > "$HOME/private_keys/AuthKey_$ASC_KEY_ID.p8"
+            xcrun altool --upload-app -f "$RUNNER_TEMP/export/App.ipa" -t ios --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+            echo "Uploaded to TestFlight — it appears in App Store Connect after Apple's processing (10–30 min)."
+          fi
