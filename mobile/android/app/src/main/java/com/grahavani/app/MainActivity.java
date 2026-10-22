@@ -13,6 +13,7 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onPause() {
         super.onPause();
+        PanchangWidgetSmall.updateAll(this);
         PanchangWidget.updateAll(this); // keep the home-screen widget current when the user leaves the app
     }
 }

@@ -27,6 +27,10 @@
         "sound",
         "alert"
       ]
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_grahavani",
+      "iconColor": "#D3971C"
     }
   },
   "ios": {

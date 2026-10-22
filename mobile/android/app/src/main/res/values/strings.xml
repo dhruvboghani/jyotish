@@ -5,5 +5,7 @@
     <string name="package_name">com.grahavani.app</string>
     <string name="custom_url_scheme">com.grahavani.app</string>
     <string name="widget_name">Today\'s Panchang</string>
+    <string name="widget_small_name">Tithi &amp; Hora</string>
+    <string name="widget_small_desc">Today\'s tithi and the planetary hora running now</string>
     <string name="widget_desc">Tithi, nakshatra, sunrise, Rahu Kaal and your day\'s rating</string>
 </resources>

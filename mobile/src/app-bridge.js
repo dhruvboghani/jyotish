@@ -8,6 +8,7 @@
   const PLATFORM = C.getPlatform ? C.getPlatform() : 'android';
   const PUSH_PREFIX = PLATFORM === 'ios' ? 'apns:' : 'fcm:'; // iOS tokens go to Apple directly, Android ones via Firebase
   const P = C.Plugins || {}, App = P.App, Share = P.Share, Push = P.PushNotifications, Native = P.GvNative;
+  const Haptics = P.Haptics, LocalN = P.LocalNotifications, FS = P.Filesystem;
   document.documentElement.classList.add('is-app');
 
   // ---------- Navigation ----------
@@ -149,6 +150,44 @@
     async disable() { ls.del('gv-push-on'); try { await Push.unregister(); } catch (e) { } ls.del('gv-fcm-token'); }
   };
 
+
+  // ---------- Japa taps, read-aloud, image sharing, good-time nudges ----------
+  function haptic(kind) {
+    if (!Haptics) return;
+    if (kind === 'heavy') Haptics.notification({ type: 'SUCCESS' }).catch(() => Haptics.vibrate({ duration: 220 }).catch(() => { }));
+    else Haptics.impact({ style: 'LIGHT' }).catch(() => { });
+  }
+  // The phone's text-to-speech engine (resolves when reading ends)
+  async function speak(text, lang) {
+    if (!Native || !Native.speak) return { ok: false };
+    try { return await Native.speak({ text: String(text).slice(0, 3900), lang }); } catch (e) { return { ok: false }; }
+  }
+  function stopSpeak() { if (Native && Native.stopSpeaking) Native.stopSpeaking().catch(() => { }); }
+  async function shareImage(dataUrl, name, text) {
+    try {
+      if (!FS || !Share) throw new Error('no plugins');
+      const w = await FS.writeFile({ path: name, data: dataUrl.split(',')[1], directory: 'CACHE' });
+      await Share.share({ title: text, text, files: [w.uri], dialogTitle: text });
+    } catch (e) { if (!/cancel/i.test(String(e && e.message))) { if (Share) Share.share({ title: text, text, url: '' }).catch(() => { }); } }
+  }
+  // Schedule notifications for the start of each good choghadiya still ahead today (ids 7100–7140)
+  async function nudges(list) {
+    if (!LocalN) return false;
+    try {
+      const pend = await LocalN.getPending();
+      const mine = (pend.notifications || []).filter(n => n.id >= 7100 && n.id < 7140);
+      if (mine.length) await LocalN.cancel({ notifications: mine.map(n => ({ id: n.id })) });
+      if (!list.length) return true;
+      let perm = await LocalN.checkPermissions();
+      if (perm.display !== 'granted') perm = await LocalN.requestPermissions();
+      if (perm.display !== 'granted') return false;
+      try { await LocalN.createChannel({ id: 'nudges', name: core ? core.t('hz.title') : 'Good times', importance: 3, visibility: 1 }); } catch (e) { }
+      await LocalN.schedule({ notifications: list.slice(0, 40).map((n, i) => ({ id: 7100 + i, title: n.title, body: n.body, schedule: { at: new Date(n.at), allowWhileIdle: true }, channelId: 'nudges', smallIcon: 'ic_stat_grahavani', extra: { url: (core ? core.HOME : '/') + 'today/' } })) });
+      return true;
+    } catch (e) { return false; }
+  }
+  if (LocalN) LocalN.addListener('localNotificationActionPerformed', a => { const url = a && a.notification && a.notification.extra && a.notification.extra.url; if (url) { if (core) go(url); else pendingUrl = url; } });
+
   // ---------- Home-screen widget ----------
   const pad = n => String(n).padStart(2, '0');
   const zoneOffset = z => { try { const d = new Date(), f = o => new Date(d.toLocaleString('en-US', { timeZone: o })); return Math.round((f(z) - f('UTC')) / 60000); } catch (e) { return null; } };
@@ -176,7 +215,9 @@
           tithi: tithi(p.tithi[0].index), nak: L.names.nak[p.nakshatra[0].index],
           sun: `${t('app.wSunrise')} ${tm(p.sunrise)} · ${t('app.wSunset')} ${tm(p.sunset)}`,
           rahu: p.rahuKaal ? `${t('app.wRahu')} ${tm(p.rahuKaal.start)}–${tm(p.rahuKaal.end)}` : '',
-          stars: rating.days && rating.days[date] || 0
+          stars: rating.days && rating.days[date] || 0,
+          horas: (p.hora || []).map(h => [h.start, t('hz.hora', { g: { g: h.lord } }), h.quality]),
+          tithiShort: tithi(p.tithi[0].index)
         });
       } catch (e) { }
     }
@@ -203,7 +244,7 @@
       setTimeout(end, 120000);
     },
     share({ title, text, url }) { return Share ? Share.share({ title, text, url, dialogTitle: title }).catch(() => { }) : openExternal('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url)); },
-    push,
+    push, haptic, speak, stopSpeak, shareImage, nudges,
     // The rating row on the widget comes from the person's own chart (relation "self"), else the last chart opened
     chartRendered(data) {
       const pr = data && data.premium, td = pr && pr.today; if (!td || !td.week) return;

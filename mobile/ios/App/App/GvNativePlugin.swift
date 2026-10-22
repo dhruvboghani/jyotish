@@ -2,17 +2,21 @@ import Foundation
 import UIKit
 import WebKit
 import Capacitor
+import AVFoundation
+import WidgetKit
 
 /// Native helpers used by mobile/src/app-bridge.js (window.Capacitor.Plugins.GvNative) — iOS side.
 @objc(GvNativePlugin)
-public class GvNativePlugin: CAPPlugin, CAPBridgedPlugin {
+public class GvNativePlugin: CAPPlugin, CAPBridgedPlugin, AVSpeechSynthesizerDelegate {
     public let identifier = "GvNativePlugin"
     public let jsName = "GvNative"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "print", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "saveWidget", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pushAvailable", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "openExternal", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "openExternal", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "speak", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopSpeaking", returnType: CAPPluginReturnPromise)
     ]
 
     /// Renders the page (print stylesheet) into a paginated A4 PDF and opens the share sheet
@@ -54,6 +58,7 @@ public class GvNativePlugin: CAPPlugin, CAPBridgedPlugin {
         guard let data = call.getString("data") else { call.reject("data required"); return }
         let defaults = UserDefaults(suiteName: "group.com.grahavani.app") ?? UserDefaults.standard
         defaults.set(data, forKey: "gv_widget")
+        if #available(iOS 14.0, *) { WidgetCenter.shared.reloadAllTimelines() } // home and lock-screen widgets
         call.resolve()
     }
 
@@ -68,4 +73,39 @@ public class GvNativePlugin: CAPPlugin, CAPBridgedPlugin {
             UIApplication.shared.open(url, options: [:]) { ok in ok ? call.resolve() : call.reject("No app can open this link") }
         }
     }
+
+    // MARK: Read aloud (Rashifal) with the system voices
+    private lazy var synth: AVSpeechSynthesizer = { let s = AVSpeechSynthesizer(); s.delegate = self; return s }()
+    private var speakCall: CAPPluginCall?
+    private var hasVoice = true
+
+    @objc func speak(_ call: CAPPluginCall) {
+        let text = call.getString("text") ?? "", lang = call.getString("lang") ?? "en-IN"
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.finishSpeaking(ok: true)
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
+            let voice = AVSpeechSynthesisVoice(language: lang) ?? AVSpeechSynthesisVoice.speechVoices().first { $0.language.hasPrefix(String(lang.prefix(2))) }
+            self.hasVoice = voice != nil
+            let u = AVSpeechUtterance(string: text)
+            u.voice = voice ?? AVSpeechSynthesisVoice(language: "en-IN")
+            u.rate = AVSpeechUtteranceDefaultSpeechRate * 0.95
+            self.speakCall = call
+            self.synth.speak(u)
+        }
+    }
+    @objc func stopSpeaking(_ call: CAPPluginCall) {
+        DispatchQueue.main.async { [weak self] in
+            self?.synth.stopSpeaking(at: .immediate)
+            self?.finishSpeaking(ok: true)
+            call.resolve()
+        }
+    }
+    private func finishSpeaking(ok: Bool) {
+        guard let c = speakCall else { return }
+        speakCall = nil
+        c.resolve(["ok": ok && hasVoice])
+    }
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) { finishSpeaking(ok: true) }
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) { finishSpeaking(ok: true) }
 }

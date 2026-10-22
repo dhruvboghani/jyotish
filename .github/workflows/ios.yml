@@ -7,6 +7,9 @@
 #   IOS_DIST_CERT_PASSWORD        — password of that .p12
 #   IOS_PROFILE_BASE64            — App Store provisioning profile for com.grahavani.app (with Push), base64
 #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8_BASE64 — App Store Connect API key (Users and Access → Integrations)
+# Optional, for the home/lock-screen widget in signed builds:
+#   IOS_WIDGET_PROFILE_BASE64    — App Store profile for com.grahavani.app.widget (App Group group.com.grahavani.app);
+#                                  the app's profile then needs the same App Group. Without it the signed build ships without the widget.
 # macOS minutes count 10× on private repos, so this runs only when iOS or app files change, or by hand.
 name: iOS app
 
@@ -49,6 +52,11 @@ jobs:
         working-directory: mobile
         run: npx cap sync ios
 
+      - name: Add the widget extension (home and lock-screen widgets)
+        run: |
+          gem list -i xcodeproj >/dev/null || sudo gem install xcodeproj --no-document
+          ruby mobile/ios/add-widget.rb
+
       - name: Xcode version
         run: xcodebuild -version
 
@@ -76,6 +84,7 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_B64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          WIDGET_PROFILE_B64: ${{ secrets.IOS_WIDGET_PROFILE_BASE64 }}
         working-directory: mobile/ios/App
         run: |
           if [ -z "$TEAM_ID" ] || [ -z "$CERT_B64" ] || [ -z "$PROFILE_B64" ]; then echo "No Apple signing secrets — skipping the signed build"; exit 0; fi
@@ -90,10 +99,23 @@ jobs:
           PROFILE_UUID=$(security cms -D -i "$RUNNER_TEMP/app.mobileprovision" | plutil -extract UUID raw -)
           mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
           cp "$RUNNER_TEMP/app.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
-          xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
-            -archivePath "$RUNNER_TEMP/App.xcarchive" -derivedDataPath "$RUNNER_TEMP/dd-rel" \
-            DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" CURRENT_PROJECT_VERSION=$BUILD_NUMBER archive | tail -40
+          WIDGET_UUID=""
+          if [ -n "$WIDGET_PROFILE_B64" ]; then
+            echo "$WIDGET_PROFILE_B64" | base64 --decode > "$RUNNER_TEMP/widget.mobileprovision"
+            WIDGET_UUID=$(security cms -D -i "$RUNNER_TEMP/widget.mobileprovision" | plutil -extract UUID raw -)
+            cp "$RUNNER_TEMP/widget.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$WIDGET_UUID.mobileprovision"
+            TEAM_ID="$TEAM_ID" APP_PROFILE="$PROFILE_UUID" WIDGET_PROFILE="$WIDGET_UUID" ruby ../add-widget.rb
+            xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+              -archivePath "$RUNNER_TEMP/App.xcarchive" -derivedDataPath "$RUNNER_TEMP/dd-rel" \
+              CURRENT_PROJECT_VERSION=$BUILD_NUMBER archive | tail -40
+          else
+            echo "No IOS_WIDGET_PROFILE_BASE64 — signed build without the widget"
+            git checkout -- App.xcodeproj App/App.entitlements
+            xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+              -archivePath "$RUNNER_TEMP/App.xcarchive" -derivedDataPath "$RUNNER_TEMP/dd-rel" \
+              DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution" \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" CURRENT_PROJECT_VERSION=$BUILD_NUMBER archive | tail -40
+          fi
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -101,7 +123,7 @@ jobs:
             <key>method</key><string>app-store-connect</string>
             <key>teamID</key><string>$TEAM_ID</string>
             <key>signingStyle</key><string>manual</string>
-            <key>provisioningProfiles</key><dict><key>com.grahavani.app</key><string>$PROFILE_UUID</string></dict>
+            <key>provisioningProfiles</key><dict><key>com.grahavani.app</key><string>$PROFILE_UUID</string>${WIDGET_UUID:+<key>com.grahavani.app.widget</key><string>$WIDGET_UUID</string>}</dict>
           </dict></plist>
           PLIST
           xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportPath "$RUNNER_TEMP/export" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"

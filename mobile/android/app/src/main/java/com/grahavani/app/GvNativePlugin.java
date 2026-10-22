@@ -4,7 +4,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.print.PrintAttributes;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import java.util.Locale;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.webkit.WebView;
@@ -42,6 +46,7 @@ public class GvNativePlugin extends Plugin {
         if (data == null) { call.reject("data required"); return; }
         getContext().getSharedPreferences(PanchangWidget.PREFS, Context.MODE_PRIVATE).edit().putString(PanchangWidget.KEY, data).apply();
         PanchangWidget.updateAll(getContext());
+        PanchangWidgetSmall.updateAll(getContext());
         call.resolve();
     }
 
@@ -68,5 +73,55 @@ public class GvNativePlugin extends Plugin {
         } catch (ActivityNotFoundException e) {
             call.reject("No app can open this link");
         }
+    }
+
+    // ---------- Read aloud (Android WebView has no speechSynthesis) ----------
+    private TextToSpeech tts;
+    private boolean ttsReady = false;
+    private PluginCall pendingSpeak;
+
+    /** Speaks text in the given language (e.g. "hi-IN"); resolves {ok, voice} when finished or stopped. */
+    @PluginMethod
+    public void speak(PluginCall call) {
+        final String text = call.getString("text", ""), lang = call.getString("lang", "en-IN");
+        if (pendingSpeak != null) { JSObject r = new JSObject(); r.put("ok", true); pendingSpeak.resolve(r); pendingSpeak = null; }
+        if (tts == null) {
+            tts = new TextToSpeech(getContext(), status -> { ttsReady = status == TextToSpeech.SUCCESS; if (ttsReady) say(call, text, lang); else { JSObject r = new JSObject(); r.put("ok", false); call.resolve(r); } });
+            tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override public void onStart(String id) { }
+                @Override public void onDone(String id) { finish(true); }
+                @Override public void onError(String id) { finish(false); }
+                @Override public void onStop(String id, boolean interrupted) { finish(true); }
+            });
+        } else if (ttsReady) say(call, text, lang);
+        else { JSObject r = new JSObject(); r.put("ok", false); call.resolve(r); }
+    }
+    private void say(PluginCall call, String text, String lang) {
+        Locale loc = Locale.forLanguageTag(lang);
+        int avail = tts.setLanguage(loc);
+        boolean hasVoice = avail >= TextToSpeech.LANG_AVAILABLE;
+        if (!hasVoice) tts.setLanguage(Locale.forLanguageTag("en-IN"));
+        tts.setSpeechRate(0.95f);
+        pendingSpeak = call;
+        call.getData().put("voice", hasVoice);
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, new Bundle(), "gv");
+    }
+    private void finish(boolean ok) {
+        PluginCall c = pendingSpeak; pendingSpeak = null;
+        if (c == null) return;
+        JSObject r = new JSObject(); r.put("ok", ok && c.getData().optBoolean("voice", true));
+        c.resolve(r);
+    }
+
+    @PluginMethod
+    public void stopSpeaking(PluginCall call) {
+        if (tts != null) tts.stop();
+        finish(true);
+        call.resolve();
+    }
+
+    @Override
+    protected void handleOnDestroy() {
+        if (tts != null) { tts.shutdown(); tts = null; }
     }
 }
