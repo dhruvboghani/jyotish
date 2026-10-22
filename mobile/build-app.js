@@ -26,6 +26,7 @@ fs.mkdirSync(path.join(WWW, 'vendor'), { recursive: true });
 fs.mkdirSync(path.join(WWW, 'assets', 'i18n'), { recursive: true });
 fs.copyFileSync(path.join(ROOT, 'node_modules/@supabase/supabase-js/dist/umd/supabase.js'), path.join(WWW, 'vendor/supabase.js'));
 fs.copyFileSync(path.join(__dirname, 'src/app-bridge.js'), path.join(WWW, 'app-bridge.js'));
+fs.copyFileSync(path.join(__dirname, 'src/app.css'), path.join(WWW, 'assets', 'app.css'));
 fs.writeFileSync(path.join(WWW, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: SUPABASE_URL, supabaseAnonKey: SUPABASE_KEY, vapidPublicKey: '', apiBase: API_BASE, app: true })};\n`);
 
 console.log('3/5 Rewriting pages…');
@@ -50,6 +51,7 @@ for (const file of walk(WWW).filter(f => f.endsWith('.html'))) {
   html = html.replace(/<script defer src="\/_vercel\/insights\/script\.js"><\/script>\s*/g, '');
   html = html.replace(/(<script src="\/config\.js[^"]*"><\/script>)/, '$1\n<script src="/offline.js" defer></script>');
   html = html.replace(/<link rel="manifest"[^>]*>\s*/, '');
+  html = html.replace(/(<link rel="stylesheet" href="\/assets\/styles\.css[^"]*">)/, '$1\n<link rel="stylesheet" href="/assets/app.css">'); // Design C app look
   // Local links: "/x/y/" → "/x/y/index.html" (keeps ?query and #hash)
   html = html.replace(/(href|data-href)="(\/[^"?#]*\/)([?#][^"]*)?"/g, (m, a, p, rest) => `${a}="${p}index.html${rest || ''}"`);
   if (!html.includes('/app-bridge.js')) throw new Error('Supabase script tag not found in ' + path.relative(WWW, file) + ' — update build-app.js');

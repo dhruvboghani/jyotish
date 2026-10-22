@@ -20,6 +20,19 @@
     return u.pathname + u.search + u.hash;
   };
   if (location.pathname !== '/' && location.pathname.endsWith('/')) { location.replace(fileUrl(location.href)); return; }
+
+  // ---------- Start on Today (once per app session), in the saved or the phone's language ----------
+  const LANGS = ['en', 'hi', 'gu', 'ta', 'te', 'kn'];
+  try {
+    if (!sessionStorage.getItem('gv-started')) {
+      sessionStorage.setItem('gv-started', '1');
+      if (/^\/(index\.html)?$/.test(location.pathname) && !location.hash) {
+        let lang = null; try { lang = JSON.parse(localStorage.getItem('kg-lang')); } catch (e) { }
+        if (!LANGS.includes(lang)) { const n = (navigator.language || 'en').slice(0, 2).toLowerCase(); lang = LANGS.includes(n) ? n : 'en'; }
+        location.replace((lang === 'en' ? '/' : '/' + lang + '/') + 'today/index.html'); return;
+      }
+    }
+  } catch (e) { }
   const openExternal = url => Native && Native.openExternal ? Native.openExternal({ url }) : window.open(url, '_blank');
   document.addEventListener('click', e => {
     const a = e.target.closest && e.target.closest('a[href]'); if (!a || e.defaultPrevented) return;
@@ -28,6 +41,40 @@
     const f = fileUrl(a.href); if (f && f !== a.getAttribute('href')) { e.preventDefault(); location.href = f; }
   }, true);
   const go = url => { const f = fileUrl(url); if (f) location.href = f; else openExternal(url); };
+
+  // ---------- App shell (Design C): app bar on inner pages, bottom tabs everywhere ----------
+  function shell() {
+    const I = window.I18N; if (!I || document.querySelector('.app-tabs')) return;
+    const tx = k => k.split('.').reduce((o, x) => (o == null ? o : o[x]), I) || '';
+    const home = I.meta.path, path = location.pathname.replace(/index\.html$/, '');
+    const rel = path.startsWith(home) ? path.slice(home.length) : path.slice(1);
+    const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+    const IC = {
+      today: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+      panchang: svg('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+      kundali: svg('<path d="M12 5v14M5 12h14"/>'),
+      matching: svg('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'),
+      me: svg('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>'),
+      back: svg('<path d="M15 5l-7 7 7 7"/>')
+    };
+    const TABS = [['today', 'today/'], ['panchang', 'panchang/'], ['kundali', ''], ['matching', 'matching/'], ['me', 'me/']];
+    const cur = (TABS.find(([, r]) => r === rel) || [null])[0];
+    document.documentElement.classList.add('app-shell', 'app-' + (cur || 'inner'));
+    const nav = document.createElement('nav');
+    nav.className = 'app-tabs'; nav.setAttribute('aria-label', tx('nav.sections'));
+    nav.innerHTML = TABS.map(([k, r]) => `<a href="${home}${r}index.html" class="tab-${k}"${k === cur ? ' aria-current="page"' : ''}><span class="ti">${IC[k]}</span><span class="tl">${tx('app.tab' + k[0].toUpperCase() + k.slice(1))}</span></a>`).join('');
+    document.body.appendChild(nav);
+    if (cur === 'today' || cur === 'me') return; // these screens carry their own header
+    const h1 = document.querySelector('.page-hero h1, main h1');
+    const title = cur === 'kundali' ? tx('nav.new') : (h1 ? h1.textContent.trim() : tx('brand.name'));
+    const bar = document.createElement('header');
+    bar.className = 'app-bar';
+    bar.innerHTML = (cur ? '' : `<button type="button" class="ab-back" aria-label="${tx('app.back')}">${IC.back}</button>`) + `<h1 class="ab-title">${title.replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]))}</h1>`;
+    document.body.insertBefore(bar, document.body.firstChild.nextSibling);
+    const back = bar.querySelector('.ab-back');
+    if (back) back.addEventListener('click', () => { if (history.length > 1) history.back(); else location.href = home + 'today/index.html'; });
+  }
+  if (document.body) shell(); else document.addEventListener('DOMContentLoaded', shell);
 
   // ---------- State shared with the page (filled by core.js → GV_APP.attach) ----------
   let core = null, lastBack = 0, pendingUrl = null;
@@ -38,8 +85,8 @@
     const drawer = document.getElementById('drawer');
     if (core && core.modalOpen()) { core.closeModal(); return; }
     if (drawer && !drawer.hidden) { document.getElementById('navbtn').click(); return; }
-    const home = /^\/((hi|gu|ta|te|kn)\/)?(index\.html)?$/.test(location.pathname);
-    if (!home) { history.length > 1 ? history.back() : (location.href = (core ? core.HOME : '/') + 'index.html'); return; }
+    const home = /^\/((hi|gu|ta|te|kn)\/)?today\/(index\.html)?$/.test(location.pathname); // Today is the app's home
+    if (!home) { history.length > 1 ? history.back() : (location.href = (core ? core.HOME : '/') + 'today/index.html'); return; }
     if (Date.now() - lastBack < 2000) { App.exitApp(); return; }
     lastBack = Date.now(); if (core) core.toast(core.t('app.exit'));
   });

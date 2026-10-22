@@ -1,0 +1,30 @@
+<main class="wrap page today-page">
+  <header class="t-head">
+    <div><p class="t-date" id="t-date"></p><h1 class="t-greet" id="t-greet">{{app.morning}}</h1></div>
+  </header>
+
+  <section class="t-card t-sky" aria-label="{{hero.live}}">
+    <div class="t-sky-top">
+      <span class="live-badge"><i></i><span id="t-live">{{hero.live}}</span></span>
+      <a class="t-city" id="t-city" href="{{home}}panchang/"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg><span id="t-cityname"></span></a>
+    </div>
+    <input type="hidden" id="f-lat"><input type="hidden" id="f-lon">
+    <div id="wheel"></div>
+    <div class="t-sky-foot">
+      <div><small>{{hero.rising}}</small><b id="t-rising">—</b></div>
+      <div class="r"><small>{{app.moonIn}}</small><b id="t-moon">—</b></div>
+    </div>
+  </section>
+
+  <section class="t-tithi" id="t-tithi"><span class="spin"></span></section>
+  <section class="t-times" id="t-times"></section>
+  <section id="t-day"></section>
+  <section id="t-sadhana"></section>
+
+  <section class="t-tools" aria-label="{{app.tools}}">
+    <a href="{{home}}matching/"><span class="ti c-pink"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg></span>{{nav.matching}}</a>
+    <a href="{{home}}muhurta/"><span class="ti c-gold"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg></span>{{nav.muhurta}}</a>
+    <a href="{{home}}rashifal/"><span class="ti c-green"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg></span>{{nav.rashifal}}</a>
+    <a href="{{home}}calendar/"><span class="ti c-indigo"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg></span>{{nav.calendar}}</a>
+  </section>
+</main>

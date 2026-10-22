@@ -1,0 +1,98 @@
+/* Grahavani app — Design C "Living Wheel". Loaded only in the Android/iPhone app (mobile/build-app.js),
+   after the site stylesheet. The app bar and bottom tabs are added by app-bridge.js. */
+:root { --bg: #F7F4EC; --app-card: #fff; --app-line: #ECE6D6; --app-shadow: 0 1px 2px rgba(22,23,59,.04), 0 12px 32px rgba(22,23,59,.07); }
+html, body { background: var(--bg); }
+body { padding-bottom: calc(96px + var(--sab)); -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+html.app-today body, html.app-me body { padding-top: var(--sat); }
+
+/* Website chrome the app replaces */
+.topbar, .drawer, body > footer, .static-sec, .faq, .jump-tools, .trial-banner .ic { display: none !important; }
+.wrap { padding-inline: 16px; }
+
+/* App bar (inner pages and the Panchang / Kundali / Matching tabs) */
+.app-bar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 4px; min-height: 56px; padding: calc(var(--sat) + 4px) 12px 6px; background: rgba(247,244,236,.95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+html:not(.app-inner) .app-bar { padding-left: 16px; }
+.ab-back { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); display: grid; place-items: center; margin-left: -6px; }
+.ab-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ab-title { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: 24px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html.app-inner .ab-title { font-size: 21px; }
+
+/* Bottom tabs with the raised Kundali button */
+.app-tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; padding: 6px 6px calc(8px + var(--sab)); background: #fff; border-top: 1px solid var(--app-line); box-shadow: 0 -6px 24px rgba(22,23,59,.05); }
+.app-tabs a { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 52px; justify-content: flex-end; text-decoration: none; color: #5F5E7E; font-size: 11.5px; font-weight: 600; }
+.app-tabs .ti { width: 54px; height: 30px; border-radius: 999px; display: grid; place-items: center; background: transparent; transition: background .2s; }
+.app-tabs svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.app-tabs a[aria-current="page"] { color: var(--ink); font-weight: 700; }
+.app-tabs a[aria-current="page"] .ti { background: var(--gold-soft); color: var(--gold-deep); }
+.app-tabs a[aria-current="page"] svg { stroke-width: 2.1; }
+.app-tabs .tab-kundali { color: var(--ink); font-weight: 700; }
+.app-tabs .tab-kundali .ti { width: 58px; height: 58px; margin-top: -28px; border-radius: 50%; background: var(--ink); color: #F2D27A; border: 4px solid #fff; box-shadow: 0 8px 20px rgba(22,23,59,.28); }
+.app-tabs .tab-kundali svg { width: 26px; height: 26px; stroke-width: 2.4; }
+.app-tabs .tab-kundali[aria-current="page"] .ti { background: var(--ink); color: #F2D27A; }
+.app-tabs .tl { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Page headers: the title lives in the app bar */
+.page-hero { padding: 0 0 10px; }
+.page-hero h1, .page-hero .eyebrow { display: none; }
+.page-hero .lede { font-size: 14.5px; color: var(--ink-3); margin: 0; }
+.article-head { padding-top: 4px; }
+.article h1 { font-size: 28px; }
+
+/* Cards, buttons, form fields */
+.card, .formcard, details.dosha, .lock-card { border: 0 !important; border-radius: 22px; box-shadow: var(--app-shadow); }
+.tbl-card { border-radius: 18px; }
+.btn-cta, .btn-line { min-height: 46px; border-radius: 14px; }
+.btn-line { border-color: #E3DCC8; }
+.tag { border-radius: 999px; }
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], input[type="time"], input[type="number"], input:not([type]), select, textarea { min-height: 52px; border-radius: 14px !important; border: 1.5px solid #E3DCC8 !important; background-color: #FFFDF8 !important; font-size: 16px !important; box-sizing: border-box; }
+input:focus, select:focus, textarea:focus { border-color: var(--gold) !important; background-color: #fff !important; }
+.field label, .field > span { font-size: 14px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-2); }
+.seg { border: 0; background: #EFE9DA; box-shadow: none; border-radius: 14px; }
+.seg button { min-height: 38px; border-radius: 10px; }
+.seg button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(22,23,59,.12); }
+.toolbar { border-radius: 22px; }
+.modal { padding-top: calc(16px + var(--sat)); align-items: end; }
+.modal .box { border-radius: 26px; width: 100%; max-width: 560px; }
+
+/* New Kundali (the Kundali tab) */
+body.page-home .hero { padding: 4px 0 16px; background: none; }
+body.page-home .hero::before, body.page-home .hero::after { display: none; }
+body.page-home .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+body.page-home .hero .kicker, body.page-home .hero h1, body.page-home .hero .sub, body.page-home .hero .trust, body.page-home .wheel-col { display: none; }
+body.page-home .formcard { padding: 18px 16px; }
+body.page-home .formcard h2 { font-size: 19px; margin-bottom: 12px; }
+body.page-home #form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 10px; }
+body.page-home .go { min-height: 56px; border-radius: 18px; font-size: 17px; font-weight: 700; margin-top: 4px; }
+.saved-row { margin: 0 0 14px; display: flex; flex-direction: column; gap: 10px; }
+.sr-h { display: flex; justify-content: space-between; align-items: baseline; }
+.sr-h .linkbtn { font-size: 14px; min-height: 36px; }
+.sr-list { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.sr-list::-webkit-scrollbar { display: none; }
+.sr-list button { flex: none; width: 64px; border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; font: inherit; color: var(--ink); cursor: pointer; }
+.sr-list span { width: 56px; height: 56px; border-radius: 50%; color: #fff; display: grid; place-items: center; font-family: var(--f-display); font-size: 22px; box-shadow: 0 4px 10px rgba(22,23,59,.12); }
+.sr-list small { font-size: 12px; font-weight: 600; max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rel-chips { display: flex; flex-direction: column; gap: 8px; }
+.rel-chips[hidden] { display: none; }
+.rc-l { font-weight: 700; font-size: 15px; }
+.rel-chips div { display: flex; flex-wrap: wrap; gap: 8px; }
+.rel-chips button { min-height: 40px; padding: 0 15px; border-radius: 999px; border: 1px solid #E3DCC8; background: #fff; color: var(--ink); font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; }
+.rel-chips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+body.page-home #rel-field { display: none !important; } /* replaced by the chips */
+
+/* Kundali report */
+main section, .static-sec { padding-block: 26px 4px; }
+.sec-head { margin-bottom: 14px; }
+.sec-head h2 { font-size: 24px; }
+.sec-head .lede { font-size: 14.5px; }
+.sec-head .eyebrow { font-size: 13px; }
+.jump-nav { top: calc(56px + var(--sat)); margin-inline: -16px; padding: 8px 16px 10px; background: var(--bg); gap: 8px; }
+.jump-nav .tag { min-height: 38px; padding: 0 16px; display: inline-flex; align-items: center; background: #fff; border: 0; font-size: 14px; font-weight: 600; color: var(--ink); box-shadow: 0 1px 3px rgba(22,23,59,.06); white-space: nowrap; }
+.jump-nav .tag:hover { background: var(--ink); color: #fff; }
+.profile { border-radius: 24px; }
+
+/* Panchang, Calendar, Matching and other tools */
+body.page-panchang .toolbar, body.page-calendar .toolbar, body.page-muhurta .toolbar { padding: 14px; }
+.sd-card, .fam, .rem, .area-card { border-radius: 22px; }
+.me-head small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
+a.btn-line, a.btn-cta { text-decoration: none; }
+html.app-panchang .page-hero .lede, html.app-matching .page-hero .lede { display: none; }

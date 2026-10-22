@@ -3,7 +3,34 @@ let lastInput = null;
 const fName = $('#f-name'), fRel = $('#f-rel'), relField = $('#rel-field');
 const picker = placePicker({ input: 'f-place', suggest: 'suggest', meta: 'place-meta', lat: 'f-lat', lon: 'f-lon', off: 'f-off', date: 'f-date', time: 'f-time', err: 'err', online: 'online' });
 
-function showRelField() { if (relField) relField.hidden = !session; }
+function showRelField() { if (relField) relField.hidden = !session; if (APP) appKundaliExtras(); }
+
+// App only (Design C): saved family members as one-tap avatars, and "whose Kundali" as buttons, not a dropdown
+const REL_CHIPS = ['self', 'spouse', 'son', 'daughter', 'father', 'mother', 'other'];
+async function appKundaliExtras() {
+  const form = $('#form'); if (!form) return;
+  let chips = $('#rel-chips');
+  if (session && fRel) {
+    if (!chips) {
+      chips = document.createElement('div'); chips.id = 'rel-chips'; chips.className = 'rel-chips field full';
+      chips.innerHTML = `<span class="rc-l">${esc(t('app.whose'))}</span><div>${REL_CHIPS.map(r => `<button type="button" data-rel="${r}">${esc(t('rel.' + r))}</button>`).join('')}</div>`;
+      form.insertBefore(chips, form.firstChild);
+      chips.addEventListener('click', e => { const b = e.target.closest('[data-rel]'); if (!b) return; fRel.value = fRel.value === b.dataset.rel ? '' : b.dataset.rel; syncChips(); });
+      fRel.addEventListener('change', syncChips);
+    }
+    chips.hidden = false; syncChips();
+  } else if (chips) chips.hidden = true;
+  let row = $('#saved-row');
+  if (!session) { if (row) row.remove(); return; }
+  const rows = await loadMyKundalis(); if (!rows.length) return;
+  if (!row) { row = document.createElement('section'); row.id = 'saved-row'; row.className = 'saved-row'; $('.formcard').before(row); }
+  const COLORS = ['#16173B', '#9C2E62', '#0B5E39', '#2A2E7C', '#8C5E05', '#56627E'];
+  row.innerHTML = `<div class="sr-h"><b>${esc(t('app.openSaved'))}</b><button type="button" class="linkbtn" data-menu-saved>${esc(t('app.seeAll'))} (${rows.length})</button></div>
+    <div class="sr-list">${rows.slice(0, 8).map((r, i) => { const n = (r.birth.name || '?').trim(); return `<button type="button" data-open-saved="${r.id}"><span style="background:${COLORS[i % COLORS.length]}">${esc(n.charAt(0).toUpperCase())}</span><small>${esc(r.relation ? t('rel.' + r.relation) : n.split(' ')[0])}</small></button>`; }).join('')}</div>`;
+  row.querySelector('[data-menu-saved]').onclick = savedModal;
+  row.querySelectorAll('[data-open-saved]').forEach(b => b.onclick = () => { const r = rows.find(x => x.id === b.dataset.openSaved); if (r) openChart({ ...r.birth, relation: r.relation || undefined }); });
+}
+function syncChips() { $$('#rel-chips [data-rel]').forEach(b => b.setAttribute('aria-pressed', String(fRel.value === b.dataset.rel))); }
 
 async function run(input, opts = {}) {
   lastInput = input;
