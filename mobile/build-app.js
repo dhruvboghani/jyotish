@@ -30,6 +30,7 @@ fs.copyFileSync(path.join(__dirname, 'src/app.css'), path.join(WWW, 'assets', 'a
 fs.writeFileSync(path.join(WWW, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: SUPABASE_URL, supabaseAnonKey: SUPABASE_KEY, vapidPublicKey: '', apiBase: API_BASE, app: true })};\n`);
 
 console.log('3/5 Rewriting pages…');
+const PRELOADER = fs.readFileSync(path.join(__dirname, 'src/preloader.html'), 'utf8').trim(); // launch screen, shown once per app session
 const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
 const i18nFiles = new Map();
 let pages = 0, before = 0, after = 0;
@@ -45,7 +46,7 @@ for (const file of walk(WWW).filter(f => f.endsWith('.html'))) {
   html = html.replace(/<svg width="0" height="0" style="position:absolute" aria-hidden="true">[\s\S]*?<\/svg>/, m => {
     const h = crypto.createHash('sha1').update(m).digest('hex').slice(0, 10);
     if (!i18nFiles.has('s' + h)) { i18nFiles.set('s' + h, true); fs.writeFileSync(path.join(WWW, 'assets', 'sprite-' + h + '.js'), `document.write(${JSON.stringify(m)});\n`); }
-    return `<script src="/assets/sprite-${h}.js"></script>`;
+    return `<script src="/assets/sprite-${h}.js"></script>\n${PRELOADER}`;
   });
   html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ''); // search-engine data, not needed in the app
   html = html.replace(/<script defer src="\/_vercel\/insights\/script\.js"><\/script>\s*/g, '');

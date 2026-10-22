@@ -96,3 +96,64 @@ body.page-panchang .toolbar, body.page-calendar .toolbar, body.page-muhurta .too
 .me-head small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
 a.btn-line, a.btn-cta { text-decoration: none; }
 html.app-panchang .page-hero .lede, html.app-matching .page-hero .lede { display: none; }
+
+/* ---------- Launch screen (preloader.html) ---------- */
+#gv-splash { position: fixed; inset: 0; z-index: 1000; background: #16173B; display: grid; place-items: center; transition: opacity .38s ease, visibility .38s; }
+#gv-splash[hidden] { display: none; }
+#gv-splash.out { opacity: 0; visibility: hidden; }
+html.gv-splashing body { overflow: hidden; }
+.gs-in { display: flex; flex-direction: column; align-items: center; gap: 10px; transform: translateY(-4%); }
+.gs-logo { width: 112px; height: 112px; overflow: visible; }
+.gs-name { margin-top: 8px; font-family: var(--f-display); font-size: 32px; color: #fff; letter-spacing: .01em; }
+.gs-tag { font-family: var(--f-body); font-size: 11.5px; font-weight: 700; letter-spacing: .16em; color: #F2D27A; }
+html:not([lang="en"]) .gs-tag { letter-spacing: .02em; font-size: 13px; }
+.gs-bar { width: 120px; height: 3px; margin-top: 22px; border-radius: 999px; background: rgba(242,210,122,.18); overflow: hidden; }
+.gs-bar i { display: block; width: 40%; height: 100%; border-radius: inherit; background: #F2D27A; }
+@media (prefers-reduced-motion: no-preference) {
+  .gs-logo { animation: gsIn .7s cubic-bezier(.2,.8,.2,1) both; }
+  .gs-name, .gs-tag { animation: gsUp .6s .15s cubic-bezier(.2,.8,.2,1) both; }
+  .gs-tag { animation-delay: .25s; }
+  .gs-orbit { transform-origin: 60px 60px; animation: spin 3.2s linear infinite; }
+  .gs-ring { transform-origin: 60px 63px; animation: gsRing 3.2s ease-in-out infinite; }
+  .gs-star { animation: twinkle 2.4s ease-in-out infinite; } .gs-star.s2 { animation-delay: .8s; } .gs-star.s3 { animation-delay: 1.5s; }
+  .gs-bar i { animation: gsBar 1.1s ease-in-out infinite; }
+}
+@keyframes gsIn { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: none; } }
+@keyframes gsUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes gsRing { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.94); } }
+@keyframes gsBar { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
+
+/* ---------- Smooth scrolling ---------- */
+html { scroll-behavior: smooth; scroll-padding-top: calc(64px + var(--sat)); -webkit-text-size-adjust: 100%; }
+body { overscroll-behavior: none; }
+.sr-list, .jump-nav, .tbl-card, .area-tabs { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- Minimal motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* page enter / leave */
+  body > main, body > .hero, body > .wrap, .app-bar .ab-title { animation: gvEnter .28s cubic-bezier(.2,.8,.2,1) both; }
+  html.gv-leaving body > main, html.gv-leaving body > .hero, html.gv-leaving body > .wrap { opacity: 0; transform: translateY(4px); transition: opacity .11s ease, transform .11s ease; }
+  /* cards arrive softly instead of the website's larger reveal */
+  .reveal.in { animation: gvEnter .32s cubic-bezier(.2,.8,.2,1) both; animation-delay: min(var(--d, 0ms), 120ms); }
+  /* press feedback */
+  a, button, .tag, .t-card, .card { -webkit-tap-highlight-color: transparent; }
+  .btn-cta, .btn-line, .go, .rel-chips button, .sr-list button, .t-tools a, .me-list > a, .t-row, .t-dayc, .jump-nav .tag, .sd-cell, .seg button, .app-tabs a, .ab-back, .linkbtn { transition: transform .12s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+  .btn-cta:active, .btn-line:active, .go:active, .rel-chips button:active, .sr-list button:active, .t-tools a:active, .t-row:active, .t-dayc:active, .jump-nav .tag:active, .seg button:active, .ab-back:active { transform: scale(.97); }
+  .me-list > a:active { background: #FBF7EE; }
+  .app-tabs a:active .ti { transform: scale(.92); }
+  .app-tabs .ti { transition: background-color .25s ease, transform .12s ease; }
+  .app-tabs .tab-kundali:active .ti { transform: scale(.94); }
+  /* pop-ups slide up as sheets */
+  .modal { animation: gvFade .2s ease both; }
+  .modal .box { animation: gvSheet .32s cubic-bezier(.2,.8,.2,1) both; }
+  .toast { animation: gvToast .28s cubic-bezier(.2,.8,.2,1) both; }
+  /* Today: the tithi and time cards settle in after data loads */
+  .t-tithi > div, .t-time, .t-dayc, .sd-card { animation: gvEnter .32s cubic-bezier(.2,.8,.2,1) both; }
+  .t-time + .t-time { animation-delay: .05s; }
+}
+@keyframes gvEnter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes gvFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gvSheet { from { transform: translateY(24px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes gvToast { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+html[lang="en"] .gs-tag { text-transform: uppercase; }

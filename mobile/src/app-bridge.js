@@ -38,9 +38,29 @@
     const a = e.target.closest && e.target.closest('a[href]'); if (!a || e.defaultPrevented) return;
     const href = a.getAttribute('href'); if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
     if (/^(https?:|webcal:|mailto:|tel:|whatsapp:|intent:)/i.test(href) && !href.startsWith(location.origin)) { e.preventDefault(); openExternal(a.href); return; }
-    const f = fileUrl(a.href); if (f && f !== a.getAttribute('href')) { e.preventDefault(); location.href = f; }
+    const f = fileUrl(a.href); if (!f || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+    const u = new URL(f, location.href);
+    if (u.pathname === location.pathname && u.hash) return; // same-page anchor: let smooth scrolling handle it
+    e.preventDefault(); leave(f);
   }, true);
   const go = url => { const f = fileUrl(url); if (f) location.href = f; else openExternal(url); };
+
+  // ---------- Launch screen (preloader.html) and page transitions ----------
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hideSplash() {
+    const el = document.getElementById('gv-splash'); if (!el || el.hidden || el.classList.contains('out')) return;
+    const wait = Math.max(0, 900 - (Date.now() - (window.__gvSplashAt || 0))); // long enough to read the name, never longer
+    setTimeout(() => {
+      try { sessionStorage.setItem('gv-splashed', '1'); } catch (e) { }
+      el.classList.add('out'); document.documentElement.classList.remove('gv-splashing');
+      setTimeout(() => el.remove(), reduceMotion ? 0 : 420);
+    }, wait);
+  }
+  addEventListener('load', () => setTimeout(hideSplash, 150));
+  setTimeout(hideSplash, 4000); // never block the app, even if something is slow
+  // Leaving a page: a quick fade instead of a hard cut (the next page fades in via app.css)
+  const leave = href => { if (reduceMotion) { location.href = href; return; } document.documentElement.classList.add('gv-leaving'); setTimeout(() => { location.href = href; }, 110); };
+  addEventListener('pageshow', e => { if (e.persisted) document.documentElement.classList.remove('gv-leaving'); });
 
   // ---------- App shell (Design C): app bar on inner pages, bottom tabs everywhere ----------
   function shell() {
@@ -167,6 +187,7 @@
   window.GV_APP = {
     attach(c) {
       core = c;
+      hideSplash();
       if (pendingUrl) { const u = pendingUrl; pendingUrl = null; go(u); return; }
       c.authHooks.push((ev, s) => { if (ev === 'SIGNED_IN' && ls.get('gv-push-on') && ls.get('gv-fcm-token')) saveToken(ls.get('gv-fcm-token')).catch(() => { }); });
       // Refresh the FCM token now and then (it can rotate)
