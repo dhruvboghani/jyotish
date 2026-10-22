@@ -157,3 +157,4 @@ body { overscroll-behavior: none; }
 @keyframes gvSheet { from { transform: translateY(24px); opacity: .4; } to { transform: none; opacity: 1; } }
 @keyframes gvToast { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
 html[lang="en"] .gs-tag { text-transform: uppercase; }
+@media print { .app-bar, .app-tabs, #gv-splash { display: none !important; } }

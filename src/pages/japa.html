@@ -1,0 +1,23 @@
+<main class="wrap page japa-page">
+  <div class="page-hero"><p class="eyebrow">{{jp.eye}}</p><h1>{{jp.title}}</h1><p class="lede">{{jp.lede}}</p></div>
+  <div class="card jp-setup">
+    <div class="field"><label for="jp-mantra">{{jp.mantra}}</label><select id="jp-mantra"></select></div>
+    <div class="field" id="jp-custom-f" hidden><label for="jp-custom">{{jp.customLabel}}</label><input id="jp-custom" type="text" maxlength="120" placeholder="{{jp.customPh}}"></div>
+    <div class="field"><label for="jp-goal">{{jp.goal}}</label><select id="jp-goal"></select></div>
+  </div>
+  <section class="jp-stage" aria-live="polite">
+    <p class="jp-text" id="jp-text" lang="sa"></p>
+    <button type="button" class="jp-bead" id="jp-tap" aria-label="{{jp.tap}}">
+      <svg class="jp-ring" viewBox="0 0 240 240" aria-hidden="true" id="jp-ring"></svg>
+      <span class="jp-mid"><b class="jp-count num" id="jp-count">0</b><small id="jp-round"></small></span>
+    </button>
+    <p class="jp-hint">{{jp.hint}}</p>
+    <div class="jp-actions no-print">
+      <button type="button" class="btn-line" id="jp-undo">−1</button>
+      <button type="button" class="btn-line" id="jp-reset">{{jp.reset}}</button>
+      <label class="chk"><input type="checkbox" id="jp-vib" checked><span>{{jp.vibrate}}</span></label>
+    </div>
+  </section>
+  <div class="card jp-stats" id="jp-stats"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

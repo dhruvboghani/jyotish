@@ -72,12 +72,13 @@ function sdStartModal(pre = {}, onDone) {
       <button class="btn-cta full" type="submit">${esc(t('sd.create'))}</button>
     </form>`);
   const $k = $('#sd-kind'), $p = $('#sd-planet'), $ti = $('#sd-title'), $cad = $('#sd-cad'), $wd = $('#sd-wd'), $len = $('#sd-len');
-  let edited = false;
+  let edited = !!pre.title;
+  if (pre.title) $ti.value = pre.title;
   $ti.addEventListener('input', () => { edited = true; });
   const lens = () => {
     const weekly = $cad.value === 'weekly', cur = +$len.value;
-    const opts = weekly ? [7, 11, 16, 21] : [21, 40, 108];
-    const def = weekly ? 11 : 40;
+    const opts = weekly ? [7, 11, 16, 21] : [...new Set([21, 40, 108, pre.days || 40])].sort((a, b) => a - b);
+    const def = weekly ? 11 : pre.days || 40;
     $len.innerHTML = opts.map(n => `<option value="${n}"${n === (opts.includes(cur) ? cur : def) ? ' selected' : ''}>${esc(t(weekly ? 'sd.weeks' : 'sd.days', { n }))}</option>`).join('');
     $('#sd-wd-f').hidden = !weekly;
     $cad.options[1].textContent = t('sd.weekly', { d: sdDayName(+$wd.value) });

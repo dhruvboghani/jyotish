@@ -359,11 +359,14 @@ function renderFull(data, host = $('#results'), opts = {}) {
 
   const trialBanner = data.trial && !session ? `<div class="trial-banner reveal"><span class="ic">${ic('i-star')}</span><div><b>${esc(t('trial.title'))}</b><p>${esc(t('trial.text'))}</p></div><button class="btn-cta" type="button" data-auth="signup">${esc(t('trial.cta'))}</button></div>` : '';
   const sharedBanner = data.shared ? `<div class="trial-banner reveal"><span class="ic">${ic('i-link')}</span><div><b>${esc(t('share.viewTitle'))}</b><p>${esc(t('share.viewText'))}</p></div><a class="btn-cta" href="${HOME}">${esc(t('share.makeOwn'))}</a></div>` : '';
-  const actions = `<div class="report-actions no-print">${!data.shared ? `<button class="btn-line" type="button" id="act-share">${ic('i-link')}${esc(t('share.button'))}${session ? '' : ic('i-lock', 'lk')}</button>` : ''}<button class="btn-line" type="button" id="act-pdf">${ic('i-download')}${esc(t('pdf.button'))}${session ? '' : ic('i-lock', 'lk')}</button><a class="btn-line" href="${HOME}matching/">${ic('i-heart')}${esc(t('nav.matching'))}</a></div>`;
-  const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'panchang', 'bhavas', 'gochar', 'notes'];
+  const actions = `<div class="report-actions no-print">${!data.shared ? `<button class="btn-line" type="button" id="act-share">${ic('i-link')}${esc(t('share.button'))}${session ? '' : ic('i-lock', 'lk')}</button>` : ''}<button class="btn-line" type="button" id="act-pdf">${ic('i-download')}${esc(t('pdf.button'))}${session ? '' : ic('i-lock', 'lk')}</button><button class="btn-line" type="button" id="act-card">${ic('i-star')}${esc(t('cc.button'))}</button><a class="btn-line" href="${HOME}matching/">${ic('i-heart')}${esc(t('nav.matching'))}</a></div>`;
+  const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'varsha', 'transits', 'kp', 'panchang', 'bhavas', 'gochar', 'notes'];
   const todaySec = mSec('today', 'my', premium && premium.today ? todayHtml(premium.today, tz) : lockCard('today'));
   const areasSec = mSec('areas', 'la', premium && premium.areas ? areasHtml(premium.areas, tz) : lockCard('areas', `<p class="muted small">${['career', 'marriage', 'finance', 'health', 'education', 'children'].map(k => t('la.' + k + '.name')).join(' · ')}</p>`));
-  const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies, premium.remedyExtras) : lockCard('remedies'));
+  const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies, premium.remedyExtras) + lalKitabHtml(premium.lalKitab) : lockCard('remedies'));
+  const varshaSec = mSec('varsha', 'vp', premium && 'varshaphal' in premium ? varshaHtml(premium.varshaphal, tz) : lockCard('varsha'));
+  const transitSec = mSec('transits', 'tl', premium && premium.transits ? transitsHtml(premium.transits, tz) : lockCard('transits'));
+  const kpSec = mSec('kp', 'kp', premium && premium.kp ? kpHtml(premium.kp) : lockCard('kp'));
   const notesSec = data.shared ? '' : mSec('notes', 'notes', session ? '<div id="notesbox"><span class="spin"></span></div>' : lockCard('notes'));
 
   host.innerHTML = `
@@ -389,6 +392,9 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${sec('dasha', 'dasha', `${nowCard}<div class="card ribbon-card reveal">${drawRibbon(c, now)}</div><div class="dasha-list">${dashaList}</div>`, '',
     esc(t('sec.dasha.lede', { p: ((1 - c.balance.years / DASHA_YEARS[c.balance.lord]) * 100).toFixed(1), nk: { nk: P.Moon.nak }, v: ymd(c.balance.years), g: { g: c.balance.lord } })))}
   ${mSec('events', 'events', upcomingHtml)}
+  ${varshaSec}
+  ${transitSec}
+  ${kpSec}
   ${sec('panchang', 'pan', `<div class="pan-grid">${pan}</div><div class="card ava reveal"><h3>${esc(t('sec.pan.ava'))}</h3><dl class="ava-grid">${avRows.map(([k, v]) => `<div><dt>${esc(t('sec.pan.av.' + k))}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div>`)}
   ${sec('bhavas', 'bhava', `<div class="bhava-grid">${bhavas}</div>`)}
   ${sec('ashtaka', 'ashtaka', `<div class="card tbl-card reveal"><table><thead><tr><th>${esc(t('sec.ashtaka.graha'))}</th>${avHead}<th>${esc(t('sec.ashtaka.total'))}</th></tr></thead><tbody>${bavRows}${savRow}</tbody></table></div>
@@ -435,6 +441,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   }));
   if (session && !data.shared) { mountNotes(input); brandHead(); }
   if (session) mountSadhana(input);
+  wireReportMore(data);
   if (APP && APP.chartRendered && !data.shared) APP.chartRendered(data);
   requestAnimationFrame(() => { const fg = $('#ringfg'); if (fg) fg.style.strokeDashoffset = circ * (1 - progress); });
   observeReveals();

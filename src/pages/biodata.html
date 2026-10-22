@@ -1,0 +1,35 @@
+<main class="wrap page biodata-page">
+  <div class="page-hero no-print"><p class="eyebrow">{{bd.eye}}</p><h1>{{bd.title}}</h1><p class="lede">{{bd.lede}}</p></div>
+  <div class="bd-layout">
+    <form class="card bd-form no-print" id="bd-form" novalidate>
+      <div class="field full" id="bd-pick-f"><label for="bd-pick">{{bd.pick}}</label><select id="bd-pick"></select></div>
+      <fieldset class="bd-birth full" id="bd-birth" hidden><legend>{{bd.birthH}}</legend>
+        <div class="row2"><div class="field"><label for="bd-date">{{td.birthDate}}</label><input id="bd-date" type="date"></div><div class="field"><label for="bd-time">{{td.birthTime}}</label><input id="bd-time" type="time"></div></div>
+        <!--CITY-->
+      </fieldset>
+      <h3 class="sub-h full">{{bd.personalH}}</h3>
+      <div class="field"><label for="bd-name">{{form.name}}</label><input id="bd-name" data-k="name" maxlength="80"></div>
+      <div class="field"><label for="bd-height">{{bd.height}}</label><input id="bd-height" data-k="height" maxlength="20" placeholder="5′ 6″"></div>
+      <div class="field"><label for="bd-edu">{{bd.education}}</label><input id="bd-edu" data-k="education" maxlength="120"></div>
+      <div class="field"><label for="bd-job">{{bd.occupation}}</label><input id="bd-job" data-k="occupation" maxlength="120"></div>
+      <div class="field"><label for="bd-gotra">{{bd.gotra}}</label><input id="bd-gotra" data-k="gotra" maxlength="60"></div>
+      <div class="field"><label for="bd-native">{{bd.native}}</label><input id="bd-native" data-k="native" maxlength="80"></div>
+      <h3 class="sub-h full">{{bd.familyH}}</h3>
+      <div class="field"><label for="bd-father">{{bd.father}}</label><input id="bd-father" data-k="father" maxlength="120"></div>
+      <div class="field"><label for="bd-mother">{{bd.mother}}</label><input id="bd-mother" data-k="mother" maxlength="120"></div>
+      <div class="field full"><label for="bd-sib">{{bd.siblings}}</label><input id="bd-sib" data-k="siblings" maxlength="160"></div>
+      <h3 class="sub-h full">{{bd.contactH}}</h3>
+      <div class="field"><label for="bd-phone">{{st.phone}}</label><input id="bd-phone" data-k="phone" type="tel" maxlength="40"></div>
+      <div class="field"><label for="bd-addr">{{st.bAddr}}</label><input id="bd-addr" data-k="address" maxlength="160"></div>
+      <div class="field full"><label for="bd-about">{{bd.about}}</label><textarea id="bd-about" data-k="about" rows="3" maxlength="400"></textarea></div>
+      <div class="field"><label for="bd-photo">{{bd.photo}}</label><input id="bd-photo" type="file" accept="image/*"><button type="button" class="linkbtn" id="bd-photo-x">{{st.bClear}}</button><span class="place-meta">{{bd.photoNote}}</span></div>
+      <div class="field"><label for="bd-inv">{{bd.invocationL}}</label><input id="bd-inv" data-k="invocation" maxlength="60"></div>
+      <fieldset class="full"><legend>{{bd.style}}</legend><div class="seg" id="bd-style"><button type="button" data-style="classic" aria-pressed="true">{{bd.st.classic}}</button><button type="button" data-style="royal" aria-pressed="false">{{bd.st.royal}}</button><button type="button" data-style="minimal" aria-pressed="false">{{bd.st.minimal}}</button></div></fieldset>
+    </form>
+    <div class="bd-preview">
+      <div class="bd-actions no-print"><button type="button" class="btn-cta" id="bd-pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-download"/></svg>{{bd.pdf}}</button><button type="button" class="btn-line" id="bd-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-whatsapp"/></svg>{{bd.whatsapp}}</button></div>
+      <article class="bd-sheet classic" id="bd-sheet"></article>
+    </div>
+  </div>
+  <section class="static-sec no-print"><div class="about"><!--INFO--></div></section>
+</main>

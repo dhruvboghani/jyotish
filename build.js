@@ -32,7 +32,7 @@ const EN = json('locales/en.json'), SKT = json('locales/_sanskrit.json');
 function locale(lang) {
   if (lang === 'en') return EN;
   const own = json(`locales/${lang}.json`);
-  const fromSanskrit = { names: deepMap({ yoga27: SKT.yoga27, karana: SKT.karana, val: SKT.val, houseName: SKT.houseName, syll: SKT.syll, mantra: SKT.mantra }, s => translit(lang, s)) };
+  const fromSanskrit = { names: deepMap({ yoga27: SKT.yoga27, karana: SKT.karana, val: SKT.val, houseName: SKT.houseName, syll: SKT.syll, mantra: SKT.mantra, samvatsara: SKT.samvatsara, japaMantra: SKT.japaMantra }, s => translit(lang, s)) };
   return merge(merge(EN, fromSanskrit), own);
 }
 const ALL = Object.fromEntries(LANGS.map(l => [l, locale(l)]));
@@ -56,9 +56,9 @@ const BENEFIC = { Moon: 1, Mercury: 1, Jupiter: 1, Venus: 1 };
 const DIGBALA = { Sun: 10, Mars: 10, Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7 };
 const GOCHAR_GOOD = { Sun: [3, 6, 10, 11], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 11], Mercury: [2, 4, 6, 8, 10, 11], Jupiter: [2, 5, 7, 9, 11], Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12], Saturn: [3, 6, 11], Rahu: [3, 6, 11], Ketu: [3, 6, 11] };
 const NAVS = [['', 'kundali', 'i-chart'], ['matching/', 'matching', 'i-heart'], ['panchang/', 'panchang', 'i-sun'], ['calendar/', 'calendar', 'i-cal'], ['rashifal/', 'rashifal', 'i-star'], ['learn/', 'learn', 'i-book']];
-const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['settings/', 'settings', 'i-shield']];
-const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'home'], panchang: ['core', 'report', 'city', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], today: ['core', 'report', 'sadhana-core', 'today'], me: ['core', 'sadhana-core', 'me'], settings: ['core', 'city', 'settings'], base: ['core'] };
-const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings']);
+const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['japa/', 'japa', 'i-mala'], ['tithi-dates/', 'tithi', 'i-lamp'], ['prashna/', 'prashna', 'i-question'], ['biodata/', 'biodata', 'i-doc'], ['settings/', 'settings', 'i-shield']];
+const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'home'], panchang: ['core', 'report', 'city', 'daytime', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], today: ['core', 'report', 'sadhana-core', 'daytime', 'today'], me: ['core', 'sadhana-core', 'me'], settings: ['core', 'city', 'settings'], japa: ['core', 'sadhana-core', 'japa'], tithi: ['core', 'city', 'tithi'], prashna: ['core', 'report', 'city', 'prashna'], biodata: ['core', 'city', 'biodata'], base: ['core'] };
+const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings', 'tithi', 'prashna', 'biodata']);
 
 const url = (l, slug = '') => SITE_URL + ALL[l].meta.path + slug;
 const tr = (L, key, params) => {
@@ -206,6 +206,10 @@ function pagesFor(L) {
     P('today', 'today/', { noindex: true }),
     P('me', 'me/', { noindex: true }),
     P('settings', 'settings/', { noindex: true }),
+    P('japa', 'japa/', { priority: '0.7', freq: 'monthly' }),
+    P('tithi', 'tithi-dates/', { priority: '0.7', freq: 'monthly' }),
+    P('prashna', 'prashna/', { priority: '0.7', freq: 'monthly' }),
+    P('biodata', 'biodata/', { priority: '0.7', freq: 'monthly' }),
     P('learn', 'learn/', { priority: '0.8', freq: 'monthly', body: learnIndex(L) }),
     P('share', 'share/', { noindex: true }),
     P('privacy', 'privacy/', { priority: '0.3', freq: 'yearly', body: legalBody(L, 'privacy') }),
@@ -230,7 +234,7 @@ function render(lang, pg) {
     .replace('<!--FEATURES-->', () => L.static.features.map(f => `<article class="card feature"><span class="fi">${icon(f.icon)}</span><h3>${esc(f.h)}</h3><p>${esc(f.p)}</p></article>`).join(''))
     .replace('<!--ABOUT-->', () => L.static.about.map(a => `<article class="card"><h3>${esc(a.h)}</h3>${a.p.map(p => `<p>${esc(p)}</p>`).join('')}</article>`).join(''))
     .replace('<!--FAQ-->', () => L.faq.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q.q)}<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="ans">${esc(q.a)}</div></details>`).join(''));
-  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' || pg.bundle === 'today' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
+  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' || pg.bundle === 'today' || pg.bundle === 'biodata' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
   let html = read('src/layout.html');
   html = html.replace('<!--HEAD-->', () => head(lang, pg))
     .replace('<!--SPRITE-->', () => read('src/sprite.svg'))

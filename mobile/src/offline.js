@@ -9,7 +9,10 @@ const ROUTES = {
   match: require('../../lib/routes/match.js'),
   names: require('../../lib/routes/names.js'),
   muhurta: require('../../lib/routes/muhurta.js'),
-  family: require('../../lib/routes/family.js')
+  family: require('../../lib/routes/family.js'),
+  prashna: require('../../lib/routes/prashna.js'),
+  tithi: require('../../lib/routes/tithi.js'),
+  varshaphal: require('../../lib/routes/varshaphal.js')
 };
 const birthKeyOf = i => [i.year, i.month, i.day, i.hour, i.minute, i.lat.toFixed(4), i.lon.toFixed(4), i.tzMinutes].join('|');
 

@@ -59,7 +59,9 @@ function render(p, tz, city) {
     <h3 class="sub-h">${esc(t('pp.elements'))}</h3><div class="pan-grid">${elements}</div>
     <h3 class="sub-h">${esc(t('pp.timings'))}</h3><div class="ptimes">${timings}</div>
     <h3 class="sub-h">${esc(t('pp.chogh'))}</h3><p class="lede">${esc(t('pp.choghLede'))}</p>
-    <div class="chogh-grid"><div class="card"><h4>${ic('i-sun')}${esc(t('pp.choghDay'))}</h4><ol class="chogh">${ch('day')}</ol></div><div class="card"><h4>${g('Moon', 'gimg sm')}${esc(t('pp.choghNight'))}</h4><ol class="chogh">${ch('night')}</ol></div></div>`;
+    <div class="chogh-grid"><div class="card"><h4>${ic('i-sun')}${esc(t('pp.choghDay'))}</h4><ol class="chogh">${ch('day')}</ol></div><div class="card"><h4>${g('Moon', 'gimg sm')}${esc(t('pp.choghNight'))}</h4><ol class="chogh">${ch('night')}</ol></div></div>
+    ${p.hora ? `<h3 class="sub-h" id="hora">${esc(t('hz.tableH'))}</h3><p class="lede">${esc(t('hz.lede'))}</p>${horaTableHtml(p, tz)}` : ''}
+    ${p.regional ? `<h3 class="sub-h">${esc(t('reg.title'))}</h3><div class="reg-grid">${regionalLines(p).map(r => `<div class="card reg reveal"><span class="eyebrow">${esc(r.label)}</span><b>${esc(r.text)}</b></div>`).join('')}</div>` : ''}`;
   observeReveals();
 }
 load();

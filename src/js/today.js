@@ -42,11 +42,15 @@ function tSky() {
   setInterval(() => { if (!document.hidden) upd(); }, 30000);
 }
 
-let tPan = null;
+let tPan = null, tHoraDay = null, tTick = null;
+const tDayUrl = d => `/api/panchang/?y=${d.y}&m=${d.m}&d=${d.d}&lat=${tCity.lat.toFixed(4)}&lon=${tCity.lon.toFixed(4)}&tz=${tTz}`;
 async function tPanchang() {
   const d = todayIn(tTz);
   try {
-    tPan = await api(`/api/panchang/?y=${d.y}&m=${d.m}&d=${d.d}&lat=${tCity.lat.toFixed(4)}&lon=${tCity.lon.toFixed(4)}&tz=${tTz}`);
+    tPan = await api(tDayUrl(d));
+    // Before sunrise the running hora/choghadiya belong to the previous Hindu day
+    tHoraDay = tPan;
+    if (Date.now() < tPan.sunrise) { const y = new Date(Date.UTC(d.y, d.m - 1, d.d - 1)); tHoraDay = await api(tDayUrl({ y: y.getUTCFullYear(), m: y.getUTCMonth() + 1, d: y.getUTCDate() })).catch(() => tPan); }
   } catch (e) { $('#t-tithi').innerHTML = `<p class="err">${esc(t('err.server'))}</p>`; return; }
   const ti = tPan.tithi[0], nx = tPan.tithi[1], idx = ti.index;
   const phase = idx < 15 ? (idx + 1) / 15 : (30 - idx) / 15, waxing = idx < 15;
@@ -56,9 +60,11 @@ async function tPanchang() {
   const evLine = events.length ? events.map(tEvName).join(' · ') : (nx ? t('app.thenNext', { x: tTithi(nx.index) }) : '');
   $('#t-tithi').innerHTML = `<svg class="t-moonph" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" fill="#2A2E7C"/><path d="${lit}" fill="#F7E7B8"/></svg>
     <div><small>${esc(t('app.tithiToday', { t: tAt(ti.end) }))}</small><b>${esc(tTithi(idx))}</b><span>${esc(evLine)}</span></div>`;
-  tTimes();
-  setInterval(() => { if (!document.hidden) tTimes(); }, 60000);
+  $('#t-reg').textContent = regionalLine(tPan);
+  tTimes(); scheduleNudges(tHoraDay, tTz);
+  if (!tTick) tTick = setInterval(() => { if (!document.hidden) tTimes(); }, 60000);
 }
+wireNudge($('#t-hora'), () => tHoraDay, tTz);
 async function tEvents(d) {
   const key = `gv-cal-${d.y}-${tCity.lat.toFixed(1)}-${tCity.lon.toFixed(1)}`;
   let ev = store.get(key);
@@ -75,6 +81,8 @@ function tTimes() {
     return `<div class="t-time ${cls}${now >= w.start && now < w.end ? ' now' : ''}${now >= w.end ? ' past' : ''}"><small>${ic(icon)}${esc(label)}</small><b>${esc(name)}</b><span class="num">${esc(tAt(w.start))} – ${esc(tAt(w.end))}</span><em>${esc(when)}</em></div>`;
   };
   $('#t-times').innerHTML = block('good', 'i-check', t('app.best'), t('pp.abhijit'), tPan.abhijit) + block('bad', 'i-alert', t('app.avoid'), t('pp.rahu'), tPan.rahuKaal);
+  if (now >= tHoraDay.nextSunrise) { tPanchang(); return; } // the day rolled over while the screen was open
+  $('#t-hora').innerHTML = `<h2 class="t-sub">${esc(t('hz.title'))}</h2>` + horaCardHtml(tHoraDay, tTz, now);
 }
 
 // The member's own day: their "Self" chart (else the first saved one), computed once a day

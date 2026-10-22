@@ -1,0 +1,13 @@
+<main class="wrap page prashna-page">
+  <div class="page-hero"><p class="eyebrow">{{pq.eye}}</p><h1>{{pq.title}}</h1><p class="lede">{{pq.lede}}</p></div>
+  <form class="card toolbar pq-form" id="pq-form" novalidate>
+    <div class="field full"><label for="pq-q">{{pq.question}}</label><input id="pq-q" type="text" maxlength="200" placeholder="{{pq.questionPh}}"></div>
+    <fieldset class="pq-topics full"><legend>{{pq.topic}}</legend><div class="chips" id="pq-topics"></div></fieldset>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{pq.ask}}</button>
+    <p class="muted small full">{{pq.howto}}</p>
+  </form>
+  <div id="pq-res"></div>
+  <section class="pq-hist" id="pq-hist"></section>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

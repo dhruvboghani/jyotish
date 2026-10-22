@@ -519,6 +519,42 @@ async function saveSettings(patch) {
 }
 authHooks.push(() => { settingsCache = null; });
 
+// ---------- Read aloud (Rashifal) ----------
+// Browser speech synthesis on the web; the phone's text-to-speech engine in the app (Android WebView has none).
+const SPEECH_LANG = { en: 'en-IN', hi: 'hi-IN', gu: 'gu-IN', ta: 'ta-IN', te: 'te-IN', kn: 'kn-IN' };
+let speakRun = 0;
+function speechChunks(text) {
+  const parts = (String(text).replace(/\s+/g, ' ').match(/[^.!?।॥]+[.!?।॥]*/g) || []).map(x => x.trim()), out = [];
+  for (const p of parts) { if (out.length && (out[out.length - 1] + ' ' + p).length < 220) out[out.length - 1] += ' ' + p; else out.push(p); }
+  return out.filter(Boolean);
+}
+function voiceFor(lang) {
+  const vs = ('speechSynthesis' in window && speechSynthesis.getVoices()) || [], l = lang.toLowerCase();
+  return vs.find(v => v.lang.replace('_', '-').toLowerCase() === l) || vs.find(v => v.lang.toLowerCase().startsWith(l.slice(0, 2))) || null;
+}
+async function speak(text, onEnd) {
+  stopSpeak();
+  const run = ++speakRun, lang = SPEECH_LANG[LANG] || 'en-IN', done = () => { if (run === speakRun && onEnd) onEnd(); };
+  if (APP && APP.speak) {
+    const r = await APP.speak(text, lang).catch(() => ({ ok: false }));
+    if (r && r.ok === false && run === speakRun) toast(t('lis.noVoice'));
+    done(); return;
+  }
+  if (!('speechSynthesis' in window)) { toast(t('lis.noSupport')); done(); return; }
+  if (!speechSynthesis.getVoices().length) await new Promise(r => { speechSynthesis.onvoiceschanged = r; setTimeout(r, 800); });
+  let v = voiceFor(lang); if (v && !(v instanceof SpeechSynthesisVoice)) v = null;
+  if (!v && LANG !== 'en') toast(t('lis.noVoice'));
+  const chunks = speechChunks(text);
+  chunks.forEach((c, i) => {
+    const u = new SpeechSynthesisUtterance(c); u.lang = lang; try { if (v) u.voice = v; } catch (e) { } u.rate = 0.95;
+    if (i === chunks.length - 1) u.onend = done;
+    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') done(); };
+    speechSynthesis.speak(u);
+  });
+}
+function stopSpeak() { speakRun++; if (APP && APP.stopSpeak) APP.stopSpeak(); if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+addEventListener('pagehide', () => stopSpeak());
+
 // ---------- Reveal-on-scroll ----------
 let io = null;
 function observeReveals() {

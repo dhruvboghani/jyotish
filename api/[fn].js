@@ -12,6 +12,9 @@ const ROUTES = {
   muhurta: () => require('../lib/routes/muhurta.js'),
   family: () => require('../lib/routes/family.js'),
   ics: () => require('../lib/routes/ics.js'),
+  prashna: () => require('../lib/routes/prashna.js'),
+  tithi: () => require('../lib/routes/tithi.js'),
+  varshaphal: () => require('../lib/routes/varshaphal.js'),
   'cron-reminders': () => require('../lib/routes/cron-reminders.js'),
   'push-test': () => require('../lib/routes/push-test.js')
 };

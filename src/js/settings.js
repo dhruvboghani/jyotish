@@ -81,7 +81,9 @@ function collect() {
   const kinds = $$('#r-kinds input:checked').map(i => i.value);
   const alertIdx = $('#r-alert-for').value, ab = alertIdx !== '' && rowsS[+alertIdx] ? rowsS[+alertIdx].birth : null;
   const td = todayIn(330), city = cs.city;
-  return { push: pushOn, kinds, alerts: !!ab, alertBirth: ab, lang: LANG,
+  // keep keys owned by other pages (e.g. tithi: Hindu birthdays and shraddha dates)
+  const prev = (settingsCache && !settingsCache.error && settingsCache.reminders) || {};
+  return { ...prev, push: pushOn, kinds, alerts: !!ab, alertBirth: ab, lang: LANG,
     city: { name: city.name, region: city.region, lat: city.lat, lon: city.lon, tz: cs.offset(td.y, td.m, td.d), zone: city.tz } };
 }
 $('#remform').addEventListener('submit', async e => {
