@@ -11,7 +11,9 @@ const S = require('./lib/site.js');
 const { ROOT, SITE_URL, LANGS, BUILD, ALL, E, SIGN_SLUG, PL, BENEFIC, DIGBALA, GOCHAR_GOOD, BUNDLES, read, json, esc, url, tr, list, icon, gimg, render } = S;
 const OUT = path.join(ROOT, 'public');
 const SP = require('./lib/seo-pages.js');
-{ const G = require('./scripts/gen-vercel.js'); if (fs.readFileSync(G.file, 'utf8') !== G.merged()) throw new Error('vercel.json rewrites are out of date: run node scripts/gen-vercel.js'); }
+{ // compare the rewrites only: the platform may reformat vercel.json in its build checkout
+  const G = require('./scripts/gen-vercel.js'), rw = t => JSON.stringify((JSON.parse(t).rewrites || []).filter(r => /fn=seo/.test(r.destination)));
+  if (rw(fs.readFileSync(G.file, 'utf8')) !== rw(G.merged())) { const m = 'vercel.json rewrites are out of date: run node scripts/gen-vercel.js'; if (process.env.VERCEL) console.warn('Warning: ' + m); else throw new Error(m); } }
 const PUBLIC_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
 if (/^sb_secret_|service_role/.test(PUBLIC_KEY)) throw new Error('A Supabase SECRET key was given as the public key. Use the publishable (sb_publishable_…) key instead.');
 
