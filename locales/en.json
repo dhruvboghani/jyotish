@@ -3168,6 +3168,8 @@
   "s1": "Tap Download APK and open the file when it finishes.",
   "s2": "If Android asks, allow installing apps from your browser.",
   "s3": "Tap Install, then open Grahavani.",
-  "ios": "iPhone app is coming soon."
+  "ios": "iPhone app is coming soon.",
+  "getOn": "Download for",
+  "soon": "Coming soon"
  }
 }

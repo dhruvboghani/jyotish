@@ -123,6 +123,8 @@ const icon = spec => {
   return `<svg class="ui" viewBox="0 0 24 24" aria-hidden="true"><use href="#${v}"/></svg>`;
 };
 const gimg = (p, cls = 'gimg') => `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><use href="#gr-${p}"/></svg>`;
+// Android / iPhone app download badges (hidden inside the app itself)
+const appBadges = L => `<div class="app-badges no-print"><a class="app-badge" href="/app.apk" download="grahavani.apk" title="${esc(L.dl.button)}">${icon('i:i-android')}<span><small>${esc(L.dl.getOn)}</small><b>Android</b></span></a><a class="app-badge soon" href="${L.meta.path}download/" title="${esc(L.dl.ios)}">${icon('i:i-phone')}<span><small>${esc(L.dl.soon)}</small><b>iPhone</b></span></a></div>`;
 const infoHtml = arr => (arr || []).map(a => `<article class="card"><h2 class="h3">${esc(a.h)}</h2>${a.p.map(p => `<p>${esc(p)}</p>`).join('')}</article>`).join('');
 const cityHtml = L => `<div class="field cityfield"><label for="c-place">${esc(L.pp.city)}</label><input id="c-place" type="text" role="combobox" aria-expanded="false" aria-controls="c-suggest" aria-autocomplete="list" placeholder="${esc(L.form.placePh)}"><div class="place-meta" id="c-meta"></div><ul id="c-suggest" class="suggest" role="listbox" hidden></ul><button type="button" class="linkbtn" id="c-online">${esc(L.form.lookup)}</button><p class="err" id="c-err" role="alert"></p></div>`;
 const personHtml = (L, p) => `<fieldset class="card mperson-form"><legend>${icon('i:i-users')}${esc(L.mt[p === 'b' ? 'boy' : 'girl'])}</legend>
@@ -227,7 +229,7 @@ function render(lang, pg) {
   const navLink = ([slug, key, ico]) => `<a href="${base}${slug}"${slug === navActive ? ' aria-current="page"' : ''}>${icon('i:' + ico)}<span>${esc(L.nav[key])}</span></a>`;
   const nav = NAVS.map(navLink).join(''), navAll = NAVS.concat(NAVS_MORE).map(navLink).join('');
   let body = pg.body || read(`src/pages/${pg.id}.html`);
-  body = body.replace('<!--CITY-->', cityHtml(L))
+  body = body.replace('<!--CITY-->', cityHtml(L)).replace('<!--APPBADGES-->', appBadges(L))
     .replace('<!--PERSON:b-->', personHtml(L, 'b')).replace('<!--PERSON:g-->', personHtml(L, 'g'))
     .replace('<!--INFO-->', infoHtml(L.info[pg.id]))
     .replace('<!--RELOPTS-->', ['self', 'spouse', 'father', 'mother', 'son', 'daughter', 'brother', 'sister', 'friend', 'other'].map(r => `<option value="${r}">${esc(L.rel[r])}</option>`).join(''))
@@ -237,7 +239,7 @@ function render(lang, pg) {
     .replace('<!--FAQ-->', () => L.faq.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q.q)}<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="ans">${esc(q.a)}</div></details>`).join(''));
   const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' || pg.bundle === 'today' || pg.bundle === 'biodata' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
   let html = read('src/layout.html');
-  html = html.replace('<!--HEAD-->', () => head(lang, pg))
+  html = html.replace('<!--APPBADGES-->', () => appBadges(L)).replace('<!--HEAD-->', () => head(lang, pg))
     .replace('<!--SPRITE-->', () => read('src/sprite.svg'))
     .replace('<!--PAGEID-->', pg.id)
     .replace('<!--NAV-->', () => nav).replace('<!--NAVALL-->', () => navAll).replace('<!--NAVALL-->', () => navAll)

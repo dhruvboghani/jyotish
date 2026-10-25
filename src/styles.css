@@ -1419,3 +1419,16 @@ html:not([lang="en"]) .t-time small { text-transform: none; letter-spacing: 0; }
 .dl-steps h3 { font-weight: 600; margin-bottom: 6px; }
 .dl-steps ol { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 6px; }
 @media (max-width: 560px) { .dl-card .btn-cta { margin-left: 0; width: 100%; justify-content: center; } }
+/* App download badges (website only) */
+.app-badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 4px; }
+.app-badge { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; background: #16173B; color: #fff; border-radius: 12px; padding: 8px 16px 8px 12px; min-width: 150px; box-shadow: 0 6px 16px rgba(22, 23, 59, .18); transition: transform .2s, box-shadow .2s; }
+.app-badge:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(22, 23, 59, .26); }
+.app-badge svg { width: 28px; height: 28px; flex: none; color: #3DDC84; }
+.app-badge span { display: grid; line-height: 1.15; }
+.app-badge small { font-size: 11px; opacity: .8; }
+.app-badge b { font-size: 17px; font-weight: 600; }
+.app-badge.soon { background: #fff; color: var(--ink); border: 1px solid var(--line-2); box-shadow: none; }
+.app-badge.soon svg { color: var(--ink-2); }
+footer .app-badges { justify-content: center; margin: 14px 0; }
+.dl-card .app-badges { margin: 0 0 0 auto; }
+@media (max-width: 560px) { .dl-card .app-badges { margin: 0; width: 100%; } .dl-card .app-badge { flex: 1; } }
