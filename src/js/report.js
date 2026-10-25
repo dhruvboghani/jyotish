@@ -271,7 +271,9 @@ function renderFull(data, host = $('#results'), opts = {}) {
   }).join('');
 
   const ys = [...an.yogas].sort((a, b) => (b.present - a.present) || (a.tone === 'good' ? -1 : 1));
-  const yogaCard = (id, present, tone, name, rule, text, extra = '') => `<article class="card yoga reveal ${present ? 'on' : 'off'} ${tone}"><div class="yh"><h3>${esc(name)}</h3><span class="verdict ${present ? tone : ''}" style="${present ? '' : 'background:var(--bg);color:var(--ink-3)'}">${esc(present ? t(tone === 'good' ? 'sec.yogas.pGood' : 'sec.yogas.pBad') : t('sec.yogas.off'))}</span></div><p class="rule">${esc(rule)}</p><p>${esc(text)}</p>${extra}</article>`;
+  const YOGA_PAGE = { chandramangal: 'chandra-mangal-yoga', sasa: 'shasha-yoga', vipreet: 'vipreet-raj-yoga', guruchandal: 'guru-chandal-yoga', mangal: 'manglik-dosha', kaalsarp: 'kaal-sarp-dosha', sadesati: 'sade-sati-dosha', gandmool: '' };
+  const yogaLink = id => { const sl = id in YOGA_PAGE ? YOGA_PAGE[id] : id + '-yoga'; return sl ? `<a class="linkbtn yoga-more no-print" href="${HOME}learn/${sl}/">${esc(t('sec.yogas.more'))} →</a>` : ''; };
+  const yogaCard = (id, present, tone, name, rule, text, extra = '') => `<article class="card yoga reveal ${present ? 'on' : 'off'} ${tone}"><div class="yh"><h3>${esc(name)}</h3><span class="verdict ${present ? tone : ''}" style="${present ? '' : 'background:var(--bg);color:var(--ink-3)'}">${esc(present ? t(tone === 'good' ? 'sec.yogas.pGood' : 'sec.yogas.pBad') : t('sec.yogas.off'))}</span></div><p class="rule">${esc(rule)}</p><p>${esc(text)}</p>${extra}${yogaLink(id)}</article>`;
   const yogaCards = ys.map(y => {
     const off = get('yoga.' + y.id + '.off');
     return yogaCard(y.id, y.present, y.tone, t('yoga.' + y.id + '.name', y.nameParams), t('yoga.' + y.id + '.rule', y.params), y.present || !off ? t('yoga.' + y.id + '.text', y.params) : t('yoga.' + y.id + '.off', y.params));
@@ -287,7 +289,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   const mdTone = md ? an.reading[md.lord].tone : 'mixed';
   const nowCard = md ? `<div class="card now-card reveal"><div class="pair">${g(md.lord)}${ad ? g(ad.lord) : ''}</div>
       <div><span class="eyebrow">${esc(t('sec.dasha.runningNow'))}</span><h3>${esc(t('sec.dasha.mdad', { md: { g: md.lord }, ad: { g: ad.lord } }))}</h3>
-      <p>${esc(t('sec.dasha.nowText', { md: { g: md.lord }, ad: { g: ad.lord }, s: fDate(md.start, tz), e: fDate(md.end, tz), ae: fDate(ad.end, tz) }))} <b style="color:var(--${mdTone === 'mixed' ? 'warn' : mdTone})">${esc(t('sec.dasha.tone_' + mdTone, { g: { g: md.lord } }))}</b></p></div>
+      <p>${esc(t('sec.dasha.nowText', { md: { g: md.lord }, ad: { g: ad.lord }, s: fDate(md.start, tz), e: fDate(md.end, tz), ae: fDate(ad.end, tz) }))} <b style="color:var(--${mdTone === 'mixed' ? 'warn' : mdTone})">${esc(t('sec.dasha.tone_' + mdTone, { g: { g: md.lord } }))}</b></p><a class="linkbtn no-print" href="${HOME}learn/${md.lord.toLowerCase()}-mahadasha/">${esc(t('sec.dasha.mdMore', { g: { g: md.lord } }))} →</a></div>
       <svg class="ring" viewBox="0 0 100 100" role="img" aria-label="${Math.round(progress * 100)}%"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" id="ringfg" cx="50" cy="50" r="40" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"/><text x="50" y="56" text-anchor="middle">${Math.round(progress * 100)}%</text></svg></div>` : '';
   const dashaList = c.dashas.filter(m => m.end > c.utMs && m.start < c.utMs + 110 * 365.25 * 86400000).map((m, i) => {
     const isNow = m === md, past = m.end < now;

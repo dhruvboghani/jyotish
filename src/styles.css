@@ -1522,3 +1522,97 @@ footer .app-badges { justify-content: center; margin: 14px 0; }
 .gem .rh > svg:first-child, .gem .rh > img:first-child, .gem .rh > .gl:first-child { width: 64px; height: 64px; flex: 0 0 64px; }
 .gem .rh { align-items: center; }
 @media (max-width: 560px) { .gem .rh > svg:first-child, .gem .rh > img:first-child, .gem .rh > .gl:first-child { width: 48px; height: 48px; flex-basis: 48px; } }
+
+/* ---- Search pages: city panchang, festivals, date lists, muhurat, learn articles ---- */
+.seo-page .card { margin-bottom: 14px; }
+.seo-page .sub-h { margin-top: 26px; }
+.seo-sum { padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 14px 30px; align-items: center; justify-content: space-between; }
+.seo-big { font-family: var(--f-display); font-size: 22px; color: var(--ink); margin: 4px 0 2px; }
+.seo-kv { display: flex; flex-wrap: wrap; gap: 12px 26px; margin: 0; }
+.seo-kv > div { min-width: 0; }
+.seo-kv dt { font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.seo-kv dd { margin: 2px 0 0; font-size: 17px; font-weight: 600; color: var(--ink); }
+.seo-tablewrap { padding: 4px 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.seo-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.seo-table th, .seo-table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.seo-table thead th { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+.seo-table tbody tr:last-child td, .seo-table tbody tr:last-child th { border-bottom: 0; }
+.seo-table tr.live { background: var(--gold-softer); }
+.seo-table td.bad { color: var(--bad); font-weight: 600; }
+.seo-table td .stars, .seo-table td small { white-space: nowrap; }
+.seo-table.facts th { width: 38%; color: var(--ink-2); font-weight: 600; font-size: 14px; }
+.seo-table a { color: var(--indigo); }
+.seo-list { list-style: none; margin: 0; padding: 6px 4px; }
+.seo-list li { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 9px 14px; border-bottom: 1px solid var(--line); }
+.seo-list li:last-child { border-bottom: 0; }
+.seo-list li > .num { min-width: 112px; color: var(--ink-2); }
+.seo-list a { color: var(--indigo); font-weight: 500; }
+.seo-page .card > .muted.small { padding: 0 18px 12px; margin: 0; }
+.seo-links { gap: 8px; }
+.seo-links .tag { text-decoration: none; }
+.seo-hub { margin-top: 18px; }
+.seo-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { .seo-two { grid-template-columns: minmax(0, 1fr); } }
+.seo-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; padding: 14px; text-align: center; }
+.seo-week > div { display: grid; gap: 3px; justify-items: center; font-size: 14px; }
+.seo-week small { color: var(--ink-3); }
+.seo-week .stars { font-size: 12px; }
+@media (max-width: 620px) { .seo-week { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 14px; } }
+.seo-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.seo-cards .card { padding: 18px; margin: 0; }
+.seo-cards .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.mu-months { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .mu-months { grid-template-columns: minmax(0, 1fr); } }
+.mu-month { padding: 16px 4px 6px; margin: 0 !important; }
+.mu-month h2 { padding: 0 14px; display: flex; gap: 8px; align-items: center; }
+.mu-month > p { padding: 0 14px; }
+.mu-month .seo-list li { padding: 8px 14px; }
+.ecl-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .ecl-list { grid-template-columns: minmax(0, 1fr); } }
+.ecl-list .ecl { padding: 18px; margin: 0; display: grid; gap: 8px; align-content: start; }
+.seo-tr { list-style: none; padding: 0; }
+.seo-tr li { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.seo-tr li:last-child { border-bottom: 0; }
+.seo-page .ptimes { margin-bottom: 8px; }
+.seo-hero-t b { font-size: 26px; }
+.cm-grid { font-size: 13px; }
+.cm-grid th, .cm-grid td { padding: 6px 7px; text-align: center; }
+.cm-grid tbody th { text-align: left; white-space: nowrap; }
+.cm-grid td a { display: block; text-decoration: none; color: inherit; border-radius: 6px; padding: 3px 0; }
+.cm-grid .cm-excellent a { background: var(--good-bg); color: var(--good); font-weight: 700; }
+.cm-grid .cm-good a { background: #EEF8F2; color: var(--good); }
+.cm-grid .cm-average a { background: var(--bg); color: var(--ink-2); }
+.cm-grid .cm-low a { background: var(--bad-bg); color: var(--bad); }
+.foot-seo { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: center; margin: 4px 0 14px; font-size: 13.5px; }
+.foot-seo a { color: var(--ink-3); text-decoration: none; }
+.foot-seo a:hover { color: var(--ink); text-decoration: underline; }
+.article .seo-table.facts { margin: 0; }
+.seo-table thead th { white-space: normal; }
+@media (max-width: 520px) {
+  .seo-table { font-size: 14px; }
+  .seo-table th, .seo-table td { padding: 9px 10px; }
+  .seo-table.facts th { width: 42%; }
+}
+.pday { flex-wrap: wrap; }
+.pday .p-share { flex-basis: 100%; justify-self: start; width: max-content; max-width: 100%; }
+.ry-table td .stars { font-size: 13px; letter-spacing: -1px; }
+@media (max-width: 560px) {
+  .ry-table th, .ry-table td { padding: 8px 5px; }
+  .ry-table th { font-size: 10.5px; letter-spacing: .02em; }
+  .ry-table td .stars { font-size: 10px; letter-spacing: -1.5px; }
+  .ry-table td:first-child { font-size: 13px; }
+}
+.seo-table.facts th { white-space: normal; text-transform: none; letter-spacing: 0; font-size: 14px; }
+.seo-table td { overflow-wrap: anywhere; }
+.seo-table.facts { table-layout: fixed; }
+/* transit effect lines, month calendar cards, puja lists, tool FAQ */
+.gt-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 4px 0; white-space: normal; }
+.gt-line + .gt-line { border-top: 1px dashed var(--line, #e5e7f0); }
+.gt-when { flex-basis: 100%; color: var(--ink-3, #7a7f99); font-size: 12px; }
+.seo-table td { white-space: normal; }
+.mc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 8px 0 20px; }
+.mc-card { display: flex; flex-direction: column; gap: 6px; padding: 16px; text-decoration: none; color: inherit; }
+.mc-card b { font-size: 18px; } .mc-card small { color: var(--ink-2); line-height: 1.5; }
+.pv-list { columns: 2; column-gap: 24px; } @media (max-width: 560px) { .pv-list { columns: 1; } }
+.tool-faq { margin: 28px 0 8px; }
+.rp-month tr.warn td { background: rgba(200, 60, 60, .06); }

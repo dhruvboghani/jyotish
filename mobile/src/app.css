@@ -159,3 +159,4 @@ body { overscroll-behavior: none; }
 html[lang="en"] .gs-tag { text-transform: uppercase; }
 @media print { .app-bar, .app-tabs, #gv-splash { display: none !important; } }
 .app-badges { display: none !important; }
+.foot-seo, .seo-hub { display: none !important; }

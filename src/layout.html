@@ -29,6 +29,7 @@
 <footer class="wrap">
   <div class="brand"><svg><use href="#logo"/></svg><b>{{brand.name}}</b></div>
   <nav class="footnav" aria-label="{{nav.sections}}"><!--NAVALL--><a href="{{home}}privacy/">{{legal.privacyTitle}}</a><a href="{{home}}terms/">{{legal.termsTitle}}</a></nav>
+  <!--FOOTSEO-->
   <!--APPBADGES-->
   <p>{{footer.text}}</p>
   <p style="margin-top:8px"><!--LANGLINKS--></p>
@@ -36,8 +37,8 @@
 
 <div id="modal"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="/config.js?v={{build}}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script defer src="/config.js?v={{build}}"></script>
 <!--SCRIPTS-->
 <script defer src="/_vercel/insights/script.js"></script>
 </body>

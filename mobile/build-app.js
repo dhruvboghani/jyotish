@@ -10,7 +10,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto'), { 
 const esbuild = require('esbuild');
 
 const ROOT = path.join(__dirname, '..'), PUB = path.join(ROOT, 'public'), WWW = path.join(__dirname, 'www');
-const API_BASE = (process.env.GV_API_BASE || 'https://jyotish-mu.vercel.app').replace(/\/$/, '');
+const API_BASE = (process.env.GV_API_BASE || 'https://grahavani-mu.vercel.app').replace(/\/$/, '');
 const SUPABASE_URL = process.env.GV_SUPABASE_URL || 'https://tudpjxabxxaubvthktqg.supabase.co';
 const SUPABASE_KEY = process.env.GV_SUPABASE_KEY || 'sb_publishable_Yii9G0nKGF5nr0rVHRougQ_NXOn1Spv'; // publishable (browser) key
 if (/^sb_secret_|service_role/.test(SUPABASE_KEY)) throw new Error('Never put a secret key in the app.');
@@ -41,7 +41,7 @@ for (const file of walk(WWW).filter(f => f.endsWith('.html'))) {
     if (!i18nFiles.has(h)) { i18nFiles.set(h, true); fs.writeFileSync(path.join(WWW, 'assets/i18n', h + '.js'), `window.I18N=${json};\n`); }
     return `<script src="/assets/i18n/${h}.js"></script>`;
   });
-  html = html.replace(/<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@[^"]+"><\/script>/, '<script src="/app-bridge.js"></script>\n<script src="/vendor/supabase.js"></script>');
+  html = html.replace(/<script (?:defer )?src="https:\/\/cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js@[^"]+"><\/script>/, '<script src="/app-bridge.js"></script>\n<script src="/vendor/supabase.js"></script>');
   // The icon sprite is identical on every page: write it once and document.write() it from a local script
   html = html.replace(/<svg width="0" height="0" style="position:absolute" aria-hidden="true">[\s\S]*?<\/svg>/, m => {
     const h = crypto.createHash('sha1').update(m).digest('hex').slice(0, 10);
@@ -50,7 +50,7 @@ for (const file of walk(WWW).filter(f => f.endsWith('.html'))) {
   });
   html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ''); // search-engine data, not needed in the app
   html = html.replace(/<script defer src="\/_vercel\/insights\/script\.js"><\/script>\s*/g, '');
-  html = html.replace(/(<script src="\/config\.js[^"]*"><\/script>)/, '$1\n<script src="/offline.js" defer></script>');
+  html = html.replace(/<script (?:defer )?src="(\/config\.js[^"]*)"><\/script>/, '<script src="$1"></script>\n<script src="/offline.js" defer></script>');
   html = html.replace(/<link rel="manifest"[^>]*>\s*/, '');
   html = html.replace(/(<link rel="stylesheet" href="\/assets\/styles\.css[^"]*">)/, '$1\n<link rel="stylesheet" href="/assets/app.css">'); // Design C app look
   // Local links: "/x/y/" → "/x/y/index.html" (keeps ?query and #hash)

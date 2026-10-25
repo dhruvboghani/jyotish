@@ -7,7 +7,8 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 60,
-      "memory": 1024
+      "memory": 1024,
+      "includeFiles": "{src/layout.html,src/sprite.svg,locales/*.json,.build-id}"
     }
   },
   "headers": [
@@ -52,6 +53,58 @@
     {
       "source": "/api/:fn/",
       "destination": "/api/[fn]?fn=:fn"
+    },
+    {
+      "source": "/panchang/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=panchang&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/panchang/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=panchang&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/rahu-kaal/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=rahu&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/rahu-kaal/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=rahu&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/choghadiya/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=chogh&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/choghadiya/:slug(delhi|mumbai|ahmedabad|bengaluru|hyderabad|chennai|kolkata|pune|surat|jaipur|lucknow|kanpur|nagpur|indore|thane|bhopal|visakhapatnam|patna|vadodara|ghaziabad|ludhiana|agra|nashik|faridabad|meerut|rajkot|varanasi|srinagar|aurangabad|amritsar|navi-mumbai|prayagraj|ranchi|howrah|coimbatore|jabalpur|gwalior|vijayawada|jodhpur|madurai|raipur|kota|guwahati|chandigarh|solapur|hubballi|mysuru|tiruchirappalli|bareilly|gurugram|noida|jalandhar|bhubaneswar|salem|warangal|thiruvananthapuram|kochi|kozhikode|dehradun|haridwar|rishikesh|ujjain|mathura|vrindavan|ayodhya|tirupati|puri|dwarka|somnath|udaipur|ajmer|bikaner|nellore|guntur|mangaluru|belagavi|davanagere|kalaburagi|shivamogga|udupi|bhavnagar|jamnagar|junagadh|gandhinagar|anand|bhuj|navsari|vapi|bharuch|mehsana|kolhapur|nanded|jammu|shimla|gorakhpur|aligarh|jhansi|siliguri|cuttack|bilaspur|panaji|puducherry|vellore|tirunelveli|thanjavur|kanchipuram|rameswaram|erode|tiruppur|rajahmundry|kakinada|kurnool|karimnagar|gaya|muzaffarpur|bhagalpur|durgapur|agartala|shillong|kathmandu|london|leicester|new-york|new-jersey|chicago|houston|dallas|atlanta|san-francisco|los-angeles|toronto|vancouver|dubai|muscat|singapore|kuala-lumpur|sydney|melbourne|auckland|nairobi|durban|port-louis)/",
+      "destination": "/api/[fn]?fn=seo&t=chogh&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/",
+      "destination": "/api/[fn]?fn=seo&t=rashi&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/",
+      "destination": "/api/[fn]?fn=seo&t=rashi&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/weekly/",
+      "destination": "/api/[fn]?fn=seo&t=rweek&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/weekly/",
+      "destination": "/api/[fn]?fn=seo&t=rweek&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/monthly/",
+      "destination": "/api/[fn]?fn=seo&t=rmonth&lang=en&slug=:slug"
+    },
+    {
+      "source": "/:lang(hi|gu|ta|te|kn)/rashifal/:slug(mesha|vrishabha|mithuna|karka|simha|kanya|tula|vrishchika|dhanu|makara|kumbha|meena)/monthly/",
+      "destination": "/api/[fn]?fn=seo&t=rmonth&lang=:lang&slug=:slug"
+    },
+    {
+      "source": "/sitemap-daily.xml",
+      "destination": "/api/[fn]?fn=seo&t=sitemap"
     }
   ],
   "redirects": [

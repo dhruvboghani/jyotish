@@ -8,3 +8,5 @@ public/
 # Android app build output
 mobile/www/
 mobile/node_modules/
+.build-id
+.indexnow-urls

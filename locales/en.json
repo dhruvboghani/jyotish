@@ -250,7 +250,8 @@
    "bad": "Doshas",
    "pGood": "Present · good",
    "pBad": "Present · caution",
-   "off": "Not formed"
+   "off": "Not formed",
+   "more": "Read more"
   },
   "dasha": {
    "eye": "Vimshottari Dasha",
@@ -271,7 +272,8 @@
    "birth": "Birth",
    "age": "Age {n}",
    "today": "Today",
-   "ymd": "{y}y {m}m {d}d"
+   "ymd": "{y}y {m}m {d}d",
+   "mdMore": "About {g} mahadasha"
   },
   "pan": {
    "eye": "Panchang",
@@ -3763,5 +3765,1462 @@
   "title": "Coming up for you",
   "house": "house {h} from your Moon",
   "inDays": "in {n} days"
+ },
+ "seo": {
+  "faqH": "Frequently asked questions",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "moonrise": "Moonrise",
+  "moonset": "Moonset",
+  "tzNote": "All times are local time in {c} ({z}), worked out for the city's exact latitude and longitude.",
+  "popularCities": "Popular cities",
+  "abroad": "Outside India",
+  "links": {
+   "thisCity": "More for {c}",
+   "nearby": "Panchang in nearby cities",
+   "popular": "Popular pages",
+   "thisSign": "More for {r}"
+  },
+  "hub": {
+   "cities": "Today's panchang in your city",
+   "signs": "Rashifal by Moon sign",
+   "signsYear": "Yearly rashifal {y}"
+  },
+  "west": [
+   "Aries",
+   "Taurus",
+   "Gemini",
+   "Cancer",
+   "Leo",
+   "Virgo",
+   "Libra",
+   "Scorpio",
+   "Sagittarius",
+   "Capricorn",
+   "Aquarius",
+   "Pisces"
+  ],
+  "cp": {
+   "short": "Today's panchang",
+   "inCity": "Panchang {c}",
+   "allCities": "Panchang by city",
+   "title": "Today's Panchang in {c} – {d} | Tithi, Rahu Kaal, Choghadiya",
+   "h1": "Today's Panchang in {c}",
+   "desc": "Panchang for {c} today: {t} tithi, {n} nakshatra, sunrise {s}, Rahu Kaal {r}, plus muhurta timings and the day and night choghadiya.",
+   "lede": "Tithi, nakshatra, yoga, karana, sunrise, moonrise, Rahu Kaal and choghadiya for {c} on {d}.",
+   "upcoming": "Coming up: festivals and vrats",
+   "cta": "Need the panchang for another date or any city in the world?",
+   "ctaBtn": "Open the panchang",
+   "fq1": "What is the tithi today in {c}?",
+   "fa1": "Today's tithi is {t} until {e}, after which {n} begins.",
+   "fq2": "Which nakshatra is it today in {c}?",
+   "fa2": "The Moon is in {n} nakshatra until {e}.",
+   "fq3": "What time is Rahu Kaal today in {c}?",
+   "fa3": "Rahu Kaal today is {r}. New work is traditionally not started during this time.",
+   "fq4": "What are the sunrise and sunset times in {c} today?",
+   "fa4": "Sunrise is at {a} and sunset at {b}.",
+   "fq5": "Which muhurta is good today?",
+   "fa5": "Abhijit muhurta is {a} and Brahma muhurta is {b}. In the choghadiya, Amrit, Shubh and Labh periods are good.",
+   "indexTitle": "Panchang Today for 140+ Cities in India and Abroad | Grahavani",
+   "indexH1": "Today's panchang by city",
+   "indexLede": "Pick your city for today's tithi, nakshatra, sunrise, Rahu Kaal and choghadiya, calculated for its exact location.",
+   "upNote": "Dates as per the New Delhi panchang; a vrat can occasionally fall a day apart in your city."
+  },
+  "rk": {
+   "short": "Rahu Kaal today",
+   "index": "Rahu Kaal today",
+   "title": "Rahu Kaal Today in {c} – {d} | Yamaganda & Gulika Timings",
+   "h1": "Rahu Kaal today in {c}",
+   "desc": "Rahu Kaal in {c} today is {r}. Yamaganda {y}, Gulika {g}, with the timings for the whole week.",
+   "week": "Rahu Kaal, Yamaganda and Gulika for the next 7 days",
+   "aboutH": "What is Rahu Kaal?",
+   "about1": "Rahu Kaal is one-eighth of the daytime, from sunrise to sunset, ruled by Rahu. Its place in the day depends on the weekday: on Monday it is the second part, on Saturday the third, on Friday the fourth, on Wednesday the fifth, on Thursday the sixth, on Tuesday the seventh and on Sunday the eighth.",
+   "about2": "Because sunrise and sunset change with the season and the city, Rahu Kaal is different in every city and on every day. Yamaganda and Gulika are two more inauspicious parts of the day calculated the same way.",
+   "fq1": "What time is Rahu Kaal today in {c}?",
+   "fa1": "On {d}, Rahu Kaal in {c} is {r}.",
+   "fq2": "What should not be done in Rahu Kaal?",
+   "fa2": "Traditionally, new beginnings are avoided: starting a journey, a business, a purchase, an interview or a ceremony. Work already in progress and daily routine can continue.",
+   "fq3": "What are Yamaganda and Gulika today in {c}?",
+   "fa3": "Yamaganda is {y} and Gulika Kaal is {g}.",
+   "fq4": "Is Rahu Kaal the same everywhere?",
+   "fa4": "No. It is one-eighth of the local daytime, so it shifts with each city's sunrise and sunset and with the season.",
+   "indexTitle": "Rahu Kaal Today – Timings for 140+ Cities | Grahavani",
+   "indexH1": "Rahu Kaal today in your city",
+   "indexLede": "Rahu Kaal, Yamaganda and Gulika timings for today and the next week, worked out for each city's own sunrise and sunset."
+  },
+  "ch": {
+   "short": "Choghadiya today",
+   "index": "Choghadiya today",
+   "title": "Choghadiya Today in {c} – {d} | Shubh, Labh, Amrit Timings",
+   "h1": "Choghadiya today in {c}",
+   "desc": "Today's day and night choghadiya for {c}. Good periods: {list}.",
+   "tomorrow": "Choghadiya for {d}",
+   "aboutH": "How to use the choghadiya",
+   "about1": "The day (sunrise to sunset) and the night (sunset to next sunrise) are each divided into eight choghadiyas. Amrit, Shubh and Labh are good for starting work, Char is good for travel, and Rog, Kaal and Udveg are avoided.",
+   "about2": "The order of the choghadiyas depends on the weekday, and their length depends on the length of the day in your city, so the timings change daily. Choghadiya is widely used in Gujarat and Rajasthan for quick muhurtas such as travel, purchases and starting work.",
+   "fq1": "Which choghadiya is good today in {c}?",
+   "fa1": "The good daytime choghadiyas today are: {list}.",
+   "fq2": "Which choghadiyas are good and which are bad?",
+   "fa2": "Amrit, Shubh and Labh are good; Char is fine for travel and moving things; Rog, Kaal and Udveg are inauspicious.",
+   "fq3": "What is the difference between choghadiya and hora?",
+   "fa3": "A choghadiya is one-eighth of the day or night, named after its quality. A hora is one-twelfth, ruled by a planet. Both are used for choosing a quick muhurta.",
+   "indexTitle": "Choghadiya Today – Day & Night Timings for 140+ Cities | Grahavani",
+   "indexH1": "Today's choghadiya in your city",
+   "indexLede": "Day and night choghadiya for today and tomorrow, calculated for each city's sunrise and sunset."
+  },
+  "rd": {
+   "short": "Today's rashifal",
+   "eye": "Daily Rashifal",
+   "title": "{r} ({w}) Rashifal Today – {d} | Daily Horoscope",
+   "h1": "{r} ({w}) rashifal today",
+   "desc": "{r} rashifal for today: {n}/5 overall, with career, money, love and health, the Moon's position and the week ahead, from the actual planetary transits.",
+   "week": "The week ahead",
+   "ch8": "Moon in 8th",
+   "cta": "For a reading based on your full birth chart, make your free kundali.",
+   "ctaBtn": "Make my kundali",
+   "allSigns": "Rashifal for every sign",
+   "fq1": "How is today for {r}?",
+   "fa1": "Today is rated {n} out of 5. {m}",
+   "fq2": "Which is the best day this week for {r}?",
+   "fa2": "{d} is the strongest day this week, with {n} out of 5.",
+   "fq3": "How is this rashifal calculated?",
+   "fa3": "It is not pre-written. It reads the day's actual planetary positions (gochar) from your Moon sign, giving more weight to the Moon, Jupiter and Saturn, and rates career, money, love and health from the planets that govern them."
+  },
+  "ry": {
+   "short": "Rashifal {y}",
+   "eye": "Yearly Rashifal",
+   "title": "{r} ({w}) Rashifal {y} – Yearly Horoscope, Best Months & Transits",
+   "h1": "{r} ({w}) rashifal {y}",
+   "lede": "How {y} looks for {r} Moon sign, month by month, from the actual transits. Best months: {b}. Months needing care: {c}.",
+   "monthly": "Month by month",
+   "month": "Month",
+   "overall": "Overall",
+   "transits": "Major transits in {y}",
+   "startsIn": "{g} starts the year in {r} (house {h} from your Moon).",
+   "enters": "{g} enters {r}",
+   "house": "house {h} from your Moon ({m})",
+   "fav": "favourable",
+   "unfav": "challenging",
+   "ssH": "Sade Sati and eclipses",
+   "eclH": "Eclipses this year",
+   "note": "These are Moon-sign (rashi) trends for everyone born under this sign. Your own dashas and full chart decide how strongly you feel them.",
+   "fq1": "Which are the best months of the year for {r} in {y}?",
+   "fa1": "By the transits, the strongest months are {list}.",
+   "fq2": "Is there Sade Sati for {r} in {y}?",
+   "faSs": "Yes. Sade Sati runs from {a} to {b}.",
+   "faNoSs": "No, {r} is not in Sade Sati in {y}."
+  },
+  "ss": {
+   "short": "Sade Sati dates",
+   "eye": "Shani Sade Sati",
+   "index": "Sade Sati",
+   "title": "Sade Sati for {r} Rashi – Start and End Dates of All Phases",
+   "h1": "Sade Sati for {r} rashi",
+   "nowIn": "{r} is in Sade Sati from {a} to {b}. Current phase: {p}.",
+   "notIn": "{r} is not in Sade Sati now. The next one starts on {a}.",
+   "ph": {
+    "rising": "Rising (12th from Moon)",
+    "peak": "Peak (over the Moon)",
+    "setting": "Setting (2nd from Moon)"
+   },
+   "periods": "All Sade Sati periods",
+   "period": "Period",
+   "phases": "Phases",
+   "kind": "Type",
+   "dhaiyaH": "Shani Dhaiya (Kantak and Ashtama Shani)",
+   "kantak": "Kantak Shani (4th from Moon)",
+   "ashtama": "Ashtama Shani (8th from Moon)",
+   "dhNow": "{k} is running now, until {b}.",
+   "aboutH": "What is Sade Sati?",
+   "about1": "Sade Sati is the roughly seven and a half years when Saturn moves through the sign before your Moon sign, your Moon sign itself, and the sign after it — about two and a half years each. It comes around every 30 years or so.",
+   "about2": "It is a period of hard work, responsibility and slow results rather than only misfortune; many people achieve a great deal in it. How it feels depends on Saturn's strength in your chart and your running dasha. Shani Dhaiya is the shorter two and a half year transit of Saturn over the 4th or 8th sign from the Moon.",
+   "fq1": "Is {r} in Sade Sati now?",
+   "fq2": "When is the next Sade Sati for {r}?",
+   "fa2": "The next Sade Sati for {r} runs from {a} to {b}.",
+   "fq3": "What are the remedies for Sade Sati?",
+   "fa3": "Traditional remedies are worshipping Hanuman and Shiva, chanting the Shani mantra or Hanuman Chalisa on Saturdays, lighting a sesame oil lamp under a peepal tree, serving the elderly and labourers, and donating black sesame, mustard oil or iron on Saturdays.",
+   "cta": "Check Sade Sati, dashas and Saturn's strength in your own chart.",
+   "allSigns": "Sade Sati for every sign",
+   "indexTitle": "Sade Sati – Which Signs Are in Shani Sade Sati Now? Dates for All 12 Rashis | Grahavani",
+   "indexH1": "Shani Sade Sati for all 12 signs",
+   "indexLede": "Which Moon signs are in Sade Sati now, when it ends, and when the next one begins for each sign.",
+   "now": "Sade Sati now?",
+   "next": "Next Sade Sati starts",
+   "yes": "Yes, until {b}",
+   "no": "No"
+  },
+  "fe": {
+   "eye": "Festival",
+   "indexName": "Hindu festivals",
+   "index": "Festivals {y}",
+   "indexShort": "Festivals {y}",
+   "indexTitle": "Hindu Festival Calendar {a} & {b} – Dates of All Major Festivals | Grahavani",
+   "indexH1": "Hindu festivals {a} and {b}",
+   "indexLede": "Dates of every major Hindu festival, with tithi timings and puja muhurat, plus full lists of Ekadashi, Purnima, Amavasya, Sankashti and Pradosh.",
+   "festival": "Festival",
+   "day": "Day",
+   "lists": "Date lists",
+   "title": "{f} {y} Date – {d} | Tithi Time & Puja Muhurat",
+   "h1": "{f} {y}",
+   "desc": "{f} in {y} falls on {d}.",
+   "descMu": "Muhurat in New Delhi: {r}.",
+   "tithi": "Tithi",
+   "begins": "Tithi begins",
+   "ends": "Tithi ends",
+   "muhurat": "Muhurat",
+   "delhiNote": "Times are for New Delhi. The date and muhurat for other cities are below.",
+   "aboutH": "About {f}",
+   "pujaLink": "Step-by-step {f} puja vidhi, samagri and katha →",
+   "cities": "{f} {y} in major cities",
+   "cta": "See the full {f} puja vidhi with the muhurat for your city.",
+   "ctaBtn": "Open the puja guide",
+   "ctaCal": "See every festival and vrat of the year for your own city.",
+   "ctaCalBtn": "Open the calendar",
+   "sameMonth": "Other festivals in {m}",
+   "otherYears": "Other years",
+   "fq1": "When is {f} in {y}?",
+   "fa1": "{f} is on {d}.",
+   "fq2": "When does the tithi for {f} {y} begin and end?",
+   "fa2": "{t} begins on {a} and ends on {b} (New Delhi).",
+   "fq3": "What is the {f} {y} puja muhurat?",
+   "fa3": "The muhurat in New Delhi is {r}."
+  },
+  "fa": {
+   "holi": "Holi, the festival of colours, is played on the day after Holika Dahan, on Phalguna Krishna Pratipada, celebrating spring and the victory of devotion over arrogance.",
+   "ugadi": "Ugadi and Gudi Padwa mark the Hindu lunar new year on Chaitra Shukla Pratipada; the new samvatsara begins and families eat a mix of six tastes.",
+   "chaitraNavratri": "Chaitra Navratri is the spring Navratri, nine nights of Durga worship that begin on Chaitra Shukla Pratipada and end with Ram Navami.",
+   "mahavirJayanti": "Mahavir Jayanti celebrates the birth of Bhagwan Mahavir, the 24th Jain Tirthankara, on Chaitra Shukla Trayodashi.",
+   "akshayaTritiya": "Akshaya Tritiya, Vaishakha Shukla Tritiya, is one of the most auspicious days of the year: anything begun, bought or given today is said never to diminish.",
+   "buddhaPurnima": "Buddha Purnima, the full Moon of Vaishakha, remembers the birth, enlightenment and passing of Gautama Buddha.",
+   "nirjalaEkadashi": "Nirjala Ekadashi, in Jyeshtha Shukla, is the strictest Ekadashi, kept without even water; keeping it is said to equal all 24 Ekadashis of the year.",
+   "rathYatra": "Rath Yatra is the chariot festival of Lord Jagannath, Balabhadra and Subhadra in Puri, on Ashadha Shukla Dwitiya.",
+   "devshayaniEkadashi": "Devshayani Ekadashi, Ashadha Shukla Ekadashi, is when Lord Vishnu goes to sleep for the four months of Chaturmas; weddings pause until Dev Uthani Ekadashi.",
+   "guruPurnima": "Guru Purnima, the full Moon of Ashadha, honours teachers and Maharishi Ved Vyasa.",
+   "nagPanchami": "Nag Panchami, Shravana Shukla Panchami, is the day of worship of the serpent deities with milk and flowers.",
+   "anantChaturdashi": "Anant Chaturdashi, Bhadrapada Shukla Chaturdashi, is the worship of Lord Anant (Vishnu) and the day of Ganesh visarjan.",
+   "pitruPakshaStart": "Pitru Paksha is the fortnight of remembering ancestors with shraddha and tarpan; it begins after Bhadrapada Purnima and ends on Sarva Pitru Amavasya.",
+   "durgaAshtami": "Durga Ashtami, the eighth day of Sharad Navratri, is the day of Maha Gauri worship and kanya pujan in many homes.",
+   "govardhanPuja": "Govardhan Puja, the day after Diwali, remembers Krishna lifting Govardhan hill; an Annakut of many dishes is offered.",
+   "bhaiDooj": "Bhai Dooj, Kartika Shukla Dwitiya, is when sisters pray for their brothers' long life and brothers give gifts.",
+   "chhathPuja": "Chhath Puja, Kartika Shukla Shashthi, is the worship of the Sun god and Chhathi Maiya with arghya at sunset and at sunrise the next day.",
+   "devUthaniEkadashi": "Dev Uthani (Prabodhini) Ekadashi, Kartika Shukla Ekadashi, is when Lord Vishnu wakes from his four-month sleep; Tulsi Vivah follows and the wedding season begins.",
+   "kartikPurnima": "Kartik Purnima, also Dev Deepawali, is the full Moon of Kartika, celebrated with holy baths and lamps; it is also Guru Nanak Jayanti.",
+   "gitaJayanti": "Gita Jayanti, Margashirsha Shukla Ekadashi, marks the day Krishna spoke the Bhagavad Gita to Arjuna; it is also Mokshada Ekadashi.",
+   "makarSankranti": "Makar Sankranti is the day the Sun enters Makara (Capricorn), celebrated as Uttarayan, Pongal, Lohri and Khichdi with kite flying, sesame sweets and charity.",
+   "meshaSankranti": "Mesha Sankranti, the Sun's entry into Mesha, is the solar new year: Baisakhi in Punjab, Puthandu in Tamil Nadu, Vishu in Kerala and Pohela Boishakh in Bengal."
+  },
+  "ek": {
+   "kamada": "Kamada Ekadashi",
+   "varuthini": "Varuthini Ekadashi",
+   "mohini": "Mohini Ekadashi",
+   "apara": "Apara Ekadashi",
+   "nirjala": "Nirjala Ekadashi",
+   "yogini": "Yogini Ekadashi",
+   "devshayani": "Devshayani Ekadashi",
+   "kamika": "Kamika Ekadashi",
+   "shravanaPutrada": "Shravana Putrada Ekadashi",
+   "aja": "Aja Ekadashi",
+   "parivartini": "Parivartini Ekadashi",
+   "indira": "Indira Ekadashi",
+   "papankusha": "Papankusha Ekadashi",
+   "rama": "Rama Ekadashi",
+   "devutthana": "Dev Uthani Ekadashi",
+   "utpanna": "Utpanna Ekadashi",
+   "mokshada": "Mokshada Ekadashi",
+   "saphala": "Saphala Ekadashi",
+   "paushPutrada": "Pausha Putrada Ekadashi",
+   "shattila": "Shattila Ekadashi",
+   "jaya": "Jaya Ekadashi",
+   "vijaya": "Vijaya Ekadashi",
+   "amalaki": "Amalaki Ekadashi",
+   "papmochani": "Papmochani Ekadashi",
+   "padmini": "Padmini Ekadashi",
+   "parama": "Parama Ekadashi"
+  },
+  "vl": {
+   "name": "Vrat",
+   "note": "Times are for New Delhi. For your own city, open the vrat tracker.",
+   "cta": "Get these dates and parana times for your own city, with reminders.",
+   "ctaBtn": "Open the vrat tracker",
+   "soma": "Soma Pradosh",
+   "bhauma": "Bhauma Pradosh",
+   "shani": "Shani Pradosh",
+   "angaraki": "Angaraki Sankashti Chaturthi",
+   "fq1": "How many {v} days are there in {y}?",
+   "fa1": "There are {n} {v} days in {y}; the full list with dates is above.",
+   "ekadashi": {
+    "short": "Ekadashi {y}",
+    "col": "Parana (break fast)",
+    "title": "Ekadashi {y} List – All Ekadashi Dates with Parana Time",
+    "h1": "Ekadashi {y}: all dates and parana time",
+    "lede": "All {n} Ekadashi fasts of {y} with their names, lunar month and the time to break the fast (parana) the next morning.",
+    "fq": "When should the Ekadashi fast be broken?",
+    "fa": "Parana is done the next morning after sunrise, once the first quarter of Dwadashi (Hari Vasara) is over and before Dwadashi ends — preferably in the morning."
+   },
+   "purnima": {
+    "short": "Purnima {y}",
+    "col": "Purnima tithi",
+    "title": "Purnima {y} Dates – Full Moon Days with Tithi Timings",
+    "h1": "Purnima {y}: all full Moon dates",
+    "lede": "All {n} Purnima (full Moon) days of {y} with the lunar month and when the Purnima tithi begins and ends.",
+    "fq": "Why is Purnima vrat sometimes a day before the date listed?",
+    "fa": "This list gives the day on which the Purnima tithi is present at sunrise, as printed calendars do. The Purnima vrat with Moon worship is kept on the evening when Purnima is present, which can be the day before — check the tithi start time."
+   },
+   "amavasya": {
+    "short": "Amavasya {y}",
+    "col": "Amavasya tithi",
+    "title": "Amavasya {y} Dates – New Moon Days with Tithi Timings",
+    "h1": "Amavasya {y}: all new Moon dates",
+    "lede": "All {n} Amavasya (new Moon) days of {y} with the lunar month and when the Amavasya tithi begins and ends.",
+    "fq": "What is done on Amavasya?",
+    "fa": "Amavasya is the day of the ancestors: tarpan, shraddha, charity and lighting a lamp are traditional. New beginnings are usually avoided."
+   },
+   "sankashti": {
+    "short": "Sankashti Chaturthi {y}",
+    "col": "Moonrise",
+    "title": "Sankashti Chaturthi {y} Dates with Moonrise Time",
+    "h1": "Sankashti Chaturthi {y}: dates and moonrise",
+    "lede": "All {n} Sankashti Chaturthi fasts of {y} with the moonrise time, when the fast is broken after offering arghya to the Moon.",
+    "fq": "When is the Sankashti fast broken?",
+    "fa": "After moonrise, by offering arghya to the Moon and praying to Lord Ganesha. When it falls on a Tuesday it is called Angaraki Chaturthi and is considered especially auspicious."
+   },
+   "pradosh": {
+    "short": "Pradosh Vrat {y}",
+    "col": "Pradosh puja",
+    "title": "Pradosh Vrat {y} List – Dates with Puja Time",
+    "h1": "Pradosh Vrat {y}: all dates and puja time",
+    "lede": "All {n} Pradosh fasts of {y} with the evening puja time. Monday, Tuesday and Saturday Pradosh are named Soma, Bhauma and Shani Pradosh.",
+    "fq": "What is the Pradosh puja time?",
+    "fa": "Lord Shiva is worshipped in Pradosh kaal, the period just after sunset, on Trayodashi. The fast is broken after the evening puja."
+   }
+  },
+  "gr": {
+   "short": "Grahan {y}",
+   "title": "Grahan {y} – Solar and Lunar Eclipses in India with Sutak Time",
+   "h1": "Grahan {y}: solar and lunar eclipses",
+   "lede": "{n} eclipses take place in {y}; {v} can be seen from India. Times, sutak, sign and nakshatra, and which Moon signs they affect.",
+   "visible": "Visible in India",
+   "notVisible": "Not visible in India (no sutak)",
+   "good": "Usually fine for:",
+   "bad": "Take care:",
+   "note": "Times are IST for New Delhi; contact times differ by a few minutes across India. Sutak applies only where the eclipse is visible.",
+   "cta": "See eclipse times for your own city and how each eclipse touches your family's charts.",
+   "ctaBtn": "Open the eclipse calendar",
+   "fq1": "How many eclipses are there in {y}?",
+   "fa1": "There are {n} eclipses in {y}, of which {v} are visible from India.",
+   "fq2": "When does sutak begin?",
+   "fa2": "Sutak begins 12 hours before a solar eclipse and 9 hours before a lunar eclipse, only where the eclipse is visible. There is no sutak for a penumbral lunar eclipse."
+  },
+  "mh": {
+   "index": "Muhurat dates",
+   "indexTitle": "Shubh Muhurat {a} & {b} – Marriage, Griha Pravesh, Vehicle and More | Grahavani",
+   "indexH1": "Shubh muhurat {a} and {b}",
+   "indexLede": "Month-by-month auspicious dates for marriage, griha pravesh, buying a vehicle, opening a business, namkaran, mundan and annaprashan.",
+   "lede": "{n} auspicious dates in {y}, with the best time window on each day.",
+   "none": "No suitable dates this month.",
+   "note": "Times are for New Delhi and use the panchang rules (tithi, nakshatra, weekday, yoga, karana, and avoiding Rahu Kaal). For an important event, also match the dates with the birth charts of the people involved.",
+   "cta": "Find muhurat for your own city, matched to your family's charts.",
+   "ctaBtn": "Open the muhurta finder",
+   "more": "More muhurat dates",
+   "fa1": "There are {n} good dates in {y}; the most come in {list}.",
+   "fq2": "How are these muhurats chosen?",
+   "marriage": {
+    "short": "Vivah muhurat {y}",
+    "title": "Vivah Muhurat {y} – Marriage Dates Month by Month",
+    "h1": "Vivah (marriage) muhurat {y}",
+    "desc": "{n} shubh vivah muhurat dates in {y}, month by month, with the best time window on each day.",
+    "fq": "Which are the marriage muhurat dates in {y}?",
+    "rule": "Marriage muhurats need a favourable tithi and nakshatra (such as Rohini, Mrigashira, Magha, Uttara Phalguni, Hasta, Swati, Anuradha, Mula, the Uttaras and Revati), a good weekday, no Vishti karana, and fall outside Chaturmas, Kharmas, Holashtak and the setting of Jupiter or Venus."
+   },
+   "griha": {
+    "short": "Griha pravesh muhurat {y}",
+    "title": "Griha Pravesh Muhurat {y} – House Warming Dates Month by Month",
+    "h1": "Griha pravesh muhurat {y}",
+    "desc": "{n} griha pravesh (house warming) muhurat dates in {y}, month by month, with time windows.",
+    "fq": "Which are the griha pravesh dates in {y}?",
+    "rule": "Griha pravesh is done on fixed or soft nakshatras (Rohini, Mrigashira, the Uttaras, Chitra, Anuradha, Revati and others) with a good tithi and weekday, avoiding Chaturmas, Kharmas and the setting of Jupiter or Venus."
+   },
+   "vehicle": {
+    "short": "Vehicle purchase muhurat {y}",
+    "title": "Vehicle Purchase Muhurat {y} – Good Dates to Buy a Car or Bike",
+    "h1": "Vehicle purchase muhurat {y}",
+    "desc": "{n} good dates in {y} to buy a car, bike or other vehicle, with the best time on each day.",
+    "fq": "Which are good days to buy a vehicle in {y}?",
+    "rule": "Vehicles are best bought on movable or light nakshatras (Ashwini, Punarvasu, Pushya, Hasta, Swati, Shravana and others) with a good tithi, on Monday, Wednesday, Thursday or Friday, outside Rahu Kaal."
+   },
+   "business": {
+    "short": "Business opening muhurat {y}",
+    "title": "Business Opening Muhurat {y} – Shop and Office Opening Dates",
+    "h1": "Business and shop opening muhurat {y}",
+    "desc": "{n} auspicious dates in {y} to open a shop, office or new business.",
+    "fq": "Which dates are good to start a business in {y}?",
+    "rule": "New ventures are begun on nakshatras such as Ashwini, Rohini, Pushya, Hasta, Chitra, Anuradha, Shravana and Revati, with a good tithi and weekday, avoiding Pitru Paksha and Rahu Kaal."
+   },
+   "namkaran": {
+    "short": "Namkaran muhurat {y}",
+    "title": "Namkaran Muhurat {y} – Baby Naming Ceremony Dates",
+    "h1": "Namkaran (naming ceremony) muhurat {y}",
+    "desc": "{n} good dates in {y} for a baby's naming ceremony.",
+    "fq": "Which are good dates for namkaran in {y}?",
+    "rule": "The naming ceremony is traditionally done from the 11th day after birth on a soft or fixed nakshatra with a good tithi and weekday. Also check the date against the baby's own birth nakshatra."
+   },
+   "mundan": {
+    "short": "Mundan muhurat {y}",
+    "title": "Mundan Muhurat {y} – First Haircut Dates",
+    "h1": "Mundan (chudakarana) muhurat {y}",
+    "desc": "{n} auspicious dates in {y} for a child's mundan.",
+    "fq": "Which are good mundan dates in {y}?",
+    "rule": "Mundan is done in the uttarayana half of the year when possible, on nakshatras such as Ashwini, Mrigashira, Punarvasu, Pushya, Hasta, Chitra, Swati and Shravana, avoiding Chaturmas."
+   },
+   "annaprashan": {
+    "short": "Annaprashan muhurat {y}",
+    "title": "Annaprashan Muhurat {y} – First Rice Feeding Dates",
+    "h1": "Annaprashan muhurat {y}",
+    "desc": "{n} good dates in {y} for a baby's annaprashan (first solid food).",
+    "fq": "Which are good annaprashan dates in {y}?",
+    "rule": "Annaprashan is done in the 6th or 8th month for a boy and the 5th or 7th month for a girl, on a soft or movable nakshatra with a good tithi and weekday."
+   }
+  },
+  "nk": {
+   "eye": "Nakshatra",
+   "all": "All 27 nakshatras",
+   "title": "{n} Nakshatra – Traits, Lord, Deity, Padas & Compatibility",
+   "h1": "{n} nakshatra",
+   "desc": "{n} nakshatra: ruled by {g}, deity {d}. Nature, the four padas and their syllables for baby names, gana, yoni, nadi and the most compatible nakshatras.",
+   "span": "Spans",
+   "lord": "Ruling planet",
+   "deity": "Deity",
+   "symbol": "Symbol",
+   "gana": "Gana",
+   "yoni": "Yoni (animal)",
+   "nadi": "Nadi",
+   "rashi": "Rashi",
+   "gem": "Gemstone (of the lord)",
+   "natureH": "Nature of {n}",
+   "lordLine": "Its ruling planet {g} signifies {k}, and its dasha is the first one for people born with the Moon here.",
+   "padasH": "The four padas",
+   "pada": "Pada {n}",
+   "navamsa": "{r} navamsa",
+   "syll": "Name syllable",
+   "matchH": "Compatibility",
+   "best": "By Guna Milan, the most compatible nakshatras are {list}.",
+   "hard": "The least compatible are {list}.",
+   "matchNote": "Calculated with the 36-point Ashtakoot for the middle padas; your exact padas and full charts can change this.",
+   "namesCta": "Find baby names for {n} nakshatra syllables.",
+   "namesBtn": "Baby names"
+  },
+  "nkt": [
+   "Ashwini natives are quick, energetic and pioneering, with a healer's touch and a love of new beginnings. They act fast, help others readily and dislike waiting, though patience and follow-through are lessons for them.",
+   "Bharani gives strong will, passion and the capacity to carry heavy responsibility. These natives are creative and determined, live life intensely, and learn to handle extremes with self-control.",
+   "Krittika is sharp and fiery, like a blade that cuts through confusion. Its natives are honest, direct, protective and ambitious, with high standards; a softer word can serve them better than a sharp one.",
+   "Rohini, the Moon's favourite, gives charm, beauty, creativity and a love of comfort and growth. These natives are attractive, artistic and fertile in ideas, and do well in anything that nurtures or creates.",
+   "Mrigashira is the searching star: curious, gentle, intelligent and always looking for something new. Its natives are good communicators and researchers, though restlessness can keep them moving from one thing to the next.",
+   "Ardra brings intensity, intellect and transformation, like a storm that clears the air. Its natives are sharp thinkers and hard workers who grow through difficulty and are drawn to research and technology.",
+   "Punarvasu is the star of renewal: optimistic, generous and wise, always able to return to light after hardship. Its natives are content with simple living, forgiving, and natural teachers.",
+   "Pushya is considered the most auspicious nakshatra: nourishing, protective, disciplined and devoted. Its natives are responsible, caring and spiritual, and often take care of family and community.",
+   "Ashlesha gives depth, sharp intelligence and strong intuition, with a hypnotic, persuasive quality. Its natives understand people well and are skilled strategists; trust and openness are their lessons.",
+   "Magha is the throne of the ancestors: dignified, proud and generous, with respect for tradition and lineage. Its natives have natural authority and leadership and a strong sense of honour.",
+   "Purva Phalguni is the star of pleasure, rest and creativity. Its natives are warm, charming, affectionate and artistic, enjoy life and relationships, and bring people together.",
+   "Uttara Phalguni gives kindness, reliability and a sense of duty in partnerships. Its natives are generous helpers and good organisers who keep their promises and value lasting relationships.",
+   "Hasta, the hand, gives skill, cleverness and a practical, resourceful mind. Its natives are good with their hands and words, humorous and hard-working, and can turn ideas into results.",
+   "Chitra, the bright jewel, gives a love of beauty, design and craftsmanship. Its natives are creative, stylish and charismatic, with talent for architecture, art and anything that is built well.",
+   "Swati, the independent shoot moved by the wind, gives flexibility, diplomacy and a love of freedom. Its natives are fair-minded, good at business and trade, and thrive when free to find their own way.",
+   "Vishakha is the star of purpose: determined, ambitious and focused on a goal until it is reached. Its natives are energetic and capable of great achievement, and learn to balance drive with patience.",
+   "Anuradha gives devotion, friendship and the ability to succeed far from home. Its natives are loyal, organised and cooperative, keep good company, and can be very disciplined.",
+   "Jyeshtha is the eldest: responsible, protective and capable, with natural seniority. Its natives are courageous and resourceful, often carry family burdens, and are wise when they use power gently.",
+   "Mula, the root, goes to the bottom of things. Its natives are searching, philosophical and investigative, unafraid to break down what no longer works in order to find the truth.",
+   "Purva Ashadha is the invincible star: confident, persuasive and full of enthusiasm. Its natives are idealistic and influential, recover quickly, and believe strongly in what they do.",
+   "Uttara Ashadha gives lasting victory through right effort. Its natives are principled, patient, responsible and fair, with leadership that grows steadily and earns respect.",
+   "Shravana is the star of listening and learning. Its natives are attentive, knowledgeable and devoted, gather wisdom from others, and make good teachers, counsellors and communicators.",
+   "Dhanishta gives wealth, rhythm and musical talent. Its natives are ambitious, generous and good in groups, with a gift for music, sport and organising events.",
+   "Shatabhisha, the hundred healers, gives independence, secrecy and a scientific, healing mind. Its natives are thoughtful and private, drawn to medicine, research and unconventional ideas.",
+   "Purva Bhadrapada gives intensity, idealism and spiritual fire. Its natives are passionate about their causes, can be very generous, and go through deep transformations.",
+   "Uttara Bhadrapada gives depth, calm and wisdom, like still deep water. Its natives are patient, self-controlled, compassionate and good at counselling, with a strong inner life.",
+   "Revati, the last nakshatra, is gentle, kind and protective, guiding travellers safely to their destination. Its natives are compassionate, creative and spiritual, and care for the weak."
+  ],
+  "deity": {
+   "ashwins": "The Ashwini Kumaras",
+   "yama": "Yama",
+   "agni": "Agni",
+   "brahma": "Brahma (Prajapati)",
+   "soma": "Soma (Chandra)",
+   "rudra": "Rudra",
+   "aditi": "Aditi",
+   "brihaspati": "Brihaspati",
+   "sarpa": "The Nagas",
+   "pitrs": "The Pitrs (ancestors)",
+   "bhaga": "Bhaga",
+   "aryaman": "Aryaman",
+   "savitr": "Savitr (Surya)",
+   "vishvakarma": "Vishvakarma",
+   "vayu": "Vayu",
+   "indragni": "Indra and Agni",
+   "mitra": "Mitra",
+   "indra": "Indra",
+   "nirriti": "Nirriti",
+   "apas": "Apas (waters)",
+   "vishvedevas": "The Vishvedevas",
+   "vishnu": "Vishnu",
+   "vasus": "The Vasus",
+   "varuna": "Varuna",
+   "ajaEkapada": "Aja Ekapada",
+   "ahirBudhnya": "Ahir Budhnya",
+   "pushan": "Pushan"
+  },
+  "symbol": {
+   "horseHead": "Horse's head",
+   "yoni": "Yoni",
+   "razor": "Razor or flame",
+   "chariot": "Chariot",
+   "deerHead": "Deer's head",
+   "teardrop": "Teardrop",
+   "quiver": "Quiver of arrows",
+   "flower": "Flower or udder",
+   "coiledSerpent": "Coiled serpent",
+   "throne": "Royal throne",
+   "hammock": "Front legs of a bed",
+   "bed": "Back legs of a bed",
+   "hand": "Hand",
+   "pearl": "Bright jewel",
+   "coral": "Young shoot",
+   "arch": "Triumphal arch",
+   "lotus": "Lotus",
+   "earring": "Earring or umbrella",
+   "roots": "Bunch of roots",
+   "fan": "Fan or tusk",
+   "tusk": "Elephant tusk",
+   "ear": "Ear",
+   "drum": "Drum",
+   "circle": "Empty circle",
+   "sword": "Sword",
+   "twins": "Back legs of a funeral cot",
+   "fish": "Fish or drum"
+  },
+  "gana": {
+   "Deva": "Deva (divine)",
+   "Manushya": "Manushya (human)",
+   "Rakshasa": "Rakshasa (fierce)"
+  },
+  "yoni": {
+   "Horse": "Horse",
+   "Elephant": "Elephant",
+   "Sheep": "Sheep",
+   "Serpent": "Serpent",
+   "Dog": "Dog",
+   "Cat": "Cat",
+   "Rat": "Rat",
+   "Cow": "Cow",
+   "Buffalo": "Buffalo",
+   "Tiger": "Tiger",
+   "Deer": "Deer",
+   "Monkey": "Monkey",
+   "Mongoose": "Mongoose",
+   "Lion": "Lion"
+  },
+  "nadi": {
+   "Adi": "Adi (Vata)",
+   "Madhya": "Madhya (Pitta)",
+   "Antya": "Antya (Kapha)"
+  },
+  "rs": {
+   "eye": "Rashi (Moon sign)",
+   "short": "About this sign",
+   "all": "All 12 rashis",
+   "title": "{r} Rashi ({w} Moon Sign) – Nature, Lord, Lucky Gem & Compatibility",
+   "h1": "{r} rashi ({w})",
+   "desc": "{r} rashi, ruled by {g}: nature and mind, nakshatras, lucky gemstone, day and number, and compatibility with every other sign.",
+   "lord": "Lord",
+   "element": "Element",
+   "quality": "Quality",
+   "naks": "Nakshatras",
+   "gem": "Lucky gemstone",
+   "day": "Lucky day",
+   "number": "Lucky number",
+   "exalted": "Exalted here",
+   "natureH": "Nature of {r} Moon sign",
+   "lordLine": "Its lord {g} signifies {k}; the condition of {g} in your chart shows how well these qualities flow.",
+   "compatH": "{r} compatibility with each sign"
+  },
+  "rst": [
+   "Mesha Moon gives an active, courageous and direct mind that loves to lead and start new things. Feelings are quick and honest, anger rises fast and fades fast, and the native thrives on challenge and independence.",
+   "Vrishabha is the Moon's exaltation sign, giving a calm, steady and patient mind. These natives value security, comfort, beauty and good food, are loyal and practical, and can be very determined once decided.",
+   "Mithuna Moon gives a curious, witty and restless mind that loves conversation, learning and variety. These natives are adaptable and social, good with words and trade, but need focus to finish what they start.",
+   "Karka is the Moon's own sign: sensitive, caring and deeply attached to home, mother and family. Emotions run deep, memory is strong, and the native nurtures others, though moods can change like the tides.",
+   "Simha Moon gives a proud, generous and warm-hearted mind with natural dignity and a wish to be respected. These natives are confident leaders and loyal friends, and shine when they can create and be appreciated.",
+   "Kanya Moon gives an analytical, careful and service-minded nature. These natives notice details, love order and health, are practical and modest, and need to beware of worry and over-criticism.",
+   "Tula Moon gives a balanced, refined and diplomatic mind that seeks harmony and partnership. These natives are fair, artistic and sociable, dislike conflict, and can take time to make up their minds.",
+   "Vrishchika is the Moon's debilitation sign, giving intense, private and powerful emotions. These natives are perceptive, determined and loyal, feel deeply, and have great capacity for transformation and research.",
+   "Dhanu Moon gives an optimistic, philosophical and freedom-loving mind. These natives are honest, generous and fond of travel, learning and religion, and inspire others with their faith and enthusiasm.",
+   "Makara Moon gives a serious, disciplined and ambitious mind. These natives are practical, patient and hard-working, take responsibility early, and build success slowly and surely.",
+   "Kumbha Moon gives an independent, humanitarian and original mind. These natives think about society and ideas, value friendship and fairness, and can seem detached while caring deeply about the larger good.",
+   "Meena Moon gives a gentle, imaginative, intuitive and compassionate nature. These natives are artistic and spiritual, forgive easily, and need a calm environment and some boundaries to protect their sensitivity."
+  ],
+  "cm": {
+   "eye": "Rashi compatibility",
+   "indexH": "Compatibility by Moon sign",
+   "title": "{a} and {b} Compatibility – Guna Milan by Moon Sign",
+   "h1": "{a} and {b} compatibility",
+   "desc": "{a} and {b} Moon sign compatibility: {band}. Guna Milan ranges from {lo} to {hi} out of 36 depending on the nakshatras.",
+   "lede": "How {a} and {b} Moon signs match in Ashtakoot Guna Milan, across every nakshatra combination of the two signs.",
+   "verdict": "Overall",
+   "range": "Guna range",
+   "avg": "Average",
+   "pass": "Combinations with 18+",
+   "band": {
+    "excellent": "Excellent match",
+    "good": "Good match",
+    "average": "Average match",
+    "low": "Challenging match"
+   },
+   "short": {
+    "excellent": "★★★",
+    "good": "★★",
+    "average": "★",
+    "low": "·"
+   },
+   "whyH": "Why",
+   "signK": "Sign-based kootas",
+   "koota": "Koota",
+   "boyGirl": "Boy {a} · Girl {b}",
+   "elem": {
+    "same": "Both signs belong to the {a} element, so their basic nature is alike.",
+    "friendly": "The elements are {a} and {b}, which complement and support each other.",
+    "mixed": "The elements are {a} and {b}, which are different in nature, so understanding is needed to work together."
+   },
+   "sameLord": "Both signs are ruled by {g}, which gives full Graha Maitri and natural understanding.",
+   "lords": "The sign lords are {a} and {b}: {a} sees {b} as {r1}, and {b} sees {a} as {r2}.",
+   "bhakootOk": "Counted from each other, the signs are {d}, so there is no Bhakoot dosha.",
+   "bhakootBad": "Counted from each other, the signs are {d}, which gives Bhakoot dosha (0 of 7 points).",
+   "bhakootCancel": "It is traditionally cancelled because the sign lords are the same or mutual friends.",
+   "note": "Four of the eight kootas (Varna, Vashya, Graha Maitri and Bhakoot) depend only on the Moon signs. Tara, Yoni, Gana and Nadi depend on the nakshatras, which is why the total varies. Match the full birth charts before any decision.",
+   "cta": "Match two kundalis with all eight kootas, Manglik check and the full charts.",
+   "ctaBtn": "Match kundalis",
+   "moreA": "{r} with other signs"
+  },
+  "rel": {
+   "F": "a friend",
+   "N": "neutral",
+   "E": "an enemy"
+  },
+  "ds": {
+   "eye": "Dosha",
+   "more": "Doshas explained",
+   "cta": "Check every dosha in your own chart, with cancellations.",
+   "manglik": {
+    "title": "Manglik dosha",
+    "seoTitle": "Manglik Dosha (Mangal Dosha) – Meaning, Effects, Cancellation & Remedies",
+    "desc": "What Manglik dosha is, how it is checked, when it is cancelled, and the traditional remedies.",
+    "whatH": "What is Manglik dosha?",
+    "what": [
+     "Manglik (Mangal or Kuja) dosha is formed when Mars sits in the 1st, 2nd, 4th, 7th, 8th or 12th house of the birth chart. Mars is a fiery planet, and in these houses it is believed to affect marriage and married life.",
+     "It is very common: roughly half of all charts have Mars in one of these houses when counted from the Lagna, Moon or Venus, so having it is not unusual."
+    ],
+    "checkH": "How is it checked?",
+    "check": [
+     "Mars is checked from three points: the Lagna, the Moon and Venus. When Mars is in one of the six houses from the Lagna it is strongest; from the Moon or Venus it is milder. South Indian tradition usually counts the 2nd house; some North Indian traditions use only 1, 4, 7, 8 and 12."
+    ],
+    "effectsH": "Effects",
+    "effects": [
+     "Traditionally it is linked with delays in marriage, disagreements, a dominating temperament, or stress in married life. In practice its effect depends on Mars's sign, strength and aspects and on the whole chart."
+    ],
+    "cancelH": "When is it cancelled?",
+    "cancel": [
+     "Classical texts give many cancellations: Mars in its own sign (Mesha, Vrishchika) or exalted (Makara); Mars in Karka or Simha for some houses; Jupiter or Venus in the Lagna or aspecting Mars; Mars conjunct the Moon or Jupiter; and when both partners are Manglik, the dosha balances.",
+     "Many astrologers also consider it weaker after the age of 28."
+    ],
+    "remediesH": "Remedies",
+    "remedies": [
+     "Worship of Hanuman, reciting the Hanuman Chalisa and fasting on Tuesdays; chanting the Mangal mantra; donating red lentils (masoor) on Tuesdays; and, traditionally, marrying another Manglik or performing Kumbh Vivah before marriage."
+    ]
+   },
+   "kaal-sarp": {
+    "title": "Kaal Sarp dosha",
+    "seoTitle": "Kaal Sarp Dosha – Meaning, 12 Types, Effects & Remedies",
+    "desc": "What Kaal Sarp dosha is, its 12 types, how it is checked, and the traditional remedies.",
+    "whatH": "What is Kaal Sarp dosha?",
+    "what": [
+     "Kaal Sarp dosha (or yoga) is formed when all seven planets, from the Sun to Saturn, lie on one side of the Rahu–Ketu axis. Rahu is the head of the serpent and Ketu the tail, and the planets are said to be held between them."
+    ],
+    "checkH": "How is it checked?",
+    "check": [
+     "The positions of all planets are compared with Rahu and Ketu. If every planet falls within the arc from Rahu to Ketu (or Ketu to Rahu), the yoga is present. If even one planet is outside, it is partial or absent.",
+     "There are 12 named types according to the house of Rahu: Anant, Kulik, Vasuki, Shankhpal, Padma, Mahapadma, Takshak, Karkotak, Shankhachud, Ghatak, Vishdhar and Sheshnag."
+    ],
+    "effectsH": "Effects",
+    "effects": [
+     "It is associated with struggle, delays and sudden ups and downs, especially in the dashas of Rahu and Ketu. It is not mentioned in the oldest classical texts, and many famous, successful people have it; its effect depends on the rest of the chart."
+    ],
+    "cancelH": "When is it weaker?",
+    "cancel": [
+     "It is considered weak or cancelled when a planet is conjunct Rahu or Ketu in the same degree range, when strong benefics are in kendras, or when Rahu is in a favourable house such as the 3rd, 6th or 11th."
+    ],
+    "remediesH": "Remedies",
+    "remedies": [
+     "Kaal Sarp puja at Trimbakeshwar or Ujjain; worship of Lord Shiva and offering milk on Mondays and Nag Panchami; chanting the Maha Mrityunjaya mantra; and chanting the Rahu and Ketu mantras."
+    ]
+   },
+   "sade-sati": {
+    "title": "Shani Sade Sati",
+    "seoTitle": "Shani Sade Sati – Meaning, Three Phases, Effects & Remedies",
+    "desc": "What Sade Sati is, its three phases, how it affects each sign, and the traditional remedies.",
+    "whatH": "What is Sade Sati?",
+    "what": [
+     "Sade Sati is the seven-and-a-half-year transit of Saturn over the 12th, 1st and 2nd signs from your Moon sign. Each phase lasts about two and a half years. It returns roughly every 30 years, so most people go through it two or three times."
+    ],
+    "checkH": "The three phases",
+    "check": [
+     "Rising phase (Saturn in the 12th from the Moon): expenses, travel, sleep and changes in surroundings. Peak phase (Saturn over the Moon): pressure on the mind, health and personal life, but also maturity. Setting phase (Saturn in the 2nd): family, money and speech, with gradual relief."
+    ],
+    "effectsH": "Effects",
+    "effects": [
+     "It is a period of hard work, responsibility and karmic lessons. For people whose charts have a strong or well-placed Saturn, or whose Lagna is ruled by Venus or Saturn, it often brings success and stability. Its result also depends on the dasha running."
+    ],
+    "cancelH": "When is it milder?",
+    "cancel": [
+     "It is milder when Saturn is exalted, in its own sign or a yogakaraka in your chart, when Jupiter aspects the Moon, or when a favourable dasha is running."
+    ],
+    "remediesH": "Remedies",
+    "remedies": [
+     "Worship Hanuman and Lord Shiva; recite the Hanuman Chalisa or Shani Stotra on Saturdays; light a sesame-oil lamp under a peepal tree; donate black sesame, mustard oil, iron or black cloth on Saturdays; and serve the elderly, workers and the needy."
+    ]
+   },
+   "pitru": {
+    "title": "Pitru dosha",
+    "seoTitle": "Pitru Dosha – Meaning, Signs in the Chart & Remedies",
+    "desc": "What Pitru dosha is, how it is seen in a chart, and the traditional remedies such as shraddha and tarpan.",
+    "whatH": "What is Pitru dosha?",
+    "what": [
+     "Pitru dosha is understood as unresolved karma or unfulfilled wishes of one's ancestors that show in the birth chart. It is a traditional reason given for repeated obstacles in family matters, children or progress."
+    ],
+    "checkH": "How is it seen?",
+    "check": [
+     "It is commonly linked with the Sun (father) afflicted by Rahu, Ketu or Saturn, especially in the 9th house (ancestors, father, fortune), or with Rahu in the 9th or 5th. An afflicted 9th lord is also considered."
+    ],
+    "effectsH": "Effects",
+    "effects": [
+     "Traditionally linked with delays in marriage or children, family disputes, and effort not giving full results. As with every dosha, it must be judged with the strength of the whole chart."
+    ],
+    "cancelH": "When is it milder?",
+    "cancel": [
+     "It is milder when Jupiter aspects the Sun or the 9th house, when the 9th lord is strong, or when benefics occupy the 9th house."
+    ],
+    "remediesH": "Remedies",
+    "remedies": [
+     "Perform shraddha and tarpan in Pitru Paksha and on Amavasya; offer water to the Sun daily; feed cows, crows, dogs and Brahmins; plant and water a peepal tree; recite the Pitru Stotra; and perform Narayan Bali or Tripindi Shraddha at a tirtha such as Gaya, Trimbakeshwar or Haridwar."
+    ]
+   }
+  },
+  "gs": {
+   "eye": "Gemstone",
+   "all": "Navaratna — the nine gemstones",
+   "title": "{g} Gemstone – Who Should Wear, Benefits, Weight & Method",
+   "h1": "{g} gemstone",
+   "desc": "{g}, the gemstone of {p}: who should wear it by lagna, benefits, weight, metal, finger, day, mantra and substitutes.",
+   "lede": "The gemstone of {p}, worn to strengthen it when it is a helpful planet in your chart.",
+   "planet": "Planet",
+   "upratna": "Substitutes (upratna)",
+   "metal": "Metal",
+   "finger": "Finger",
+   "day": "Day to wear",
+   "mantra": "Mantra",
+   "weight": "Weight",
+   "clash": "Do not wear with",
+   "benefitH": "Benefits of {g}",
+   "benefit": "{g} strengthens {p}, which signifies {k}. It helps when {p} rules good houses in your chart (the Lagna, 5th or 9th) and is weak; if {p} rules the 6th, 8th or 12th, strengthening it can do harm.",
+   "lagnaH": "Who should wear {g}, by lagna",
+   "cta": "Get gemstone and rudraksha suggestions from your own chart."
+  },
+  "metal": {
+   "goldCopper": "Gold or copper",
+   "silver": "Silver",
+   "gold": "Gold",
+   "silverPlatinum": "Silver or platinum",
+   "silverPanch": "Silver or panchdhatu"
+  },
+  "finger": {
+   "ring": "Ring finger",
+   "little": "Little finger",
+   "index": "Index finger",
+   "middle": "Middle finger",
+   "middleRing": "Middle or ring finger"
+  },
+  "ru": {
+   "eye": "Rudraksha",
+   "all": "Rudraksha 1 to 14 mukhi",
+   "title": "{n} Mukhi Rudraksha – Benefits, Ruling Planet, Mantra & How to Wear",
+   "h1": "{n} mukhi rudraksha",
+   "desc": "{n} mukhi rudraksha is ruled by {p} and blessed by {d}: benefits, mantra, who should wear it and how.",
+   "planet": "Ruling planet",
+   "deity": "Deity",
+   "mantra": "Mantra",
+   "signs": "Especially for",
+   "benefitH": "Benefits",
+   "note": "Rudraksha has no side effects and can be worn by anyone. Buy only genuine, lab-certified beads.",
+   "mantras": [
+    "",
+    "ॐ ह्रीं नमः",
+    "ॐ नमः",
+    "ॐ क्लीं नमः",
+    "ॐ ह्रीं नमः",
+    "ॐ ह्रीं नमः",
+    "ॐ ह्रीं हुं नमः",
+    "ॐ हुं नमः",
+    "ॐ हुं नमः",
+    "ॐ ह्रीं हुं नमः",
+    "ॐ ह्रीं नमः",
+    "ॐ ह्रीं हुं नमः",
+    "ॐ क्रौं क्षौं रौं नमः",
+    "ॐ ह्रीं नमः",
+    "ॐ नमः"
+   ]
+  },
+  "rut": [
+   "",
+   "One mukhi rudraksha is the form of Lord Shiva himself and is rare. It is worn for spiritual focus, concentration, leadership and freedom from fear, and is linked with the Sun.",
+   "Two mukhi rudraksha represents Ardhanarishvara, the union of Shiva and Shakti. It is worn for harmony in relationships and marriage, emotional balance and peace of mind, and is linked with the Moon.",
+   "Three mukhi rudraksha represents Agni, the fire god. It is worn to burn away past karma, guilt and low confidence, and for energy and self-belief; it is linked with Mars.",
+   "Four mukhi rudraksha represents Brahma, the creator. It is worn for knowledge, memory, speech and creativity, and is especially good for students and writers; it is linked with Jupiter.",
+   "Five mukhi rudraksha represents Kalagni Rudra and is the most common bead. It is worn for health, calm, blood pressure balance and general well-being, and suits everyone; it is linked with Jupiter.",
+   "Six mukhi rudraksha represents Kartikeya. It is worn for willpower, emotional stability, charm and success in the arts and relationships, and is linked with Venus.",
+   "Seven mukhi rudraksha represents Mahalakshmi. It is worn for wealth, prosperity and relief from financial difficulty, and is linked with Saturn.",
+   "Eight mukhi rudraksha represents Lord Ganesha. It removes obstacles and brings success in new ventures and clear thinking, and is linked with Rahu.",
+   "Nine mukhi rudraksha represents Goddess Durga. It is worn for courage, energy, protection and fearlessness, and is linked with Ketu.",
+   "Ten mukhi rudraksha represents Lord Vishnu. It is worn for protection from negative energy, legal troubles and fears, and for peace at home; it is linked with Mercury.",
+   "Eleven mukhi rudraksha represents Hanuman (the eleven Rudras). It is worn for courage, confidence, leadership and protection while travelling, and is linked with Mars.",
+   "Twelve mukhi rudraksha represents Surya, the Sun god. It is worn for authority, vitality, leadership and success in administration, and is linked with the Sun.",
+   "Thirteen mukhi rudraksha represents Kamadeva. It is worn for attraction, charm, fulfilment of desires and success in creative work, and is linked with Venus.",
+   "Fourteen mukhi rudraksha, the 'deva mani', represents Hanuman and Shiva. It is worn for intuition, wise decisions and protection, and is linked with Saturn."
+  ],
+  "rdeity": {
+   "shiva": "Lord Shiva",
+   "ardhanarishvara": "Ardhanarishvara",
+   "agni": "Agni",
+   "brahma": "Brahma",
+   "kalagni": "Kalagni Rudra",
+   "kartikeya": "Kartikeya",
+   "lakshmi": "Mahalakshmi",
+   "ganesha": "Lord Ganesha",
+   "durga": "Goddess Durga",
+   "vishnu": "Lord Vishnu",
+   "hanuman": "Hanuman (Ekadash Rudra)",
+   "surya": "Surya",
+   "kamadeva": "Kamadeva",
+   "hanumanShiva": "Hanuman and Shiva"
+  },
+  "pv": {
+   "eye": "Puja vidhi",
+   "short": "{f} puja vidhi",
+   "h1": "{f} puja vidhi {y}: samagri, steps and muhurat",
+   "title": "{f} Puja Vidhi {y} – Samagri List, Step-by-Step Puja at Home & Muhurat | Grahavani",
+   "desc": "How to do {f} puja at home: the full samagri list, step-by-step vidhi, katha and the {y} puja muhurat ({d}) for your city.",
+   "dateH": "{y} date and puja muhurat",
+   "stepsH": "How to do {f} puja at home",
+   "kathaH": "{f} katha",
+   "citiesH": "{f} {y} puja muhurat in major cities",
+   "cta": "Get the {f} muhurat for your own city, with a Listen button for the katha.",
+   "fq1": "What is the {f} puja muhurat in {y}?",
+   "fa1": "{f} falls on {d}. In New Delhi the best puja time is {r}. Open the puja guide for your own city.",
+   "fq2": "What samagri is needed for {f} puja?",
+   "fq3": "How to do {f} puja at home?",
+   "dates": "Festival dates",
+   "more": "More puja guides"
+  },
+  "mc": {
+   "eye": "Hindu calendar",
+   "h1": "Hindu calendar {m}: festivals, vrat and auspicious days",
+   "title": "Hindu Calendar {m} – Festivals, Ekadashi, Purnima, Amavasya & Muhurat | Grahavani",
+   "desc": "All Hindu festivals and vrat days in {m}: {list}, with Ekadashi, Purnima, Amavasya, Pradosh and Sankashti dates and the good muhurat days.",
+   "lede": "Every festival, fast and auspicious day in {m}, computed from the Sun and Moon. Hindu months: {h}. Festivals this month: {n}.",
+   "listH": "Day by day in {m}",
+   "muH": "Shubh muhurat in {m}",
+   "noMu": "no strong dates this month",
+   "fq1": "Which festivals are in {m}?",
+   "fa1": "Festivals in {m}: {list}.",
+   "fa1none": "There are no major festivals in {m}; see the vrat days above.",
+   "fq2": "When is Ekadashi in {m}?",
+   "fa2": "Ekadashi falls on {list}.",
+   "fq3": "When are Purnima and Amavasya in {m}?",
+   "fa3": "Purnima: {p}. Amavasya: {a}.",
+   "nav": "Other months",
+   "yearShort": "Hindu calendar {y}",
+   "yearH1": "Hindu calendar {y}: month by month",
+   "yearTitle": "Hindu Calendar {y} – Month-wise Festivals, Vrat & Muhurat | Grahavani",
+   "yearLede": "Pick a month for every festival, Ekadashi, Purnima, Amavasya and auspicious day of {y}."
+  },
+  "gt": {
+   "eye": "Planet transit",
+   "short": "{g} transit {y}",
+   "index": "Planet transits",
+   "h1": "{g} transit {y}: dates and effects for all 12 signs",
+   "title": "{g} Transit {y} (Gochar) – Dates, Retrograde & Effects on 12 Rashis | Grahavani",
+   "desc": "{g} transit {y}: sign changes, retrograde dates and how the gochar affects each Moon sign. {g} ends the year in {r}.",
+   "lede": {
+    "saturn": "Shani moves slowly, about two and a half years in each sign, so its transit shapes long chapters of life: work, duty, delays and lasting results. Here is where Shani is in {y} and what it means for your Moon sign.",
+    "jupiter": "Guru changes sign about once a year and is the greatest benefic of transits: growth, children, marriage, money and wisdom follow its path. Here is where Guru travels in {y} and which signs gain.",
+    "rahu": "Rahu and Ketu always move backwards together, exactly opposite each other, spending about eighteen months in each sign. Their axis brings sudden changes, desire (Rahu) and detachment (Ketu). Here is the axis in {y}."
+   },
+   "whereH": "Where it is during {y}",
+   "retroH": "Retrograde periods",
+   "effectsH": "{g} transit {y}: effect on each Moon sign",
+   "fromMoon": "House from the Moon",
+   "note": "Gochar is read from the Moon sign. Favourable houses follow the classical rules; your full chart, dasha and ashtakavarga decide how strongly you feel it.",
+   "cta": "See transits over your own birth chart, with a timeline of the coming months.",
+   "fq1": "When does {g} change sign in {y}?",
+   "move": "enters {r} on {d}",
+   "stays": "{g} stays in {r} for the whole of {y}.",
+   "fq2": "Which signs benefit from the {g} transit {y}?",
+   "fa2": "By the classical gochar rules, the transit is favourable for {list} Moon signs.",
+   "fq3": "When is {g} retrograde in {y}?",
+   "fqSs": "Which signs have Sade Sati in {y}?",
+   "faSs": "Sade Sati runs for the Moon signs {list}.",
+   "more": "More transits",
+   "indexH1": "Planet transits {a} and {b}",
+   "indexTitle": "Planet Transits {a} & {b} – Shani, Guru, Rahu-Ketu Gochar and Retrogrades | Grahavani",
+   "indexLede": "When Shani, Guru, Rahu and Ketu change sign, when planets turn retrograde, and how each transit affects the 12 Moon signs.",
+   "nowH": "Where the planets are now"
+  },
+  "rt": {
+   "eye": "Retrograde",
+   "short": "{g} retrograde {y}",
+   "h1": "{g} retrograde {y}: dates and meaning",
+   "title": "{g} Retrograde {y} – Start and End Dates, Sign & What to Do | Grahavani",
+   "desc": "{g} retrograde {y} starts on {d} and ends on {e}. All retrograde periods of the year with the sign and what to avoid.",
+   "lede": "{g} turns retrograde {n} time(s) in {y}. Dates are in Indian time; the sign is sidereal (Lahiri).",
+   "none": "{g} is not retrograde in {y}.",
+   "starts": "Turns retrograde",
+   "ends": "Turns direct",
+   "days": "Days",
+   "sign": "Sign",
+   "meanH": "What {g} retrograde means",
+   "doH": "What to do and avoid",
+   "mean": {
+    "mercury": "Budh rules speech, contracts, trade, travel and devices. When it is retrograde, communication tends to be misread, plans slip and old matters return. It is a good time to revise, repair and reconnect, and a weak time to sign new contracts or buy electronics.",
+    "venus": "Shukra rules love, marriage, beauty, art and luxuries. Retrograde Shukra brings old relationships and feelings back for review, and judgement about money and pleasure is less reliable. Marriage muhurats are traditionally avoided while it is retrograde.",
+    "mars": "Mangal rules energy, courage, property, surgery and conflict. Retrograde Mangal turns that energy inward: frustration, delays in property and legal matters, and quarrels that flare and return. Effort works better on unfinished tasks than on new fights.",
+    "jupiter": "Guru rules wisdom, children, teachers, money and dharma. Retrograde Guru slows outer growth but deepens inner learning; promises made earlier get reviewed. A good time for study, spiritual practice and finishing pending blessings.",
+    "saturn": "Shani rules work, discipline, delay and karma. Retrograde Shani returns to unfinished duties; past karmic lessons come back and old debts or tasks demand completion. Patience and honest work are rewarded more than shortcuts."
+   },
+   "do": {
+    "mercury": "Back up data, read every document twice and avoid signing big contracts or buying gadgets if you can. Chant the Budh mantra on Wednesdays and finish old work.",
+    "venus": "Avoid starting a marriage or buying luxury items; review relationships and spending calmly. Worship Lakshmi on Fridays and keep things simple.",
+    "mars": "Avoid surgery that can wait, property disputes and rash driving. Channel energy into exercise. Hanuman Chalisa on Tuesdays helps.",
+    "jupiter": "Revisit studies, spiritual practice and old plans for children or money. Respect teachers and elders; recite the Guru mantra on Thursdays.",
+    "saturn": "Clear pending duties and debts, be patient with delays and serve the needy. Light a sesame oil lamp on Saturdays."
+   },
+   "note": "Sun, Moon, Rahu and Ketu are never retrograde in the usual sense; Rahu and Ketu always move backwards.",
+   "ctaBtn": "Eclipses & retrogrades",
+   "fq1": "When is {g} retrograde in {y}?",
+   "fq2": "What does {g} retrograde mean?",
+   "fq3": "What should I do during {g} retrograde?"
+  },
+  "md": {
+   "eye": "Vimshottari dasha",
+   "short": "{g} mahadasha",
+   "h1": "{g} mahadasha: effects, antardasha and remedies",
+   "title": "{g} Mahadasha – Effects, Good & Bad Results, Antardasha and Remedies | Grahavani",
+   "desc": "{g} mahadasha lasts {n} years. What it brings, when it is good or difficult, all nine antardashas with their length, and simple remedies.",
+   "ym": "{y} y {m} m",
+   "length": "Length",
+   "years": "{n} years",
+   "order": "Order",
+   "after": "Comes after {a} and before {b}",
+   "aboutH": "About {g} mahadasha",
+   "goodH": "When it gives good results",
+   "badH": "When it is difficult",
+   "adH": "Antardashas in {g} mahadasha",
+   "ad": "Antardasha",
+   "len": "Length",
+   "tone": "General tone",
+   "adName": "{a}–{b}",
+   "t": {
+    "good": "friendly",
+    "bad": "needs care",
+    "mixed": "mixed"
+   },
+   "note": "The tone shows only the natural friendship of the two planets. The real result depends on where both sit in your chart.",
+   "remH": "Remedies for {g} mahadasha",
+   "remMantra": "Chant {m} 108 times, especially on {d}.",
+   "cta": "See your own dasha timeline with every antardasha and its dates.",
+   "all": "All mahadashas",
+   "fq1": "How long is {g} mahadasha?",
+   "fa1": "{g} mahadasha lasts {n} years in the Vimshottari system.",
+   "fq2": "Is {g} mahadasha good or bad?",
+   "fq3": "What are the remedies for {g} mahadasha?",
+   "fa3": "Chant {m}, especially on {d}; wear its gemstone only if it suits your lagna; and do charity linked to the planet.",
+   "sun": {
+    "about": "Surya mahadasha lasts six years and puts the soul, ego, father, government and authority in focus. It is a time to stand on your own and be seen.",
+    "good": "With a strong Sun (in Mesha, Simha, or in houses 1, 9, 10, 11) it brings promotion, government favour, recognition, leadership and good health.",
+    "bad": "With a weak or afflicted Sun it can bring ego clashes, trouble with the father or bosses, heart, eye or bone complaints and loss of reputation."
+   },
+   "moon": {
+    "about": "Chandra mahadasha lasts ten years and colours life through the mind, mother, home, emotions and public life. Mood and peace of mind decide the results.",
+    "good": "A strong, waxing Moon gives peace, comfort, a good home, travel, popularity, fame with the public and steady income.",
+    "bad": "A weak or afflicted Moon brings anxiety, mood swings, sleep problems, worries about the mother and fluctuating finances."
+   },
+   "mars": {
+    "about": "Mangal mahadasha lasts seven years and brings energy, courage, property, siblings and competition to the front. Things move fast.",
+    "good": "A strong Mars gives land and property, success in sports, police, army, engineering and surgery, courage and victory over rivals.",
+    "bad": "An afflicted Mars brings anger, accidents, injuries, disputes over property, quarrels with siblings and blood-related complaints."
+   },
+   "mercury": {
+    "about": "Budh mahadasha lasts seventeen years and rewards intellect, speech, trade, writing and learning. It is often a period of education and business.",
+    "good": "A strong Mercury gives success in studies, business, accounts, media and communication, a sharp mind and good friends.",
+    "bad": "An afflicted Mercury brings nervousness, skin problems, trouble in trade or contracts, and misunderstandings."
+   },
+   "jupiter": {
+    "about": "Guru mahadasha lasts sixteen years and is usually one of the most blessed periods: wisdom, children, marriage, teachers and wealth grow.",
+    "good": "A strong Jupiter brings marriage, children, higher studies, respect, wealth, spiritual growth and good advisers.",
+    "bad": "A weak Jupiter can bring liver or weight problems, wrong advice, delays with children and overconfidence in money."
+   },
+   "venus": {
+    "about": "Shukra mahadasha is the longest, twenty years, and brings love, marriage, comforts, vehicles, art and beauty into life.",
+    "good": "A strong Venus gives a happy marriage, luxury, vehicles, a beautiful home, success in art, fashion and entertainment.",
+    "bad": "An afflicted Venus brings relationship trouble, overspending, indulgence, and kidney or reproductive complaints."
+   },
+   "saturn": {
+    "about": "Shani mahadasha lasts nineteen years. It tests and then rewards: hard work, discipline and patience build lasting results.",
+    "good": "A well-placed Saturn (yogakaraka for Vrishabha and Tula lagna, or in houses 3, 6, 10, 11) gives a stable career, authority, property and long-term success.",
+    "bad": "A badly placed Saturn brings delays, heavy responsibility, chronic illness, loneliness and setbacks that need patience."
+   },
+   "rahu": {
+    "about": "Rahu mahadasha lasts eighteen years and brings sudden rises, foreign links, technology, ambition and unconventional paths.",
+    "good": "A well-placed Rahu (in houses 3, 6, 10, 11) gives sudden success, foreign travel or settlement, fame, politics and gains through technology.",
+    "bad": "An afflicted Rahu brings confusion, fears, deception, addiction, legal trouble and sudden losses."
+   },
+   "ketu": {
+    "about": "Ketu mahadasha lasts seven years and turns the mind inward: detachment, spirituality, research and endings that make room for new beginnings.",
+    "good": "A well-placed Ketu gives spiritual progress, insight, research skill, healing ability and freedom from old burdens.",
+    "bad": "An afflicted Ketu brings confusion, sudden separations, hidden illness, accidents and a feeling of loss."
+   },
+   "naks": "Its nakshatras"
+  },
+  "yg": {
+   "eye": "Yogas in Jyotish",
+   "h1": "{y}: meaning, formation and effects",
+   "title": "{y} in Kundali – How It Forms, Effects & When It Works | Grahavani",
+   "desc": "{y} in your kundali: {r}. What it gives, when it is strong or cancelled, and how to check it in your own chart.",
+   "rule": "How it forms",
+   "kind": "Type",
+   "k": {
+    "good": "Auspicious yoga",
+    "bad": "Challenging yoga",
+    "mixed": "Mixed yoga"
+   },
+   "whatH": "What is {y}?",
+   "effectsH": "Effects",
+   "strongH": "When it is strong or weak",
+   "ykTable": "Yogakaraka planet for each lagna",
+   "cta": "Check whether {y} is present in your own kundali.",
+   "all": "More yogas and doshas",
+   "fq1": "How is {y} formed?",
+   "fq2": "What are the effects of {y}?",
+   "fq3": "When does {y} give full results?",
+   "gajakesari": {
+    "kind": "good",
+    "about": "Gajakesari means 'elephant and lion'. It forms when Guru (Jupiter) is in a kendra (1st, 4th, 7th or 10th house) from the Moon, and is one of the most quoted yogas for good fortune.",
+    "effects": "It gives intelligence, respect, a good name that lasts, help from influential people and steady prosperity. People with it often become advisers, teachers or leaders.",
+    "strong": "It works fully when Jupiter and the Moon are strong, not combust or debilitated, and not with Rahu or Ketu. A Jupiter in Makara or an afflicted Moon reduces the results."
+   },
+   "budhaditya": {
+    "kind": "good",
+    "about": "Budhaditya yoga forms when Budh (Mercury) and Surya (Sun) are in the same sign. Because Mercury is always close to the Sun, it is very common; its strength decides how much it gives.",
+    "effects": "It gives a sharp intellect, good speech, skill in study, accounts, writing and administration, and recognition for intelligence.",
+    "strong": "It is strongest in houses 1, 4, 5, 9 or 10 and when Mercury is not combust (more than about 14° from the Sun). In houses 6, 8 or 12, or with Mercury combust, it gives less."
+   },
+   "raj": {
+    "kind": "good",
+    "about": "Raj yoga forms when the lord of a kendra (1, 4, 7, 10) and the lord of a trikona (1, 5, 9) join, aspect each other or exchange signs. It unites effort (kendra) with fortune (trikona).",
+    "effects": "It gives rise in status, authority, wealth and recognition, often during the dasha of the planets that form it.",
+    "strong": "It is strongest when the planets are well placed and strong, and gives results mainly in their dasha or antardasha. If they also rule 6, 8 or 12, or are debilitated or combust, the yoga weakens."
+   },
+   "yogakaraka": {
+    "kind": "good",
+    "about": "A yogakaraka is a single planet that rules both a kendra and a trikona from the lagna, so it forms a Raj yoga on its own. Saturn for Vrishabha and Tula, Mars for Karka and Simha, and Venus for Makara and Kumbha are yogakarakas.",
+    "effects": "Its dasha is usually one of the best periods of life: career rise, property, status and fulfilment of ambitions.",
+    "strong": "It works best when the yogakaraka is strong, in a good house and not afflicted. A debilitated or combust yogakaraka still helps, but with effort and delay."
+   },
+   "chandramangal": {
+    "kind": "good",
+    "about": "Chandra-Mangal yoga forms when the Moon and Mars are together or aspect each other. It joins the mind with energy and drive.",
+    "effects": "It is known as a wealth yoga: business sense, earning through property, trade or bold ventures, and a determined nature.",
+    "strong": "It is best when both are strong and in good houses. It can also make one hot-tempered or impatient, especially if Mars is afflicted."
+   },
+   "ruchaka": {
+    "kind": "good",
+    "about": "Ruchaka yoga is one of the five Pancha Mahapurusha yogas. It forms when Mangal is in its own sign (Mesha, Vrishchika) or exalted (Makara) in a kendra from the lagna.",
+    "effects": "It gives courage, a strong body, leadership, success in army, police, sports, engineering or surgery, and the ability to defeat rivals.",
+    "strong": "It is strongest in the 10th or 1st house and when Mars is not combust or with Saturn or Rahu."
+   },
+   "bhadra": {
+    "kind": "good",
+    "about": "Bhadra yoga is a Pancha Mahapurusha yoga formed when Budh is in its own sign (Mithuna) or exalted (Kanya) in a kendra from the lagna.",
+    "effects": "It gives a brilliant intellect, excellent speech, skill in business, writing, law or accounting, and a youthful look.",
+    "strong": "It is strongest when Mercury is not combust and is free from malefic influence."
+   },
+   "hamsa": {
+    "kind": "good",
+    "about": "Hamsa yoga is a Pancha Mahapurusha yoga formed when Guru is in its own sign (Dhanu, Meena) or exalted (Karka) in a kendra from the lagna.",
+    "effects": "It gives wisdom, righteousness, respect, a spiritual nature, good children and prosperity. Such people are often teachers, advisers or judges.",
+    "strong": "It is strongest when Jupiter is not combust or with Rahu, and when its dasha runs in life."
+   },
+   "malavya": {
+    "kind": "good",
+    "about": "Malavya yoga is a Pancha Mahapurusha yoga formed when Shukra is in its own sign (Vrishabha, Tula) or exalted (Meena) in a kendra from the lagna.",
+    "effects": "It gives beauty, charm, a happy marriage, vehicles, luxury, artistic talent and enjoyment of life.",
+    "strong": "It is strongest when Venus is not combust and free from Saturn, Rahu or Ketu's affliction."
+   },
+   "sasa": {
+    "kind": "good",
+    "about": "Shasha yoga is a Pancha Mahapurusha yoga formed when Shani is in its own sign (Makara, Kumbha) or exalted (Tula) in a kendra from the lagna.",
+    "effects": "It gives authority over many people, success in politics, administration, mining, land or labour-related work, and long-lasting results from hard work.",
+    "strong": "It is strongest in the 10th house and when Saturn is not combust. Its results often come after age 36."
+   },
+   "vipreet": {
+    "kind": "good",
+    "about": "Vipreet Raj yoga forms when the lords of the dusthanas (6, 8, 12) sit in another dusthana, for example the 6th lord in the 8th or 12th. One problem cancels another.",
+    "effects": "It gives sudden success after difficulty, gains from the fall of rivals, and the ability to rise in crisis.",
+    "strong": "It works best when the dusthana lords are not also lords of good houses and are not strong in a way that harms the lagna."
+   },
+   "adhi": {
+    "kind": "good",
+    "about": "Adhi yoga forms when benefics (Mercury, Jupiter, Venus) occupy the 6th, 7th and 8th houses from the Moon.",
+    "effects": "It gives leadership, a comfortable life, good health, victory over enemies and a position of trust.",
+    "strong": "It is strongest when all three benefics take part and are strong; with only one or two the effect is milder."
+   },
+   "sunapha": {
+    "kind": "good",
+    "about": "Sunapha yoga forms when a planet other than the Sun is in the 2nd house from the Moon.",
+    "effects": "It gives self-earned wealth, good reputation, intelligence and a contented mind.",
+    "strong": "Benefics in the 2nd from the Moon give the best results; malefics give wealth through effort and struggle."
+   },
+   "anapha": {
+    "kind": "good",
+    "about": "Anapha yoga forms when a planet other than the Sun is in the 12th house from the Moon.",
+    "effects": "It gives a pleasing personality, good health, comforts and a spiritual leaning in later life.",
+    "strong": "Benefics in the 12th from the Moon give the best results."
+   },
+   "durudhara": {
+    "kind": "good",
+    "about": "Durudhara yoga forms when planets other than the Sun occupy both the 2nd and the 12th houses from the Moon.",
+    "effects": "It gives wealth, vehicles, servants, generosity and fame; the Moon is well supported on both sides.",
+    "strong": "It is best with benefics on both sides; it also cancels Kemadruma yoga."
+   },
+   "kemadruma": {
+    "kind": "bad",
+    "about": "Kemadruma yoga forms when no planet (other than the Sun, Rahu and Ketu) is in the 2nd or 12th house from the Moon, and none is in a kendra from it. The Moon is left alone.",
+    "effects": "It can bring loneliness, money worries, mental restlessness and a feeling of lack of support, even in a good family.",
+    "strong": "It is cancelled when a planet is in a kendra from the lagna or the Moon, when the Moon is strong and full, or when Jupiter aspects the Moon. Most charts that show it have some cancellation."
+   },
+   "grahan": {
+    "kind": "bad",
+    "about": "Grahan yoga forms when the Sun or the Moon is joined with Rahu or Ketu in the same sign. The luminary is 'eclipsed' by the shadow planet.",
+    "effects": "With the Sun it can affect confidence, the father and reputation; with the Moon it can bring anxiety, confusion and mood swings.",
+    "strong": "It is milder when the luminary is far in degrees from the node or strong by sign. Remedies are chanting the Surya or Chandra mantra and worship on eclipse days."
+   },
+   "guruchandal": {
+    "kind": "bad",
+    "about": "Guru Chandal yoga forms when Jupiter is joined with Rahu (and by some authors Ketu) in the same sign.",
+    "effects": "It can distort judgement and values, bring wrong advice or teachers, and trouble with children or education, though it can also give unconventional wisdom.",
+    "strong": "It is milder when Jupiter is strong by sign (own or exalted). Worship of Guru on Thursdays and respecting teachers is the classical remedy."
+   },
+   "shakata": {
+    "kind": "bad",
+    "about": "Shakata yoga forms when the Moon is in the 6th, 8th or 12th house from Jupiter. Like a cart wheel, fortune rises and falls.",
+    "effects": "It can bring ups and downs in money and status, and periods of struggle after good times.",
+    "strong": "It is cancelled when the Moon is in a kendra from the lagna or when Jupiter is strong. Many charts with it do well after the late thirties."
+   }
+  },
+  "ps": {
+   "eye": "Planet in sign",
+   "short": "{g} in {r}",
+   "h1": "{g} in {r} ({w}): meaning and effects",
+   "title": "{g} in {r} ({w}) – Effects, Dignity & Results for Each Lagna | Grahavani",
+   "desc": "{g} in {r}: {d}. What it means in your kundali, which house it falls in for every lagna, and when {g} next transits {r}.",
+   "dignity": "Dignity",
+   "transit": "Transit",
+   "d": {
+    "exalted": "exalted (very strong)",
+    "debilitated": "debilitated (weak)",
+    "own": "own sign (strong)",
+    "friend": "friendly sign",
+    "neutral": "neutral sign",
+    "enemy": "enemy sign"
+   },
+   "dig": {
+    "exalted": "{g} is exalted in {r}: this is its strongest sign. It gives its best significations openly and generously, as long as it is not combust or heavily afflicted.",
+    "debilitated": "{g} is debilitated in {r}: its weakest sign. Its matters need extra effort, though Neecha Bhanga (cancellation) by a strong {l} or an exalted planet can turn this into great strength.",
+    "own": "{g} is in its own sign {r}: it is comfortable and strong, and protects the matters of the houses it rules.",
+    "friend": "{g} is in a friendly sign: {r} is ruled by {l}, a friend of {g}, so it works well and gives good results.",
+    "neutral": "{g} is in a neutral sign: {r} is ruled by {l}. Its results depend mainly on the house and on aspects.",
+    "enemy": "{g} is in an enemy sign: {r} is ruled by {l}, an enemy of {g}, so its results come with friction and need effort."
+   },
+   "elem": [
+    "In a fire sign, {g} acts with energy, initiative and confidence.",
+    "In an earth sign, {g} acts in a practical, steady and material way.",
+    "In an air sign, {g} acts through ideas, communication and relationships.",
+    "In a water sign, {g} acts through feeling, intuition and care."
+   ],
+   "meaningH": "{g} in {r} in your kundali",
+   "fq1": "Is {g} in {r} good?",
+   "fq2": "What does {g} in {r} mean?",
+   "fa2": "{g} is the karaka of {k}. In {r} these matters take on the colour of the sign: {n}",
+   "fq3": "When will {g} be in {r}?",
+   "nowIn": "{g} is in {r} now, until {d}.",
+   "nextIn": "{g} is next in {r} from {a} to {b}.",
+   "byLagna": "{g} in {r} for each lagna",
+   "lagna": "Lagna",
+   "house": "House",
+   "lordOf": "Rules houses",
+   "inHouse": "House {h} ({m})",
+   "rules": "rules {list}",
+   "cta": "See where {g} is in your own kundali and what it does there.",
+   "sameP": "{g} in other signs",
+   "sameS": "Other planets in {r}",
+   "indexH": "Planets in each sign"
+  },
+  "bn": {
+   "eye": "Baby names",
+   "index": "Baby names",
+   "indexH1": "Hindu baby names by nakshatra and first letter",
+   "indexTitle": "Hindu Baby Names with Meaning – By Nakshatra & Starting Letter | Grahavani",
+   "indexLede": "{n} Indian baby names with meanings, grouped by the birth nakshatra syllable and by the first letter, for boys and girls.",
+   "name": "Name",
+   "gender": "Gender",
+   "meaning": "Meaning",
+   "nakH1": "{n} nakshatra baby names",
+   "nakTitle": "{n} Nakshatra Baby Names – Boy & Girl Names by Syllable with Meaning | Grahavani",
+   "nakDesc": "Baby names for {n} nakshatra starting with {list}, for boys and girls, with meanings and the syllable for each pada.",
+   "nakLede": "Names for a baby born in {n} nakshatra traditionally start with the pada syllable: {list} ({s}).",
+   "boysH": "Boy names for {n}",
+   "girlsH": "Girl names for {n}",
+   "few": "Few names in our list for this syllable; try the names tool for more.",
+   "note": "Names are shown in English letters with their meaning. Check the spelling and numerology in the names tool.",
+   "cta": "Find names for your baby's exact nakshatra pada, with numerology.",
+   "byNak": "Names by nakshatra",
+   "fq1": "What letters are used for {n} nakshatra names?",
+   "fa1": "{n} nakshatra names start with {list}, one syllable for each pada.",
+   "fq2": "What are good boy names for {n} nakshatra?",
+   "fq3": "What are good girl names for {n} nakshatra?",
+   "boyFq": "What are Hindu boy names starting with {l}?",
+   "girlFq": "What are Hindu girl names starting with {l}?",
+   "letterFq2": "Which nakshatras use names starting with {l}?",
+   "boyShort": "Boy names with {l}",
+   "girlShort": "Girl names with {l}",
+   "boyH1": "Hindu boy names starting with {l}",
+   "girlH1": "Hindu girl names starting with {l}",
+   "boyTitle": "Hindu Baby Boy Names Starting with {l} – With Meaning | Grahavani",
+   "girlTitle": "Hindu Baby Girl Names Starting with {l} – With Meaning | Grahavani",
+   "letterLede": "{n} names starting with {l}, with meanings and the nakshatras they suit.",
+   "letterNakH": "Nakshatras whose syllables start with {l}",
+   "boyAll": "Boy names by letter",
+   "girlAll": "Girl names by letter"
+  },
+  "rw": {
+   "eye": "Weekly rashifal",
+   "short": "This week",
+   "h1": "{r} ({w}) weekly rashifal: {p}",
+   "title": "{r} ({w}) Weekly Rashifal {p} – Saptahik Horoscope | Grahavani",
+   "fq1": "How is this week for {r}?"
+  },
+  "rm": {
+   "eye": "Monthly rashifal",
+   "short": "This month",
+   "h1": "{r} ({w}) monthly rashifal: {p}",
+   "title": "{r} ({w}) Monthly Rashifal {p} – Masik Horoscope | Grahavani",
+   "fq1": "How is this month for {r}?"
+  },
+  "rp": {
+   "lede": "{r} rashifal for {p}, from the real transits of each day. Best days: {b}.",
+   "fa1": "Overall {n} out of 5. The best days are {b}.",
+   "fq2": "Which days need care?",
+   "fa2": "Chandrashtama (Moon in the 8th from your sign) on {list}: go slow and avoid big decisions.",
+   "fa2none": "No Chandrashtama days in this period.",
+   "daysH": "Day by day",
+   "changesH": "Planets changing sign"
+  },
+  "tf": {
+   "matching": [
+    {
+     "q": "How many gunas are needed for marriage?",
+     "a": "18 out of 36 is the usual minimum in Ashtakoota milan; 24 or more is considered very good. Bhakoot and Nadi dosha matter more than the total, and both have classical exceptions that this tool checks."
+    },
+    {
+     "q": "What is Nadi dosha and can it be cancelled?",
+     "a": "Nadi dosha means both have the same Nadi (Aadi, Madhya or Antya), which scores 0 out of 8. It is cancelled when both have the same rashi but different nakshatras, the same nakshatra but different rashis, or the same nakshatra in different padas."
+    },
+    {
+     "q": "Is Manglik matching checked too?",
+     "a": "Yes. Mangal dosha is checked from the lagna, Moon and Venus for both, along with the common cancellations, and the result says whether it is present in one, both or neither."
+    }
+   ],
+   "panchang": [
+    {
+     "q": "What are the five parts of the panchang?",
+     "a": "Tithi (lunar day), vara (weekday), nakshatra (Moon's star), yoga and karana. Together they describe the quality of the day."
+    },
+    {
+     "q": "Why is panchang different for each city?",
+     "a": "Sunrise, sunset, Rahu Kaal and the moment a tithi or nakshatra is in force at sunrise depend on where you are, so the panchang is computed for your city."
+    },
+    {
+     "q": "What is Rahu Kaal?",
+     "a": "Rahu Kaal is a period of about 90 minutes each day, different for each weekday, considered unsuitable for starting new work. It is one eighth of the daytime."
+    }
+   ],
+   "calendar": [
+    {
+     "q": "How are Hindu festival dates decided?",
+     "a": "Each festival follows a tithi and a time of day: for example Diwali needs Amavasya during pradosh kaal, and Janmashtami needs Ashtami at midnight. The date is the day on which that tithi covers that time in your city."
+    },
+    {
+     "q": "Why can a festival fall on different dates in different cities?",
+     "a": "Sunrise and the tithi timing differ by place, so when a tithi changes close to sunrise or the key time, cities can observe the festival on different days."
+    },
+    {
+     "q": "Does the calendar use Purnimanta or Amanta months?",
+     "a": "Month names follow the Amanta system (month ends on Amavasya), used in Gujarat, Maharashtra and South India. In the Purnimanta north Indian system the Krishna paksha belongs to the next month's name."
+    }
+   ],
+   "rashifal": [
+    {
+     "q": "Is this rashifal based on the Moon sign?",
+     "a": "Yes. Vedic rashifal is read from your Moon sign (rashi), not the Sun sign used in western horoscopes."
+    },
+    {
+     "q": "How is the daily rashifal calculated?",
+     "a": "From the actual position of every planet on that day, counted from your Moon sign (gochar), using the classical favourable houses for each planet."
+    },
+    {
+     "q": "What is Chandrashtama?",
+     "a": "When the transiting Moon is in the 8th sign from your Moon sign, for about two and a half days a month. It is a time to avoid big decisions and arguments."
+    }
+   ],
+   "names": [
+    {
+     "q": "How do I find a baby name by nakshatra?",
+     "a": "Each nakshatra pada has a starting syllable. Choose the baby's nakshatra and pada (or pick a saved kundali) and the tool lists names starting with that syllable."
+    },
+    {
+     "q": "What is Moolank and Bhagyank?",
+     "a": "Moolank is the reduced birth date (day) and Bhagyank the reduced full date of birth. A name number friendly to both is considered lucky in Chaldean numerology."
+    },
+    {
+     "q": "Can I check a name I already like?",
+     "a": "Yes. Type it in the 'check a name' box to see its name number, ruling planet and whether it suits the Moolank and Bhagyank."
+    }
+   ],
+   "muhurta": [
+    {
+     "q": "How is a shubh muhurat chosen?",
+     "a": "By checking tithi, nakshatra, weekday, yoga and the lagna at that time for the activity, and avoiding Rahu Kaal, bhadra and other faults. The tool scores every window of every day."
+    },
+    {
+     "q": "Is a personal muhurat better?",
+     "a": "Yes. Adding your birth details also checks tara bala and chandra bala, so the dates suit your own nakshatra and Moon sign."
+    },
+    {
+     "q": "Which months are avoided for marriage?",
+     "a": "Traditionally when Guru or Shukra is combust, during Kharmas (Sun in Dhanu or Meena) and in Chaturmas in many communities. The marriage muhurat already leaves these out."
+    }
+   ],
+   "puja": [
+    {
+     "q": "Why does puja time matter?",
+     "a": "Each festival has a prescribed time: Lakshmi puja in pradosh with a fixed (sthir) lagna, Ganesh puja at midday, Janmashtami at midnight. Puja in that window is considered most fruitful."
+    },
+    {
+     "q": "Can I do puja without a priest?",
+     "a": "Yes. The guides give a simple home puja: samagri, step-by-step vidhi and the katha. Follow your family custom where it differs."
+    },
+    {
+     "q": "Is the muhurat the same in every city?",
+     "a": "No. It depends on local sunset, sunrise or moonrise, so choose your city to get the right time."
+    }
+   ],
+   "vrat": [
+    {
+     "q": "When should I break the Ekadashi fast?",
+     "a": "On the next day after sunrise, once the first quarter of Dwadashi (Hari Vasara) is over and before Dwadashi ends, preferably in the morning. The tracker shows this parana window."
+    },
+    {
+     "q": "When is the Pradosh vrat puja done?",
+     "a": "In the evening twilight after sunset (pradosh kaal), on Trayodashi. The tracker shows the window for your city."
+    },
+    {
+     "q": "When is the Sankashti fast broken?",
+     "a": "After seeing the Moon on Krishna Chaturthi. The moonrise time for your city is shown for each Sankashti."
+    }
+   ],
+   "eclipses": [
+    {
+     "q": "When does sutak start?",
+     "a": "Only where the eclipse is visible: 12 hours before a solar eclipse and 9 hours before a lunar eclipse. A penumbral lunar eclipse has no sutak."
+    },
+    {
+     "q": "Does an eclipse affect my rashi?",
+     "a": "The effect is read from the house the eclipse falls in from your Moon sign; houses 3, 6, 10 and 11 are usually fine, while 1, 4, 8, 12 or the janma nakshatra call for japa."
+    },
+    {
+     "q": "What does retrograde mean?",
+     "a": "A planet seems to move backwards from Earth for some weeks. Its matters turn inward and delays are common; the list shows when each planet turns retrograde and direct."
+    }
+   ],
+   "japa": [
+    {
+     "q": "Why chant 108 times?",
+     "a": "A mala has 108 beads; 108 is a sacred number linked to the 27 nakshatras times 4 padas. One round of the mala is one unit of japa."
+    },
+    {
+     "q": "Which mantra should I chant?",
+     "a": "The mantra of your weak planet or running mahadasha lord, or the deity you follow. Your kundali report suggests the mantra for each planet."
+    },
+    {
+     "q": "Does the counter save my progress?",
+     "a": "Yes, rounds are saved on your phone, and with an account they appear in your sadhana streaks."
+    }
+   ],
+   "tithi": [
+    {
+     "q": "What is a tithi birthday?",
+     "a": "The Hindu birthday falls on the same tithi in the same lunar month every year, so its date changes in the English calendar."
+    },
+    {
+     "q": "How is the shraddha date found?",
+     "a": "Shraddha is done on the tithi of death in Pitru Paksha, or on the same tithi and month each year. Enter the date and city to get the coming dates."
+    },
+    {
+     "q": "Can I get reminders?",
+     "a": "Yes. With an account you can save people and ancestors and get a reminder the day before."
+    }
+   ],
+   "prashna": [
+    {
+     "q": "What is Prashna kundali?",
+     "a": "A chart cast for the moment a question is asked, used when the birth time is unknown or for a specific question like a job, travel or a lost item."
+    },
+    {
+     "q": "How should I ask the question?",
+     "a": "Ask one clear question, sincerely, once. Asking the same question again and again weakens the answer."
+    },
+    {
+     "q": "How is the answer judged?",
+     "a": "From the lagna, its lord, the Moon and the house of the question and its lord, and how they connect."
+    }
+   ],
+   "biodata": [
+    {
+     "q": "What does the marriage biodata include?",
+     "a": "Personal and family details, education and work, and the jyotish details: rashi, nakshatra, gotra, Manglik status and a kundali chart."
+    },
+    {
+     "q": "Can I print it or share it as a PDF?",
+     "a": "Yes. Use print or save as PDF; the layout is made for an A4 page and looks good on phones too."
+    },
+    {
+     "q": "Is my data stored?",
+     "a": "The biodata is made in your browser; it is saved only if you save it to your account."
+    }
+   ]
+  }
  }
 }
