@@ -11,6 +11,9 @@ const ROUTES = {
   muhurta: require('../../lib/routes/muhurta.js'),
   family: require('../../lib/routes/family.js'),
   prashna: require('../../lib/routes/prashna.js'),
+  vrat: require('../../lib/routes/vrat.js'),
+  festival: require('../../lib/routes/festival.js'),
+  eclipses: require('../../lib/routes/eclipses.js'),
   tithi: require('../../lib/routes/tithi.js'),
   varshaphal: require('../../lib/routes/varshaphal.js')
 };

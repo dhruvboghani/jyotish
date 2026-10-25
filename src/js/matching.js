@@ -104,3 +104,27 @@ const lastMatch = store.get('kg-match');
 if (lastMatch) { fillPerson('b', lastMatch.boy); fillPerson('g', lastMatch.girl); }
 readyHooks.push(s => { fillPickers(); $('#m-lock').hidden = !!s; });
 authHooks.push((ev, s) => { fillPickers(); $('#m-lock').hidden = !!s; });
+
+// ---------- Best match among saved profiles ----------
+async function fillRank() {
+  const sel = $('#mr-who'); if (!sel) return;
+  if (!session) { $('#mrank').hidden = true; return; }
+  const rows = myRows.length ? myRows : await loadMyKundalis();
+  $('#mrank').hidden = rows.length < 2;
+  sel.innerHTML = rows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''}</option>`).join('');
+}
+$('#mr-go').addEventListener('click', async () => {
+  if (!requireLogin('matching')) return;
+  const rows = myRows.length ? myRows : await loadMyKundalis(), i = +$('#mr-who').value, me = rows[i]; if (!me) return;
+  const box = $('#mr-res'); box.innerHTML = '<div style="padding:20px;text-align:center"><span class="spin"></span></div>';
+  try {
+    const r = await api('/api/match/', { method: 'POST', body: JSON.stringify({ rank: { birth: me.birth, as: $('#mr-as').value }, candidates: rows.filter((_, j) => j !== i).map(x => ({ ...x.birth, id: x.id })) }) });
+    box.innerHTML = `<ol class="mr-list">${r.ranked.map((x, k) => `<li class="${k === 0 ? 'best' : ''}"><span class="mr-n">${k + 1}</span><b>${esc(x.name || t('res.defaultName'))}</b>
+      <span class="mr-g"><b class="num">${x.effective}</b>/36${x.effective !== x.total ? ` <small>(${esc(t('mr.raw', { n: x.total }))})</small>` : ''}</span>
+      <span class="tag ${x.porutham.mustPass ? 'good' : 'bad'}">${esc(t('mr.porutham', { n: x.porutham.good }))}</span>
+      <span class="tag ${x.manglik === 'one' ? 'warn' : ''}">${esc(t('mr.manglik.' + x.manglik))}</span>
+      <span class="tag ${x.band === 'strong' ? 'good' : x.band === 'care' ? 'bad' : 'warn'}">${esc(t('mr.compat', { n: x.compat }))}</span></li>`).join('')}</ol><p class="muted small">${esc(t('mr.note'))}</p>`;
+  } catch (e) { box.innerHTML = `<p class="err">${esc(t('err.server'))}</p>`; }
+});
+readyHooks.push(() => fillRank());
+authHooks.push(() => fillRank());

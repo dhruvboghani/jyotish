@@ -55,7 +55,7 @@ function render(p, tz, city) {
   const [y, m, d] = pDate.value.split('-').map(Number);
   box.innerHTML = `
     <div class="card pday reveal"><div><span class="eyebrow">${esc(city.name)}${city.region ? ', ' + esc(city.region) : ''} · UTC${offStr(tz)}</span><h2>${esc(longDateFmt.format(new Date(Date.UTC(y, m - 1, d))))}</h2>
-      <p>${esc(pakshaOf(p.tithi[0].index))} ${esc(tithiLabel(p.tithi[0].index))} · ${esc(nk(p.nakshatra[0].index))} · ${esc(masa)}</p></div><span class="moonph big">${moonPhase(((p.tithi[0].index + 0.5) * 12) % 360)}</span></div>
+      <p>${esc(pakshaOf(p.tithi[0].index))} ${esc(tithiLabel(p.tithi[0].index))} · ${esc(nk(p.nakshatra[0].index))} · ${esc(masa)}</p></div><span class="moonph big">${moonPhase(((p.tithi[0].index + 0.5) * 12) % 360)}</span><button type="button" class="btn-line p-share no-print" id="p-share">${ic('i-image')}${esc(t('pc.share'))}</button></div>
     <h3 class="sub-h">${esc(t('pp.elements'))}</h3><div class="pan-grid">${elements}</div>
     <h3 class="sub-h">${esc(t('pp.timings'))}</h3><div class="ptimes">${timings}</div>
     <h3 class="sub-h">${esc(t('pp.chogh'))}</h3><p class="lede">${esc(t('pp.choghLede'))}</p>
@@ -63,5 +63,6 @@ function render(p, tz, city) {
     ${p.hora ? `<h3 class="sub-h" id="hora">${esc(t('hz.tableH'))}</h3><p class="lede">${esc(t('hz.lede'))}</p>${horaTableHtml(p, tz)}` : ''}
     ${p.regional ? `<h3 class="sub-h">${esc(t('reg.title'))}</h3><div class="reg-grid">${regionalLines(p).map(r => `<div class="card reg reveal"><span class="eyebrow">${esc(r.label)}</span><b>${esc(r.text)}</b></div>`).join('')}</div>` : ''}`;
   observeReveals();
+  $('#p-share').onclick = () => sharePanchangCard(p, tz, city);
 }
 load();

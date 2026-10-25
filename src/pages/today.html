@@ -17,9 +17,11 @@
   </section>
 
   <section class="t-tithi" id="t-tithi"><span class="spin"></span></section>
+  <button type="button" class="btn-line t-share no-print" id="t-share"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-image"/></svg>{{pc.share}}</button>
   <section class="t-times" id="t-times"></section>
   <section class="t-card t-hora" id="t-hora" aria-label="{{hz.title}}"></section>
   <section id="t-day"></section>
+  <section id="t-soon"></section>
   <section id="t-sadhana"></section>
 
   <section class="t-tools" aria-label="{{app.tools}}">
@@ -31,5 +33,9 @@
     <a href="{{home}}prashna/"><span class="ti c-indigo"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-question"/></svg></span>{{nav.prashna}}</a>
     <a href="{{home}}tithi-dates/"><span class="ti c-pink"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lamp"/></svg></span>{{nav.tithi}}</a>
     <a href="{{home}}biodata/"><span class="ti c-green"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-doc"/></svg></span>{{nav.biodata}}</a>
+    <a href="{{home}}puja/"><span class="ti c-pink"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lamp"/></svg></span>{{nav.puja}}</a>
+    <a href="{{home}}vrat/"><span class="ti c-green"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg></span>{{nav.vrat}}</a>
+    <a href="{{home}}eclipses/"><span class="ti c-indigo"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-half"/></svg></span>{{nav.eclipses}}</a>
   </section>
+  <label class="chk t-brief no-print" id="t-brief" hidden><input type="checkbox"><span>{{mb.toggle}} — {{mb.toggleNote}}</span></label>
 </main>

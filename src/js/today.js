@@ -65,6 +65,7 @@ async function tPanchang() {
   if (!tTick) tTick = setInterval(() => { if (!document.hidden) tTimes(); }, 60000);
 }
 wireNudge($('#t-hora'), () => tHoraDay, tTz);
+$('#t-share').addEventListener('click', () => { if (tPan) sharePanchangCard(tPan, tTz, tCity); });
 async function tEvents(d) {
   const key = `gv-cal-${d.y}-${tCity.lat.toFixed(1)}-${tCity.lon.toFixed(1)}`;
   let ev = store.get(key);
@@ -95,11 +96,16 @@ async function tDayCard() {
   const d = todayIn(tTz), key = `gv-day-${me.id}-${d.y}${pad(d.m)}${pad(d.d)}`;
   let td = store.get(key);
   if (!td) {
-    try { const r = await api('/api/kundali/', { method: 'POST', body: JSON.stringify({ ...me.birth, save: false, log: false, lang: LANG }) }); td = r.premium && r.premium.today; if (td) store.set(key, { stars: td.stars, score: td.score, area: td.area }); }
+    try {
+      const r = await api('/api/kundali/', { method: 'POST', body: JSON.stringify({ ...me.birth, save: false, log: false, lang: LANG }) }); td = r.premium && r.premium.today;
+      const soon = ((r.premium && r.premium.upcoming) || []).filter(e => e.at < Date.now() + 45 * 864e5 && !(e.type === 'ingress' && e.planet === 'Ketu')).slice(0, 3);
+      if (td) { td.soon = soon; store.set(key, { stars: td.stars, score: td.score, area: td.area, soon }); }
+    }
     catch (e) { td = null; }
   }
   if (!td) { box.innerHTML = ''; return; }
   const name = (me.birth.name || '').split(' ')[0];
+  tSoon(td.soon || [], me.birth.tzMinutes);
   box.innerHTML = `<a class="t-card t-dayc" href="${HOME}" data-open-self>
     <span class="t-ring" style="--p:${td.score}"><b>${td.stars}</b><small>/5</small></span>
     <span class="t-dayt"><b>${esc(t('app.yourDay'))}${name ? ' · ' + esc(name) : ''}</b>
@@ -116,7 +122,24 @@ async function tSadhana() {
   sdWire(box, act, tSadhana); observeReveals();
 }
 
-function tRun() { tHeader(); tDayCard(); tSadhana(); }
+// Gochar alerts for the member's own chart: what changes in the next 45 days
+function tSoon(list, tz) {
+  const box = $('#t-soon'); if (!list.length) { box.innerHTML = ''; return; }
+  const left = ms => Math.max(0, Math.round((ms - Date.now()) / 864e5));
+  box.innerHTML = `<div class="t-card t-soonc"><h2 class="t-sub">${esc(t('ga.title'))}</h2>${list.map(e => {
+    const title = e.type === 'ingress' ? t('events.ingress', { g: { g: e.planet }, r: { r: e.to } }) : e.type === 'md' ? t('events.md', { g: { g: e.lord } }) : t('events.ad', { md: { g: e.md }, ad: { g: e.lord } });
+    const sub = e.type === 'ingress' ? t('ga.house', { h: e.house }) : '';
+    return `<div class="t-soon-row">${g(e.planet || e.lord, 'gimg')}<span><b>${esc(title)}</b><small>${esc([t('ga.inDays', { n: left(e.at) }), sub].filter(Boolean).join(' · '))}</small></span></div>`;
+  }).join('')}</div>`;
+}
+// Morning brief toggle (members; saved with the reminder settings)
+async function tBrief() {
+  const lb = $('#t-brief'); if (!session || !sb) { lb.hidden = true; return; }
+  lb.hidden = false; const s = await loadSettings() || {}, cb = lb.querySelector('input');
+  cb.checked = !!((s.reminders || {}).brief);
+  cb.onchange = async () => { const cur = await loadSettings() || {}; const err = await saveSettings({ reminders: { ...(cur.reminders || {}), brief: cb.checked, lang: LANG } }); toast(err ? err.message : t(cb.checked ? 'mb.on' : 'st.saved')); };
+}
+function tRun() { tHeader(); tDayCard(); tSadhana(); tBrief(); }
 tHeader(); tSky(); tPanchang();
 readyHooks.push(tRun);
 authHooks.push(() => tRun());

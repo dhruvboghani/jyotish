@@ -38,3 +38,19 @@ function drawM(r, tz, city, people) {
 }
 readyHooks.push(s => { $('#mu-lock').hidden = !!s; fillPeople(); });
 authHooks.push((ev, s) => { $('#mu-lock').hidden = !!s; fillPeople(); });
+
+// ---------- Quick packs: one tap → the next five good dates ----------
+const PACKS = [['griha', 'i-house'], ['vehicle', 'i-star'], ['mundan', 'i-users'], ['namkaran', 'i-heart'], ['marriage', 'i-heart'], ['business', 'i-chart']];
+$('#mu-packs').innerHTML = PACKS.map(([k, icon]) => `<button type="button" class="card mu-pack" data-pack="${k}"><span class="ti c-gold">${ic(icon)}</span><b>${esc(t('mu.p.' + k))}</b><small>${esc(t('mu.next5'))}</small></button>`).join('');
+$('#mu-packs').addEventListener('click', async e => {
+  const b = e.target.closest('[data-pack]'); if (!b || !requireLogin('muhurta')) return;
+  $$('.mu-pack').forEach(x => x.classList.toggle('on', x === b));
+  const city = cm.city, td = todayIn(cm.offset(2026, 1, 1)), tz = cm.offset(td.y, td.m, td.d), box = $('#mu-packres');
+  box.innerHTML = `<div class="card" style="padding:24px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('mu.searching'))}</p></div>`;
+  try {
+    const r = await api('/api/muhurta/', { method: 'POST', body: JSON.stringify({ purpose: b.dataset.pack, from: isoDay(td.y, td.m, td.d), days: 240, top: 5, lat: city.lat, lon: city.lon, tz }) });
+    const day = s => { const [y, m, d] = s.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d)); };
+    box.innerHTML = `<div class="card mu-top reveal"><h3>${esc(t('mu.topH', { p: t('mu.p.' + r.purpose), c: city.name }))}</h3><ol>${r.dates.map(w => `<li><b>${esc(longDateFmt.format(day(w.date)))}</b><span class="num">${fTime(w.start, tz)} – ${fTime(w.end, tz)}</span><span class="muted">${esc(pakshaOf(w.tithi))} ${esc(tithiLabel(w.tithi))} · ${esc(nk(w.nak))}</span><span class="tag ${w.score >= 75 ? 'good' : ''}">${w.score}</span></li>`).join('') || `<li class="empty">${esc(t('mu.none'))}</li>`}</ol></div>`;
+    observeReveals();
+  } catch (err) { box.innerHTML = `<p class="err">${esc(err.status === 401 ? t('members.lockText') : t('err.server'))}</p>`; }
+});

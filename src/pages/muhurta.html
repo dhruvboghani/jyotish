@@ -1,8 +1,9 @@
 <main class="wrap page">
   <div class="page-hero"><p class="eyebrow">{{mu.eye}} <span class="tag gold">{{members.badge}}</span></p><h1>{{mu.title}}</h1><p class="lede">{{mu.lede}}</p></div>
   <div class="premium-why" id="mu-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg><span><b>{{members.title}}</b>{{mu.lockNote}}</span></div>
+  <section class="mu-packs no-print"><h2 class="sub-h">{{mu.packsH}}</h2><p class="muted small">{{mu.packsLede}}</p><div class="mu-pack-grid" id="mu-packs"></div><div id="mu-packres"></div></section>
   <form id="muform" class="card toolbar" novalidate>
-    <div class="field"><label for="mu-purpose">{{mu.purpose}}</label><select id="mu-purpose"><option value="marriage">{{mu.p.marriage}}</option><option value="griha">{{mu.p.griha}}</option><option value="vehicle">{{mu.p.vehicle}}</option><option value="business">{{mu.p.business}}</option><option value="general">{{mu.p.general}}</option></select></div>
+    <div class="field"><label for="mu-purpose">{{mu.purpose}}</label><select id="mu-purpose"><option value="marriage">{{mu.p.marriage}}</option><option value="griha">{{mu.p.griha}}</option><option value="vehicle">{{mu.p.vehicle}}</option><option value="business">{{mu.p.business}}</option><option value="mundan">{{mu.p.mundan}}</option><option value="namkaran">{{mu.p.namkaran}}</option><option value="annaprashan">{{mu.p.annaprashan}}</option><option value="general">{{mu.p.general}}</option></select></div>
     <!--CITY-->
     <div class="field"><label for="mu-from">{{mu.from}}</label><input id="mu-from" type="date"></div>
     <div class="field"><label for="mu-days">{{mu.days}}</label><select id="mu-days"><option value="30">30</option><option value="60">60</option><option value="90" selected>90</option><option value="120">120</option></select></div>

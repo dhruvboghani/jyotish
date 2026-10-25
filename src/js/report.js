@@ -129,7 +129,7 @@ function chartsHtml(c) {
     { asc: moon.sign, bySign: bySignFrom(c, p => p.sign, true), title: t('sec.charts.cm'), sub: t('sec.charts.cms'), h: t('sec.charts.moon'), p: t('sec.charts.moont', { r: { r: moon.sign } }) }
   ].map(d => `<div class="card chart">${drawChart(d)}<h3>${esc(d.h)}</h3><p>${esc(d.p)}</p></div>`).join('');
 }
-const VARGA_KEYS = ['D2', 'D3', 'D4', 'D7', 'D10', 'D12'];
+const VARGA_KEYS = ['D2', 'D3', 'D4', 'D7', 'D10', 'D12', 'D16', 'D20', 'D24', 'D30', 'D60'];
 function vargaHtml(c, vargas, key) {
   const v = vargas[key];
   const d = { asc: v.asc, bySign: bySignFrom(c, p => v.planets[p.name], false), title: key, sub: t('varga.' + key + '.name') };
@@ -335,7 +335,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
 
   // Members-only: divisional charts, upcoming events, rectification
   const vargaTabs = `<div class="seg varga-tabs" role="tablist" aria-label="${esc(t('varga.title'))}">${VARGA_KEYS.map((k, i) => `<button type="button" role="tab" data-varga="${k}" aria-pressed="${i === 0}">${k}<small>${esc(t('varga.' + k + '.short'))}</small></button>`).join('')}</div>`;
-  const vargaSection = premium ? `${vargaTabs}<div id="vargabox">${vargaHtml(c, premium.vargas, VARGA_KEYS[0])}</div>` : lockCard('vargas', `<p class="muted small">${VARGA_KEYS.map(k => k + ' ' + t('varga.' + k + '.short')).join(' · ')}</p>`);
+  const vargaSection = premium ? `${navamsaHtml(c, premium.vargas)}${vargaTabs}<div id="vargabox">${vargaHtml(c, premium.vargas, VARGA_KEYS[0])}</div>` : lockCard('vargas', `<p class="muted small">${VARGA_KEYS.map(k => k + ' ' + t('varga.' + k + '.short')).join(' · ')}</p>`);
   const upcomingHtml = premium ? (() => {
     const evs = premium.upcoming.slice();
     ss.periods.forEach(p => { if (p.start > now && p.start < now + 730 * 864e5) evs.push({ type: 'ssStart', at: p.start }); if (p.end > now && p.end < now + 730 * 864e5) evs.push({ type: 'ssEnd', at: p.end }); });
@@ -360,13 +360,16 @@ function renderFull(data, host = $('#results'), opts = {}) {
   const trialBanner = data.trial && !session ? `<div class="trial-banner reveal"><span class="ic">${ic('i-star')}</span><div><b>${esc(t('trial.title'))}</b><p>${esc(t('trial.text'))}</p></div><button class="btn-cta" type="button" data-auth="signup">${esc(t('trial.cta'))}</button></div>` : '';
   const sharedBanner = data.shared ? `<div class="trial-banner reveal"><span class="ic">${ic('i-link')}</span><div><b>${esc(t('share.viewTitle'))}</b><p>${esc(t('share.viewText'))}</p></div><a class="btn-cta" href="${HOME}">${esc(t('share.makeOwn'))}</a></div>` : '';
   const actions = `<div class="report-actions no-print">${!data.shared ? `<button class="btn-line" type="button" id="act-share">${ic('i-link')}${esc(t('share.button'))}${session ? '' : ic('i-lock', 'lk')}</button>` : ''}<button class="btn-line" type="button" id="act-pdf">${ic('i-download')}${esc(t('pdf.button'))}${session ? '' : ic('i-lock', 'lk')}</button><button class="btn-line" type="button" id="act-card">${ic('i-star')}${esc(t('cc.button'))}</button><a class="btn-line" href="${HOME}matching/">${ic('i-heart')}${esc(t('nav.matching'))}</a></div>`;
-  const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'varsha', 'transits', 'kp', 'panchang', 'bhavas', 'gochar', 'notes'];
+  const NAV = ['highlights', 'today', 'areas', 'charts', 'grahas', 'yogas', 'remedies', 'dasha', 'events', 'varsha', 'transits', 'kp', 'strength', 'dashas2', 'gems', 'panchang', 'bhavas', 'gochar', 'notes'];
   const todaySec = mSec('today', 'my', premium && premium.today ? todayHtml(premium.today, tz) : lockCard('today'));
   const areasSec = mSec('areas', 'la', premium && premium.areas ? areasHtml(premium.areas, tz) : lockCard('areas', `<p class="muted small">${['career', 'marriage', 'finance', 'health', 'education', 'children'].map(k => t('la.' + k + '.name')).join(' · ')}</p>`));
   const remSec = mSec('remedies', 'rm', premium && premium.remedies ? remediesHtml(premium.remedies, premium.remedyExtras) + lalKitabHtml(premium.lalKitab) : lockCard('remedies'));
   const varshaSec = mSec('varsha', 'vp', premium && 'varshaphal' in premium ? varshaHtml(premium.varshaphal, tz) : lockCard('varsha'));
   const transitSec = mSec('transits', 'tl', premium && premium.transits ? transitsHtml(premium.transits, tz) : lockCard('transits'));
   const kpSec = mSec('kp', 'kp', premium && premium.kp ? kpHtml(premium.kp) : lockCard('kp'));
+  const sbSec = mSec('strength', 'sb', premium && premium.shadbala ? shadbalaHtml(premium.shadbala) : lockCard('strength'));
+  const dzSec = mSec('dashas2', 'dz', premium && premium.yogini ? dashas2Html(premium.yogini, premium.chara, tz) : lockCard('dashas2'));
+  const gmSec = mSec('gems', 'gm', premium && premium.gems ? gemsHtml(premium.gems) : lockCard('gems'));
   const notesSec = data.shared ? '' : mSec('notes', 'notes', session ? '<div id="notesbox"><span class="spin"></span></div>' : lockCard('notes'));
 
   host.innerHTML = `
@@ -389,11 +392,14 @@ function renderFull(data, host = $('#results'), opts = {}) {
     `<div class="seg yoga-filter no-print" role="group" aria-label="${esc(t('sec.yogas.filter'))}">${['all', 'present', 'good', 'bad'].map((f, i) => `<button type="button" data-f="${f}" aria-pressed="${i === 0}">${esc(t('sec.yogas.' + f))}</button>`).join('')}</div>`,
     esc(t('sec.yogas.lede', { g: nGoodY, b: nBadY })))}
   ${remSec}
+  ${gmSec}
   ${sec('dasha', 'dasha', `${nowCard}<div class="card ribbon-card reveal">${drawRibbon(c, now)}</div><div class="dasha-list">${dashaList}</div>`, '',
     esc(t('sec.dasha.lede', { p: ((1 - c.balance.years / DASHA_YEARS[c.balance.lord]) * 100).toFixed(1), nk: { nk: P.Moon.nak }, v: ymd(c.balance.years), g: { g: c.balance.lord } })))}
   ${mSec('events', 'events', upcomingHtml)}
   ${varshaSec}
   ${transitSec}
+  ${dzSec}
+  ${sbSec}
   ${kpSec}
   ${sec('panchang', 'pan', `<div class="pan-grid">${pan}</div><div class="card ava reveal"><h3>${esc(t('sec.pan.ava'))}</h3><dl class="ava-grid">${avRows.map(([k, v]) => `<div><dt>${esc(t('sec.pan.av.' + k))}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div>`)}
   ${sec('bhavas', 'bhava', `<div class="bhava-grid">${bhavas}</div>`)}

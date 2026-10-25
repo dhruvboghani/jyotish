@@ -192,6 +192,105 @@ function wireReportMore(data) {
   const { input, premium } = data, tz = input.tzMinutes;
   const cb = $('#act-card'); if (cb) cb.addEventListener('click', () => shareChartCard(data));
   if (!premium) return;
-  wireVarsha(input, tz); wireTransits();
+  wireVarsha(input, tz); wireTransits(); wireDashas2(); wireGems();
   if (session) wireLalKitab(input);
+}
+
+// ---------- Shadbala and Bhava Bala ----------
+const SB_ORDER = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+function shadbalaHtml(sb) {
+  const max = Math.max(...SB_ORDER.map(n => sb.planets[n].rupas), 9);
+  const rows = SB_ORDER.map(n => {
+    const x = sb.planets[n], ok = x.ratio >= 1, w = x.rupas / max * 100, req = x.required / max * 100;
+    return `<div class="sb-row ${ok ? 'good' : 'bad'}"><span class="sb-n">${g(n, 'gimg sm')}${esc(gn(n))}</span>
+      <span class="sb-bar"><i style="width:${w.toFixed(1)}%"></i><em style="left:${req.toFixed(1)}%" title="${esc(t('sb.required'))}"></em></span>
+      <span class="sb-v num">${x.rupas.toFixed(2)}<small>/${x.required}</small></span><span class="tag ${ok ? 'good' : 'bad'}">${esc(t(ok ? 'sb.strong' : 'sb.weak'))}</span></div>`;
+  }).join('');
+  const comp = ['sthana', 'dig', 'kala', 'chesta', 'naisargika', 'drik'];
+  const tbl = `<table class="mini"><thead><tr><th>${esc(t('sec.ashtaka.graha'))}</th>${comp.map(c => `<th>${esc(t('sb.c.' + c))}</th>`).join('')}<th>${esc(t('sb.total'))}</th></tr></thead><tbody>${SB_ORDER.map(n => `<tr><td>${esc(ga(n))}</td>${comp.map(c => `<td class="num">${Math.round(sb.planets[n][c])}</td>`).join('')}<td class="num"><b>${Math.round(sb.planets[n].total)}</b></td></tr>`).join('')}</tbody></table>`;
+  const bmax = Math.max(...sb.bhava.map(b => b.rupas));
+  const bh = sb.bhava.map(b => `<div class="bb"><span class="bb-bar" style="--h:${(b.rupas / bmax * 100).toFixed(0)}%"><i></i></span><b>${b.house}</b><small class="num">${b.rupas.toFixed(1)}</small></div>`).join('');
+  return `<div class="card sb-card reveal"><h3>${esc(t('sb.planetsH'))}</h3><p class="muted small">${esc(t('sb.planetsLede'))}</p><div class="sb-list">${rows}</div>
+    <p class="sb-rank">${esc(t('sb.rank', { list: { list: sb.rank.map(x => ({ g: x })) } }))}</p>
+    <details class="sb-more"><summary>${esc(t('sb.details'))}</summary><div class="tbl-card">${tbl}</div><p class="muted small">${esc(t('sb.unit'))}</p></details></div>
+    <div class="card sb-card reveal"><h3>${esc(t('sb.bhavaH'))}</h3><p class="muted small">${esc(t('sb.bhavaLede'))}</p><div class="bb-chart">${bh}</div>
+    <p class="sb-rank">${esc(t('sb.bhavaTop', { a: sb.bhavaRank[0], b: sb.bhavaRank[1], c: sb.bhavaRank[2], x: sb.bhavaRank[11] }))}</p></div>`;
+}
+
+// ---------- Yogini and Chara dasha ----------
+function dashas2Html(y, c, tz) {
+  const now = Date.now();
+  const yl = y.list.filter(m => m.end > now - 20 * 365.25 * 864e5).slice(0, 12).map(m => {
+    const cur = m.start <= now && now < m.end, ad = cur ? m.sub.find(a => a.start <= now && now < a.end) : null;
+    return `<li class="${cur ? 'now' : m.end < now ? 'past' : ''}">${g(m.lord, 'gimg sm')}<b>${esc(t('dz.yogini.' + m.name))}</b><span class="muted">${esc(gn(m.lord))} · ${esc(t('sec.dasha.years', { n: m.years }))}</span><span class="num">${fDate(m.start, tz)} → ${fDate(m.end, tz)}</span>${cur ? `<span class="tag gold">${esc(t('sec.dasha.now'))}${ad ? ' · ' + esc(t('dz.yogini.' + ad.name)) : ''}</span>` : ''}</li>`;
+  }).join('');
+  const cl = c.list.filter(m => m.end > now - 30 * 365.25 * 864e5).slice(0, 12).map(m => {
+    const cur = m.start <= now && now < m.end, ad = cur ? m.sub.find(a => a.start <= now && now < a.end) : null;
+    return `<li class="${cur ? 'now' : m.end < now ? 'past' : ''}">${rg(m.sign, 'rg sm')}<b>${esc(rn(m.sign))}</b><span class="muted">${esc(t('sec.dasha.years', { n: m.years }))}</span><span class="num">${fDate(m.start, tz)} → ${fDate(m.end, tz)}</span>${cur ? `<span class="tag gold">${esc(t('sec.dasha.now'))}${ad ? ' · ' + esc(rn(ad.sign)) : ''}</span>` : ''}</li>`;
+  }).join('');
+  return `<div class="seg dz-tabs no-print" role="tablist"><button type="button" data-dz="y" aria-pressed="true">${esc(t('dz.yoginiH'))}</button><button type="button" data-dz="c" aria-pressed="false">${esc(t('dz.charaH'))}</button></div>
+    <div class="card dz-card reveal" data-dzp="y"><p class="muted small">${esc(t('dz.yoginiLede', { x: t('dz.yogini.' + y.balance.name), v: ymd(y.balance.years) }))}</p><ol class="when-list">${yl}</ol></div>
+    <div class="card dz-card reveal" data-dzp="c" hidden><p class="muted small">${esc(t('dz.charaLede', { d: t(c.forward ? 'dz.forward' : 'dz.backward') }))}</p><ol class="when-list">${cl}</ol></div>`;
+}
+function wireDashas2() {
+  $$('.dz-tabs button').forEach(b => b.addEventListener('click', () => {
+    $$('.dz-tabs button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    $$('[data-dzp]').forEach(p => { p.hidden = p.dataset.dzp !== b.dataset.dz; });
+  }));
+}
+
+// ---------- Navamsa (D9) deep dive ----------
+function navamsaHtml(c, vargas) {
+  const v = vargas.D9, asc = v.asc, lord = SIGN_LORD[asc], d7 = (asc + 6) % 12, l7 = SIGN_LORD[d7];
+  const EX = { Sun: 0, Moon: 1, Mars: 9, Mercury: 5, Jupiter: 3, Venus: 11, Saturn: 6 };
+  const vargottama = c.planets.filter(p => v.planets[p.name] === p.sign).map(p => p.name);
+  const ex = c.planets.filter(p => EX[p.name] != null && v.planets[p.name] === EX[p.name]).map(p => p.name);
+  const deb = c.planets.filter(p => EX[p.name] != null && v.planets[p.name] === (EX[p.name] + 6) % 12).map(p => p.name);
+  const inD7 = c.planets.filter(p => v.planets[p.name] === d7).map(p => p.name);
+  const li = (k, p) => `<li>${esc(t(k, p))}</li>`;
+  return `<div class="card nav9 reveal"><h3>${esc(t('n9.title'))}</h3><p class="muted small">${esc(t('n9.lede'))}</p><ul class="factor-list">
+    ${li('n9.lagna', { r: { r: asc }, g: { g: lord }, s: { r: v.planets[lord] } })}
+    ${li('n9.seventh', { r: { r: d7 }, g: { g: l7 }, s: { r: v.planets[l7] } })}
+    ${inD7.length ? li('n9.inSeventh', { list: { list: inD7.map(x => ({ g: x })) } }) : ''}
+    ${vargottama.length ? li('n9.vargottama', { list: { list: vargottama.map(x => ({ g: x })) } }) : li('n9.noVargottama', {})}
+    ${ex.length ? li('n9.exalted', { list: { list: ex.map(x => ({ g: x })) } }) : ''}
+    ${deb.length ? li('n9.debil', { list: { list: deb.map(x => ({ g: x })) } }) : ''}
+    ${li('n9.venus', { r: { r: v.planets.Venus } })}</ul></div>`;
+}
+
+// ---------- Gemstones and Rudraksha ----------
+const GEM_SHOP = q => (cfg.gemShop || 'https://www.amazon.in/s?k={q}').replace('{q}', encodeURIComponent(q));
+function gemsHtml(gm) {
+  const kg = store.get('gv-weight') || '';
+  const card = s => {
+    const st = { suit: 'good', caution: 'warn', avoid: 'bad' }[s.status];
+    const name = t('gm.g.' + s.gem), alt = s.upratna.map(u => t('gm.u.' + u)).join(', ');
+    return `<article class="card gem reveal ${s.status}" style="--gc:${COL[s.planet]}" data-perkg="${s.perKg}" data-gem="${s.gem}"><div class="rh">${g(s.planet)}<div><h3>${esc(name)}</h3><small>${esc(t('gm.role.' + s.role))} · ${esc(gn(s.planet))}</small></div><span class="tag ${st}">${esc(t('gm.st.' + s.status))}</span></div>
+      <p class="gem-why">${esc(t('gm.why.' + s.status, { g: { g: s.planet }, list: { list: s.houses } }))}${s.clash.length ? ' ' + esc(t('gm.clash', { list: { list: s.clash.map(x => ({ g: x })) } })) : ''}</p>
+      ${s.status !== 'avoid' ? `<dl class="rem-dl">
+        <div><dt>${esc(t('gm.weight'))}</dt><dd class="gem-wt">${esc(t('gm.enterWeight'))}</dd></div>
+        <div><dt>${esc(t('gm.wearLabel'))}</dt><dd>${esc(t('rm.wear', { m: t('rm.p.' + s.planet + '.metal'), f: t('rm.p.' + s.planet + '.finger'), d: t('rm.p.' + s.planet + '.day') }))}</dd></div>
+        <div><dt>${esc(t('gm.energise'))}</dt><dd>${esc(t('gm.energiseText', { m: (L.names.mantra || {})[s.planet] || '' }))}</dd></div>
+        <div><dt>${esc(t('gm.alt'))}</dt><dd>${esc(alt)}</dd></div></dl>
+        <div class="rem-act no-print"><a class="btn-line" href="${esc(GEM_SHOP(t('gm.g.' + s.gem, {}) + ' ' + t('gm.searchSuffix')))}" target="_blank" rel="noopener sponsored">${ic('i-link')}${esc(t('gm.buy', { x: name }))}</a></div>` : ''}</article>`;
+  };
+  const rud = gm.rudraksha.map(r => `<li>${g(r.planet, 'gimg sm')}<b>${esc(t('gm.mukhi', { n: r.mukhi }))}</b><span>${esc(t('gm.rrole.' + r.role, { g: { g: r.planet } }))}</span><a class="linkbtn no-print" href="${esc(GEM_SHOP(t('gm.mukhiSearch', { n: r.mukhi })))}" target="_blank" rel="noopener sponsored">${esc(t('gm.find'))} →</a></li>`).join('');
+  return `<div class="card gem-in no-print"><label class="field"><span>${esc(t('gm.yourWeight'))}</span><input id="gem-kg" type="number" inputmode="numeric" min="5" max="200" placeholder="60" value="${esc(kg)}"></label><p class="muted small">${esc(t('gm.weightNote'))}</p></div>
+    <div class="rem-grid">${gm.stones.map(card).join('')}</div>
+    <div class="card rud reveal"><h3>${esc(t('gm.rudH'))}</h3><p class="muted small">${esc(t('gm.rudLede'))}</p><ul class="rud-list">${rud}</ul>
+      <h4>${esc(t('gm.rudHow'))}</h4><ol class="lk-steps">${(t('gm.rudSteps') || []).map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>
+    <p class="muted small rem-note">${ic('i-info')}${esc(t('gm.disclaimer'))}</p>`;
+}
+function wireGems() {
+  const inp = $('#gem-kg'); if (!inp) return;
+  const upd = () => {
+    const kg = +inp.value; if (kg) store.set('gv-weight', inp.value);
+    $$('.gem[data-perkg]').forEach(el => {
+      const box = el.querySelector('.gem-wt'); if (!box) return;
+      if (!(kg >= 5)) { box.textContent = t('gm.enterWeight'); return; }
+      const ratti = Math.max(el.dataset.gem === 'diamond' ? 0.5 : 3, Math.round(kg * +el.dataset.perkg * 4) / 4);
+      box.textContent = t('gm.wtText', { r: ratti.toLocaleString(LOCALE), c: (ratti * 0.91).toFixed(2) });
+    });
+  };
+  inp.addEventListener('input', upd); upd();
 }

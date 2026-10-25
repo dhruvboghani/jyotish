@@ -34,8 +34,26 @@ function draw(r) {
   const list = r.names.filter(n => !filter || n.name.toLowerCase().includes(filter) || n.meaning.toLowerCase().includes(filter));
   box.innerHTML = `<div class="nm-head"><p>${esc(t('nm.forSyll', { nk: { nk: r.nak }, list: r.syllables.join(', ') }))}</p></div>${num}${chk}
     <div class="name-grid">${list.map(n => `<article class="card name reveal ${n.lucky ? 'lucky' : ''}"><div class="nh"><b>${esc(n.name)}</b><span class="tag ${n.gender === 'm' ? '' : n.gender === 'f' ? 'gold' : 'good'}">${esc(t('nm.g.' + n.gender))}</span></div><p>${esc(n.meaning)}</p><div class="nf"><span class="tag">${esc(n.syllable)}</span><span class="tag">${esc(t('nm.num', { n: n.number }))}</span>${n.lucky ? `<span class="tag good">${ic('i-star')}${esc(t('nm.lucky'))}</span>` : ''}</div></article>`).join('') || `<p class="empty">${esc(t('nm.none'))}</p>`}</div>
-    <p class="muted small">${esc(t('nm.note'))}</p>`;
+    <p class="muted small">${esc(t('nm.note'))}</p><div id="nk-box"></div>`;
   observeReveals();
+  namkaran();
+}
+// Namkaran dates: good muhurtas from the 11th day after birth (needs the birth date)
+async function namkaran() {
+  const box = $('#nk-box'); if (!box) return;
+  const b = from.dataset.birth ? JSON.parse(from.dataset.birth) : null;
+  const [y, m, d] = (dateIn.value || '').split('-').map(Number);
+  if (!y) { box.innerHTML = `<div class="card nk-card"><h3>${ic('i-cal')}${esc(t('nk.title'))}</h3><p class="muted small">${esc(t('nk.needDate'))}</p></div>`; return; }
+  const start = new Date(Date.UTC(y, m - 1, d + 10)), td = todayIn(330), today = Date.UTC(td.y, td.m - 1, td.d);
+  const fromMs = Math.max(start.getTime(), today), f = new Date(fromMs);
+  const lat = b ? b.lat : DEFAULT_PLACE.lat, lon = b ? b.lon : DEFAULT_PLACE.lon, tz = b ? b.tzMinutes : 330;
+  box.innerHTML = '<div class="card" style="padding:20px;text-align:center"><span class="spin"></span></div>';
+  try {
+    const r = await api('/api/muhurta/', { method: 'POST', body: JSON.stringify({ purpose: 'namkaran', from: isoDay(f.getUTCFullYear(), f.getUTCMonth() + 1, f.getUTCDate()), days: 45, top: 5, lat, lon, tz }) });
+    const day = s => { const [yy, mm, dd] = s.split('-').map(Number); return new Date(Date.UTC(yy, mm - 1, dd)); };
+    box.innerHTML = `<div class="card nk-card reveal"><h3>${ic('i-cal')}${esc(t('nk.title'))}</h3><p class="muted small">${esc(t('nk.lede'))}</p><ol class="mu-top-list">${r.dates.map(w => `<li><b>${esc(longDateFmt.format(day(w.date)))}</b><span class="num">${fTime(w.start, tz)} – ${fTime(w.end, tz)}</span><span class="muted">${esc(nk(w.nak))}</span></li>`).join('') || `<li class="empty">${esc(t('mu.none'))}</li>`}</ol><a class="linkbtn" href="${HOME}muhurta/">${esc(t('nk.more'))} →</a></div>`;
+    observeReveals();
+  } catch (e) { box.innerHTML = ''; }
 }
 readyHooks.push(async s => { $('#n-lock').hidden = !!s; if (s) { rowsN = await fillKundaliSelect(from, t('mt.pick')); from.hidden = !rowsN.length; } else from.hidden = true; });
 authHooks.push(async (ev, s) => { $('#n-lock').hidden = !!s; if (s) { rowsN = await fillKundaliSelect(from, t('mt.pick')); from.hidden = !rowsN.length; } });

@@ -18,14 +18,7 @@ const isObj = v => v && typeof v === 'object' && !Array.isArray(v);
 function merge(a, b) { const o = { ...a }; for (const k of Object.keys(b || {})) o[k] = isObj(a[k]) && isObj(b[k]) ? merge(a[k], b[k]) : b[k]; return o; }
 const deepMap = (v, f) => Array.isArray(v) ? v.map(x => deepMap(x, f)) : isObj(v) ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepMap(x, f)])) : typeof v === 'string' ? f(v) : v;
 
-// ---- Transliteration of Sanskrit terms from Devanagari ----
-const BASE = { gu: 0x0A80, te: 0x0C00, kn: 0x0C80 };
-const offsetTr = (s, base) => [...s].map(ch => { const c = ch.codePointAt(0); return c >= 0x0900 && c <= 0x097F && c !== 0x0950 ? String.fromCodePoint(c - 0x0900 + base) : ch; }).join('');
-const TA_C = { 'क': 'க', 'ख': 'க', 'ग': 'க', 'घ': 'க', 'ङ': 'ங', 'च': 'ச', 'छ': 'ச', 'ज': 'ஜ', 'झ': 'ஜ', 'ञ': 'ஞ', 'ट': 'ட', 'ठ': 'ட', 'ड': 'ட', 'ढ': 'ட', 'ण': 'ண', 'त': 'த', 'थ': 'த', 'द': 'த', 'ध': 'த', 'न': 'ந', 'प': 'ப', 'फ': 'ப', 'ब': 'ப', 'भ': 'ப', 'म': 'ம', 'य': 'ய', 'र': 'ர', 'ल': 'ல', 'व': 'வ', 'श': 'ஷ', 'ष': 'ஷ', 'स': 'ஸ', 'ह': 'ஹ', 'ळ': 'ள' };
-const TA_V = { 'अ': 'அ', 'आ': 'ஆ', 'इ': 'இ', 'ई': 'ஈ', 'उ': 'உ', 'ऊ': 'ஊ', 'ऋ': 'ரு', 'ए': 'ஏ', 'ऐ': 'ஐ', 'ओ': 'ஓ', 'औ': 'ஔ' };
-const TA_M = { 'ा': 'ா', 'ि': 'ி', 'ी': 'ீ', 'ु': 'ு', 'ू': 'ூ', 'ृ': '்ரு', 'े': 'ே', 'ै': 'ை', 'ो': 'ோ', 'ौ': 'ௌ', '्': '்', 'ं': 'ம்', 'ः': '' };
-const taTr = s => [...s].map(ch => TA_C[ch] || TA_V[ch] || (ch in TA_M ? TA_M[ch] : ch)).join('');
-const translit = (lang, s) => lang === 'hi' ? s : lang === 'ta' ? taTr(s) : BASE[lang] ? offsetTr(s, BASE[lang]) : s;
+const { translit } = require('./lib/translit.js');
 
 // ---- Locales ----
 const EN = json('locales/en.json'), SKT = json('locales/_sanskrit.json');
@@ -56,9 +49,9 @@ const BENEFIC = { Moon: 1, Mercury: 1, Jupiter: 1, Venus: 1 };
 const DIGBALA = { Sun: 10, Mars: 10, Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7 };
 const GOCHAR_GOOD = { Sun: [3, 6, 10, 11], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 11], Mercury: [2, 4, 6, 8, 10, 11], Jupiter: [2, 5, 7, 9, 11], Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12], Saturn: [3, 6, 11], Rahu: [3, 6, 11], Ketu: [3, 6, 11] };
 const NAVS = [['', 'kundali', 'i-chart'], ['matching/', 'matching', 'i-heart'], ['panchang/', 'panchang', 'i-sun'], ['calendar/', 'calendar', 'i-cal'], ['rashifal/', 'rashifal', 'i-star'], ['learn/', 'learn', 'i-book']];
-const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['japa/', 'japa', 'i-mala'], ['tithi-dates/', 'tithi', 'i-lamp'], ['prashna/', 'prashna', 'i-question'], ['biodata/', 'biodata', 'i-doc'], ['download/', 'download', 'i-download'], ['settings/', 'settings', 'i-shield']];
-const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'home'], panchang: ['core', 'report', 'city', 'daytime', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], today: ['core', 'report', 'sadhana-core', 'daytime', 'today'], me: ['core', 'sadhana-core', 'me'], settings: ['core', 'city', 'settings'], japa: ['core', 'sadhana-core', 'japa'], tithi: ['core', 'city', 'tithi'], prashna: ['core', 'report', 'city', 'prashna'], biodata: ['core', 'city', 'biodata'], base: ['core'] };
-const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings', 'tithi', 'prashna', 'biodata']);
+const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['puja/', 'puja', 'i-lamp'], ['vrat/', 'vrat', 'i-cal'], ['eclipses/', 'eclipses', 'i-half'], ['japa/', 'japa', 'i-mala'], ['tithi-dates/', 'tithi', 'i-lamp'], ['prashna/', 'prashna', 'i-question'], ['biodata/', 'biodata', 'i-doc'], ['download/', 'download', 'i-download'], ['settings/', 'settings', 'i-shield']];
+const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'home'], panchang: ['core', 'report', 'city', 'daytime', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], today: ['core', 'report', 'sadhana-core', 'daytime', 'today'], me: ['core', 'sadhana-core', 'me'], settings: ['core', 'city', 'settings'], japa: ['core', 'sadhana-core', 'japa'], tithi: ['core', 'city', 'tithi'], prashna: ['core', 'report', 'city', 'prashna'], biodata: ['core', 'city', 'biodata'], puja: ['core', 'city', 'puja'], vrat: ['core', 'city', 'vrat'], eclipses: ['core', 'city', 'eclipses'], base: ['core'] };
+const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings', 'tithi', 'prashna', 'biodata', 'puja', 'vrat', 'eclipses']);
 
 const url = (l, slug = '') => SITE_URL + ALL[l].meta.path + slug;
 const tr = (L, key, params) => {
@@ -208,6 +201,9 @@ function pagesFor(L) {
     P('today', 'today/', { noindex: true }),
     P('me', 'me/', { noindex: true }),
     P('settings', 'settings/', { noindex: true }),
+    P('puja', 'puja/', { priority: '0.8', freq: 'weekly' }),
+    P('vrat', 'vrat/', { priority: '0.8', freq: 'weekly' }),
+    P('eclipses', 'eclipses/', { priority: '0.8', freq: 'monthly' }),
     P('download', 'download/', { priority: '0.6', freq: 'monthly' }),
     P('japa', 'japa/', { priority: '0.7', freq: 'monthly' }),
     P('tithi', 'tithi-dates/', { priority: '0.7', freq: 'monthly' }),
@@ -237,7 +233,7 @@ function render(lang, pg) {
     .replace('<!--FEATURES-->', () => L.static.features.map(f => `<article class="card feature"><span class="fi">${icon(f.icon)}</span><h3>${esc(f.h)}</h3><p>${esc(f.p)}</p></article>`).join(''))
     .replace('<!--ABOUT-->', () => L.static.about.map(a => `<article class="card"><h3>${esc(a.h)}</h3>${a.p.map(p => `<p>${esc(p)}</p>`).join('')}</article>`).join(''))
     .replace('<!--FAQ-->', () => L.faq.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q.q)}<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></summary><div class="ans">${esc(q.a)}</div></details>`).join(''));
-  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' || pg.bundle === 'today' || pg.bundle === 'biodata' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
+  const scripts = (PLACES_PAGES.has(pg.bundle) ? `<script src="/assets/places.js?v=${BUILD}" defer></script>\n` : '') + (pg.bundle === 'home' || pg.bundle === 'today' || pg.bundle === 'biodata' || pg.bundle === 'eclipses' ? `<script src="/assets/engine.js?v=${BUILD}" defer></script>\n` : '') + `<script src="/assets/${pg.bundle}.js?v=${BUILD}" defer></script>`;
   let html = read('src/layout.html');
   html = html.replace('<!--APPBADGES-->', () => appBadges(L)).replace('<!--HEAD-->', () => head(lang, pg))
     .replace('<!--SPRITE-->', () => read('src/sprite.svg'))
@@ -274,7 +270,7 @@ for (const f of ['places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'sr
 fs.copyFileSync(path.join(ROOT, 'lib', 'engine.js'), path.join(OUT, 'assets', 'engine.js')); // same maths in the browser for the live sky wheel
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 
-fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '' })};\n`);
+fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '', gemShop: process.env.GEM_SHOP_URL || '' })};\n`);
 
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>

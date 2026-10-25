@@ -83,7 +83,7 @@ function collect() {
   const td = todayIn(330), city = cs.city;
   // keep keys owned by other pages (e.g. tithi: Hindu birthdays and shraddha dates)
   const prev = (settingsCache && !settingsCache.error && settingsCache.reminders) || {};
-  return { ...prev, push: pushOn, kinds, alerts: !!ab, alertBirth: ab, lang: LANG,
+  return { ...prev, push: pushOn, brief: $('#r-brief').checked, kinds, alerts: !!ab, alertBirth: ab, lang: LANG,
     city: { name: city.name, region: city.region, lat: city.lat, lon: city.lon, tz: cs.offset(td.y, td.m, td.d), zone: city.tz } };
 }
 $('#remform').addEventListener('submit', async e => {
@@ -122,6 +122,7 @@ async function loadAll() {
   const b = s.brand || {}, r = s.reminders || {};
   $('#b-on').checked = !!b.enabled; $('#b-name').value = b.name || ''; $('#b-phone').value = b.phone || ''; $('#b-email').value = b.email || ''; $('#b-web').value = b.website || ''; $('#b-addr').value = b.address || '';
   logo = b.logo || null; $('#b-prev').innerHTML = logo ? `<img src="${esc(logo)}" alt="">` : '';
+  $('#r-brief').checked = !!r.brief;
   if (r.kinds) $$('#r-kinds input').forEach(i => { i.checked = r.kinds.includes(i.value); });
   if (r.city && isFinite(r.city.lat)) { cs.set({ name: r.city.name, region: r.city.region || '', lat: r.city.lat, lon: r.city.lon, tz: r.city.zone || 'Asia/Kolkata' }); }
   if (r.alertBirth) { const i = rowsS.findIndex(x => birthLine(x.birth) === birthLine(r.alertBirth) && x.birth.name === r.alertBirth.name); if (i >= 0) $('#r-alert-for').value = i; }
