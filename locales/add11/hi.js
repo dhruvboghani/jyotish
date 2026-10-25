@@ -1,1 +1,1 @@
-module.exports = {"dl": {"getOn": "डाउनलोड करें", "soon": "जल्द आ रहा है"}};
+module.exports = {"dl": {"heroLink": "एंड्रॉइड ऐप"}};

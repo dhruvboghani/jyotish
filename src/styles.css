@@ -1432,3 +1432,7 @@ html:not([lang="en"]) .t-time small { text-transform: none; letter-spacing: 0; }
 footer .app-badges { justify-content: center; margin: 14px 0; }
 .dl-card .app-badges { margin: 0 0 0 auto; }
 @media (max-width: 560px) { .dl-card .app-badges { margin: 0; width: 100%; } .dl-card .app-badge { flex: 1; } }
+.trust .trust-app { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--gold-deep); font-weight: 600; border-bottom: 1px dashed currentColor; line-height: 1.3; }
+.trust .trust-app svg { color: #2DB56B; }
+.trust .trust-app:hover { color: var(--ink); }
+.is-app .trust-app { display: none; }
