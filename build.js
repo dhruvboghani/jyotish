@@ -56,7 +56,7 @@ const BENEFIC = { Moon: 1, Mercury: 1, Jupiter: 1, Venus: 1 };
 const DIGBALA = { Sun: 10, Mars: 10, Jupiter: 1, Mercury: 1, Moon: 4, Venus: 4, Saturn: 7 };
 const GOCHAR_GOOD = { Sun: [3, 6, 10, 11], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 11], Mercury: [2, 4, 6, 8, 10, 11], Jupiter: [2, 5, 7, 9, 11], Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12], Saturn: [3, 6, 11], Rahu: [3, 6, 11], Ketu: [3, 6, 11] };
 const NAVS = [['', 'kundali', 'i-chart'], ['matching/', 'matching', 'i-heart'], ['panchang/', 'panchang', 'i-sun'], ['calendar/', 'calendar', 'i-cal'], ['rashifal/', 'rashifal', 'i-star'], ['learn/', 'learn', 'i-book']];
-const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['japa/', 'japa', 'i-mala'], ['tithi-dates/', 'tithi', 'i-lamp'], ['prashna/', 'prashna', 'i-question'], ['biodata/', 'biodata', 'i-doc'], ['settings/', 'settings', 'i-shield']];
+const NAVS_MORE = [['family/', 'family', 'i-users'], ['names/', 'names', 'i-star'], ['muhurta/', 'muhurta', 'i-cal'], ['sadhana/', 'sadhana', 'i-check'], ['japa/', 'japa', 'i-mala'], ['tithi-dates/', 'tithi', 'i-lamp'], ['prashna/', 'prashna', 'i-question'], ['biodata/', 'biodata', 'i-doc'], ['download/', 'download', 'i-download'], ['settings/', 'settings', 'i-shield']];
 const BUNDLES = { home: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'home'], panchang: ['core', 'report', 'city', 'daytime', 'panchang'], calendar: ['core', 'city', 'calendar'], rashifal: ['core', 'rashifal'], matching: ['core', 'matching'], share: ['core', 'report', 'sadhana-core', 'report-plus', 'report-more', 'share'], names: ['core', 'names'], muhurta: ['core', 'city', 'muhurta'], family: ['core', 'family'], sadhana: ['core', 'sadhana-core', 'sadhana'], today: ['core', 'report', 'sadhana-core', 'daytime', 'today'], me: ['core', 'sadhana-core', 'me'], settings: ['core', 'city', 'settings'], japa: ['core', 'sadhana-core', 'japa'], tithi: ['core', 'city', 'tithi'], prashna: ['core', 'report', 'city', 'prashna'], biodata: ['core', 'city', 'biodata'], base: ['core'] };
 const PLACES_PAGES = new Set(['home', 'panchang', 'calendar', 'matching', 'muhurta', 'settings', 'tithi', 'prashna', 'biodata']);
 
@@ -206,6 +206,7 @@ function pagesFor(L) {
     P('today', 'today/', { noindex: true }),
     P('me', 'me/', { noindex: true }),
     P('settings', 'settings/', { noindex: true }),
+    P('download', 'download/', { priority: '0.6', freq: 'monthly' }),
     P('japa', 'japa/', { priority: '0.7', freq: 'monthly' }),
     P('tithi', 'tithi-dates/', { priority: '0.7', freq: 'monthly' }),
     P('prashna', 'prashna/', { priority: '0.7', freq: 'monthly' }),

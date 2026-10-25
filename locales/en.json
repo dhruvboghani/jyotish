@@ -55,7 +55,8 @@
   "biodata": "Biodata maker",
   "varsha": "Varshaphal",
   "transits": "Transit timeline",
-  "kp": "KP system"
+  "kp": "KP system",
+  "download": "App"
  },
  "hero": {
   "kicker": "Vedic Jyotish · computed, not guessed",
@@ -1501,6 +1502,11 @@
    "name": "Biodata maker",
    "title": "Marriage Biodata Maker with Kundali Details | Grahavani",
    "description": "Make a one-page marriage biodata with Rashi, Nakshatra, Gana, Nadi and Manglik from the Kundali. Three styles, six languages, PDF and WhatsApp."
+  },
+  "download": {
+   "name": "Download the App",
+   "title": "Download the App | Grahavani",
+   "description": "Free Android app for Kundali, Panchang, Rashifal and reminders in six languages."
   }
  },
  "pp": {
@@ -3151,5 +3157,17 @@
    "no": "No"
   },
   "foot": "Horoscope details calculated with Grahavani"
+ },
+ "dl": {
+  "eye": "Android app",
+  "title": "Get the Grahavani app",
+  "lede": "Kundali, Panchang, Rashifal, japa counter and reminders — on your phone, in six languages.",
+  "meta": "Android · free · about 12 MB",
+  "button": "Download APK",
+  "howH": "How to install",
+  "s1": "Tap Download APK and open the file when it finishes.",
+  "s2": "If Android asks, allow installing apps from your browser.",
+  "s3": "Tap Install, then open Grahavani.",
+  "ios": "iPhone app is coming soon."
  }
 }

@@ -49,5 +49,12 @@
       "source": "/api/:fn/",
       "destination": "/api/[fn]?fn=:fn"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/app.apk",
+      "destination": "https://github.com/dhruvboghani/jyotish/releases/download/android-latest/grahavani.apk",
+      "permanent": false
+    }
   ]
 }

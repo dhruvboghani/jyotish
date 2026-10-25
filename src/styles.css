@@ -1410,3 +1410,12 @@ html:not([lang="en"]) .t-time small { text-transform: none; letter-spacing: 0; }
   @page { size: A4; }
 }
 .bd-sheet section { padding: 0; margin: 0; }
+.dl-card { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding: 22px; }
+.dl-card img { border-radius: 22px; box-shadow: var(--shadow); }
+.dl-card h2 { font-family: var(--f-display); font-size: 26px; }
+.dl-card .btn-cta { margin-left: auto; font-size: 17px; padding: 13px 22px; }
+.dl-card .btn-cta svg { width: 20px; height: 20px; }
+.dl-steps { margin-top: 14px; padding: 18px 22px; }
+.dl-steps h3 { font-weight: 600; margin-bottom: 6px; }
+.dl-steps ol { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 6px; }
+@media (max-width: 560px) { .dl-card .btn-cta { margin-left: 0; width: 100%; justify-content: center; } }

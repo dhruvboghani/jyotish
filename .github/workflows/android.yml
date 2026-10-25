@@ -103,7 +103,7 @@ jobs:
           gh release delete android-latest --yes --cleanup-tag 2>/dev/null || true
           gh release create android-latest "$RUNNER_TEMP/grahavani.apk" --prerelease --target "$GITHUB_SHA" \
             --title "Grahavani Android — build ${{ github.run_number }}" \
-            --notes "Test build (debug-signed) from commit ${GITHUB_SHA::7}. On your Android phone: download grahavani.apk, open it and allow installing from this source."
+            --notes "Download the app: https://github.com/dhruvboghani/jyotish/releases/download/android-latest/grahavani.apk — open it on your Android phone and allow installing from this source."
 
       - uses: actions/upload-artifact@v4
         with:
