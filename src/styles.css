@@ -1632,16 +1632,18 @@ footer .app-badges { justify-content: center; margin: 14px 0; }
 .nu-dl { display: grid; gap: 10px; margin: 6px 0 4px; }
 .nu-dl dt { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-deep); }
 .nu-dl dd { margin: 2px 0 0; }
-.nu-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-.nu-check { padding: 16px 18px; }
+.nu-checks { align-items: start; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.nu-check { padding: 16px 18px; display: block; }
+form.nu-check { margin: 0; }
 .nu-check h3 { display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 0 0 10px; }
 .nu-check h3 svg { width: 18px; height: 18px; color: var(--gold-deep); flex: none; }
 .nu-check h4 { font-size: 14px; margin: 12px 0 6px; }
 .nu-check.warn { border-left: 4px solid var(--bad); }
 .nu-check.good { border-left: 4px solid var(--good); }
 .nu-check p { margin: 6px 0 0; }
-.nu-row { display: flex; gap: 8px; }
-.nu-row input { flex: 1; min-width: 0; }
+.nu-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+.nu-row input { flex: 1 1 150px; min-width: 0; height: auto; }
+.nu-row .btn-line { flex: none; }
 .nu-out:empty { display: none; }
 .nu-out { margin-top: 6px; }
 .nu-badge { flex: none; display: inline-grid; place-items: center; min-width: 64px; height: 64px; padding: 0 10px; border-radius: 18px; background: linear-gradient(140deg, var(--gold-softer), #fff); border: 1px solid var(--line); font-family: var(--f-display); font-size: 30px; color: var(--gold-deep); }
