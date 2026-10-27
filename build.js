@@ -87,6 +87,7 @@ function pagesFor(L) {
     P('calendar', 'calendar/', { priority: '0.9', freq: 'monthly' }),
     P('rashifal', 'rashifal/', { priority: '0.9', freq: 'daily' }),
     P('names', 'names/', { priority: '0.8', freq: 'monthly' }),
+    P('numerology', 'numerology/', { priority: '0.8', freq: 'monthly' }),
     P('muhurta', 'muhurta/', { priority: '0.8', freq: 'weekly' }),
     P('family', 'family/', { noindex: true }),
     P('sadhana', 'sadhana/', { noindex: true }),
@@ -110,6 +111,7 @@ function pagesFor(L) {
   for (let s = 0; s < 12; s++) { const x = learnLagna(L, s); out.push({ id: 'learn-lagna', slug: `learn/${SIGN_SLUG[s]}-lagna/`, article: true, bundle: 'base', priority: '0.6', freq: 'yearly', ...x }); }
   out.push(...SP.staticPages(L.meta.code)); // festivals, date lists, muhurat, yearly rashifal, sade sati, nakshatras, compatibility…
   out.push(...require('./lib/seo-pages2.js').staticPages2(L.meta.code)); // puja vidhi, month calendar, transits, retrogrades, mahadasha, yogas, planet-in-sign, baby names
+  out.push(...require('./lib/seo-pages3.js').staticPages3(L.meta.code)); // numerology: Mulank, Bhagyank, compatibility, yearly, guides
   return out;
 }
 

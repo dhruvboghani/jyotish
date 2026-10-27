@@ -62,7 +62,8 @@
   "eclipses": "Eclipses",
   "strength": "Shadbala",
   "dashas2": "Yogini & Chara",
-  "gems": "Gems & Rudraksha"
+  "gems": "Gems & Rudraksha",
+  "numerology": "Numerology"
  },
  "hero": {
   "kicker": "Vedic Jyotish · computed, not guessed",
@@ -1441,6 +1442,10 @@
   "muhurta": {
    "h": "Muhurta finder",
    "p": "Good dates for marriage, griha pravesh, vehicle or business in your city."
+  },
+  "numerology": {
+   "h": "Numerology",
+   "p": "Mulank, Bhagyank, name number, lucky numbers and mobile number check."
   }
  },
  "pages": {
@@ -1558,6 +1563,11 @@
    "name": "Eclipses",
    "title": "Grahan (Eclipse) Calendar with Sutak Time & Retrogrades | Grahavani",
    "description": "Solar and lunar eclipses for the next two years with local visibility, contact times and sutak for your city, which family charts they touch, and planet retrograde dates."
+  },
+  "numerology": {
+   "name": "Numerology",
+   "title": "Numerology Calculator – Mulank, Bhagyank, Name Number & Lucky Numbers | Grahavani",
+   "description": "Free numerology calculator: find your Mulank, Bhagyank and Chaldean name number, lucky numbers, days, colours and gem, check a mobile, vehicle or business name, and test compatibility."
   }
  },
  "pp": {
@@ -1941,6 +1951,20 @@
     "p": [
      "Sutak is observed only where the eclipse is visible: from 12 hours before a solar eclipse and 9 hours before a lunar eclipse begins. A penumbral lunar eclipse has no sutak.",
      "Times are calculated for the city you choose. Each family chart shows the house from its Moon sign where the eclipse falls."
+    ]
+   }
+  ],
+  "numerology": [
+   {
+    "h": "Which system is used?",
+    "p": [
+     "Grahavani uses the Indian numerology tradition: each number from 1 to 9 belongs to a planet (1 Sun, 2 Moon, 3 Jupiter, 4 Rahu, 5 Mercury, 6 Venus, 7 Ketu, 8 Saturn, 9 Mars). Names are counted with the Chaldean letter values, the method most used in India."
+    ]
+   },
+   {
+    "h": "Mulank, Bhagyank and name number",
+    "p": [
+     "Mulank comes from the day you were born and shows your nature. Bhagyank is the total of the full birth date and shows the direction of your life. The name number shows how others meet you. A name or mobile number is lucky when its number is friendly to both your Mulank and your Bhagyank."
     ]
    }
   ]
@@ -5220,7 +5244,380 @@
      "q": "Is my data stored?",
      "a": "The biodata is made in your browser; it is saved only if you save it to your account."
     }
+   ],
+   "numerology": [
+    {
+     "q": "How do I find my Mulank and Bhagyank?",
+     "a": "Mulank is your day of birth reduced to one digit (the 28th gives 2 + 8 = 10 → 1). Bhagyank is every digit of your full date of birth added and reduced to one digit. The calculator does both and adds your name number."
+    },
+    {
+     "q": "Which numerology system does Grahavani use?",
+     "a": "The Indian system with Chaldean letter values: each number from 1 to 9 belongs to a planet, and the letters of a name have values from 1 to 8."
+    },
+    {
+     "q": "How do I know if my mobile number is lucky?",
+     "a": "Add all the digits of the number and reduce the total to one digit. The number is lucky when that digit is friendly to both your Mulank and your Bhagyank. Type it into the mobile number check."
+    }
    ]
+  },
+  "nu": {
+   "eye": "Numerology",
+   "index": "Numerology",
+   "hubMu": "Mulank meanings",
+   "hubBh": "Bhagyank meanings",
+   "hubCp": "Number compatibility",
+   "hubYr": "Numerology predictions {y}",
+   "hubGuides": "Numerology guides",
+   "calcCta": "Find your Mulank, Bhagyank and name number in seconds.",
+   "calcBtn": "Open the calculator",
+   "bornOn": "Born on",
+   "ruler": "Planet",
+   "luckyNums": "Friendly numbers",
+   "avoidNums": "Unfriendly numbers",
+   "luckyDay": "Lucky day",
+   "luckyColor": "Lucky colours",
+   "gem": "Gem",
+   "luckyDates": "Lucky dates",
+   "none": "None",
+   "rel": {
+    "F": "friendly",
+    "N": "neutral",
+    "E": "unfriendly"
+   },
+   "muShort": "Mulank {n}",
+   "muH1": "Mulank {n} ({g}): personality, career, love and lucky numbers",
+   "muTitle": "Mulank {n} Numerology – Personality, Lucky Number, Colour, Career & Marriage | Grahavani",
+   "muDesc": "People born on the {dates} have Mulank {n}, ruled by {g}. Personality, strengths, career, love, health, lucky days, colours, gem and compatible numbers.",
+   "personalityH": "Nature of Mulank {n}",
+   "strongH": "Strengths",
+   "weakH": "Weaknesses",
+   "careerH": "Career",
+   "loveH": "Love and marriage",
+   "healthH": "Health",
+   "compatH": "Mulank {n} with every number",
+   "number": "Number",
+   "match": "Match",
+   "muFq1": "Who has Mulank {n}?",
+   "muFa1": "Everyone born on the {dates} of any month has Mulank {n}. Its planet is {g}.",
+   "muFq2": "What are the lucky numbers for Mulank {n}?",
+   "muFa2": "Friendly numbers for Mulank {n} are {list}. Unfriendly numbers: {avoid}.",
+   "muFq3": "Which colour, day and gem suit Mulank {n}?",
+   "muFa3": "Lucky colours: {c}. Lucky day: {d}. Gem: {gem}, but wear it only after checking your birth chart.",
+   "bhShort": "Bhagyank {n}",
+   "bhH1": "Bhagyank {n}: meaning of destiny number {n}",
+   "bhTitle": "Bhagyank {n} (Destiny Number {n}) – Meaning, Career, Marriage & Luck | Grahavani",
+   "bhDesc": "Bhagyank {n}, ruled by {g}: what it says about your life path, career, marriage and luck, how to calculate it, and how it works with each Mulank.",
+   "bhMeaningH": "What Bhagyank {n} means",
+   "bhCalcH": "How to calculate Bhagyank",
+   "bhCalc": "Add every digit of your full date of birth, then keep adding the digits of the total until one digit is left. Example: {ex}.",
+   "bhWithH": "Bhagyank {n} with each Mulank",
+   "bhWithNote": "When Mulank and Bhagyank are friendly, what you want and where life takes you agree, and progress is smoother.",
+   "bhFq1": "How do I find my Bhagyank?",
+   "bhFa1": "Add all the digits of your date of birth and reduce to one digit. For example: {ex}.",
+   "bhFq2": "Is Bhagyank {n} lucky?",
+   "bhFq3": "What is the difference between Mulank and Bhagyank?",
+   "bhFa3": "Mulank comes from the day of birth only and describes your nature. Bhagyank comes from the full date and describes your life path and luck. Both are used to judge lucky numbers, names and dates.",
+   "cpShort": "{a} and {b}",
+   "cpH1": "Numerology compatibility of number {a} and {b}",
+   "cpTitle": "Number {a} and {b} Compatibility – Love, Marriage & Business in Numerology | Grahavani",
+   "cpDesc": "Are numbers {a} and {b} compatible? A {lvl} match. How Mulank {a} ({ga}) and Mulank {b} ({gb}) get on in love, marriage, friendship and business.",
+   "cpVerdict": "Match",
+   "cpEach": "To {a}, number {b} is {r}.",
+   "cpPlanets": "Number {a} belongs to {ga} and number {b} to {gb}.",
+   "cpLoveH": "Love and marriage",
+   "cpWorkH": "Business and friendship",
+   "cpBringsH": "What each one brings",
+   "cpFq1": "Are numbers {a} and {b} compatible?",
+   "cpFq2": "Can Mulank {a} marry Mulank {b}?",
+   "cpFa2": "{love} Numerology is only one check; for marriage, match the kundalis too.",
+   "cpMore": "Other matches for number {n}",
+   "cpNote": "Compatibility here is by Mulank. Check Bhagyank too, and the birth charts for marriage.",
+   "yrShort": "Mulank {n} {y}",
+   "yrH1": "Mulank {n} numerology prediction {y}",
+   "yrTitle": "Mulank {n} Numerology Prediction {y} – Career, Money, Love & Lucky Months | Grahavani",
+   "yrDesc": "{y} adds up to year number {yn} ({gy}). What it means for Mulank {n}: the theme of the year, career, money, love and the best and hardest months.",
+   "yrLede": "The year {y} adds up to {yn}, the number of {gy}. For Mulank {n} its vibration is {v}.",
+   "yrThemeH": "The theme of {y}",
+   "yrRelH": "How {y} treats Mulank {n}",
+   "yrRel": {
+    "F": "{gy}, the ruler of {y}, is friendly to {g}. Efforts are supported, help comes from seniors and the year flows more easily.",
+    "N": "{gy}, the ruler of {y}, is neutral to {g}. Results follow effort: plan well and the year gives what you put in.",
+    "E": "{gy}, the ruler of {y}, is unfriendly to {g}. Expect some resistance and delays; patience, routine and remedies of {g} help."
+   },
+   "yrMonthsH": "Month by month in {y}",
+   "month": "Month",
+   "vib": "Vibration",
+   "tone": "Tone",
+   "toneL": {
+    "best": "Strong",
+    "good": "Good",
+    "neutral": "Steady",
+    "avoid": "Careful"
+   },
+   "yrFq1": "How will {y} be for Mulank {n}?",
+   "yrFq2": "Which months of {y} are best for Mulank {n}?",
+   "yrFa2": "The strongest months are {list}; take more care in {bad}.",
+   "yrFa2none": "The strongest months are {list}; no month is strongly unfavourable.",
+   "yrNote": "A general forecast by number. Your birth chart, dasha and transits decide the details.",
+   "yrMore": "Other numbers in {y}",
+   "mobH1": "Mobile number numerology: is your number lucky?",
+   "mobTitle": "Mobile Number Numerology – How to Check if Your Phone Number is Lucky | Grahavani",
+   "mobDesc": "How to find the numerology of a mobile number, which totals suit each Mulank, and which digits to avoid. Free mobile number checker.",
+   "mobP": [
+    "Your mobile number is with you all day, so in numerology its total is believed to colour your contacts, business calls and luck.",
+    "Add all ten digits and reduce the total to one digit. For 98250 12345: 9 + 8 + 2 + 5 + 0 + 1 + 2 + 3 + 4 + 5 = 39 → 3 + 9 = 12 → 1 + 2 = 3. The number belongs to 3 (Jupiter).",
+    "A number is lucky for you when its total is friendly to both your Mulank and your Bhagyank, neutral is acceptable, and unfriendly totals are best avoided for a business or main number."
+   ],
+   "mobTableH": "Best mobile totals for each Mulank",
+   "mobBest": "Best totals",
+   "mobAvoid": "Avoid",
+   "mobFaq": [
+    {
+     "q": "How do I calculate my mobile number numerology?",
+     "a": "Add all the digits of the number (without the country code) and reduce the total to one digit."
+    },
+    {
+     "q": "Which mobile number total is the luckiest?",
+     "a": "There is no single lucky total; it depends on your Mulank and Bhagyank. Totals 1, 3, 5 and 6 are friendly to many numbers, and 5 suits almost everyone."
+    },
+    {
+     "q": "Should I change my mobile number?",
+     "a": "Only if the total is unfriendly to both your numbers and the number is used for work. A number you have used for years carries your contacts and identity too."
+    }
+   ],
+   "vehP": "For a vehicle number, add only the digits of the plate (GJ01AB1234 → 0 + 1 + 1 + 2 + 3 + 4 = 11 → 2) and judge the total the same way.",
+   "nmH1": "Name numerology: Chaldean chart and calculator",
+   "nmTitle": "Name Numerology Calculator – Chaldean Chart, Name Number & Spelling Correction | Grahavani",
+   "nmDesc": "The Chaldean letter chart, how to calculate your name number, what each number means and how a small spelling change can make a name lucky.",
+   "nmP": [
+    "In Chaldean numerology each letter has a value from 1 to 8; the number 9 is not given to any letter because it is considered sacred.",
+    "Add the values of the letters of the name you use every day, then reduce the total to one digit. This is your name number, which shows how the world meets you.",
+    "If the name number is unfriendly to your Mulank or Bhagyank, numerologists suggest a small spelling change, such as doubling a letter, so that the total becomes friendly."
+   ],
+   "nmChartH": "Chaldean letter values",
+   "nmExampleH": "Example",
+   "nmExample": "{name}: {calc} = {t} → {n} ({g})",
+   "nmFaq": [
+    {
+     "q": "Which name should I use for numerology?",
+     "a": "The name you use and sign most often: usually first name and surname. Use the same spelling everywhere if you change it."
+    },
+    {
+     "q": "Is Chaldean or Pythagorean numerology better?",
+     "a": "Indian numerologists mostly use Chaldean values because they are based on the sound of the letters. Grahavani uses Chaldean."
+    },
+    {
+     "q": "Can changing my name spelling change my luck?",
+     "a": "Numerology holds that a friendly name number brings smoother results. It is a support, not a guarantee; effort and the birth chart matter more."
+    }
+   ],
+   "guides": "Guides"
+  }
+ },
+ "nu": {
+  "eye": "Ank Jyotish",
+  "title": "Numerology calculator",
+  "lede": "Your Mulank, Bhagyank and name number, with lucky numbers, days, colours and gem — then check a mobile number, a business name or a partner.",
+  "name": "Full name",
+  "namePh": "As you sign it, e.g. Rahul Sharma",
+  "date": "Date of birth",
+  "submit": "Calculate",
+  "needDate": "Enter your date of birth to begin.",
+  "mulank": "Mulank",
+  "bhagyank": "Bhagyank",
+  "nameNum": "Name number",
+  "py": "Personal year {y}",
+  "mulankWhat": "From your day of birth: your nature and how you act day to day.",
+  "bhagyankWhat": "From your full date of birth: the direction your life takes.",
+  "nameWhat": "From the letters of your name (Chaldean): how others meet you.",
+  "pyWhat": "The theme of {y} for you.",
+  "total": "total {t}",
+  "planet": "Planet",
+  "luckyNums": "Lucky numbers",
+  "avoidNums": "Numbers to avoid",
+  "luckyDates": "Lucky dates",
+  "luckyDay": "Lucky day",
+  "luckyColor": "Lucky colours",
+  "gem": "Gem",
+  "none": "None",
+  "traitH": "Your nature (Mulank {n})",
+  "destinyH": "Your path (Bhagyank {n})",
+  "strong": "Strengths",
+  "weak": "Watch out for",
+  "career": "Career",
+  "love": "Love and marriage",
+  "health": "Health",
+  "fit": {
+   "best": "Very lucky",
+   "good": "Lucky",
+   "neutral": "Neutral",
+   "avoid": "Not favourable"
+  },
+  "fitText": {
+   "best": "Number {n} is friendly to both your Mulank and your Bhagyank.",
+   "good": "Number {n} is friendly to one of your numbers and neutral to the other.",
+   "neutral": "Number {n} is neither friendly nor unfriendly to your numbers.",
+   "avoid": "Number {n} is unfriendly to your Mulank or Bhagyank."
+  },
+  "nameRes": "{name} adds up to {t} → {n} ({g})",
+  "variantsH": "Spellings that reach a lucky number",
+  "variantsNone": "No simple spelling change reaches a lucky number; your name can stay as it is.",
+  "variantsNote": "Change a spelling only if you will use it everywhere: signature, documents, nameplate and social media.",
+  "mobileH": "Mobile or vehicle number",
+  "mobilePh": "e.g. 98250 12345 or GJ01AB1234",
+  "mobileBtn": "Check",
+  "mobileRes": "The digits add up to {t} → {n} ({g})",
+  "mobileBad": "Type a number with digits.",
+  "bizH": "Business or brand name",
+  "bizPh": "e.g. Shree Ganesh Traders",
+  "bizBtn": "Check",
+  "bizNote": "A business name is matched with the owner's Bhagyank and Mulank.",
+  "pairH": "Compatibility with another person",
+  "pairDate": "Their date of birth",
+  "pairBtn": "Check",
+  "pairRes": "Your Mulank {a} and their Mulank {b}",
+  "pairRes2": "Your Bhagyank {a} and their Bhagyank {b}",
+  "readMore": "More about Mulank {n}",
+  "readBh": "More about Bhagyank {n}",
+  "readYear": "Mulank {n} prediction {y}",
+  "readPair": "Number {a} and {b} compatibility",
+  "note": "Numerology is a light guide. For big decisions such as marriage or a business launch, look at the full birth chart as well.",
+  "lv": {
+   "excellent": {
+    "label": "Excellent",
+    "love": "A natural fit. Both numbers support each other, so trust and understanding come easily and the relationship grows steadily.",
+    "work": "Strong partners in business: shared goals, quick decisions and few ego clashes."
+   },
+   "good": {
+    "label": "Good",
+    "love": "A good match. One side adapts more, but warmth and respect keep the bond healthy.",
+    "work": "Works well together when roles are clear and one person leads."
+   },
+   "average": {
+    "label": "Average",
+    "love": "Neither pulled together nor apart. The match depends on effort, shared values and the birth charts.",
+    "work": "A workable partnership if responsibilities and money are clearly divided."
+   },
+   "mixed": {
+    "label": "Mixed",
+    "love": "One finds the other easy, the other finds them hard work. Patience and open talk are needed to keep the balance.",
+    "work": "Good ideas, but different styles. Put agreements in writing."
+   },
+   "difficult": {
+    "label": "Challenging",
+    "love": "The numbers pull in different directions, so arguments and misunderstandings come easily. Matching the kundalis matters more here.",
+    "work": "Clashes over control or money are likely; better as friends than as business partners."
+   }
+  },
+  "num": {
+   "1": {
+    "kw": "leadership, independence, ambition",
+    "color": "Gold, orange, yellow",
+    "trait": "Mulank 1 is ruled by the Sun. You are born to lead: independent, confident and full of ideas, you prefer to start things rather than follow. You value respect and self-made success.",
+    "strong": "Leadership, willpower, originality, honesty and the courage to take decisions.",
+    "weak": "Ego, stubbornness, impatience and difficulty taking advice or sharing control.",
+    "career": "Government service, management, politics, own business, medicine and any role with authority.",
+    "love": "Loyal and protective, but needs a partner who respects their independence. Gets on well with 2, 3 and 9.",
+    "health": "Watch the heart, eyes, blood pressure and back; regular sunlight and rest help.",
+    "destiny": "Bhagyank 1 points to a life of leadership and self-reliance. Success comes from your own efforts, often after the age of 22 to 25, and you are meant to start new things, lead people and earn a name.",
+    "py": "A year of new beginnings: start projects, take charge and plant seeds for the next nine years."
+   },
+   "2": {
+    "kw": "sensitivity, care, imagination",
+    "color": "White, cream, silver, light green",
+    "trait": "Mulank 2 is ruled by the Moon. You are gentle, caring and imaginative, with strong intuition and a gift for bringing people together. Your mood changes like the Moon.",
+    "strong": "Kindness, diplomacy, creativity, intuition and loyalty to family.",
+    "weak": "Over-sensitivity, mood swings, indecision and worrying too much.",
+    "career": "Arts, music, writing, nursing, hospitality, counselling, dairy, water and import-export trades.",
+    "love": "Romantic and devoted; needs emotional security. Gets on well with 1, 3 and 5.",
+    "health": "Watch digestion, water retention, sleep and stress; a calm routine helps.",
+    "destiny": "Bhagyank 2 gives a life built on partnership and service. You do best working with others, in roles that need care, tact and imagination, and peace at home is the key to your progress.",
+    "py": "A year of patience and partnership: cooperate, build relationships and let plans ripen slowly."
+   },
+   "3": {
+    "kw": "wisdom, optimism, discipline",
+    "color": "Yellow, saffron, pink",
+    "trait": "Mulank 3 is ruled by Jupiter. You are wise, disciplined and optimistic, a natural teacher and advisor who likes to grow and help others grow. Principles matter to you.",
+    "strong": "Knowledge, honesty, generosity, discipline and good judgement.",
+    "weak": "Bossiness, pride in being right, and taking on too much.",
+    "career": "Teaching, law, finance, banking, religion, consulting and administration.",
+    "love": "Sincere and responsible partner who expects respect. Gets on well with 1, 2 and 9.",
+    "health": "Watch the liver, weight, sugar and skin; moderation in rich food helps.",
+    "destiny": "Bhagyank 3 brings a life of learning and guidance. Respect, children and wealth grow through knowledge, ethics and helping others.",
+    "py": "A year of growth and expression: study, travel, share ideas and enjoy social life."
+   },
+   "4": {
+    "kw": "originality, hard work, change",
+    "color": "Blue, grey, khaki",
+    "trait": "Mulank 4 is ruled by Rahu. You think differently, question rules and work hard behind the scenes. Life brings sudden changes, but you are practical and keep building.",
+    "strong": "Hard work, practical thinking, organisation, technical skill and loyalty.",
+    "weak": "Rebelliousness, suspicion, sudden decisions and a habit of making enemies.",
+    "career": "Technology, engineering, research, electricity, media, politics and foreign trade.",
+    "love": "Faithful but not openly romantic; needs an understanding partner. Gets on well with 1, 5, 6 and 7.",
+    "health": "Watch nerves, headaches and mysterious complaints; avoid overwork.",
+    "destiny": "Bhagyank 4 gives a life of steady effort and unusual turns. Success comes through hard work, technology and new ways of doing things, usually after early struggles.",
+    "py": "A year of hard work and foundations: organise, save and finish what is pending."
+   },
+   "5": {
+    "kw": "intelligence, communication, change",
+    "color": "Green, light grey, white",
+    "trait": "Mulank 5 is ruled by Mercury. You are quick-witted, talkative and adaptable, love travel and variety, and get on with almost every number. Business sense comes naturally.",
+    "strong": "Intelligence, communication, humour, adaptability and business sense.",
+    "weak": "Restlessness, impatience, nervousness and starting more than you finish.",
+    "career": "Business, trade, sales, marketing, media, writing, accounts, IT and travel.",
+    "love": "Charming and fun but needs freedom and variety. Gets on with most numbers, best with 1, 4, 5 and 6.",
+    "health": "Watch the nerves, skin and breathing; enough sleep and fewer screens help.",
+    "destiny": "Bhagyank 5 brings a life of movement, trade and communication. Opportunities come through travel, people and business, and your luck grows when you use your speech and wit.",
+    "py": "A year of change and freedom: travel, new contacts and quick opportunities. Avoid hasty commitments."
+   },
+   "6": {
+    "kw": "love, beauty, responsibility",
+    "color": "White, light blue, pink",
+    "trait": "Mulank 6 is ruled by Venus. You are charming, artistic and love comfort and beauty. Family, home and harmony matter most to you.",
+    "strong": "Charm, artistic taste, kindness, a sense of responsibility and loyalty.",
+    "weak": "Love of luxury, overspending, jealousy and avoiding hard conversations.",
+    "career": "Arts, fashion, beauty, films, music, hotels, interior design, jewellery and luxury trades.",
+    "love": "Very romantic and devoted to family; marriage is central to life. Gets on well with 4, 5, 6 and 8.",
+    "health": "Watch the throat, kidneys, sugar and hormones; balance pleasure with exercise.",
+    "destiny": "Bhagyank 6 gives a life centred on love, family and beauty. Comfort, vehicles and a good home come in time, and you prosper through art, service and harmony.",
+    "py": "A year of home and responsibility: family, marriage, property and caring for others."
+   },
+   "7": {
+    "kw": "spirituality, research, intuition",
+    "color": "Light green, white, light yellow",
+    "trait": "Mulank 7 is ruled by Ketu. You are thoughtful, intuitive and drawn to the deeper side of life. You need time alone and often surprise people with your insight.",
+    "strong": "Intuition, research, spirituality, independence of thought and calm under pressure.",
+    "weak": "Detachment, secrecy, restlessness and difficulty expressing feelings.",
+    "career": "Research, science, medicine, astrology, spirituality, writing, travel and foreign work.",
+    "love": "Deep but private; needs a patient, understanding partner. Gets on well with 1, 4, 5 and 6.",
+    "health": "Watch the stomach, skin and nerves; meditation and nature help.",
+    "destiny": "Bhagyank 7 brings a life of inner growth and research. Luck comes through knowledge, foreign links and spiritual work, and peace comes from understanding life rather than chasing it.",
+    "py": "A year of reflection: study, rest, spiritual practice and inner work. Do not force outer results."
+   },
+   "8": {
+    "kw": "discipline, patience, justice",
+    "color": "Dark blue, black, purple",
+    "trait": "Mulank 8 is ruled by Saturn. You are serious, patient and hard-working. Life tests you early, but your persistence builds lasting success and respect.",
+    "strong": "Discipline, patience, responsibility, a sense of justice and endurance.",
+    "weak": "Pessimism, loneliness, delays and carrying too much on your shoulders.",
+    "career": "Law, administration, engineering, mining, oil, property, labour and long-term business.",
+    "love": "Serious and loyal partner, slow to open up. Gets on well with 5, 6 and 8.",
+    "health": "Watch the joints, bones, teeth and chronic problems; steady habits help.",
+    "destiny": "Bhagyank 8 gives a life of effort that is repaid later. Delays come first, but discipline brings stable wealth, property and authority, often after 35.",
+    "py": "A year of results and responsibility: career, money and authority, earned through effort."
+   },
+   "9": {
+    "kw": "courage, energy, service",
+    "color": "Red, coral, pink",
+    "trait": "Mulank 9 is ruled by Mars. You are brave, energetic and protective, with a strong will and a big heart. You fight for what you believe in.",
+    "strong": "Courage, energy, generosity, determination and a fighting spirit.",
+    "weak": "Anger, impatience, impulsiveness and taking risks without thinking.",
+    "career": "Army, police, sports, surgery, engineering, property, fire and leadership roles.",
+    "love": "Passionate and protective; needs respect and a calm partner. Gets on well with 1, 3 and 5.",
+    "health": "Watch injuries, fevers, blood and blood pressure; exercise releases energy safely.",
+    "destiny": "Bhagyank 9 brings a life of action and service. You are meant to protect, lead and help people, and success comes through courage, property and public work.",
+    "py": "A year of completion: finish old matters, let go of what no longer serves you and prepare for a fresh start."
+   }
   }
  }
 }

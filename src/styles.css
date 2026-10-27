@@ -1616,3 +1616,41 @@ footer .app-badges { justify-content: center; margin: 14px 0; }
 .pv-list { columns: 2; column-gap: 24px; } @media (max-width: 560px) { .pv-list { columns: 1; } }
 .tool-faq { margin: 28px 0 8px; }
 .rp-month tr.warn td { background: rgba(200, 60, 60, .06); }
+
+/* ---- Numerology ---- */
+.nu-form { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
+.nu-form .field { flex: 1 1 220px; margin: 0; }
+.nu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 16px 0 14px; }
+.nu-num { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+.nu-num .eyebrow { margin: 0; }
+.nu-big { display: flex; align-items: center; gap: 10px; }
+.nu-big b { font-family: var(--f-display); font-size: 44px; line-height: 1; color: var(--ink); }
+.nu-big small { color: var(--ink-2); font-weight: 600; }
+.nu-num p { margin: 0; font-size: 14px; color: var(--ink-2); flex: 1; }
+.nu-num .linkbtn { align-self: flex-start; padding: 0; }
+.nu-page .card { margin-bottom: 14px; }
+.nu-dl { display: grid; gap: 10px; margin: 6px 0 4px; }
+.nu-dl dt { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-deep); }
+.nu-dl dd { margin: 2px 0 0; }
+.nu-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.nu-check { padding: 16px 18px; }
+.nu-check h3 { display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 0 0 10px; }
+.nu-check h3 svg { width: 18px; height: 18px; color: var(--gold-deep); flex: none; }
+.nu-check h4 { font-size: 14px; margin: 12px 0 6px; }
+.nu-check.warn { border-left: 4px solid var(--bad); }
+.nu-check.good { border-left: 4px solid var(--good); }
+.nu-check p { margin: 6px 0 0; }
+.nu-row { display: flex; gap: 8px; }
+.nu-row input { flex: 1; min-width: 0; }
+.nu-out:empty { display: none; }
+.nu-out { margin-top: 6px; }
+.nu-badge { flex: none; display: inline-grid; place-items: center; min-width: 64px; height: 64px; padding: 0 10px; border-radius: 18px; background: linear-gradient(140deg, var(--gold-softer), #fff); border: 1px solid var(--line); font-family: var(--f-display); font-size: 30px; color: var(--gold-deep); }
+.nu-badge svg { width: 30px; height: 30px; }
+.nu-grid-t { font-size: 14px; }
+.nu-grid-t th, .nu-grid-t td { padding: 6px 7px; text-align: center; }
+.nu-grid-t td a { display: block; text-decoration: none; color: inherit; border-radius: 6px; padding: 3px 0; }
+.nu-grid-t .nu-excellent a { background: var(--good-bg); color: var(--good); font-weight: 700; }
+.nu-grid-t .nu-good a { background: #EEF8F2; color: var(--good); }
+.nu-grid-t .nu-average a { background: var(--bg); color: var(--ink-2); }
+.nu-grid-t .nu-mixed a { background: var(--gold-softer); color: var(--gold-deep); }
+.nu-grid-t .nu-difficult a { background: var(--bad-bg); color: var(--bad); }
