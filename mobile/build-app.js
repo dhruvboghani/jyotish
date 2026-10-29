@@ -10,7 +10,7 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto'), { 
 const esbuild = require('esbuild');
 
 const ROOT = path.join(__dirname, '..'), PUB = path.join(ROOT, 'public'), WWW = path.join(__dirname, 'www');
-const API_BASE = (process.env.GV_API_BASE || 'https://grahavani-mu.vercel.app').replace(/\/$/, '');
+const API_BASE = (process.env.GV_API_BASE || 'https://grahavani.iplocatortools.com').replace(/\/$/, '');
 const SUPABASE_URL = process.env.GV_SUPABASE_URL || 'https://tudpjxabxxaubvthktqg.supabase.co';
 const SUPABASE_KEY = process.env.GV_SUPABASE_KEY || 'sb_publishable_Yii9G0nKGF5nr0rVHRougQ_NXOn1Spv'; // publishable (browser) key
 if (/^sb_secret_|service_role/.test(SUPABASE_KEY)) throw new Error('Never put a secret key in the app.');

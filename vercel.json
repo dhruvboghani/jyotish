@@ -112,6 +112,17 @@
       "source": "/app.apk",
       "destination": "https://github.com/dhruvboghani/jyotish/releases/download/android-latest/grahavani.apk",
       "permanent": false
+    },
+    {
+      "source": "/:path((?!api/).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "grahavani-mu.vercel.app"
+        }
+      ],
+      "destination": "https://grahavani.iplocatortools.com/:path",
+      "permanent": true
     }
   ]
 }
