@@ -5650,5 +5650,16 @@
     "py": "A year of completion: finish old matters, let go of what no longer serves you and prepare for a fresh start."
    }
   }
+ },
+ "rt": {
+  "overview": "Overview",
+  "charts": "Charts",
+  "planets": "Planets & houses",
+  "yogas": "Yogas & doshas",
+  "areas": "Life areas",
+  "timing": "Dasha & timing",
+  "remedies": "Remedies",
+  "more": "More",
+  "next": "Next: {t}"
  }
 }

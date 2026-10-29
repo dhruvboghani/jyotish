@@ -160,3 +160,6 @@ html[lang="en"] .gs-tag { text-transform: uppercase; }
 @media print { .app-bar, .app-tabs, #gv-splash { display: none !important; } }
 .app-badges { display: none !important; }
 .foot-seo, .seo-hub { display: none !important; }
+.rtabs { top: calc(56px + var(--sat)); margin-inline: -16px; padding: 8px 16px 10px; background: var(--bg); gap: 8px; -webkit-overflow-scrolling: touch; }
+.rtabs button { min-height: 38px; padding: 0 15px; border: 0; background: #fff; color: var(--ink); font-size: 14px; }
+.rtabs button[aria-selected="true"] { background: var(--ink); color: #fff; }

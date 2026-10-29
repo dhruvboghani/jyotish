@@ -1685,3 +1685,19 @@ form.nu-check { margin: 0; }
 .act-note svg { width: 18px; height: 18px; flex: none; color: var(--good); margin-top: 2px; }
 .act-note ul { margin: 0; padding-left: 16px; display: grid; gap: 2px; }
 .act-note a { color: var(--good); }
+
+/* ---------- Kundali report tabs ---------- */
+.rtabs { position: sticky; top: calc(62px + var(--sat)); z-index: 10; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 10px 0 12px; margin: 10px 0 4px; background: linear-gradient(var(--bg) 82%, rgba(244,245,250,0)); scroll-padding-inline: 16px; }
+.rtabs::-webkit-scrollbar { display: none; }
+.rtabs button { flex: none; display: inline-flex; align-items: center; gap: 7px; padding: 9px 15px; border-radius: 999px; border: 1px solid var(--line-2); background: #fff; color: var(--ink-2); font: inherit; font-size: 14.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.rtabs button svg { width: 17px; height: 17px; flex: none; color: var(--gold-deep); }
+.rtabs button:hover { border-color: var(--gold); color: var(--ink); }
+.rtabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; box-shadow: 0 6px 16px rgba(22,23,59,.18); }
+.rtabs button[aria-selected="true"] svg { color: var(--gold); }
+.rtabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (max-width: 720px) { .rtabs { top: calc(58px + var(--sat)); margin-inline: -16px; padding-inline: 16px; } .rtabs button { padding: 8px 13px; font-size: 14px; } }
+.rtab-panel > section:first-child { margin-top: 8px; }
+.rtab-panel > section:first-child .sec-head { padding-top: 0; }
+.rtab-next { display: flex; justify-content: flex-end; margin: 22px 0 6px; }
+.rtab-next .btn-line { font-weight: 600; }
+@media print { .rtabs, .rtab-next { display: none !important; } .rtab-panel, .rtab-panel[hidden] { display: block !important; } }

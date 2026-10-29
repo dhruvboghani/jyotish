@@ -243,6 +243,66 @@ function downloadPdf() {
 }
 
 // ---------- Full report ----------
+// ---------- Report tabs: sections grouped so only one group shows at a time ----------
+const RTABS = [
+  ['overview', ['highlights', 'today'], 'i-star'],
+  ['charts', ['charts', 'belt'], 'i-chart'],
+  ['planets', ['grahas', 'bhavas', 'strength', 'ashtaka'], 'i-sun'],
+  ['yogas', ['yogas'], 'i-yoga'],
+  ['areas', ['areas'], 'i-users'],
+  ['timing', ['dasha', 'events', 'transits', 'varsha', 'dashas2', 'gochar'], 'i-clock'],
+  ['remedies', ['remedies', 'gems'], 'i-lamp'],
+  ['more', ['panchang', 'kp', 'rectify', 'notes', 'method'], 'i-info']
+];
+let rtabCurrent = 'overview';
+function tabify(host) {
+  const slot = host.querySelector('#rtabs-slot'); if (!slot) return;
+  const used = new Set(), groups = [];
+  for (const [key, ids, icon] of RTABS) {
+    const secs = ids.map(id => host.querySelector(':scope > section#' + id)).filter(Boolean);
+    secs.forEach(x => used.add(x));
+    if (secs.length) groups.push({ key, icon, secs });
+  }
+  const rest = [...host.querySelectorAll(':scope > section')].filter(x => !used.has(x)); // anything new lands in "More"
+  if (rest.length) { const m = groups.find(g0 => g0.key === 'more'); if (m) m.secs.push(...rest); else groups.push({ key: 'more', icon: 'i-info', secs: rest }); }
+  const bar = document.createElement('nav'); bar.className = 'rtabs no-print'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', t('nav.sections'));
+  bar.innerHTML = groups.map(g0 => `<button type="button" role="tab" id="rtb-${g0.key}" data-rt="${g0.key}" aria-controls="rt-${g0.key}" aria-selected="false">${ic(g0.icon)}<span>${esc(t('rt.' + g0.key))}</span></button>`).join('');
+  const frag = document.createDocumentFragment(); frag.appendChild(bar);
+  groups.forEach((g0, i) => {
+    const p = document.createElement('div'); p.className = 'rtab-panel'; p.id = 'rt-' + g0.key; p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', 'rtb-' + g0.key); p.hidden = true;
+    g0.secs.forEach(x => p.appendChild(x));
+    const nx = groups[i + 1];
+    if (nx) p.insertAdjacentHTML('beforeend', `<div class="rtab-next no-print"><button type="button" class="btn-line" data-rt="${nx.key}">${esc(t('rt.next', { t: t('rt.' + nx.key) }))} →</button></div>`);
+    frag.appendChild(p);
+  });
+  slot.replaceWith(frag);
+  const open = (key, scroll) => {
+    if (!host.querySelector('#rt-' + key)) key = groups[0].key;
+    rtabCurrent = key;
+    bar.querySelectorAll('[data-rt]').forEach(b => { const on = b.dataset.rt === key; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+    host.querySelectorAll('.rtab-panel').forEach(p => { p.hidden = p.id !== 'rt-' + key; });
+    if (scroll) { const top = bar.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(bar).top) || 0); if (scrollY > top + 2) scrollTo({ top, behavior: 'smooth' }); }
+    if (typeof observeReveals === 'function') observeReveals();
+    if (typeof track === 'function' && scroll) track('report_tab', { tab: key });
+  };
+  host.addEventListener('click', e => { const b = e.target.closest('[data-rt]'); if (b && host.contains(b)) open(b.dataset.rt, true); });
+  bar.addEventListener('keydown', e => {
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+    const bs = [...bar.querySelectorAll('[data-rt]')], i = bs.findIndex(b => b.dataset.rt === rtabCurrent);
+    const j = e.key === 'Home' ? 0 : e.key === 'End' ? bs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length;
+    e.preventDefault(); open(bs[j].dataset.rt, true); bs[j].focus();
+  });
+  // A link or hash to a section (e.g. #dasha) opens its tab first
+  const fromHash = h => { const id = (h || '').replace(/^#/, ''); if (!id) return null; if (host.querySelector('#rt-' + id)) return id; const el = host.querySelector('section#' + CSS.escape(id)); const p = el && el.closest('.rtab-panel'); return p ? p.id.slice(3) : null; };
+  host.revealTab = el => { const p = el && el.closest && el.closest('.rtab-panel'); if (p && p.hidden) open(p.id.slice(3), false); };
+  open(fromHash(location.hash) || 'overview', false);
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return;
+  const id = a.getAttribute('href').slice(1); if (!id) return;
+  const el = document.getElementById(id), host = el && el.closest('#results, .share-report, main');
+  if (el && host && host.revealTab && el.closest('.rtab-panel') && el.closest('.rtab-panel').hidden) { e.preventDefault(); host.revealTab(el); setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 30); }
+});
 function renderFull(data, host = $('#results'), opts = {}) {
   const { input, chart: c, analysis: an, gochar, sadeSati: ss, method, premium } = data;
   const tz = input.tzMinutes, now = Date.now();
@@ -380,7 +440,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   <div class="print-head"><b>${esc(t('brand.name'))}</b> · ${esc(location.host)} · ${esc(fDate(now, tz))}</div>
   ${profileHtml(input, c.utMs, c.lagna, P.Moon, { llHouse: P[SIGN_LORD[c.lagna.sign]].house, dasha: dashaFact })}
   ${actions}
-  <nav class="jump-nav no-print" aria-label="${esc(t('nav.sections'))}">${NAV.filter(k => k !== 'notes' || !data.shared).map(k => `<a class="tag" href="#${k}">${esc(t('nav.' + k))}</a>`).join('')}</nav>
+  <div id="rtabs-slot"></div>
   ${sec('highlights', 'hl', `<div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${esc(t('sec.hl.nGood', { n: an.good.length }))}</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${esc(t('sec.hl.nBad', { n: an.bad.length }))}</span></div></div>
     <div class="hl-grid"><div class="card hl-col good"><h3><span class="badge">${ic('i-check')}</span>${esc(t('sec.hl.good'))}<small>${an.good.length}</small></h3><ul class="hl-list">${an.good.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneGood'))}</li>`}</ul></div>
     <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>${esc(t('sec.hl.bad'))}<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneBad'))}</li>`}</ul></div></div>`)}
@@ -412,6 +472,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${mSec('rectify', 'rect', rectHtml)}
   ${notesSec}
   ${sec('method', 'method', `<div class="card method reveal"><p class="mono">UT ${fDate(c.utMs, 0)} ${fTime(c.utMs, 0)} · JD ${c.jd.toFixed(5)} · LST ${lst} · Lahiri ${dms(c.ayanamsa)} · Sayana Lagna ${dms(method.sayanaAsc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p><p>${esc(t('sec.method.p1'))}</p><p>${esc(t('sec.method.p2'))}</p></div>`, '', '')}`;
+  tabify(host);
 
   // Interactions
   let currentVarga = VARGA_KEYS[0];
