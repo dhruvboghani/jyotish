@@ -238,6 +238,7 @@ function downloadPdf() {
   const done = () => { document.body.classList.remove('printing'); opened.forEach(d => d.removeAttribute('open')); window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   toast(t('pdf.hint'));
+  track('kundali_pdf');
   setTimeout(() => { if (APP && APP.print) APP.print(t('brand.name') + ' – ' + (($('.profile h2') || {}).textContent || t('res.defaultName')).trim(), done); else { window.print(); setTimeout(done, 1500); } }, 300);
 }
 

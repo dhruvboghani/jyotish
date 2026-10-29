@@ -69,6 +69,7 @@ $('#bd-photo-x').onclick = () => { delete bd.photo; $('#bd-photo').value = ''; b
 $('#bd-pdf').onclick = () => {
   document.body.classList.add('bd-printing');
   const done = () => document.body.classList.remove('bd-printing');
+  track('biodata_print');
   if (APP && APP.print) APP.print(t('bd.heading') + ' ' + (bd.f.name || ''), done); else { window.print(); setTimeout(done, 800); }
 };
 $('#bd-wa').onclick = () => {

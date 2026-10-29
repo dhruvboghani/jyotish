@@ -1221,7 +1221,31 @@
   "result": "Result",
   "lang": "Language",
   "fromSession": "from session",
-  "historyMissing": "Run supabase/history.sql to start recording history."
+  "historyMissing": "Run supabase/history.sql to start recording history.",
+  "activity": "Activity",
+  "visitor": "Visitor",
+  "aRange": "Period",
+  "aLast": "Last {n} days",
+  "aEvent": "Event",
+  "aAll": "All events",
+  "aHideSelf": "Hide my own activity",
+  "aRefresh": "Refresh",
+  "aVisitors": "Visitors",
+  "aViews": "Page views",
+  "aUsers": "Logged-in users",
+  "aLogins": "Logins",
+  "aSignups": "Sign-ups",
+  "aApp": "App users",
+  "aErrors": "Errors",
+  "aTopEvents": "Events",
+  "aTopPages": "Top pages",
+  "aTopCities": "Cities",
+  "aLangs": "Languages",
+  "aWho": "Who",
+  "aPage": "Page",
+  "aDetail": "Details",
+  "aDevice": "Device",
+  "aMore": "Load more"
  },
  "trial": {
   "title": "Your free Kundali",
@@ -1990,7 +2014,8 @@
    {
     "h": "Storage and security",
     "p": [
-     "Accounts and saved charts are stored with Supabase with row-level security, so each account can read only its own data. Pages are served by Vercel, which also records anonymous visit statistics."
+     "Accounts and saved charts are stored with Supabase with row-level security, so each account can read only its own data. Pages are served by Vercel, which also records anonymous visit statistics.",
+     "We also keep a short activity log of which pages and tools are used, with the approximate city of your connection and, if you are logged in, your account email. It helps us fix problems and improve the site, is visible only to the site administrator, never includes your birth details or IP address, and is deleted after 180 days."
     ]
    },
    {

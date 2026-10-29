@@ -1656,3 +1656,24 @@ form.nu-check { margin: 0; }
 .nu-grid-t .nu-average a { background: var(--bg); color: var(--ink-2); }
 .nu-grid-t .nu-mixed a { background: var(--gold-softer); color: var(--gold-deep); }
 .nu-grid-t .nu-difficult a { background: var(--bad-bg); color: var(--bad); }
+
+/* ---- Admin: activity log ---- */
+.act-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 4px 0 12px; }
+.act-controls select { width: auto; min-width: 150px; }
+.act-self { text-transform: none; letter-spacing: 0; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.act-self input { width: auto; }
+.act-days { display: flex; align-items: flex-end; gap: 3px; height: 120px; padding: 12px 14px 8px; margin: 12px 0; overflow-x: auto; }
+.act-bar { flex: 1 0 14px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
+.act-bar i { display: block; width: 100%; max-width: 26px; background: linear-gradient(180deg, var(--gold), var(--gold-deep)); border-radius: 4px 4px 0 0; }
+.act-bar span { font-size: 10px; color: var(--ink-3); }
+.act-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.act-top { padding: 12px 14px; }
+.act-top h4 { margin: 0 0 8px; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--gold-deep); }
+.act-top ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13.5px; }
+.act-top li { display: flex; justify-content: space-between; gap: 10px; }
+.act-top li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+.act-table td { vertical-align: top; font-size: 13px; }
+.act-table .act-page { max-width: 220px; word-break: break-all; }
+.act-table .act-detail { max-width: 300px; overflow-wrap: anywhere; }
+.act-table .kv { display: inline-block; margin: 0 6px 2px 0; }
+.act-table .kv i { font-style: normal; color: var(--ink-3); }

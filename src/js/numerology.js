@@ -23,6 +23,7 @@ function calc(user) {
   const td = todayIn(330), mu = NU.mulank(d), bh = NU.bhagyank(d, m, y), py = NU.personalYear(d, m, td.y);
   const nm = name && /[a-z]/i.test(name) ? { n: NU.nameNumber(name), t: NU.nameTotal(name) } : null;
   NUP = { mu, bh, y, m, d, name, nm, py, year: td.y };
+  if (user) track('numerology', { mulank: mu, bhagyank: bh, nameNumber: nm ? nm.n : null });
   draw();
   if (user) nuBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -76,6 +77,7 @@ function bindChecks() {
   $('#nu-mob').addEventListener('submit', e => {
     e.preventDefault();
     const r = NU.phoneNumber($('#nu-mob-in').value), out = $('#nu-mob-out');
+    if (r) track('numerology_check', { kind: 'mobile', number: r.number });
     out.innerHTML = r ? verdict(r.number, t('nu.mobileRes', { t: r.total, n: r.number, g: gn(planetOf(r.number)) })) : `<p class="err">${esc(t('nu.mobileBad'))}</p>`;
   });
   $('#nu-biz').addEventListener('submit', e => {
@@ -83,6 +85,7 @@ function bindChecks() {
     const v = $('#nu-biz-in').value.trim(), out = $('#nu-biz-out');
     if (!/[a-z]/i.test(v)) { out.innerHTML = ''; return; }
     const n = NU.nameNumber(v), f = NU.fit(n, mu, bh);
+    track('numerology_check', { kind: 'business', number: n });
     const vars = f === 'best' ? [] : NU.variants(v, [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(x => NU.fit(x, mu, bh) === 'best'), 6);
     out.innerHTML = verdict(n, t('nu.nameRes', { name: v, t: NU.nameTotal(v), n, g: gn(planetOf(n)) })) + `<p class="muted small">${esc(t('nu.bizNote'))}</p>` + (vars.length ? `<h4>${esc(t('nu.variantsH'))}</h4><div class="meta linkrow">${vars.map(x => `<span class="tag good">${esc(x.name)} · ${x.number}</span>`).join('')}</div>` : '');
   });
@@ -91,6 +94,7 @@ function bindChecks() {
     const [y, m, d] = ($('#nu-pair-in').value || '').split('-').map(Number), out = $('#nu-pair-out');
     if (!y) { out.innerHTML = `<p class="err">${esc(t('nu.needDate'))}</p>`; return; }
     const mu2 = NU.mulank(d), bh2 = NU.bhagyank(d, m, y), lv = NU.level(mu, mu2), lv2 = NU.level(bh, bh2);
+    track('numerology_check', { kind: 'partner', level: lv });
     const [a, b] = mu <= mu2 ? [mu, mu2] : [mu2, mu];
     out.innerHTML = `<p><b>${esc(t('nu.pairRes', { a: mu, b: mu2 }))}</b> ${lvTag(lv)}</p><p>${esc(t('nu.lv.' + lv + '.love'))}</p><p class="muted small">${esc(t('nu.lv.' + lv + '.work'))}</p>
       <p><b>${esc(t('nu.pairRes2', { a: bh, b: bh2 }))}</b> ${lvTag(lv2)}</p>${numLink(`compatibility/${a}-and-${b}`, t('nu.readPair', { a, b }))}`;

@@ -21,7 +21,8 @@ const ROUTES = {
   varshaphal: () => require('../lib/routes/varshaphal.js'),
   'cron-reminders': () => require('../lib/routes/cron-reminders.js'),
   'push-test': () => require('../lib/routes/push-test.js'),
-  seo: () => require('../lib/routes/seo.js')
+  seo: () => require('../lib/routes/seo.js'),
+  log: () => require('../lib/routes/log.js')
 };
 
 // The Android app (Capacitor) serves its pages from https://localhost and calls this API cross-origin.

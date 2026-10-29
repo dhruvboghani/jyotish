@@ -72,7 +72,7 @@ function todayIn(tz) { const d = new Date(Date.now() + tz * 60000); return { y: 
 
 // ---------- Header: language, mobile menu ----------
 const langSel = $('#lang');
-if (langSel) langSel.addEventListener('change', () => { store.set('kg-lang', langSel.value); location.href = langSel.selectedOptions[0].dataset.href + (location.search || '') + (location.hash || ''); });
+if (langSel) langSel.addEventListener('change', () => { store.set('kg-lang', langSel.value); track('lang_change', { to: langSel.value }); ACT.flush(); location.href = langSel.selectedOptions[0].dataset.href + (location.search || '') + (location.hash || ''); });
 const navBtn = $('#navbtn'), drawer = $('#drawer');
 if (navBtn && drawer) {
   const setOpen = o => { drawer.hidden = !o; navBtn.setAttribute('aria-expanded', String(o)); document.body.classList.toggle('nav-open', o); };
@@ -164,7 +164,7 @@ function openModal(html, wide) {
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal && modal.innerHTML) closeModal(); });
 
 // ---------- Session ----------
-let session = null, isAdmin = false;
+let session = null, isAdmin = false, isSuper = false;
 const authHooks = [];           // page code: authHooks.push((event, session, wasLoggedIn) => …)
 const readyHooks = [];          // page code: readyHooks.push(session => …) runs once after the session is known
 const authHeaders = () => session ? { Authorization: 'Bearer ' + session.access_token } : {};
@@ -183,6 +183,11 @@ async function offlineApi(path, opts) {
   return out.data;
 }
 async function api(path, opts = {}) {
+  const t0 = performance.now();
+  try { const out = await apiRaw(path, opts); trackApi(path, opts, performance.now() - t0, 200, APP && navigator.onLine === false); return out; }
+  catch (e) { trackApi(path, opts, performance.now() - t0, e.status || 0); throw e; }
+}
+async function apiRaw(path, opts = {}) {
   const canOffline = APP && window.GV_OFFLINE;
   if (canOffline && navigator.onLine === false) return offlineApi(path, opts);
   const trial = APP ? store.get('kg-free-token') : null;
@@ -193,6 +198,57 @@ async function api(path, opts = {}) {
   let data = null; try { data = await res.json(); } catch (e) { }
   if (!res.ok) { const err = new Error((data && data.error) || 'HTTP ' + res.status); err.status = res.status; err.data = data; throw err; }
   return data;
+}
+// ---------- Activity log (stored in Supabase through /api/log; read only by the super admin) ----------
+const ACT = (() => {
+  const rid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 36);
+  let visitor = store.get('kg-vid'); if (!visitor) { visitor = rid(); store.set('kg-vid', visitor); }
+  let tab = null; try { tab = sessionStorage.getItem('kg-sid'); if (!tab) { tab = rid(); sessionStorage.setItem('kg-sid', tab); } } catch (e) { tab = rid(); }
+  const ua = navigator.userAgent || '';
+  const os = /Android/.test(ua) ? 'Android' : /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Windows/.test(ua) ? 'Windows' : /Mac OS X/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : 'Other';
+  const br = /Edg\//.test(ua) ? 'Edge' : /SamsungBrowser/.test(ua) ? 'Samsung' : /OPR\//.test(ua) ? 'Opera' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Other';
+  const device = `${os} · ${APP ? 'App' : br} · ${/Mobi|Android|iPhone/.test(ua) ? 'mobile' : 'desktop'}`;
+  const page = () => location.pathname.replace(/index\.html$/, '') + (location.search || '');
+  const ref = (() => { try { const r = document.referrer && new URL(document.referrer); return r && r.host !== location.host ? r.host + r.pathname.slice(0, 60) : null; } catch (e) { return null; } })();
+  let queue = [], timer = null, errs = 0;
+  const send = (beacon) => {
+    clearTimeout(timer); timer = null;
+    if (!queue.length) return;
+    const payload = JSON.stringify({ events: queue.splice(0, 25), token: session ? session.access_token : null });
+    const url = apiUrl('/api/log/');
+    try {
+      if (beacon && navigator.sendBeacon && navigator.sendBeacon(url, new Blob([payload], { type: 'text/plain' }))) { if (queue.length) send(beacon); return; }
+      fetch(url, { method: 'POST', body: payload, headers: { 'Content-Type': 'text/plain' }, keepalive: true }).catch(() => { });
+    } catch (e) { }
+    if (queue.length) send(beacon);
+  };
+  const track = (event, detail) => {
+    if (navigator.webdriver) return; // automated browsers
+    queue.push({ event, detail: detail || undefined, page: page(), lang: LANG, platform: APP ? 'app' : 'web', device, visitor, session: tab, referrer: ref });
+    if (queue.length >= 20) send(false); else if (!timer) timer = setTimeout(() => send(false), 4000);
+  };
+  addEventListener('pagehide', () => send(true));
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') send(true); });
+  addEventListener('error', e => { if (errs++ < 3) track('js_error', { msg: String(e.message || '').slice(0, 200), src: String(e.filename || '').split('/').pop().slice(0, 60), line: e.lineno || 0 }); });
+  addEventListener('unhandledrejection', e => { if (errs++ < 3) track('js_error', { msg: String((e.reason && e.reason.message) || e.reason || '').slice(0, 200) }); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    const h = a.getAttribute('href');
+    if (/\.apk$/.test(h)) track('app_download');
+    else if (/wa\.me|whatsapp/.test(h)) track('share', { via: 'whatsapp' });
+    else if (/^https?:/.test(h) && !h.startsWith(location.origin) && !(API_BASE && h.startsWith(API_BASE))) track('outbound', { to: h.slice(0, 120) });
+  }, true);
+  return { track, flush: () => send(true) };
+})();
+const track = ACT.track;
+// API calls name the tool that was used (kundali, match, names, muhurta …)
+const API_EVENT = { kundali: 'kundali', match: 'matching', names: 'names', muhurta: 'muhurta', prashna: 'prashna', varshaphal: 'varshaphal', panchang: 'panchang', calendar: 'calendar', rashifal: 'rashifal', tithi: 'tithi', vrat: 'vrat', festival: 'festival', eclipses: 'eclipses', family: 'family', share: 'share', ics: 'calendar_export', 'push-test': 'push_test' };
+function trackApi(path, opts, ms, status, offline) {
+  const name = (path.match(/^\/api\/([\w-]+)/) || [])[1];
+  if (!name || name === 'log' || name === 'signup') return;
+  const method = (opts.method || 'GET').toUpperCase();
+  const detail = { api: name, method, status, ms: Math.round(ms) }; if (offline) detail.offline = true;
+  track(status >= 400 || status === 0 ? 'api_error' : (API_EVENT[name] || name), detail);
 }
 // Open a chart on the Kundali page (or here, when the page can show charts itself)
 let openChartHere = null;
@@ -228,12 +284,13 @@ function authModal(mode, featureKey) {
       <button class="btn-cta go" type="submit">${esc(t(signup ? 'auth.signup' : 'auth.login'))}</button>
     </form>
     <div class="links">${signup ? `<span>${esc(t('auth.haveAccount'))} <button class="linkbtn" type="button" data-auth="login"${featureKey ? ` data-feature="${featureKey}"` : ''}>${esc(t('auth.toLogin'))}</button></span>` : `<button class="linkbtn" type="button" id="forgot">${esc(t('auth.forgot'))}</button><span>${esc(t('auth.noAccount'))} <button class="linkbtn" type="button" data-auth="signup"${featureKey ? ` data-feature="${featureKey}"` : ''}>${esc(t('auth.toSignup'))}</button></span>`}</div>`);
-  if ($('#g-btn')) $('#g-btn').onclick = () => sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: redirectTo() } });
+  if ($('#g-btn')) $('#g-btn').onclick = () => { track('login_start', { via: 'google' }); ACT.flush(); return sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: redirectTo() } }); };
   const fp = $('#forgot');
   if (fp) fp.onclick = async () => {
     const email = $('#a-email').value.trim(), er = $('#a-err');
     if (!email) { er.textContent = t('auth.needEmail'); return; }
     const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: redirectTo() });
+    track('password_reset', { ok: !error });
     er.className = error ? 'err' : 'ok'; er.textContent = error ? error.message : t('auth.resetSent', { email });
   };
   $('#authform').addEventListener('submit', async e => {
@@ -271,12 +328,12 @@ function authModal(mode, featureKey) {
         if (!s2.error) { btn.removeAttribute('aria-busy'); closeModal(); return; }
       }
       btn.removeAttribute('aria-busy');
-      if (error) { er.textContent = error.message; return; }
+      if (error) { track('signup_failed', { email: email.slice(0, 80), reason: String(error.message).slice(0, 80) }); er.textContent = error.message; return; }
       if (!data.session) { er.textContent = t('auth.signupOff'); return; }
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password });
       btn.removeAttribute('aria-busy');
-      if (error) { er.textContent = error.message; return; }
+      if (error) { track('login_failed', { email: email.slice(0, 80), reason: String(error.message).slice(0, 80) }); er.textContent = error.message; return; }
     }
     closeModal();
   });
@@ -435,15 +492,62 @@ async function saveTrialChart(s) {
 
 // ---------- Admin panel (accounts listed in public.admins) ----------
 async function checkAdmin() {
-  isAdmin = false;
+  isAdmin = false; isSuper = false;
   if (!sb || !session) return;
   try { const { data, error } = await sb.rpc('is_admin'); isAdmin = !error && data === true; } catch (e) { }
+  if (isAdmin) try { const { data, error } = await sb.rpc('is_superadmin'); isSuper = !error && data === true; } catch (e) { }
 }
 const fmtTs = v => v ? new Date(v).toLocaleString(LOCALE, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+// Activity log (super admin only): summary, breakdowns and the event list, read through security-definer RPCs
+const actState = { range: 7, event: '', hideSelf: true };
+const ACT_TAG = { login: 'good', signup: 'good', logout: '', login_failed: 'bad', signup_failed: 'bad', js_error: 'bad', api_error: 'bad', page_view: '' };
+const actWho = r => r.email ? esc(r.email) : `<span class="muted">${esc(t('admin.visitor'))} ${esc(String(r.visitor || '').slice(0, 6))}</span>`;
+const actDetail = d => d ? Object.entries(d).filter(([k, v]) => v !== null && v !== '' && v !== undefined).map(([k, v]) => `<span class="kv"><i>${esc(k)}</i> ${esc(typeof v === 'object' ? JSON.stringify(v) : String(v)).slice(0, 120)}</span>`).join(' ') : '';
+async function activityPanel(body, qIn) {
+  const since = new Date(Date.now() - actState.range * 864e5).toISOString();
+  const q = (qIn.value || '').trim();
+  body.innerHTML = '<div style="padding:24px;text-align:center"><span class="spin"></span></div>';
+  const [st, ls] = await Promise.all([
+    sb.rpc('admin_activity_stats', { p_since: since, p_hide_self: actState.hideSelf }),
+    sb.rpc('admin_activity', { p_since: since, p_event: actState.event || null, p_q: q || null, p_limit: 200, p_hide_self: actState.hideSelf })
+  ]);
+  if (st.error || ls.error) { body.innerHTML = `<p class="err">${esc((st.error || ls.error).message)}</p>`; return; }
+  const S = st.data || {}; let rows = ls.data || [];
+  const stat = (n, l) => `<div><b>${n || 0}</b><span>${esc(l)}</span></div>`;
+  const top = (h, arr, fmt) => `<div class="card act-top"><h4>${esc(h)}</h4>${(arr || []).length ? `<ol>${arr.slice(0, 10).map(x => `<li><span>${fmt ? fmt(x.k) : esc(x.k || '—')}</span><b>${x.n}</b></li>`).join('')}</ol>` : `<p class="muted small">${esc(t('admin.none'))}</p>`}</div>`;
+  const maxDay = Math.max(1, ...(S.byDay || []).map(d => d.n));
+  const days = (S.byDay || []).map(d => `<div class="act-bar" title="${esc(d.k)} · ${d.n} ${esc(t('admin.aViews'))} · ${d.v} ${esc(t('admin.aVisitors'))}"><i style="height:${Math.max(4, Math.round(d.n / maxDay * 100))}%"></i><span>${esc(d.k.slice(8))}</span></div>`).join('');
+  const evOpts = (S.byEvent || []).map(x => `<option value="${esc(x.k)}"${x.k === actState.event ? ' selected' : ''}>${esc(x.k)} (${x.n})</option>`).join('');
+  const rowHtml = r => `<tr><td class="num">${fmtTs(r.created_at)}</td><td>${actWho(r)}</td><td><span class="tag ${r.event in ACT_TAG ? ACT_TAG[r.event] : 'gold'}">${esc(r.event)}</span></td><td class="act-page">${esc(r.page || '')}</td><td class="act-detail">${actDetail(r.detail)}</td><td>${esc([r.city, r.region, r.country].filter(Boolean).join(', '))}</td><td class="muted">${esc(r.device || '')}${r.platform === 'app' ? ' · app' : ''}</td></tr>`;
+  body.innerHTML = `<div class="act-controls">
+      <select id="act-range" aria-label="${esc(t('admin.aRange'))}">${[1, 7, 30, 90, 180].map(d => `<option value="${d}"${d === actState.range ? ' selected' : ''}>${esc(t('admin.aLast', { n: d }))}</option>`).join('')}</select>
+      <select id="act-event" aria-label="${esc(t('admin.aEvent'))}"><option value="">${esc(t('admin.aAll'))}</option>${evOpts}</select>
+      <label class="act-self"><input type="checkbox" id="act-self"${actState.hideSelf ? ' checked' : ''}> ${esc(t('admin.aHideSelf'))}</label>
+      <button type="button" class="btn-line" id="act-refresh">${esc(t('admin.aRefresh'))}</button></div>
+    <div class="admin-stats">${stat(S.visitors, t('admin.aVisitors'))}${stat(S.views, t('admin.aViews'))}${stat(S.users, t('admin.aUsers'))}${stat(S.logins, t('admin.aLogins'))}${stat(S.signups, t('admin.aSignups'))}${stat(S.app, t('admin.aApp'))}${stat(S.errors, t('admin.aErrors'))}</div>
+    ${days ? `<div class="card act-days">${days}</div>` : ''}
+    <div class="act-grid">${top(t('admin.aTopEvents'), S.byEvent)}${top(t('admin.aTopPages'), S.byPage)}${top(t('admin.aTopCities'), S.byCity)}${top(t('admin.aLangs'), S.byLang)}</div>
+    <div class="tbl-card card"><table class="act-table"><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.aWho'))}</th><th>${esc(t('admin.aEvent'))}</th><th>${esc(t('admin.aPage'))}</th><th>${esc(t('admin.aDetail'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.aDevice'))}</th></tr></thead><tbody id="act-rows">${rows.map(rowHtml).join('') || `<tr><td colspan="7">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>
+    ${rows.length >= 200 ? `<p style="text-align:center"><button type="button" class="btn-line" id="act-more">${esc(t('admin.aMore'))}</button></p>` : ''}`;
+  const re = () => activityPanel(body, qIn);
+  $('#act-range').onchange = e => { actState.range = +e.target.value; re(); };
+  $('#act-event').onchange = e => { actState.event = e.target.value; re(); };
+  $('#act-self').onchange = e => { actState.hideSelf = e.target.checked; re(); };
+  $('#act-refresh').onclick = re;
+  const more = $('#act-more');
+  if (more) more.onclick = async () => {
+    more.setAttribute('aria-busy', 'true');
+    const { data, error } = await sb.rpc('admin_activity', { p_since: since, p_event: actState.event || null, p_q: q || null, p_before: rows[rows.length - 1].id, p_limit: 200, p_hide_self: actState.hideSelf });
+    more.removeAttribute('aria-busy');
+    if (error || !data) return;
+    rows = rows.concat(data); $('#act-rows').insertAdjacentHTML('beforeend', data.map(rowHtml).join(''));
+    if (data.length < 200) more.remove();
+  };
+}
 async function adminModal() {
   openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
     <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
-    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button></div>
+    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
     <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
     <div id="ad-body" class="admin-body"></div>`, 'admin');
   const [u, k, hs] = await Promise.all([
@@ -461,6 +565,7 @@ async function adminModal() {
   let tab = 'users';
   const draw = () => {
     const q = ($('#ad-q').value || '').trim().toLowerCase();
+    if (tab === 'activity') return activityPanel(body, $('#ad-q'));
     if (tab === 'history') {
       const rows = historyRows.filter(h => { const ow = byId[h.user_id]; return !q || [h.name, h.birth.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
       body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(birthLine(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td></tr>`; }).join('') || `<tr><td colspan="7">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;
@@ -473,7 +578,8 @@ async function adminModal() {
     }
   };
   $('#ad-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $('#ad-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
-  $('#ad-q').addEventListener('input', draw);
+  let qT = null;
+  $('#ad-q').addEventListener('input', () => { if (tab !== 'activity') return draw(); clearTimeout(qT); qT = setTimeout(draw, 400); });
   body.addEventListener('click', e => {
     const li = e.target.closest('li[data-id]'); if (!li || !e.target.closest('[data-open]')) return;
     const row = charts.find(r => r.id === li.dataset.id);
@@ -494,8 +600,8 @@ function renderAuthSlot() {
   menu.onclick = async e => {
     const m = e.target.closest('[data-menu]'); if (!m) return; menu.hidden = true;
     if (m.dataset.menu === 'saved') savedModal();
-    if (m.dataset.menu === 'admin') adminModal();
-    if (m.dataset.menu === 'logout') { await sb.auth.signOut(); }
+    if (m.dataset.menu === 'admin') { track('admin_open'); adminModal(); }
+    if (m.dataset.menu === 'logout') { track('logout'); ACT.flush(); await sb.auth.signOut(); }
   };
 }
 document.addEventListener('click', e => {
@@ -582,6 +688,7 @@ async function boot() {
       const was = !!session; session = s;
       renderAuthSlot(); fitHeader(); checkAdmin().then(() => { renderAuthSlot(); fitHeader(); });
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
+      if (event === 'SIGNED_IN' && !was && s && s.user) { const isNew = Date.now() - new Date(s.user.created_at).getTime() < 3 * 60000; track(isNew ? 'signup' : 'login', { via: (s.user.app_metadata && s.user.app_metadata.provider) || 'email' }); }
       if (event === 'SIGNED_IN' && !was) { saveTrialChart(s); moveLocalHistory(s); if (modal.querySelector('#authform')) closeModal(); }
       authHooks.forEach(f => { try { f(event, s, was); } catch (e) { console.error(e); } });
     });
@@ -591,5 +698,6 @@ async function boot() {
   const linkErr = readAuthError();
   if (linkErr && sb) linkErrorModal(linkErr);
   readyHooks.forEach(f => { try { f(session); } catch (e) { console.error(e); } });
+  track('page_view', { title: document.title.split('|')[0].trim().slice(0, 90) });
   if (APP && APP.attach) APP.attach({ t, L, LANG, LOCALE, HOME, store, toast, sb, api, openChart, closeModal, authHooks, getSession: () => session, modalOpen: () => !!(modal && modal.innerHTML) });
 }
