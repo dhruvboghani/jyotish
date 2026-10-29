@@ -265,7 +265,7 @@ function gemsHtml(gm) {
   const card = s => {
     const st = { suit: 'good', caution: 'warn', avoid: 'bad' }[s.status];
     const name = t('gm.g.' + s.gem), alt = s.upratna.map(u => t('gm.u.' + u)).join(', ');
-    return `<article class="card gem reveal ${s.status}" style="--gc:${COL[s.planet]}" data-perkg="${s.perKg}" data-gem="${s.gem}"><div class="rh">${g(s.planet)}<div><h3>${esc(name)}</h3><small>${esc(t('gm.role.' + s.role))} · ${esc(gn(s.planet))}</small></div><span class="tag ${st}">${esc(t('gm.st.' + s.status))}</span></div>
+    return `<article class="card rem gem reveal ${s.status}" style="--gc:${COL[s.planet]}" data-perkg="${s.perKg}" data-gem="${s.gem}"><div class="rh">${g(s.planet)}<div><h3>${esc(name)}</h3><small>${esc(t('gm.role.' + s.role))} · ${esc(gn(s.planet))}</small></div><span class="tag ${st}">${esc(t('gm.st.' + s.status))}</span></div>
       <p class="gem-why">${esc(t('gm.why.' + s.status, { g: { g: s.planet }, list: { list: s.houses } }))}${s.clash.length ? ' ' + esc(t('gm.clash', { list: { list: s.clash.map(x => ({ g: x })) } })) : ''}</p>
       ${s.status !== 'avoid' ? `<dl class="rem-dl">
         <div><dt>${esc(t('gm.weight'))}</dt><dd class="gem-wt">${esc(t('gm.enterWeight'))}</dd></div>

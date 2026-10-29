@@ -1701,3 +1701,20 @@ form.nu-check { margin: 0; }
 .rtab-next { display: flex; justify-content: flex-end; margin: 22px 0 6px; }
 .rtab-next .btn-line { font-weight: 600; }
 @media print { .rtabs, .rtab-next { display: none !important; } .rtab-panel, .rtab-panel[hidden] { display: block !important; } }
+
+/* Gemstone and Rudraksha guide */
+.gem .rh .tag { margin-left: auto; flex: none; align-self: flex-start; }
+.gem .rh > div { min-width: 0; }
+.gem .rh small { display: block; line-height: 1.4; }
+.gem .gem-why { margin: 0; }
+.gem .rem-act { margin-top: 2px; }
+.gem .rem-act .btn-line { max-width: 100%; white-space: normal; text-align: left; }
+.gem-in { padding: 14px 18px; }
+.gem-in .field span { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.gem-in .muted.small { margin: 0; flex: 1 1 260px; }
+@media (max-width: 560px) {
+  .gem .rh h3 { font-size: 20px; }
+  .gem-in .field { width: 100%; justify-content: space-between; }
+  .rud-list li { grid-template-columns: 24px minmax(0, 1fr) auto; row-gap: 2px; }
+  .rud-list li > span { grid-column: 2 / 4; grid-row: 2; color: var(--ink-2); font-size: 13.5px; }
+}
