@@ -1245,7 +1245,13 @@
   "aPage": "Page",
   "aDetail": "Details",
   "aDevice": "Device",
-  "aMore": "Load more"
+  "aMore": "Load more",
+  "aNote": [
+   "No IP addresses or birth details are stored.",
+   "Search engines and automated browsers are skipped.",
+   "Entries older than 180 days are deleted automatically."
+  ],
+  "aPolicy": "The privacy policy, in all six languages, tells visitors this log exists"
  },
  "trial": {
   "title": "Your free Kundali",

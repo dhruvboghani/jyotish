@@ -502,7 +502,10 @@ const fmtTs = v => v ? new Date(v).toLocaleString(LOCALE, { day: 'numeric', mont
 const actState = { range: 7, event: '', hideSelf: true };
 const ACT_TAG = { login: 'good', signup: 'good', logout: '', login_failed: 'bad', signup_failed: 'bad', js_error: 'bad', api_error: 'bad', page_view: '' };
 const actWho = r => r.email ? esc(r.email) : `<span class="muted">${esc(t('admin.visitor'))} ${esc(String(r.visitor || '').slice(0, 6))}</span>`;
-const actDetail = d => d ? Object.entries(d).filter(([k, v]) => v !== null && v !== '' && v !== undefined).map(([k, v]) => `<span class="kv"><i>${esc(k)}</i> ${esc(typeof v === 'object' ? JSON.stringify(v) : String(v)).slice(0, 120)}</span>`).join(' ') : '';
+const actTime = v => new Date(v).toLocaleString(LOCALE, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+const actDetail = d => !d ? '' : d.api ? `${esc(d.method || '')} /${esc(d.api)} · <b>${esc(d.status)}</b> · ${d.ms >= 1000 ? (d.ms / 1000).toFixed(1) + ' s' : esc(d.ms) + ' ms'}${d.offline ? ' · offline' : ''}`
+  : d.title && Object.keys(d).length === 1 ? esc(String(d.title).slice(0, 70)) : actDetailKv(d);
+const actDetailKv = d => d ? Object.entries(d).filter(([k, v]) => v !== null && v !== '' && v !== undefined).map(([k, v]) => `<span class="kv"><i>${esc(k)}</i> ${esc(typeof v === 'object' ? JSON.stringify(v) : String(v)).slice(0, 120)}</span>`).join(' ') : '';
 async function activityPanel(body, qIn) {
   const since = new Date(Date.now() - actState.range * 864e5).toISOString();
   const q = (qIn.value || '').trim();
@@ -518,8 +521,9 @@ async function activityPanel(body, qIn) {
   const maxDay = Math.max(1, ...(S.byDay || []).map(d => d.n));
   const days = (S.byDay || []).map(d => `<div class="act-bar" title="${esc(d.k)} · ${d.n} ${esc(t('admin.aViews'))} · ${d.v} ${esc(t('admin.aVisitors'))}"><i style="height:${Math.max(4, Math.round(d.n / maxDay * 100))}%"></i><span>${esc(d.k.slice(8))}</span></div>`).join('');
   const evOpts = (S.byEvent || []).map(x => `<option value="${esc(x.k)}"${x.k === actState.event ? ' selected' : ''}>${esc(x.k)} (${x.n})</option>`).join('');
-  const rowHtml = r => `<tr><td class="num">${fmtTs(r.created_at)}</td><td>${actWho(r)}</td><td><span class="tag ${r.event in ACT_TAG ? ACT_TAG[r.event] : 'gold'}">${esc(r.event)}</span></td><td class="act-page">${esc(r.page || '')}</td><td class="act-detail">${actDetail(r.detail)}</td><td>${esc([r.city, r.region, r.country].filter(Boolean).join(', '))}</td><td class="muted">${esc(r.device || '')}${r.platform === 'app' ? ' · app' : ''}</td></tr>`;
-  body.innerHTML = `<div class="act-controls">
+  const rowHtml = r => `<tr><td class="num act-when">${actTime(r.created_at)}</td><td>${actWho(r)}</td><td><span class="tag ${r.event in ACT_TAG ? ACT_TAG[r.event] : 'gold'}">${esc(r.event)}</span></td><td class="act-page">${esc(r.page || '')}</td><td class="act-detail"><div class="act-d">${actDetail(r.detail)}</div></td><td class="act-where">${esc([r.city, r.region, r.country].filter(Boolean).join(', ') || '—')}<small>${esc(r.device || '')}</small></td></tr>`;
+  body.innerHTML = `<div class="act-note">${ic('i-shield')}<ul>${L.admin.aNote.map(x => `<li>${esc(x)}</li>`).join('')}<li><a href="${HOME}privacy/" target="_blank" rel="noopener">${esc(t('admin.aPolicy'))}</a></li></ul></div>
+    <div class="act-controls">
       <select id="act-range" aria-label="${esc(t('admin.aRange'))}">${[1, 7, 30, 90, 180].map(d => `<option value="${d}"${d === actState.range ? ' selected' : ''}>${esc(t('admin.aLast', { n: d }))}</option>`).join('')}</select>
       <select id="act-event" aria-label="${esc(t('admin.aEvent'))}"><option value="">${esc(t('admin.aAll'))}</option>${evOpts}</select>
       <label class="act-self"><input type="checkbox" id="act-self"${actState.hideSelf ? ' checked' : ''}> ${esc(t('admin.aHideSelf'))}</label>
@@ -527,7 +531,7 @@ async function activityPanel(body, qIn) {
     <div class="admin-stats">${stat(S.visitors, t('admin.aVisitors'))}${stat(S.views, t('admin.aViews'))}${stat(S.users, t('admin.aUsers'))}${stat(S.logins, t('admin.aLogins'))}${stat(S.signups, t('admin.aSignups'))}${stat(S.app, t('admin.aApp'))}${stat(S.errors, t('admin.aErrors'))}</div>
     ${days ? `<div class="card act-days">${days}</div>` : ''}
     <div class="act-grid">${top(t('admin.aTopEvents'), S.byEvent)}${top(t('admin.aTopPages'), S.byPage)}${top(t('admin.aTopCities'), S.byCity)}${top(t('admin.aLangs'), S.byLang)}</div>
-    <div class="tbl-card card"><table class="act-table"><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.aWho'))}</th><th>${esc(t('admin.aEvent'))}</th><th>${esc(t('admin.aPage'))}</th><th>${esc(t('admin.aDetail'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.aDevice'))}</th></tr></thead><tbody id="act-rows">${rows.map(rowHtml).join('') || `<tr><td colspan="7">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>
+    <div class="tbl-card card"><table class="act-table"><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.aWho'))}</th><th>${esc(t('admin.aEvent'))}</th><th>${esc(t('admin.aPage'))}</th><th>${esc(t('admin.aDetail'))}</th><th>${esc(t('admin.place'))} · ${esc(t('admin.aDevice'))}</th></tr></thead><tbody id="act-rows">${rows.map(rowHtml).join('') || `<tr><td colspan="6">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>
     ${rows.length >= 200 ? `<p style="text-align:center"><button type="button" class="btn-line" id="act-more">${esc(t('admin.aMore'))}</button></p>` : ''}`;
   const re = () => activityPanel(body, qIn);
   $('#act-range').onchange = e => { actState.range = +e.target.value; re(); };

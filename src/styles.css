@@ -1672,8 +1672,16 @@ form.nu-check { margin: 0; }
 .act-top ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13.5px; }
 .act-top li { display: flex; justify-content: space-between; gap: 10px; }
 .act-top li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
-.act-table td { vertical-align: top; font-size: 13px; }
-.act-table .act-page { max-width: 220px; word-break: break-all; }
-.act-table .act-detail { max-width: 300px; overflow-wrap: anywhere; }
-.act-table .kv { display: inline-block; margin: 0 6px 2px 0; }
+.act-table td { vertical-align: top; font-size: 13px; white-space: nowrap; }
+.act-table .act-when { font-size: 12px; }
+.act-table .act-page { white-space: normal; min-width: 90px; max-width: 200px; word-break: break-all; }
+.act-table .act-detail { white-space: normal; }
+.act-table .act-where small { display: block; color: var(--ink-3); font-size: 12px; margin-top: 2px; }
+.act-table .act-d { width: 250px; overflow-wrap: anywhere; line-height: 1.45; }
+.act-table .kv { display: inline; margin-right: 8px; }
 .act-table .kv i { font-style: normal; color: var(--ink-3); }
+
+.act-note { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; margin: 2px 0 12px; border-radius: 12px; background: var(--good-bg); color: var(--ink-2); font-size: 13.5px; }
+.act-note svg { width: 18px; height: 18px; flex: none; color: var(--good); margin-top: 2px; }
+.act-note ul { margin: 0; padding-left: 16px; display: grid; gap: 2px; }
+.act-note a { color: var(--good); }
