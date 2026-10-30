@@ -249,7 +249,7 @@ const RTABS = [
   ['charts', ['charts', 'belt'], 'i-chart'],
   ['planets', ['grahas', 'bhavas', 'strength', 'ashtaka'], 'i-sun'],
   ['yogas', ['yogas'], 'i-yoga'],
-  ['areas', ['areas'], 'i-users'],
+  ['areas', ['areas', 'career', 'reloc'], 'i-users'],
   ['timing', ['dasha', 'nadi', 'events', 'transits', 'varsha', 'dashas2', 'gochar'], 'i-clock'],
   ['remedies', ['remedies', 'gems'], 'i-lamp'],
   ['more', ['panchang', 'kp', 'rectify', 'notes', 'method'], 'i-info']
@@ -447,6 +447,8 @@ function renderFull(data, host = $('#results'), opts = {}) {
     <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>${esc(t('sec.hl.bad'))}<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneBad'))}</li>`}</ul></div></div>`)}
   ${todaySec}
   ${areasSec}
+  ${typeof careerHtml === 'function' ? mSec('career', 'cr', premium && premium.career ? careerHtml(premium.career, tz) : lockCard('career')) : ''}
+  ${typeof relocHtml === 'function' ? mSec('reloc', 'rl', premium && premium.relocation ? relocHtml(premium.relocation) : lockCard('reloc')) : ''}
   ${sec('charts', 'charts', `<div class="charts drawing" id="chartsbox">${chartsHtml(c)}</div><div class="chart-key">${ORDER.map(p => `<span><b style="color:${COL[p]}">${esc(ga(p))}</b>${esc(gn(p))}</span>`).join('')}</div>
     <div class="varga-wrap"><h3 class="sub-h">${esc(t('varga.title'))} ${premium ? '' : `<span class="tag gold">${esc(t('members.badge'))}</span>`}</h3><p class="lede">${esc(t('varga.lede'))}</p>${vargaSection}</div>`,
     `<div class="seg no-print" role="group" aria-label="${esc(t('sec.charts.style'))}" id="stylesel"><button type="button" data-style="north" aria-pressed="${chartStyle === 'north'}">${esc(t('sec.charts.north'))}</button><button type="button" data-style="south" aria-pressed="${chartStyle === 'south'}">${esc(t('sec.charts.south'))}</button></div>`)}
@@ -476,6 +478,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${sec('method', 'method', `<div class="card method reveal"><p class="mono">UT ${fDate(c.utMs, 0)} ${fTime(c.utMs, 0)} · JD ${c.jd.toFixed(5)} · LST ${lst} · Lahiri ${dms(c.ayanamsa)} · Sayana Lagna ${dms(method.sayanaAsc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p><p>${esc(t('sec.method.p1'))}</p><p>${esc(t('sec.method.p2'))}</p></div>`, '', '')}`;
   tabify(host);
   if (premium && typeof wireNadi === 'function') try { wireNadi(c, ss, input); } catch (e) { console.error(e); }
+  if (premium && premium.relocation && typeof wireReloc === 'function') try { wireReloc(premium.relocation, input); } catch (e) { console.error(e); }
   if (premium && typeof wireAsk === 'function') try { wireAsk(input); } catch (e) { console.error(e); }
 
   // Interactions
