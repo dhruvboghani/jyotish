@@ -66,8 +66,10 @@ function draw() {
     <form class="card nu-check" id="nu-biz" novalidate><h3>${ic('i-doc')}${esc(t('nu.bizH'))}</h3><div class="nu-row"><input type="text" id="nu-biz-in" placeholder="${esc(t('nu.bizPh'))}" aria-label="${esc(t('nu.bizH'))}" maxlength="60"><button class="btn-line" type="submit">${esc(t('nu.bizBtn'))}</button></div><div class="nu-out" id="nu-biz-out"></div></form>
     <form class="card nu-check" id="nu-pair" novalidate><h3>${ic('i-heart')}${esc(t('nu.pairH'))}</h3><div class="nu-row"><input type="date" id="nu-pair-in" aria-label="${esc(t('nu.pairDate'))}"><button class="btn-line" type="submit">${esc(t('nu.pairBtn'))}</button></div><div class="nu-out" id="nu-pair-out"></div></form>
   </div>`;
-  nuBox.innerHTML = nums + facts + nameCard + checks + nature + `<p class="muted small">${esc(t('nu.note'))}</p>`;
-  bindChecks();
+  // Not logged in: the numbers, lucky facts and reading; name correction and the mobile / business / partner checks need a login
+  const locked = lockCard('numerology', `<p class="muted small">${esc([t('nu.variantsH'), t('nu.mobileH'), t('nu.bizH'), t('nu.pairH')].join(' · '))}</p>`);
+  nuBox.innerHTML = nums + facts + (session ? nameCard + checks : (nm ? nameCard.replace(/<h4>[\s\S]*$/, '</div>') : '') + locked) + nature + `<p class="muted small">${esc(t('nu.note'))}</p>`;
+  if (session) bindChecks();
   observeReveals();
 }
 
@@ -100,3 +102,6 @@ function bindChecks() {
       <p><b>${esc(t('nu.pairRes2', { a: bh, b: bh2 }))}</b> ${lvTag(lv2)}</p>${numLink(`compatibility/${a}-and-${b}`, t('nu.readPair', { a, b }))}`;
   });
 }
+
+const nuRedraw = () => { if (NUP && NUP.mu) draw(); };
+readyHooks.push(nuRedraw); authHooks.push(nuRedraw);

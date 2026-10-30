@@ -1,4 +1,4 @@
-/* Muhurta finder — members only. */
+/* Muhurta finder — next 15 days for everyone; longer searches and personal charts after login. */
 const cm = cityPicker(() => {});
 const mFrom = $('#mu-from'), mDays = $('#mu-days'), mPurpose = $('#mu-purpose'), p1 = $('#mu-p1'), p2 = $('#mu-p2');
 const td0 = todayIn(cm.offset(2026, 1, 1)); mFrom.value = isoDay(td0.y, td0.m, td0.d);
@@ -6,7 +6,6 @@ let rowsM = [];
 async function fillPeople() { if (!session) return; rowsM = await fillKundaliSelect(p1, t('mu.nobody')); await fillKundaliSelect(p2, t('mu.nobody')); }
 $('#muform').addEventListener('submit', async e => {
   e.preventDefault();
-  if (!requireLogin('muhurta')) return;
   const [y, m, d] = mFrom.value.split('-').map(Number), city = cm.city, tz = cm.offset(y, m, d);
   const people = [p1, p2].map(s => s.value !== '' && rowsM[+s.value] ? rowsM[+s.value].birth : null).filter(Boolean);
   const box = $('#mures'); box.innerHTML = `<div class="card" style="padding:30px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('mu.searching'))}</p></div>`;
@@ -33,17 +32,20 @@ function drawM(r, tz, city, people) {
       ${Object.keys(blockedSum).length ? `<p class="muted small">${esc(t('mu.blockedNote'))} ${Object.entries(blockedSum).map(([k, n]) => esc(t('mu.block.' + k)) + ' (' + n + ')').join(' · ')}</p>` : ''}
       ${r.personalised ? `<p class="muted small">${esc(t('mu.personalNote'))}</p>` : ''}</div></div>
     ${dates.map(d => `<section class="mu-day reveal"><h3>${esc(longDateFmt.format(dayOf(d)))}</h3><ul class="mu-list">${byDate[d].map(winHtml).join('')}</ul></section>`).join('') || `<p class="empty">${esc(t('mu.none'))}</p>`}
+    ${r.basic ? lockCard('muhurta', `<p class="muted small">${esc(t('mu.basicNote', { n: r.days || 30 }))}</p>`) : ''}
     <p class="muted small">${esc(t('mu.disclaimer'))}</p>`;
+  lastMuBasic = !!r.basic;
   observeReveals();
 }
+let lastMuBasic = false;
 readyHooks.push(s => { $('#mu-lock').hidden = !!s; fillPeople(); });
-authHooks.push((ev, s) => { $('#mu-lock').hidden = !!s; fillPeople(); });
+authHooks.push((ev, s) => { $('#mu-lock').hidden = !!s; fillPeople(); if (s && lastMuBasic && ev === 'SIGNED_IN') $('#muform').requestSubmit(); });
 
 // ---------- Quick packs: one tap → the next five good dates ----------
 const PACKS = [['griha', 'i-house'], ['vehicle', 'i-star'], ['mundan', 'i-users'], ['namkaran', 'i-heart'], ['marriage', 'i-heart'], ['business', 'i-chart']];
 $('#mu-packs').innerHTML = PACKS.map(([k, icon]) => `<button type="button" class="card mu-pack" data-pack="${k}"><span class="ti c-gold">${ic(icon)}</span><b>${esc(t('mu.p.' + k))}</b><small>${esc(t('mu.next5'))}</small></button>`).join('');
 $('#mu-packs').addEventListener('click', async e => {
-  const b = e.target.closest('[data-pack]'); if (!b || !requireLogin('muhurta')) return;
+  const b = e.target.closest('[data-pack]'); if (!b) return;
   $$('.mu-pack').forEach(x => x.classList.toggle('on', x === b));
   const city = cm.city, td = todayIn(cm.offset(2026, 1, 1)), tz = cm.offset(td.y, td.m, td.d), box = $('#mu-packres');
   box.innerHTML = `<div class="card" style="padding:24px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('mu.searching'))}</p></div>`;

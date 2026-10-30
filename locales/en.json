@@ -1276,7 +1276,7 @@
   "title": "Free with an account",
   "why": "{f} is free for members. Create an account in a few seconds, with no email verification, to use it.",
   "badge": "Members",
-  "lockText": "Free for members. Log in or create a free account to see this.",
+  "lockText": "Log in or create a free account to see this. No email verification needed.",
   "cta": "Unlock free",
   "f": {
    "vargas": "Divisional charts (D2–D12)",
@@ -1302,7 +1302,8 @@
    "dashas2": "Yogini and Chara dasha",
    "gems": "Gemstone and Rudraksha guide",
    "nadi": "Nadi life timeline",
-   "ask": "Ask my chart"
+   "ask": "Ask my chart",
+   "numerology": "Name correction and number checks"
   }
  },
  "rel": {
@@ -1759,7 +1760,7 @@
   "eye": "Guna Milan",
   "title": "Kundali Matching",
   "lede": "Ashtakoot matching compares the Moon nakshatras of two people across eight factors, for a total of 36 points, and checks Mangal dosha for both.",
-  "lockNote": "Kundali matching is free for members. Log in or create an account in seconds to see the result.",
+  "lockNote": "Without login you see the guna score and Mangal dosha. Log in free to see Porutham and the full compatibility report.",
   "boy": "Boy",
   "girl": "Girl",
   "pick": "Pick from My Kundalis",
@@ -2516,7 +2517,7 @@
   "eye": "Namkaran",
   "title": "Baby names by nakshatra",
   "lede": "Traditional first syllables for the child's Moon nakshatra and pada, with a numerology check against the birth date.",
-  "lockNote": "Baby names are free for members. Log in or create an account in seconds.",
+  "lockNote": "Without login you see the first 12 names. Log in free for the full list and the name check.",
   "fromChart": "From a saved Kundali",
   "pada": "Pada",
   "allPadas": "All four padas",
@@ -2543,13 +2544,14 @@
   "num": "No. {n}",
   "lucky": "Lucky",
   "none": "No names found for these syllables yet — try all four padas.",
-  "note": "Meanings are shown in English. Numerology uses the Chaldean system on the English spelling."
+  "note": "Meanings are shown in English. Numerology uses the Chaldean system on the English spelling.",
+  "basicNote": "Showing {n} of {t} names. Log in to see them all and check any name against the birth date."
  },
  "mu": {
   "eye": "Shubh muhurta",
   "title": "Muhurta finder",
   "lede": "Find good dates and time windows for marriage, griha pravesh, buying a vehicle or starting a business, for your city — optionally checked against your own chart.",
-  "lockNote": "The muhurta finder is free for members. Log in or create an account in seconds.",
+  "lockNote": "Without login you see the next 30 days. Log in free to search up to 120 days and use your own charts.",
   "purpose": "Purpose",
   "p": {
    "marriage": "Marriage (vivah)",
@@ -2586,7 +2588,8 @@
   "packsH": "Quick muhurta packs",
   "packsLede": "One tap for the next five good dates in your city.",
   "next5": "Next 5 good dates",
-  "topH": "{p} · {c}"
+  "topH": "{p} · {c}",
+  "basicNote": "Showing the next {n} days. Log in to search further ahead and personalise the dates with your Kundali."
  },
  "fam": {
   "eye": "Family",
@@ -5850,5 +5853,10 @@
    "activeIn": "Dasha periods that activate it",
    "remedyFor": "Remedy suggested for"
   }
+ },
+ "basic": {
+  "title": "You are seeing the basic Kundali",
+  "text": "Log in or sign up free to unlock everything: divisional charts, life-area reports, remedies, Nadi timeline, transits, Ask my chart and more. Sign-up takes seconds, with no email verification.",
+  "cta": "Sign up free"
  }
 }

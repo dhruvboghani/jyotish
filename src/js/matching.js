@@ -1,4 +1,4 @@
-/* Kundali Milan (Ashtakoot) page — members only (free with an account). */
+/* Kundali Milan (Ashtakoot) page — guna score for everyone; Porutham and the full report after login. */
 const people = {};
 ['b', 'g'].forEach(p => {
   people[p] = placePicker({ input: p + '-place', suggest: p + '-suggest', meta: p + '-meta', lat: p + '-lat', lon: p + '-lon', off: p + '-off', date: p + '-date', time: p + '-time', err: 'm-err', online: p + '-online' });
@@ -39,7 +39,6 @@ function readPerson(p) {
 $('#mform').addEventListener('submit', async e => {
   e.preventDefault();
   const er = $('#m-err'); er.textContent = '';
-  if (!requireLogin('matching')) return;
   const boy = readPerson('b'); if (typeof boy === 'string') { er.textContent = t('mt.boy') + ': ' + boy; return; }
   const girl = readPerson('g'); if (typeof girl === 'string') { er.textContent = t('mt.girl') + ': ' + girl; return; }
   store.set('kg-match', { boy, girl });
@@ -72,7 +71,9 @@ function reportHtml(rep, r) {
   return `<div class="card cp-sum reveal"><div class="area-head"><div class="area-score ${rep.band}"><b>${rep.score}</b><span>/100</span></div><div><h3>${esc(t('cp.title'))}</h3><p><span class="tag ${rep.band === 'strong' ? 'good' : rep.band === 'care' ? 'bad' : 'warn'}">${esc(t('la.band.' + rep.band))}</span> ${esc(t('cp.band.' + rep.band))}</p></div></div><h4>${esc(t('cp.cross'))}</h4>${fl(rep.cross)}</div>
     <div class="cp-grid">${side('boy', rep.boy, r.boy)}${side('girl', rep.girl, r.girl)}</div>`;
 }
+let lastBasic = false;
 function renderMatch(r) {
+  lastBasic = !!r.basic;
   const pct = r.total / r.max, circ = 2 * Math.PI * 52;
   const tone = r.verdict === 'excellent' || r.verdict === 'good' ? 'good' : r.verdict === 'average' ? 'warn' : 'bad';
   const person = (p, who) => `<div class="mperson"><span class="eyebrow">${esc(t('mt.' + who))}</span><b>${esc(p.name || t('res.defaultName'))}</b><span>${esc(t('res.rashiShort', { r: { r: p.moonSign } }))} · ${esc(nk(p.nak))} ${p.pada}</span><span>${esc(t('res.lagnaShort', { r: { r: p.lagna } }))}</span></div>`;
@@ -90,8 +91,8 @@ function renderMatch(r) {
     <div class="card manglik reveal ${mg.status === 'one' ? 'warn' : 'good'}"><h3>${esc(t('mt.manglik'))}</h3><p><b>${esc(t('mt.boy'))}:</b> ${esc(mg.boy ? t('mt.isManglik') + ' (' + md(mg.boyDetail) + ')' : t('mt.notManglik'))}</p><p><b>${esc(t('mt.girl'))}:</b> ${esc(mg.girl ? t('mt.isManglik') + ' (' + md(mg.girlDetail) + ')' : t('mt.notManglik'))}</p><p class="muted">${esc(t('mt.m.' + mg.status))}</p></div>
     <div class="seg mt-tabs no-print" role="tablist">${TABS.map((k, i) => `<button type="button" data-tab="${k}" aria-pressed="${i === 0}">${esc(t('mt.tab.' + k))}</button>`).join('')}</div>
     <div class="mt-pane" data-pane="ashtakoot"><h3 class="sub-h">${esc(t('mt.kootas'))}</h3><div class="koota-grid">${rows}</div></div>
-    <div class="mt-pane" data-pane="porutham">${poruthamHtml(r.porutham)}</div>
-    <div class="mt-pane" data-pane="report">${reportHtml(r.report, r)}</div>
+    <div class="mt-pane" data-pane="porutham">${r.basic ? lockCard('matching') : poruthamHtml(r.porutham)}</div>
+    <div class="mt-pane" data-pane="report">${r.basic ? lockCard('matching') : reportHtml(r.report, r)}</div>
     <p class="muted small">${esc(t('mt.disclaimer'))}</p>`;
   const show = k => { $$('.mt-tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === k))); $$('.mt-pane').forEach(p => { p.hidden = p.dataset.pane !== k; }); };
   $$('.mt-tabs button').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
@@ -103,7 +104,7 @@ function renderMatch(r) {
 const lastMatch = store.get('kg-match');
 if (lastMatch) { fillPerson('b', lastMatch.boy); fillPerson('g', lastMatch.girl); }
 readyHooks.push(s => { fillPickers(); $('#m-lock').hidden = !!s; });
-authHooks.push((ev, s) => { fillPickers(); $('#m-lock').hidden = !!s; });
+authHooks.push((ev, s) => { fillPickers(); $('#m-lock').hidden = !!s; if (s && lastBasic && ev === 'SIGNED_IN') $('#mform').requestSubmit(); });
 
 // ---------- Best match among saved profiles ----------
 async function fillRank() {

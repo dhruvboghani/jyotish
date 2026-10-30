@@ -19,17 +19,13 @@ const ROUTES = {
 };
 const birthKeyOf = i => [i.year, i.month, i.day, i.hour, i.minute, i.lat.toFixed(4), i.lon.toFixed(4), i.tzMinutes].join('|');
 
-// Same rules as lib/routes/kundali.js; the free-trial marker is the birth key itself on the phone.
+// Same rules as lib/routes/kundali.js: logged in → everything, otherwise the basic report.
 function kundali(b, headers) {
   const problem = validate(b);
   if (problem) return { status: 400, data: { error: problem } };
-  const input = clean(b), key = birthKeyOf(input);
+  const input = clean(b);
   if (headers.Authorization) return { status: 200, data: { ...full(input, { premium: true }), saved: false, logged: false, offline: true } };
-  const used = String(headers['X-KG-Free'] || '');
-  const mine = 'local:' + key;
-  if (!used || used === mine) return { status: 200, data: { ...full(input), trial: true, offline: true }, trialToken: used ? null : mine };
-  // Any other marker (a different local chart, or a signed one from the server) means the free chart was used
-  return { status: 200, data: { ...preview(input), reason: 'trial_used', offline: true } };
+  return { status: 200, data: { ...full(input), basic: true, offline: true } };
 }
 
 function run(handler, path, opts) {

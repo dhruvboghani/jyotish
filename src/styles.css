@@ -1828,3 +1828,4 @@ form.nu-check { margin: 0; }
   .nd-preds li > div { grid-column: 1 / -1; grid-row: 2; }
   .nd-preds li > .linkbtn { grid-column: 2; grid-row: 1; }
 }
+.trial-banner.basic-banner .bb-btns { display: flex; flex-wrap: wrap; gap: 8px; flex: none; min-width: 0; }

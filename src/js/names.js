@@ -1,4 +1,4 @@
-/* Baby names by nakshatra syllable + numerology — members only. */
+/* Baby names by nakshatra syllable + numerology — first 12 for everyone, the full list after login. */
 const nkSel = $('#n-nak'), padaSel = $('#n-pada'), gSel = $('#n-gender'), from = $('#n-from'), dateIn = $('#n-date'), checkIn = $('#n-check');
 nkSel.innerHTML = L.names.nak.map((n, i) => `<option value="${i}">${esc(n)}</option>`).join('');
 const fillPadas = () => { const i = +nkSel.value; padaSel.innerHTML = `<option value="">${esc(t('nm.allPadas'))}</option>` + [1, 2, 3, 4].map(p => `<option value="${p}">${p} · ${esc(L.names.syll[i][p - 1])}</option>`).join(''); };
@@ -16,7 +16,6 @@ $('#nform').addEventListener('submit', e => { e.preventDefault(); delete from.da
 $('#n-filter').addEventListener('input', e => { filter = e.target.value.trim().toLowerCase(); draw(lastN); });
 let lastN = null;
 async function run() {
-  if (!requireLogin('names')) return;
   const box = $('#nres'); box.innerHTML = '<div class="card" style="padding:30px;text-align:center"><span class="spin"></span></div>';
   const [y, m, d] = (dateIn.value || '').split('-').map(Number);
   const body = { gender: gSel.value, check: checkIn.value };
@@ -34,6 +33,7 @@ function draw(r) {
   const list = r.names.filter(n => !filter || n.name.toLowerCase().includes(filter) || n.meaning.toLowerCase().includes(filter));
   box.innerHTML = `<div class="nm-head"><p>${esc(t('nm.forSyll', { nk: { nk: r.nak }, list: r.syllables.join(', ') }))}</p></div>${num}${chk}
     <div class="name-grid">${list.map(n => `<article class="card name reveal ${n.lucky ? 'lucky' : ''}"><div class="nh"><b>${esc(n.name)}</b><span class="tag ${n.gender === 'm' ? '' : n.gender === 'f' ? 'gold' : 'good'}">${esc(t('nm.g.' + n.gender))}</span></div><p>${esc(n.meaning)}</p><div class="nf"><span class="tag">${esc(n.syllable)}</span><span class="tag">${esc(t('nm.num', { n: n.number }))}</span>${n.lucky ? `<span class="tag good">${ic('i-star')}${esc(t('nm.lucky'))}</span>` : ''}</div></article>`).join('') || `<p class="empty">${esc(t('nm.none'))}</p>`}</div>
+    ${r.basic ? lockCard('names', `<p class="muted small">${esc(t('nm.basicNote', { n: r.names.length, t: r.total || r.names.length }))}</p>`) : ''}
     <p class="muted small">${esc(t('nm.note'))}</p><div id="nk-box"></div>`;
   observeReveals();
   namkaran();
@@ -56,4 +56,4 @@ async function namkaran() {
   } catch (e) { box.innerHTML = ''; }
 }
 readyHooks.push(async s => { $('#n-lock').hidden = !!s; if (s) { rowsN = await fillKundaliSelect(from, t('mt.pick')); from.hidden = !rowsN.length; } else from.hidden = true; });
-authHooks.push(async (ev, s) => { $('#n-lock').hidden = !!s; if (s) { rowsN = await fillKundaliSelect(from, t('mt.pick')); from.hidden = !rowsN.length; } });
+authHooks.push(async (ev, s) => { $('#n-lock').hidden = !!s; if (s && ev === 'SIGNED_IN' && lastN && lastN.basic) run(); if (s) { rowsN = await fillKundaliSelect(from, t('mt.pick')); from.hidden = !rowsN.length; } });
