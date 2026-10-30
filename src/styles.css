@@ -1908,3 +1908,8 @@ form.nu-check { margin: 0; }
 .soon-card li { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--line-2); }
 .soon-card li.good { border-left-color: var(--good); } .soon-card li.bad { border-left-color: var(--bad); }
 .soon-card li span { display: grid; } .soon-card li small { color: var(--ink-3); font-size: 12.5px; }
+/* Dream meanings */
+.dr-cat { margin-top: 8px; }
+.dr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.dr-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px; color: var(--ink); text-decoration: none; border-left: 4px solid var(--gold); }
+.dr-item.good { border-left-color: var(--good); } .dr-item.bad { border-left-color: var(--bad); } .dr-item:hover { box-shadow: var(--shadow-lg); }

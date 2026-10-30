@@ -113,7 +113,8 @@ function pagesFor(L) {
   for (let s = 0; s < 12; s++) { const x = learnLagna(L, s); out.push({ id: 'learn-lagna', slug: `learn/${SIGN_SLUG[s]}-lagna/`, article: true, bundle: 'base', priority: '0.6', freq: 'yearly', ...x }); }
   out.push(...SP.staticPages(L.meta.code)); // festivals, date lists, muhurat, yearly rashifal, sade sati, nakshatras, compatibility…
   out.push(...require('./lib/seo-pages2.js').staticPages2(L.meta.code)); // puja vidhi, month calendar, transits, retrogrades, mahadasha, yogas, planet-in-sign, baby names
-  out.push(...require('./lib/seo-pages3.js').staticPages3(L.meta.code)); // numerology: Mulank, Bhagyank, compatibility, yearly, guides
+  out.push(...require('./lib/seo-pages3.js').staticPages3(L.meta.code));
+  out.push(...require('./lib/seo-dreams.js').dreamPages(L.meta.code)); // Swapna Shastra: dream meanings // numerology: Mulank, Bhagyank, compatibility, yearly, guides
   return out;
 }
 
