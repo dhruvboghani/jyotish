@@ -1248,7 +1248,8 @@
   "aDevice": "Device",
   "aMore": "Load more",
   "aNote": [
-   "No IP addresses or birth details are stored.",
+   "What people type into the tools is stored with each event: names, birth dates, times and places, numbers and form fields, for visitors and logged-in users alike. Passwords are never stored.",
+   "No IP addresses are stored.",
    "Search engines and automated browsers are skipped.",
    "Entries older than 180 days are deleted automatically."
   ],
@@ -2010,7 +2011,7 @@
     "h": "What we collect",
     "p": [
      "Birth details you enter (name, date, time and place) are used to calculate your Kundali. If you create an account, we store your email, the Kundalis you make and a history of your entries so you can open them again.",
-     "Without an account, your history stays only in your own browser. A small cookie remembers that this browser has used its free Kundali."
+     "Without an account, your history stays only in your own browser. A small cookie remembers that this browser has used its free Kundali. The details you type into the tools are also recorded in our activity log, described below."
     ]
    },
    {
@@ -2023,7 +2024,7 @@
     "h": "Storage and security",
     "p": [
      "Accounts and saved charts are stored with Supabase with row-level security, so each account can read only its own data. Pages are served by Vercel, which also records anonymous visit statistics.",
-     "We also keep a short activity log of which pages and tools are used, with the approximate city of your connection and, if you are logged in, your account email. It helps us fix problems and improve the site, is visible only to the site administrator, never includes your birth details or IP address, and is deleted after 180 days."
+     "We also keep an activity log of how the site is used: which pages and tools are opened and what is typed into them, such as names, birth dates, times and places, phone numbers and form fields, with the approximate city of your connection and, if you are logged in, your account email. This is kept whether or not you have an account. It helps us fix problems and improve the site, is visible only to the site administrator, never includes passwords or your IP address, and is deleted after 180 days."
     ]
    },
    {

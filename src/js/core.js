@@ -110,7 +110,7 @@ function placePicker(ids, onPick) {
   };
   const close = () => { sug.hidden = true; input.setAttribute('aria-expanded', 'false'); st.active = -1; };
   const render = () => { sug.innerHTML = st.matches.map((p, i) => `<li role="option" aria-selected="${i === st.active}" data-i="${i}">${esc(p.name)}<small>${esc(p.region)}</small></li>`).join(''); sug.hidden = !st.matches.length; input.setAttribute('aria-expanded', String(!!st.matches.length)); };
-  const choose = p => { st.chosen = p; input.value = `${p.name}, ${p.region}`; if (el('lat')) el('lat').value = p.lat; if (el('lon')) el('lon').value = p.lon; st.offAuto = true; autoOffset(); showMeta(); close(); if (onPick) onPick(p); };
+  const choose = p => { try { track('place_pick', { q: (input.value || '').slice(0, 80), place: `${p.name}, ${p.region}`, field: ids.input }); } catch (e) { } st.chosen = p; input.value = `${p.name}, ${p.region}`; if (el('lat')) el('lat').value = p.lat; if (el('lon')) el('lon').value = p.lon; st.offAuto = true; autoOffset(); showMeta(); close(); if (onPick) onPick(p); };
   input.addEventListener('input', () => {
     st.chosen = null; showMeta();
     const q = input.value.trim().toLowerCase().split(',')[0].trim();
@@ -241,6 +241,40 @@ const ACT = (() => {
   return { track, flush: () => send(true) };
 })();
 const track = ACT.track;
+// What was typed into a tool: request body + query string, without secrets, long values trimmed
+const ACT_SECRET = /pass|token|secret|auth|otp|cvv|card/i;
+function actClean(v, depth = 0) {
+  if (v == null) return v;
+  if (typeof v === 'string') return v.length > 300 ? v.slice(0, 300) + '…' : v;
+  if (typeof v !== 'object') return v;
+  if (depth > 3) return undefined;
+  if (Array.isArray(v)) return v.slice(0, 30).map(x => actClean(x, depth + 1));
+  const o = {}; for (const [k, x] of Object.entries(v)) if (!ACT_SECRET.test(k)) o[k] = actClean(x, depth + 1); return o;
+}
+function actInput(path, opts) {
+  let body = null; try { body = opts.body ? JSON.parse(opts.body) : null; } catch (e) { body = typeof opts.body === 'string' ? opts.body.slice(0, 300) : null; }
+  const qs = path.includes('?') ? Object.fromEntries(new URLSearchParams(path.split('?')[1])) : null;
+  const all = { ...(qs || {}), ...(body && typeof body === 'object' ? body : body ? { body } : {}) };
+  return Object.keys(all).length ? actClean(all) : null;
+}
+// Every form submitted on the site (except login): its fields, without passwords
+const actFieldName = el => el.id || el.name || el.dataset.k || el.getAttribute('aria-label') || el.placeholder || el.type;
+function actFields(form) {
+  const out = {};
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'password' || el.type === 'hidden' || el.type === 'file' || el.type === 'submit' || el.type === 'button' || ACT_SECRET.test(actFieldName(el))) return;
+    if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+    let v = el.tagName === 'SELECT' ? (el.selectedOptions[0] ? el.selectedOptions[0].textContent.trim() : el.value) : el.value;
+    if (v === '' || v == null) return;
+    out[actFieldName(el)] = String(v).slice(0, 300);
+  });
+  return out;
+}
+document.addEventListener('submit', e => {
+  const f = e.target; if (!(f instanceof HTMLFormElement) || f.id === 'authform' || f.closest('.admin, .box.admin')) return;
+  const fields = actFields(f); if (!Object.keys(fields).length) return;
+  track('form_submit', { form: f.id || f.className.split(' ')[0] || 'form', fields });
+}, true);
 // API calls name the tool that was used (kundali, match, names, muhurta …)
 const API_EVENT = { kundali: 'kundali', match: 'matching', names: 'names', muhurta: 'muhurta', prashna: 'prashna', varshaphal: 'varshaphal', panchang: 'panchang', calendar: 'calendar', rashifal: 'rashifal', tithi: 'tithi', vrat: 'vrat', festival: 'festival', eclipses: 'eclipses', family: 'family', share: 'share', ics: 'calendar_export', 'push-test': 'push_test' };
 function trackApi(path, opts, ms, status, offline) {
@@ -248,6 +282,7 @@ function trackApi(path, opts, ms, status, offline) {
   if (!name || name === 'log' || name === 'signup') return;
   const method = (opts.method || 'GET').toUpperCase();
   const detail = { api: name, method, status, ms: Math.round(ms) }; if (offline) detail.offline = true;
+  const input = actInput(path, opts); if (input) detail.input = input;
   track(status >= 400 || status === 0 ? 'api_error' : (API_EVENT[name] || name), detail);
 }
 // Open a chart on the Kundali page (or here, when the page can show charts itself)
@@ -503,7 +538,13 @@ const actState = { range: 7, event: '', hideSelf: true };
 const ACT_TAG = { login: 'good', signup: 'good', logout: '', login_failed: 'bad', signup_failed: 'bad', js_error: 'bad', api_error: 'bad', page_view: '' };
 const actWho = r => r.email ? esc(r.email) : `<span class="muted">${esc(t('admin.visitor'))} ${esc(String(r.visitor || '').slice(0, 6))}</span>`;
 const actTime = v => new Date(v).toLocaleString(LOCALE, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-const actDetail = d => !d ? '' : d.api ? `${esc(d.method || '')} /${esc(d.api)} · <b>${esc(d.status)}</b> · ${d.ms >= 1000 ? (d.ms / 1000).toFixed(1) + ' s' : esc(d.ms) + ' ms'}${d.offline ? ' · offline' : ''}`
+const actBirth = o => o && o.year && o.day ? `${o.name ? o.name + ' · ' : ''}${pad(o.day)}/${pad(o.month)}/${o.year}${o.hour != null ? ' ' + pad(o.hour) + ':' + pad(o.minute || 0) : ''}${o.placeLabel ? ' · ' + o.placeLabel : o.lat != null ? ' · ' + (+o.lat).toFixed(2) + ',' + (+o.lon).toFixed(2) : ''}` : null;
+const actInputHtml = o => {
+  if (!o || typeof o !== 'object') return '';
+  const b = actBirth(o); if (b) return `<span class="act-in">${esc(b)}</span>`;
+  return `<span class="act-in">${Object.entries(o).filter(([k, v]) => v !== '' && v != null).slice(0, 12).map(([k, v]) => { const bb = typeof v === 'object' ? actBirth(v) : null; return `<span class="kv"><i>${esc(k)}</i> ${esc(bb || (typeof v === 'object' ? JSON.stringify(v) : String(v))).slice(0, 160)}</span>`; }).join(' ')}</span>`;
+};
+const actDetail = d => !d ? '' : d.fields ? `<span class="muted">${esc(d.form || '')}</span>${actInputHtml(d.fields)}` : d.api ? `${esc(d.method || '')} /${esc(d.api)} · <b>${esc(d.status)}</b> · ${d.ms >= 1000 ? (d.ms / 1000).toFixed(1) + ' s' : esc(d.ms) + ' ms'}${d.offline ? ' · offline' : ''}${d.input ? actInputHtml(d.input) : ''}`
   : d.title && Object.keys(d).length === 1 ? esc(String(d.title).slice(0, 70)) : actDetailKv(d);
 const actDetailKv = d => d ? Object.entries(d).filter(([k, v]) => v !== null && v !== '' && v !== undefined).map(([k, v]) => `<span class="kv"><i>${esc(k)}</i> ${esc(typeof v === 'object' ? JSON.stringify(v) : String(v)).slice(0, 120)}</span>`).join(' ') : '';
 async function activityPanel(body, qIn) {

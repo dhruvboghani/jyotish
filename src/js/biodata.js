@@ -69,7 +69,7 @@ $('#bd-photo-x').onclick = () => { delete bd.photo; $('#bd-photo').value = ''; b
 $('#bd-pdf').onclick = () => {
   document.body.classList.add('bd-printing');
   const done = () => document.body.classList.remove('bd-printing');
-  track('biodata_print');
+  try { const f = document.getElementById('bd-form'); track('biodata_print', f ? { fields: actFields(f) } : null); } catch (e) { }
   if (APP && APP.print) APP.print(t('bd.heading') + ' ' + (bd.f.name || ''), done); else { window.print(); setTimeout(done, 800); }
 };
 $('#bd-wa').onclick = () => {

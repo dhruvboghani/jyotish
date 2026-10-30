@@ -40,7 +40,7 @@ $$;
 revoke all on function public.is_superadmin() from public;
 grant execute on function public.is_superadmin() to authenticated;
 
--- Write up to 25 events at once. Strings are trimmed; detail is dropped if larger than 2 KB.
+-- Write up to 25 events at once. Strings are trimmed; detail (including tool inputs) is dropped if larger than 8 KB.
 create or replace function public.log_activity(p_events jsonb, p_country text default null, p_region text default null, p_city text default null)
 returns integer language plpgsql security definer set search_path = public, auth as $$
 declare
@@ -58,7 +58,7 @@ begin
       left(e->>'visitor', 40), left(e->>'session', 40), left(e->>'event', 40), left(e->>'page', 300), left(e->>'lang', 8),
       left(e->>'platform', 10), left(e->>'device', 80), left(e->>'referrer', 200),
       left(p_country, 4), left(p_region, 60), left(p_city, 80),
-      case when e ? 'detail' and length((e->'detail')::text) <= 2000 then e->'detail' else null end);
+      case when e ? 'detail' and length((e->'detail')::text) <= 8000 then e->'detail' else null end);
     n := n + 1;
   end loop;
   -- Keep 180 days

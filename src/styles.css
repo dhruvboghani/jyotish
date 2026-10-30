@@ -1765,3 +1765,4 @@ form.nu-check { margin: 0; }
   .nd-chips { grid-column: 1 / -1; grid-row: 2; }
 }
 @media print { .nd-filter, .nd-check { display: none !important; } .nd-list .nd-year { display: block !important; } }
+.act-table .act-in { display: block; margin-top: 3px; color: var(--ink); }
