@@ -103,6 +103,7 @@ function pagesFor(L) {
     P('prashna', 'prashna/', { priority: '0.7', freq: 'monthly' }),
     P('biodata', 'biodata/', { priority: '0.7', freq: 'monthly' }),
     P('delivery', 'delivery-muhurat/', { priority: '0.7', freq: 'monthly' }),
+    P('business', 'business-kundali/', { priority: '0.7', freq: 'monthly' }),
     P('learn', 'learn/', { priority: '0.8', freq: 'monthly', body: learnIndex(L) }),
     P('share', 'share/', { noindex: true }),
     P('privacy', 'privacy/', { priority: '0.3', freq: 'yearly', body: legalBody(L, 'privacy') }),
