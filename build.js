@@ -114,7 +114,8 @@ function pagesFor(L) {
   out.push(...SP.staticPages(L.meta.code)); // festivals, date lists, muhurat, yearly rashifal, sade sati, nakshatras, compatibility…
   out.push(...require('./lib/seo-pages2.js').staticPages2(L.meta.code)); // puja vidhi, month calendar, transits, retrogrades, mahadasha, yogas, planet-in-sign, baby names
   out.push(...require('./lib/seo-pages3.js').staticPages3(L.meta.code));
-  out.push(...require('./lib/seo-dreams.js').dreamPages(L.meta.code)); // Swapna Shastra: dream meanings // numerology: Mulank, Bhagyank, compatibility, yearly, guides
+  out.push(...require('./lib/seo-dreams.js').dreamPages(L.meta.code)); // Swapna Shastra: dream meanings
+  out.push(...require('./lib/seo-celebs.js').celebPages(L.meta.code)); // famous charts // numerology: Mulank, Bhagyank, compatibility, yearly, guides
   return out;
 }
 
