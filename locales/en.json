@@ -1314,7 +1314,8 @@
    "numerology": "Name correction and number checks",
    "career": "Career finder",
    "reloc": "Best city for you",
-   "delivery": "All delivery windows"
+   "delivery": "All delivery windows",
+   "couple": "Couple's month ahead"
   }
  },
  "rel": {
@@ -1810,7 +1811,8 @@
   "tab": {
    "ashtakoot": "Ashtakoot (36)",
    "porutham": "10 Porutham",
-   "report": "Full report"
+   "report": "Full report",
+   "month": "Month ahead"
   }
  },
  "kt": {
@@ -2615,7 +2617,11 @@
   "packsLede": "One tap for the next five good dates in your city.",
   "next5": "Next 5 good dates",
   "topH": "{p} · {c}",
-  "basicNote": "Showing the next {n} days. Log in to search further ahead and personalise the dates with your Kundali."
+  "basicNote": "Showing the next {n} days. Log in to search further ahead and personalise the dates with your Kundali.",
+  "forGroup": "Suit these people (up to 8)",
+  "groupHint": "Pick everyone involved, such as the whole family for griha pravesh or both families for an engagement. Only times that suit every one of them are shown.",
+  "groupMax": "You can pick up to {n} people.",
+  "groupNote": "These times suit all {n} people: {list}."
  },
  "fam": {
   "eye": "Family",
@@ -6067,5 +6073,23 @@
   "anyH": "Check any city",
   "anyPh": "Type a city name",
   "note": "Relocation changes the houses, not your planets or dashas. Use it as one input when choosing where to study, work or settle."
+ },
+ "cm": {
+  "title": "Your next 30 days together",
+  "sum": "{a} days are good for both of you, {b} days are tense for both.",
+  "tone": {
+   "both": "Good for both",
+   "ok": "Neutral",
+   "one": "Hard for one",
+   "tense": "Tense for both"
+  },
+  "bestH": "Best days to plan things together",
+  "tenseH": "Days to go gently",
+  "noneBest": "No day is strongly good for both this month.",
+  "noneTense": "No day is tense for both this month.",
+  "eachH": "Each of you right now",
+  "transit": "{g} in {h} from Moon",
+  "next": "Next antardasha: {g} from {d}",
+  "note": "Daily tone uses Tara bala (the day's nakshatra from each birth star) and Chandra bala (the Moon's sign from each Moon sign). It is a guide for planning, not a prediction."
  }
 }

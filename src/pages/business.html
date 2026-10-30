@@ -1,0 +1,14 @@
+<main class="wrap page business-page">
+  <div class="page-hero"><p class="eyebrow">{{bz.eye}}</p><h1>{{bz.title}}</h1><p class="lede">{{bz.lede}}</p></div>
+  <form class="card toolbar bz-form" id="bz-form" novalidate>
+    <div class="field"><label for="bz-name">{{bz.name}}</label><input id="bz-name" type="text" maxlength="60" placeholder="{{bz.namePh}}"></div>
+    <div class="field"><label for="bz-date">{{bz.date}}</label><input id="bz-date" type="date" required></div>
+    <div class="field"><label for="bz-time">{{bz.time}}</label><input id="bz-time" type="time" value="10:00"></div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{bz.go}}</button>
+    <p class="muted small full">{{bz.hint}}</p>
+    <p class="err full" id="bz-err" role="alert"></p>
+  </form>
+  <div id="bz-res" aria-live="polite"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

@@ -1,13 +1,25 @@
 /* Muhurta finder — next 15 days for everyone; longer searches and personal charts after login. */
 const cm = cityPicker(() => {});
-const mFrom = $('#mu-from'), mDays = $('#mu-days'), mPurpose = $('#mu-purpose'), p1 = $('#mu-p1'), p2 = $('#mu-p2');
+const mFrom = $('#mu-from'), mDays = $('#mu-days'), mPurpose = $('#mu-purpose'), mPeople = $('#mu-people'), MU_MAX = 8;
 const td0 = todayIn(cm.offset(2026, 1, 1)); mFrom.value = isoDay(td0.y, td0.m, td0.d);
 let rowsM = [];
-async function fillPeople() { if (!session) return; rowsM = await fillKundaliSelect(p1, t('mu.nobody')); await fillKundaliSelect(p2, t('mu.nobody')); }
+// Group muhurta: pick up to 8 saved Kundalis; a window must suit every one of them (Tara bala and Chandra bala)
+async function fillPeople() {
+  const f = $('#mu-people-f'); if (!session) { f.hidden = true; return; }
+  rowsM = await loadMyKundalis(); f.hidden = !rowsM.length;
+  mPeople.innerHTML = rowsM.map((r, i) => `<button type="button" class="chip" data-pi="${i}" aria-pressed="false">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''}</button>`).join('');
+}
+mPeople.addEventListener('click', e => {
+  const b = e.target.closest('[data-pi]'); if (!b) return;
+  const on = b.getAttribute('aria-pressed') !== 'true';
+  if (on && mPeople.querySelectorAll('[aria-pressed="true"]').length >= MU_MAX) { toast(t('mu.groupMax', { n: MU_MAX })); return; }
+  b.setAttribute('aria-pressed', String(on));
+});
+const pickedPeople = () => [...mPeople.querySelectorAll('[aria-pressed="true"]')].map(b => rowsM[+b.dataset.pi]).filter(Boolean).map(r => r.birth);
 $('#muform').addEventListener('submit', async e => {
   e.preventDefault();
   const [y, m, d] = mFrom.value.split('-').map(Number), city = cm.city, tz = cm.offset(y, m, d);
-  const people = [p1, p2].map(s => s.value !== '' && rowsM[+s.value] ? rowsM[+s.value].birth : null).filter(Boolean);
+  const people = pickedPeople();
   const box = $('#mures'); box.innerHTML = `<div class="card" style="padding:30px;text-align:center"><span class="spin"></span><p class="muted">${esc(t('mu.searching'))}</p></div>`;
   try {
     const r = await api('/api/muhurta/', { method: 'POST', body: JSON.stringify({ purpose: mPurpose.value, from: mFrom.value, days: +mDays.value, lat: city.lat, lon: city.lon, tz, people }) });
@@ -30,7 +42,7 @@ function drawM(r, tz, city, people) {
     <div class="card mu-sum reveal"><div><span class="eyebrow">${esc(t('mu.p.' + r.purpose))} · ${esc(city.name)}</span><h3>${esc(t('mu.found', { n: dates.length, w: r.windows.length }))}</h3>
       ${best ? `<p>${esc(t('mu.best', { d: longDateFmt.format(dayOf(best.date)), t: fTime(best.start, tz) + ' – ' + fTime(best.end, tz) }))}</p>` : ''}
       ${Object.keys(blockedSum).length ? `<p class="muted small">${esc(t('mu.blockedNote'))} ${Object.entries(blockedSum).map(([k, n]) => esc(t('mu.block.' + k)) + ' (' + n + ')').join(' · ')}</p>` : ''}
-      ${r.personalised ? `<p class="muted small">${esc(t('mu.personalNote'))}</p>` : ''}</div></div>
+      ${r.personalised ? `<p class="muted small">${esc(r.personalised > 1 ? t('mu.groupNote', { n: r.personalised, list: people.map(p => p.name || t('res.defaultName')).join(', ') }) : t('mu.personalNote'))}</p>` : ''}</div></div>
     ${dates.map(d => `<section class="mu-day reveal"><h3>${esc(longDateFmt.format(dayOf(d)))}</h3><ul class="mu-list">${byDate[d].map(winHtml).join('')}</ul></section>`).join('') || `<p class="empty">${esc(t('mu.none'))}</p>`}
     ${r.basic ? lockCard('muhurta', `<p class="muted small">${esc(t('mu.basicNote', { n: r.days || 30 }))}</p>`) : ''}
     <p class="muted small">${esc(t('mu.disclaimer'))}</p>`;

@@ -7,8 +7,7 @@
     <!--CITY-->
     <div class="field"><label for="mu-from">{{mu.from}}</label><input id="mu-from" type="date"></div>
     <div class="field"><label for="mu-days">{{mu.days}}</label><select id="mu-days"><option value="30">30</option><option value="60">60</option><option value="90" selected>90</option><option value="120">120</option></select></div>
-    <div class="field"><label for="mu-p1">{{mu.for1}}</label><select id="mu-p1"><option value="">{{mu.nobody}}</option></select></div>
-    <div class="field"><label for="mu-p2">{{mu.for2}}</label><select id="mu-p2"><option value="">{{mu.nobody}}</option></select></div>
+    <fieldset class="field full mu-people-f" id="mu-people-f" hidden><legend>{{mu.forGroup}}</legend><div class="chips" id="mu-people"></div><p class="muted small">{{mu.groupHint}}</p></fieldset>
     <button class="btn-cta" type="submit">{{mu.submit}}</button>
   </form>
   <div id="mures"></div>

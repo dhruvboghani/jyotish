@@ -1880,3 +1880,15 @@ form.nu-check { margin: 0; }
 .dl-cells { display: flex; gap: 1px; } .dl-cells i { flex: 1 1 0; min-width: 0; height: 16px; border-radius: 2px; }
 .g3 { background: #1E8E5A; } .g2 { background: #7CC79E; } .g1 { background: #E6E1C8; } .g0 { background: #E9B9B3; } .blk { background: #2A2E5C; }
 @media (max-width: 520px) { .dl-day { grid-template-columns: 70px minmax(0, 1fr); } }
+/* Group muhurta + couple's month */
+.mu-people-f { border: 0; padding: 0; margin: 0; } .mu-people-f legend { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; padding: 0; }
+.mu-people-f .chips { margin-bottom: 4px; }
+.cm-sum { padding: 16px 18px; } .cm-sum h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 17px; } .cm-sum h3 svg { width: 18px; height: 18px; color: var(--gold-deep); }
+.cm-legend { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; font-size: 12.5px; } .cm-legend span { padding: 2px 9px; border-radius: 999px; }
+.cm-cal { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px; }
+.cm-cal li { border-radius: 10px; padding: 6px 8px; display: grid; gap: 1px; line-height: 1.2; } .cm-cal b { font-size: 16px; } .cm-cal small { font-size: 10.5px; opacity: .85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cm-both { background: #1E8E5A; color: #fff; } .cm-ok { background: var(--bg); color: var(--ink-2); border: 1px solid var(--line); } .cm-one { background: #FBE9D0; color: #8A4B08; } .cm-tense { background: #E2A39B; color: #5E1710; }
+.cm-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.cm-list { padding: 14px 16px; } .cm-list h4 { margin: 0 0 6px; } .cm-list ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.cm-person { padding: 14px 16px; } .cm-person p { margin: 6px 0 0; display: flex; align-items: center; gap: 6px; } .cm-tr { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+@media (max-width: 620px) { .cm-cols { grid-template-columns: 1fr; } }

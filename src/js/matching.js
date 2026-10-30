@@ -57,7 +57,7 @@ function kVal(k, side) {
   if (k.id === 'bhakoot') return rn(v);
   return V(v);
 }
-const TABS = ['ta', 'te', 'kn'].includes(LANG) ? ['porutham', 'ashtakoot', 'report'] : ['ashtakoot', 'porutham', 'report'];
+const TABS = (['ta', 'te', 'kn'].includes(LANG) ? ['porutham', 'ashtakoot', 'report'] : ['ashtakoot', 'porutham', 'report']).concat('month');
 const RAJJU_N = ['pada', 'kati', 'nabhi', 'kanta', 'siro'];
 function poruthamHtml(p) {
   const val = x => x.id === 'gana' ? `${V(x.boy)} / ${V(x.girl)}` : x.id === 'rasiAdhipati' ? `${gn(x.boy)} / ${gn(x.girl)}` : x.id === 'rajju' ? `${t('pr.rajjuN.' + RAJJU_N[x.boy])} / ${t('pr.rajjuN.' + RAJJU_N[x.girl])}` : x.n != null ? t('pr.count', { n: x.n }) : '';
@@ -93,6 +93,7 @@ function renderMatch(r) {
     <div class="mt-pane" data-pane="ashtakoot"><h3 class="sub-h">${esc(t('mt.kootas'))}</h3><div class="koota-grid">${rows}</div></div>
     <div class="mt-pane" data-pane="porutham">${r.basic ? lockCard('matching') : poruthamHtml(r.porutham)}</div>
     <div class="mt-pane" data-pane="report">${r.basic ? lockCard('matching') : reportHtml(r.report, r)}</div>
+    <div class="mt-pane" data-pane="month">${r.month ? monthHtml(r.month, r) : lockCard('couple')}</div>
     <p class="muted small">${esc(t('mt.disclaimer'))}</p>`;
   const show = k => { $$('.mt-tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === k))); $$('.mt-pane').forEach(p => { p.hidden = p.dataset.pane !== k; }); };
   $$('.mt-tabs button').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
@@ -129,3 +130,20 @@ $('#mr-go').addEventListener('click', async () => {
 });
 readyHooks.push(() => fillRank());
 authHooks.push(() => fillRank());
+
+// ---------- Couple's month ahead (members) ----------
+function monthHtml(M, r) {
+  const names = [r.boy.name || t('mt.boy'), r.girl.name || t('mt.girl')];
+  const df = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short' }), dd = new Intl.DateTimeFormat(LOCALE, { day: 'numeric' });
+  const cell = d => `<li class="cm-${d.tone}" title="${esc(df.format(new Date(d.ms)))} · ${esc(t('cm.tone.' + d.tone))}"><b>${esc(dd.format(new Date(d.ms)))}</b><small>${esc(nk(d.nak))}</small></li>`;
+  const line = d => `<li><b>${esc(df.format(new Date(d.ms)))}</b> <span class="muted small">${esc(nk(d.nak))}</span></li>`;
+  const tr = (x, p) => `<span class="tag ${x.good ? 'good' : 'bad'}">${esc(t('cm.transit', { g: { g: p }, h: x.h }))}</span>`;
+  const person = (x, i) => `<div class="card cm-person"><b>${esc(names[i])}</b><p class="small">${x.md ? `${g(x.md, 'gimg sm')} ${esc(t('nd.dashaLine', { md: { g: x.md }, ad: { g: x.ad } }))}` : ''}</p>${x.next ? `<p class="small muted">${esc(t('cm.next', { g: { g: x.next.lord }, d: df.format(new Date(x.next.start)) }))}</p>` : ''}<div class="cm-tr">${tr(x.jup, 'Jupiter')}${tr(x.sat, 'Saturn')}${tr(x.ven, 'Venus')}</div></div>`;
+  return `<div class="card cm-sum reveal"><h3>${ic('i-cal')}${esc(t('cm.title'))}</h3><p>${esc(t('cm.sum', { a: M.both, b: M.tense }))}</p>
+      <div class="cm-legend"><span class="cm-both">${esc(t('cm.tone.both'))}</span><span class="cm-ok">${esc(t('cm.tone.ok'))}</span><span class="cm-one">${esc(t('cm.tone.one'))}</span><span class="cm-tense">${esc(t('cm.tone.tense'))}</span></div>
+      <ol class="cm-cal">${M.days.map(cell).join('')}</ol></div>
+    <div class="cm-cols"><div class="card cm-list reveal"><h4>${esc(t('cm.bestH'))}</h4><ul>${M.days.filter(d => d.tone === 'both').slice(0, 8).map(line).join('') || `<li class="muted">${esc(t('cm.noneBest'))}</li>`}</ul></div>
+      <div class="card cm-list reveal"><h4>${esc(t('cm.tenseH'))}</h4><ul>${M.days.filter(d => d.tone === 'tense').slice(0, 8).map(line).join('') || `<li class="muted">${esc(t('cm.noneTense'))}</li>`}</ul></div></div>
+    <h3 class="sub-h">${esc(t('cm.eachH'))}</h3><div class="cm-cols">${M.info.map(person).join('')}</div>
+    <p class="muted small">${esc(t('cm.note'))}</p>`;
+}
