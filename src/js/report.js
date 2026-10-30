@@ -250,7 +250,7 @@ const RTABS = [
   ['planets', ['grahas', 'bhavas', 'strength', 'ashtaka'], 'i-sun'],
   ['yogas', ['yogas'], 'i-yoga'],
   ['areas', ['areas'], 'i-users'],
-  ['timing', ['dasha', 'events', 'transits', 'varsha', 'dashas2', 'gochar'], 'i-clock'],
+  ['timing', ['dasha', 'nadi', 'events', 'transits', 'varsha', 'dashas2', 'gochar'], 'i-clock'],
   ['remedies', ['remedies', 'gems'], 'i-lamp'],
   ['more', ['panchang', 'kp', 'rectify', 'notes', 'method'], 'i-info']
 ];
@@ -458,6 +458,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${gmSec}
   ${sec('dasha', 'dasha', `${nowCard}<div class="card ribbon-card reveal">${drawRibbon(c, now)}</div><div class="dasha-list">${dashaList}</div>`, '',
     esc(t('sec.dasha.lede', { p: ((1 - c.balance.years / DASHA_YEARS[c.balance.lord]) * 100).toFixed(1), nk: { nk: P.Moon.nak }, v: ymd(c.balance.years), g: { g: c.balance.lord } })))}
+  ${typeof nadiHtml === 'function' ? mSec('nadi', 'nd', premium ? nadiHtml(c, ss, [input.year, input.month, input.day, input.hour, input.minute, input.lat, input.lon].join('_')) : lockCard('nadi')) : ''}
   ${mSec('events', 'events', upcomingHtml)}
   ${varshaSec}
   ${transitSec}
@@ -473,6 +474,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${notesSec}
   ${sec('method', 'method', `<div class="card method reveal"><p class="mono">UT ${fDate(c.utMs, 0)} ${fTime(c.utMs, 0)} · JD ${c.jd.toFixed(5)} · LST ${lst} · Lahiri ${dms(c.ayanamsa)} · Sayana Lagna ${dms(method.sayanaAsc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p><p>${esc(t('sec.method.p1'))}</p><p>${esc(t('sec.method.p2'))}</p></div>`, '', '')}`;
   tabify(host);
+  if (premium && typeof wireNadi === 'function') try { wireNadi(c, ss); } catch (e) { console.error(e); }
 
   // Interactions
   let currentVarga = VARGA_KEYS[0];

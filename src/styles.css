@@ -1718,3 +1718,50 @@ form.nu-check { margin: 0; }
   .rud-list li { grid-template-columns: 24px minmax(0, 1fr) auto; row-gap: 2px; }
   .rud-list li > span { grid-column: 2 / 4; grid-row: 2; color: var(--ink-2); font-size: 13.5px; }
 }
+
+/* ---------- Nadi life timeline ---------- */
+.nd-intro { padding: 16px 18px; display: grid; gap: 10px; }
+.nd-intro p { margin: 0; }
+.nd-bb { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; color: var(--ink-2); }
+.nd-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13.5px; color: var(--ink-3); }
+.nd-filter { margin: 14px 0 10px; }
+.nd-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.nd-list[data-f="future"] .nd-year.past, .nd-list[data-f="past"] .nd-year:not(.past):not(.now) { display: none; }
+.nd-year { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; border-left: 4px solid var(--line-2); overflow: hidden; }
+.nd-year.good { border-left-color: var(--good); } .nd-year.bad { border-left-color: var(--bad); } .nd-year.mixed { border-left-color: var(--gold); }
+.nd-year.now { box-shadow: 0 0 0 2px var(--gold-soft); }
+.nd-year.past .nd-yr b { color: var(--ink-3); }
+.nd-head { width: 100%; display: grid; grid-template-columns: 74px 150px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 14px; background: none; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.nd-yr { display: grid; line-height: 1.15; } .nd-yr b { font-size: 17px; } .nd-yr small { color: var(--ink-3); font-size: 12px; }
+.nd-md { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); min-width: 0; } .nd-md small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nd-chips { display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; }
+.nd-tone { justify-self: end; }
+.nd-chip { display: inline-flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-size: 12px; }
+.nd-chip i { font-style: normal; color: var(--ink-3); font-size: 11px; }
+.nd-chip .gimg.sm { width: 18px; height: 18px; }
+.nd-chip.j { background: #FFF8E6; border-color: #EBD49A; } .nd-chip.s { background: #EEF1FB; border-color: #C9D2F0; }
+.nd-chip b { font-size: 11px; color: var(--indigo, var(--ink)); }
+.nd-body { padding: 4px 14px 14px; border-top: 1px dashed var(--line); }
+.nd-dasha { display: flex; gap: 8px; align-items: center; font-weight: 600; margin: 10px 0 6px; }
+.nd-flag { text-align: left; margin: 6px 0; padding: 8px 10px; border-radius: 10px; background: var(--gold-softer); font-size: 14px; }
+.nd-flag.nf-sadeSati { background: var(--bad-bg); }
+.nd-acts { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+.nd-acts li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.nd-acts b { font-size: 14.5px; } .nd-acts p { margin: 2px 0 0; font-size: 14px; color: var(--ink-2); }
+.nd-soft { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; } .nd-soft small { color: var(--ink-3); margin-right: 4px; }
+.nd-check { padding: 16px 18px; margin-top: 16px; }
+.nd-check h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 17px; } .nd-check h3 svg { width: 18px; height: 18px; color: var(--good); }
+.nd-form { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.nd-form select { flex: 2 1 200px; width: auto; } .nd-form input { flex: 1 1 90px; width: auto; } .nd-form .btn-line { flex: none; }
+.nd-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.nd-results li { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); }
+.nd-results li p { margin: 6px 0 0; font-size: 13.5px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.nd-r-h { display: flex; gap: 8px; align-items: center; } .nd-r-h b { flex: 1; } .nd-r-h .linkbtn { font-size: 18px; padding: 0 4px; text-decoration: none; }
+.nd-score { margin: 10px 0 0; }
+@media (max-width: 620px) {
+  .nd-head { grid-template-columns: 62px minmax(0, 1fr) auto; row-gap: 6px; padding: 10px 12px; }
+  .nd-md { grid-column: 2; grid-row: 1; }
+  .nd-tone { grid-column: 3; grid-row: 1; }
+  .nd-chips { grid-column: 1 / -1; grid-row: 2; }
+}
+@media print { .nd-filter, .nd-check { display: none !important; } .nd-list .nd-year { display: block !important; } }
