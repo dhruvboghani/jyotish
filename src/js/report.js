@@ -245,7 +245,7 @@ function downloadPdf() {
 // ---------- Full report ----------
 // ---------- Report tabs: sections grouped so only one group shows at a time ----------
 const RTABS = [
-  ['overview', ['highlights', 'today'], 'i-star'],
+  ['overview', ['ask', 'highlights', 'today'], 'i-star'],
   ['charts', ['charts', 'belt'], 'i-chart'],
   ['planets', ['grahas', 'bhavas', 'strength', 'ashtaka'], 'i-sun'],
   ['yogas', ['yogas'], 'i-yoga'],
@@ -441,6 +441,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${profileHtml(input, c.utMs, c.lagna, P.Moon, { llHouse: P[SIGN_LORD[c.lagna.sign]].house, dasha: dashaFact })}
   ${actions}
   <div id="rtabs-slot"></div>
+  ${typeof askHtml === 'function' && !data.shared ? askHtml(!!premium) : ''}
   ${sec('highlights', 'hl', `<div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${esc(t('sec.hl.nGood', { n: an.good.length }))}</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${esc(t('sec.hl.nBad', { n: an.bad.length }))}</span></div></div>
     <div class="hl-grid"><div class="card hl-col good"><h3><span class="badge">${ic('i-check')}</span>${esc(t('sec.hl.good'))}<small>${an.good.length}</small></h3><ul class="hl-list">${an.good.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneGood'))}</li>`}</ul></div>
     <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>${esc(t('sec.hl.bad'))}<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneBad'))}</li>`}</ul></div></div>`)}
@@ -474,7 +475,8 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${notesSec}
   ${sec('method', 'method', `<div class="card method reveal"><p class="mono">UT ${fDate(c.utMs, 0)} ${fTime(c.utMs, 0)} · JD ${c.jd.toFixed(5)} · LST ${lst} · Lahiri ${dms(c.ayanamsa)} · Sayana Lagna ${dms(method.sayanaAsc)} · ${latStr(input.lat)}, ${lonStr(input.lon)}</p><p>${esc(t('sec.method.p1'))}</p><p>${esc(t('sec.method.p2'))}</p></div>`, '', '')}`;
   tabify(host);
-  if (premium && typeof wireNadi === 'function') try { wireNadi(c, ss); } catch (e) { console.error(e); }
+  if (premium && typeof wireNadi === 'function') try { wireNadi(c, ss, input); } catch (e) { console.error(e); }
+  if (premium && typeof wireAsk === 'function') try { wireAsk(input); } catch (e) { console.error(e); }
 
   // Interactions
   let currentVarga = VARGA_KEYS[0];
