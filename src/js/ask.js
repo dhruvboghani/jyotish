@@ -1,6 +1,8 @@
 /* "Ask my chart": questions about the open chart, answered by AI from a numbered list of chart facts.
    Every [F#] citation becomes a chip that jumps to the report section the fact came from. Members only. */
+const ASK_ENABLED = false; // "Ask my chart" is switched off for now; set true to bring it back
 function askHtml(premium) {
+  if (!ASK_ENABLED) return '';
   const ex = ((L.ask && L.ask.examples) || []).map(q => `<button type="button" class="chip" data-askq="${esc(q)}">${esc(q)}</button>`).join('');
   return `<section id="ask" class="ask-sec no-print"><div class="card ask-card reveal">
     <div class="ask-head"><span class="badge">${ic('i-question')}</span><div><p class="eyebrow">${esc(t('ask.eye'))}</p><h2>${esc(t('ask.title'))}</h2><p class="muted small">${esc(t('ask.lede'))}</p></div></div>
@@ -10,6 +12,7 @@ function askHtml(premium) {
     : lockCard('ask')}</div></section>`;
 }
 function wireAsk(input) {
+  if (!ASK_ENABLED) return;
   const root = document.getElementById('ask'); if (!root) return;
   const form = root.querySelector('.ask-form'); if (!form) return;
   const ta = form.querySelector('textarea'), thread = root.querySelector('.ask-thread'), left = root.querySelector('.ask-left'), btn = form.querySelector('button');
