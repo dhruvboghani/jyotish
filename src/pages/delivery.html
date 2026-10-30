@@ -1,0 +1,15 @@
+<main class="wrap page delivery-page">
+  <div class="page-hero"><p class="eyebrow">{{dl.eye}}</p><h1>{{dl.title}}</h1><p class="lede">{{dl.lede}}</p></div>
+  <div class="premium-why dl-safe"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg><span><b>{{dl.safeH}}</b>{{dl.safe}}</span></div>
+  <form class="card toolbar dl-form" id="dl-form" novalidate>
+    <div class="field"><label for="dl-from">{{dl.from}}</label><input id="dl-from" type="date" required></div>
+    <div class="field"><label for="dl-to">{{dl.to}}</label><input id="dl-to" type="date" required></div>
+    <div class="field"><label for="dl-h1">{{dl.hFrom}}</label><input id="dl-h1" type="time" value="08:00" step="900"></div>
+    <div class="field"><label for="dl-h2">{{dl.hTo}}</label><input id="dl-h2" type="time" value="18:00" step="900"></div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit" id="dl-go">{{dl.go}}</button>
+    <p class="err full" id="dl-err" role="alert"></p>
+  </form>
+  <div id="dl-res" aria-live="polite"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>
