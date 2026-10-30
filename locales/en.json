@@ -6166,5 +6166,12 @@
   },
   "lockNote": "Log in free to see the next 12 months and the good and careful periods for the next 10 years.",
   "note": "A business chart is a guide for timing and planning. Good management, the product and the market decide results more than any chart."
+ },
+ "soon": {
+  "title": "Coming up for you",
+  "in": "in {n} days",
+  "all": "See the full timeline",
+  "notify": "Get these as phone alerts",
+  "today": "today"
  }
 }

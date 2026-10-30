@@ -1901,3 +1901,10 @@ form.nu-check { margin: 0; }
 .bz-months li { border-radius: 10px; padding: 8px 10px; display: grid; gap: 2px; } .bz-months b { font-size: 13.5px; } .bz-months small { font-size: 11.5px; }
 .business-page .cr-card { margin-bottom: 16px; }
 @media (max-width: 760px) { .bz-top { grid-template-columns: 1fr; } }
+/* Coming up for you */
+.soon-card { padding: 14px 18px; margin-top: 8px; border-color: #D9DCF3; background: linear-gradient(180deg, var(--indigo-soft), var(--surface) 80%); }
+.soon-card h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 16px; } .soon-card h3 svg { width: 18px; height: 18px; color: var(--indigo); }
+.soon-card ul { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 8px; }
+.soon-card li { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--line-2); }
+.soon-card li.good { border-left-color: var(--good); } .soon-card li.bad { border-left-color: var(--bad); }
+.soon-card li span { display: grid; } .soon-card li small { color: var(--ink-3); font-size: 12.5px; }

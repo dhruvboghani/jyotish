@@ -245,7 +245,7 @@ function downloadPdf() {
 // ---------- Full report ----------
 // ---------- Report tabs: sections grouped so only one group shows at a time ----------
 const RTABS = [
-  ['overview', ['ask', 'highlights', 'today'], 'i-star'],
+  ['overview', ['soon', 'ask', 'highlights', 'today'], 'i-star'],
   ['charts', ['charts', 'belt'], 'i-chart'],
   ['planets', ['grahas', 'bhavas', 'strength', 'ashtaka'], 'i-sun'],
   ['yogas', ['yogas'], 'i-yoga'],
@@ -413,6 +413,19 @@ function renderFull(data, host = $('#results'), opts = {}) {
       return `<li class="${tone}"><span class="when">${esc(fDate(e.at, tz))}</span><span class="dot">${icon}</span><div><b>${esc(title)}</b><p>${esc(text)}</p></div></li>`;
     }).join('')}</ol>`;
   })() : lockCard('events');
+  // "Coming up for you": the next 45 days of personal transit and dasha events, at the top of the report (members)
+  const soonHtml = premium ? (() => {
+    const evs = premium.upcoming.filter(e => e.at < now + 45 * 864e5 && !(e.type === 'ingress' && e.planet === 'Ketu'));
+    ss.periods.forEach(p => { if (p.start > now && p.start < now + 45 * 864e5) evs.push({ type: 'ssStart', at: p.start }); if (p.end > now && p.end < now + 45 * 864e5) evs.push({ type: 'ssEnd', at: p.end }); });
+    evs.sort((a, b) => a.at - b.at);
+    if (!evs.length) return '';
+    const days = ms => Math.max(0, Math.round((ms - now) / 864e5));
+    return `<section id="soon" class="no-print"><div class="card soon-card reveal"><h3>${ic('i-bell')}${esc(t('soon.title'))}</h3><ul>${evs.slice(0, 4).map(e => {
+      const good = e.type === 'ingress' ? GOCHAR_GOOD[e.planet].includes(e.house) : e.type === 'ssEnd' ? true : e.type === 'ssStart' ? false : null;
+      const title = e.type === 'ingress' ? t('events.ingress', { g: { g: e.planet }, r: { r: e.to } }) : e.type === 'md' ? t('events.md', { g: { g: e.lord } }) : e.type === 'ad' ? t('events.ad', { md: { g: e.md }, ad: { g: e.lord } }) : t(e.type === 'ssStart' ? 'events.ssStart' : 'events.ssEnd');
+      return `<li class="${good === true ? 'good' : good === false ? 'bad' : ''}">${g(e.planet || e.lord || 'Saturn', 'gimg sm')}<span><b>${esc(title)}</b><small>${esc(fDate(e.at, tz))} · ${esc(days(e.at) ? t('soon.in', { n: days(e.at) }) : t('soon.today'))}</small></span></li>`;
+    }).join('')}</ul><p class="muted small"><a href="#events">${esc(t('soon.all'))}</a> · <a href="${HOME}settings/">${esc(t('soon.notify'))}</a></p></div></section>`;
+  })() : '';
   const rectHtml = premium ? `<div class="card tbl-card reveal"><table class="rect"><thead><tr><th>${esc(t('rect.from'))}</th><th>${esc(t('rect.to'))}</th><th>${esc(t('rect.lagna'))}</th><th>${esc(t('rect.navamsa'))}</th></tr></thead><tbody>${premium.rectification.map(s => `<tr class="${s.current ? 'cur' : ''}"><td class="num">${fTime(s.start, tz)}</td><td class="num">${fTime(s.end, tz)}</td><td>${rg(s.lagna, 'rg sm')}${esc(rn(s.lagna))}</td><td>${esc(rn(s.navamsa))}${s.current ? ` <span class="tag gold">${esc(t('rect.yours'))}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>` : lockCard('rectify');
 
   const lstH = method.lstDeg / 15, lst = `${Math.floor(lstH)}h ${pad(Math.floor((lstH % 1) * 60))}m`;
@@ -442,6 +455,7 @@ function renderFull(data, host = $('#results'), opts = {}) {
   ${actions}
   <div id="rtabs-slot"></div>
   ${typeof askHtml === 'function' && !data.shared ? askHtml(!!premium) : ''}
+  ${data.shared ? '' : soonHtml}
   ${sec('highlights', 'hl', `<div class="card reveal" style="padding:16px 20px"><div class="balance"><span class="lbl g">${esc(t('sec.hl.nGood', { n: an.good.length }))}</span><div class="bar"><i style="width:${gp}%"></i></div><span class="lbl b">${esc(t('sec.hl.nBad', { n: an.bad.length }))}</span></div></div>
     <div class="hl-grid"><div class="card hl-col good"><h3><span class="badge">${ic('i-check')}</span>${esc(t('sec.hl.good'))}<small>${an.good.length}</small></h3><ul class="hl-list">${an.good.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneGood'))}</li>`}</ul></div>
     <div class="card hl-col bad"><h3><span class="badge">${ic('i-alert')}</span>${esc(t('sec.hl.bad'))}<small>${an.bad.length}</small></h3><ul class="hl-list">${an.bad.map(hlItem).join('') || `<li class="empty">${esc(t('sec.hl.noneBad'))}</li>`}</ul></div></div>`)}
