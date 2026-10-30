@@ -607,27 +607,53 @@ async function adminModal() {
   const users = u.data || [], charts = k.data || [], byId = Object.fromEntries(users.map(x => [x.id, x]));
   const weekAgo = Date.now() - 7 * 864e5;
   const stat = (n, l) => `<div><b>${n}</b><span>${esc(l)}</span></div>`;
-  $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew')) + stat(historyRows.length, t('admin.sHistory'));
+  const drawStats = () => { $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew')) + stat(historyRows.length, t('admin.sHistory')); };
+  drawStats();
   let tab = 'users';
   const draw = () => {
     const q = ($('#ad-q').value || '').trim().toLowerCase();
     if (tab === 'activity') return activityPanel(body, $('#ad-q'));
     if (tab === 'history') {
       const rows = historyRows.filter(h => { const ow = byId[h.user_id]; return !q || [h.name, h.birth.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
-      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(birthLine(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td></tr>`; }).join('') || `<tr><td colspan="7">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;
+      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th><th></th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr data-hid="${h.id}"><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(birthLine(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td><td><button type="button" class="linkbtn ad-del" data-del-hist>${esc(t('admin.delete'))}</button></td></tr>`; }).join('') || `<tr><td colspan="8">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;
     } else if (tab === 'users') {
       const rows = users.filter(x => !q || (x.email + ' ' + (x.full_name || '')).toLowerCase().includes(q));
-      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.status'))}</th><th>${esc(t('admin.joined'))}</th><th>${esc(t('admin.lastLogin'))}</th><th>${esc(t('admin.sCharts'))}</th></tr></thead><tbody>${rows.map(x => `<tr><td>${esc(x.email)}</td><td>${esc(x.full_name || '—')}</td><td><span class="tag ${x.confirmed ? 'good' : 'warn'}">${esc(t(x.confirmed ? 'admin.confirmed' : 'admin.pending'))}</span></td><td class="num">${fmtTs(x.created_at)}</td><td class="num">${fmtTs(x.last_sign_in_at)}</td><td class="num">${x.charts}</td></tr>`).join('') || `<tr><td colspan="6">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>`;
+      body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.status'))}</th><th>${esc(t('admin.joined'))}</th><th>${esc(t('admin.lastLogin'))}</th><th>${esc(t('admin.sCharts'))}</th><th></th></tr></thead><tbody>${rows.map(x => `<tr data-uid="${x.id}"><td>${esc(x.email)}</td><td>${esc(x.full_name || '—')}</td><td><span class="tag ${x.confirmed ? 'good' : 'warn'}">${esc(t(x.confirmed ? 'admin.confirmed' : 'admin.pending'))}</span></td><td class="num">${fmtTs(x.created_at)}</td><td class="num">${fmtTs(x.last_sign_in_at)}</td><td class="num">${x.charts}</td><td>${session && x.id !== session.user.id ? `<button type="button" class="linkbtn ad-del" data-del-user title="${esc(t('admin.delUser'))}">${esc(t('admin.delete'))}</button>` : ''}</td></tr>`).join('') || `<tr><td colspan="7">${esc(t('admin.none'))}</td></tr>`}</tbody></table></div>`;
     } else {
       const rows = charts.filter(r => { const b = r.birth || {}, ow = byId[r.user_id]; return !q || [b.name, b.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
-      body.innerHTML = `<ul class="saved-list">${rows.map(r => { const b = r.birth || {}, ow = byId[r.user_id]; return `<li data-id="${r.id}"><span class="rgic">${esc(((b.name || '?').trim().charAt(0) || '?').toUpperCase())}</span><div><b>${esc(b.name || t('res.defaultName'))}</b><span>${esc(birthLine(b))} · ${esc(b.placeLabel || '')}</span><span style="display:block">${esc(ow ? ow.email : '')} · ${fmtTs(r.updated_at)}</span></div><button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button></li>`; }).join('') || `<li><span>${esc(t('admin.none'))}</span></li>`}</ul>`;
+      body.innerHTML = `<ul class="saved-list">${rows.map(r => { const b = r.birth || {}, ow = byId[r.user_id]; return `<li data-id="${r.id}"><span class="rgic">${esc(((b.name || '?').trim().charAt(0) || '?').toUpperCase())}</span><div><b>${esc(b.name || t('res.defaultName'))}</b><span>${esc(birthLine(b))} · ${esc(b.placeLabel || '')}</span><span style="display:block">${esc(ow ? ow.email : '')} · ${fmtTs(r.updated_at)}</span></div><button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button><button class="btn-line ad-del" type="button" data-del-chart>${esc(t('admin.delete'))}</button></li>`; }).join('') || `<li><span>${esc(t('admin.none'))}</span></li>`}</ul>`;
     }
   };
   $('#ad-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $('#ad-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
   let qT = null;
   $('#ad-q').addEventListener('input', () => { if (tab !== 'activity') return draw(); clearTimeout(qT); qT = setTimeout(draw, 400); });
-  body.addEventListener('click', e => {
-    const li = e.target.closest('li[data-id]'); if (!li || !e.target.closest('[data-open]')) return;
+  const delErr = error => toast(/function .* does not exist|PGRST202|schema cache/i.test(error.message || '') ? t('admin.delMissing') : (error.message || t('err.server')));
+  body.addEventListener('click', async e => {
+    const li = e.target.closest('li[data-id]');
+    if (li && e.target.closest('[data-del-chart]')) {
+      const row = charts.find(r => r.id === li.dataset.id), ow = row && byId[row.user_id];
+      if (!row || !confirm(t('admin.delChartQ', { n: (row.birth && row.birth.name) || t('res.defaultName'), e: ow ? ow.email : '' }))) return;
+      const { error } = await sb.rpc('admin_delete_kundali', { p_id: row.id }); if (error) return delErr(error);
+      charts.splice(charts.indexOf(row), 1); if (ow) ow.charts = Math.max(0, ow.charts - 1);
+      track('admin_delete', { what: 'kundali' }); toast(t('admin.deleted')); drawStats(); return draw();
+    }
+    const hr = e.target.closest('tr[data-hid]');
+    if (hr && e.target.closest('[data-del-hist]')) {
+      const row = historyRows.find(h => h.id === hr.dataset.hid); if (!row || !confirm(t('admin.delHistQ'))) return;
+      const { error } = await sb.rpc('admin_delete_history', { p_id: row.id }); if (error) return delErr(error);
+      historyRows.splice(historyRows.indexOf(row), 1); track('admin_delete', { what: 'history' }); toast(t('admin.deleted')); drawStats(); return draw();
+    }
+    const ur = e.target.closest('tr[data-uid]');
+    if (ur && e.target.closest('[data-del-user]')) {
+      const u0 = users.find(x => x.id === ur.dataset.uid); if (!u0) return;
+      if (prompt(t('admin.delUserQ', { e: u0.email, n: u0.charts })) !== u0.email) return;
+      const { error } = await sb.rpc('admin_delete_user', { p_user: u0.id }); if (error) return delErr(error);
+      users.splice(users.indexOf(u0), 1);
+      for (let i = charts.length - 1; i >= 0; i--) if (charts[i].user_id === u0.id) charts.splice(i, 1);
+      for (let i = historyRows.length - 1; i >= 0; i--) if (historyRows[i].user_id === u0.id) historyRows.splice(i, 1);
+      track('admin_delete', { what: 'user' }); toast(t('admin.deleted')); drawStats(); return draw();
+    }
+    if (!li || !e.target.closest('[data-open]')) return;
     const row = charts.find(r => r.id === li.dataset.id);
     closeModal(); openChart(row.birth, { save: false });
   });

@@ -1829,3 +1829,5 @@ form.nu-check { margin: 0; }
   .nd-preds li > .linkbtn { grid-column: 2; grid-row: 1; }
 }
 .trial-banner.basic-banner .bb-btns { display: flex; flex-wrap: wrap; gap: 8px; flex: none; min-width: 0; }
+.ad-del { color: var(--bad) !important; } .btn-line.ad-del { border-color: var(--bad-line); } .btn-line.ad-del:hover { background: var(--bad-bg); }
+@media (max-width: 520px) { .saved-list li { flex-wrap: wrap; } .saved-list li div { flex-basis: calc(100% - 50px); } }
