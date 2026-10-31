@@ -39,6 +39,8 @@
     const a = e.target.closest && e.target.closest('a[href]'); if (!a || e.defaultPrevented) return;
     const href = a.getAttribute('href'); if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
     if (/^(https?:|webcal:|mailto:|tel:|whatsapp:|intent:)/i.test(href) && !href.startsWith(location.origin)) { e.preventDefault(); openExternal(a.href); return; }
+    // Pages rendered by the server (blog) are not inside the app: open them on the website
+    if (/^\/((hi|gu|ta|te|kn)\/)?blog\//.test(new URL(a.href, location.href).pathname) && window.KG_CONFIG && window.KG_CONFIG.apiBase) { e.preventDefault(); openExternal(window.KG_CONFIG.apiBase + new URL(a.href, location.href).pathname); return; }
     const f = fileUrl(a.href); if (!f || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
     const u = new URL(f, location.href);
     if (u.pathname === location.pathname && u.hash) return; // same-page anchor: let smooth scrolling handle it

@@ -176,7 +176,7 @@ fs.writeFileSync(path.join(OUT, 'sitemap-guides.xml'), urlset(sitemap.filter(pg 
 const newest = arr => arr.reduce((m, pg) => LANGS.reduce((mm, l) => { const d = (lastmod[l + ':' + pg.slug] || [0, ''])[1]; return d > mm ? d : mm; }, m), '');
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[['sitemap-pages.xml', newest(sitemap.filter(pg => !pg.seo))], ['sitemap-guides.xml', newest(sitemap.filter(pg => pg.seo))], ['sitemap-daily.xml', todayIso]].map(([f, d]) => `  <sitemap><loc>${SITE_URL}/${f}</loc><lastmod>${d || todayIso}</lastmod></sitemap>`).join('\n')}
+${[['sitemap-pages.xml', newest(sitemap.filter(pg => !pg.seo))], ['sitemap-guides.xml', newest(sitemap.filter(pg => pg.seo))], ['sitemap-daily.xml', todayIso], ['sitemap-blog.xml', todayIso]].map(([f, d]) => `  <sitemap><loc>${SITE_URL}/${f}</loc><lastmod>${d || todayIso}</lastmod></sitemap>`).join('\n')}
 </sitemapindex>
 `);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /share/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);

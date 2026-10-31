@@ -548,6 +548,89 @@ const actInputHtml = o => {
 const actDetail = d => !d ? '' : d.fields ? `<span class="muted">${esc(d.form || '')}</span>${actInputHtml(d.fields)}` : d.api ? `${esc(d.method || '')} /${esc(d.api)} · <b>${esc(d.status)}</b> · ${d.ms >= 1000 ? (d.ms / 1000).toFixed(1) + ' s' : esc(d.ms) + ' ms'}${d.offline ? ' · offline' : ''}${d.input ? actInputHtml(d.input) : ''}`
   : d.title && Object.keys(d).length === 1 ? esc(String(d.title).slice(0, 70)) : actDetailKv(d);
 const actDetailKv = d => d ? Object.entries(d).filter(([k, v]) => v !== null && v !== '' && v !== undefined).map(([k, v]) => `<span class="kv"><i>${esc(k)}</i> ${esc(typeof v === 'object' ? JSON.stringify(v) : String(v)).slice(0, 120)}</span>`).join(' ') : '';
+// ---------- Blog editor (admins) ----------
+const BLOG_CATS = ['basics', 'planets', 'festivals', 'transits', 'remedies', 'matching', 'muhurta', 'numerology', 'news'];
+const BLOG_LANGS = ['en', 'hi', 'gu', 'ta', 'te', 'kn'];
+const blogSlug = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+// Same Markdown subset as lib/blog.js, for the live preview
+function mdPreview(md) {
+  const inl = x => esc(x).replace(/!\[([^\]]*)\]\((https:\/\/[^)\s]+)\)/g, '<img src="$2" alt="$1">').replace(/\[([^\]]+)\]\(((?:https:\/\/|\/)[^)\s]*)\)/g, '<a href="$2">$1</a>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+  const out = []; let para = [], list = null, quote = [];
+  const fp = () => { if (para.length) out.push(`<p>${inl(para.join(' '))}</p>`); para = []; }, fl = () => { if (list) out.push(`<${list.t}>${list.i.map(x => `<li>${inl(x)}</li>`).join('')}</${list.t}>`); list = null; }, fq = () => { if (quote.length) out.push(`<blockquote>${inl(quote.join(' '))}</blockquote>`); quote = []; };
+  for (const l of String(md || '').split('\n')) {
+    let m;
+    if (!l.trim()) { fp(); fl(); fq(); continue; }
+    if ((m = l.match(/^(#{2,4})\s+(.+)$/))) { fp(); fl(); fq(); out.push(`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`); continue; }
+    if (/^(-{3,}|\*{3,})$/.test(l.trim())) { fp(); fl(); fq(); out.push('<hr>'); continue; }
+    if ((m = l.match(/^>\s?(.*)$/))) { fp(); fl(); quote.push(m[1]); continue; }
+    if ((m = l.match(/^\s*[-*]\s+(.+)$/))) { fp(); fq(); if (!list || list.t !== 'ul') { fl(); list = { t: 'ul', i: [] }; } list.i.push(m[1]); continue; }
+    if ((m = l.match(/^\s*\d+[.)]\s+(.+)$/))) { fp(); fq(); if (!list || list.t !== 'ol') { fl(); list = { t: 'ol', i: [] }; } list.i.push(m[1]); continue; }
+    fl(); fq(); para.push(l.trim());
+  }
+  fp(); fl(); fq(); return out.join('');
+}
+async function blogPanel(body) {
+  body.innerHTML = '<div style="padding:20px;text-align:center"><span class="spin"></span></div>';
+  const { data, error } = await sb.from('blog_posts').select('id,lang,slug,title,excerpt,body,category,tags,cover_url,group_key,status,published_at,updated_at').order('updated_at', { ascending: false }).limit(500);
+  if (error) { body.innerHTML = `<p class="err">${esc(/relation|does not exist/i.test(error.message) ? t('blogad.setup') : error.message)}</p>`; return; }
+  const posts = data || [];
+  const postUrl = p => `${SITE_ORIGIN}${p.lang === 'en' ? '/' : '/' + p.lang + '/'}blog/${p.slug}/`;
+  const list = () => {
+    body.innerHTML = `<div class="blogad-bar"><button type="button" class="btn-cta" data-bnew>${ic('i-doc')}${esc(t('blogad.new'))}</button><span class="muted small">${esc(t('blogad.count', { n: posts.length, p: posts.filter(p => p.status === 'published').length }))}</span><a class="btn-line" href="${HOME}blog/" target="_blank" rel="noopener">${esc(t('blogad.viewBlog'))}</a></div>
+      <div class="tbl-card card"><table><thead><tr><th>${esc(t('blogad.title'))}</th><th>${esc(t('blogad.lang'))}</th><th>${esc(t('blogad.cat'))}</th><th>${esc(t('admin.status'))}</th><th>${esc(t('blogad.updated'))}</th><th></th></tr></thead><tbody>
+      ${posts.map((p, i) => `<tr data-i="${i}"><td><b>${esc(p.title)}</b><small class="muted" style="display:block">/${esc(p.slug)}/</small></td><td>${esc(p.lang)}</td><td>${esc(t('blogad.cats.' + p.category))}</td><td><span class="tag ${p.status === 'published' ? 'good' : 'warn'}">${esc(t('blogad.st.' + p.status))}</span></td><td class="num">${fmtTs(p.updated_at)}</td><td><button type="button" class="linkbtn" data-bedit>${esc(t('blogad.edit'))}</button>${p.status === 'published' ? ` · <a href="${esc(postUrl(p))}" target="_blank" rel="noopener">${esc(t('blogad.view'))}</a>` : ''}</td></tr>`).join('') || `<tr><td colspan="6">${esc(t('blogad.none'))}</td></tr>`}</tbody></table></div>`;
+    body.querySelector('[data-bnew]').onclick = () => edit({ lang: LANG, status: 'draft', category: 'basics', tags: [], body: '' });
+    body.querySelectorAll('[data-bedit]').forEach(b => b.onclick = () => edit(posts[+b.closest('tr').dataset.i]));
+  };
+  const edit = p => {
+    const isNew = !p.id, opt = (arr, cur, lab) => arr.map(v => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(lab(v))}</option>`).join('');
+    body.innerHTML = `<form class="blogad-form" novalidate>
+      <div class="blogad-row"><div class="field"><label>${esc(t('blogad.title'))}</label><input name="title" required maxlength="160" value="${esc(p.title || '')}"></div>
+        <div class="field"><label>${esc(t('blogad.slug'))}</label><input name="slug" required maxlength="90" pattern="[a-z0-9-]+" value="${esc(p.slug || '')}" placeholder="what-is-sade-sati"><span class="place-meta">${esc(t('blogad.slugHint'))}</span></div></div>
+      <div class="blogad-row"><div class="field"><label>${esc(t('blogad.lang'))}</label><select name="lang">${opt(BLOG_LANGS, p.lang, v => v.toUpperCase())}</select></div>
+        <div class="field"><label>${esc(t('blogad.cat'))}</label><select name="category">${opt(BLOG_CATS, p.category, v => t('blogad.cats.' + v))}</select></div>
+        <div class="field"><label>${esc(t('admin.status'))}</label><select name="status">${opt(['draft', 'published'], p.status, v => t('blogad.st.' + v))}</select></div></div>
+      <div class="field"><label>${esc(t('blogad.excerpt'))}</label><textarea name="excerpt" rows="2" maxlength="320">${esc(p.excerpt || '')}</textarea></div>
+      <div class="blogad-row"><div class="field"><label>${esc(t('blogad.cover'))}</label><input name="cover_url" type="url" value="${esc(p.cover_url || '')}" placeholder="https://…"></div>
+        <div class="field"><label>${esc(t('blogad.tags'))}</label><input name="tags" value="${esc((p.tags || []).join(', '))}" placeholder="sade sati, shani"></div>
+        <div class="field"><label>${esc(t('blogad.group'))}</label><input name="group_key" value="${esc(p.group_key || '')}" placeholder="sade-sati"><span class="place-meta">${esc(t('blogad.groupHint'))}</span></div></div>
+      <div class="blogad-edit"><div class="field"><label>${esc(t('blogad.body'))}</label><textarea name="body" rows="18" spellcheck="true">${esc(p.body || '')}</textarea><span class="place-meta">${esc(t('blogad.mdHint'))}</span></div>
+        <div class="field"><label>${esc(t('blogad.preview'))}</label><div class="card prose blogad-prev"></div></div></div>
+      <p class="err" data-berr></p>
+      <div class="blogad-bar"><button type="submit" class="btn-cta">${esc(t('blogad.save'))}</button><button type="button" class="btn-line" data-bback>← ${esc(t('blogad.back'))}</button>${isNew ? '' : `<button type="button" class="btn-line ad-del" data-bdel>${esc(t('admin.delete'))}</button>`}</div></form>`;
+    const f = body.querySelector('form'), prev = body.querySelector('.blogad-prev'), ta = f.elements.body;
+    const draw = () => { prev.innerHTML = mdPreview(ta.value) || `<p class="muted">${esc(t('blogad.empty'))}</p>`; };
+    ta.addEventListener('input', draw); draw();
+    f.elements.title.addEventListener('input', () => { if (isNew && !f.elements.slug.dataset.touched) f.elements.slug.value = blogSlug(f.elements.title.value); });
+    f.elements.slug.addEventListener('input', () => { f.elements.slug.dataset.touched = '1'; });
+    body.querySelector('[data-bback]').onclick = () => list();
+    const del = body.querySelector('[data-bdel]');
+    if (del) del.onclick = async () => {
+      if (!confirm(t('blogad.delQ', { n: p.title }))) return;
+      const { error } = await sb.from('blog_posts').delete().eq('id', p.id); if (error) { toast(error.message); return; }
+      posts.splice(posts.indexOf(p), 1); toast(t('admin.deleted')); list();
+    };
+    f.addEventListener('submit', async e => {
+      e.preventDefault();
+      const er = body.querySelector('[data-berr]'); er.textContent = '';
+      const v = n => f.elements[n].value.trim();
+      const row = { title: v('title'), slug: blogSlug(v('slug')), lang: v('lang'), category: v('category'), status: v('status'), excerpt: v('excerpt') || null, cover_url: v('cover_url') || null,
+        tags: v('tags').split(',').map(x => x.trim()).filter(Boolean).slice(0, 12), group_key: v('group_key') || null, body: f.elements.body.value };
+      if (row.title.length < 3) { er.textContent = t('blogad.needTitle'); return; }
+      if (!row.slug) { er.textContent = t('blogad.needSlug'); return; }
+      if (row.cover_url && !/^https:\/\//.test(row.cover_url)) { er.textContent = t('blogad.needHttps'); return; }
+      const q = isNew ? sb.from('blog_posts').insert(row).select().single() : sb.from('blog_posts').update(row).eq('id', p.id).select().single();
+      const { data: saved, error } = await q;
+      if (error) { er.textContent = /duplicate|unique/i.test(error.message) ? t('blogad.dupSlug') : error.message; return; }
+      if (isNew) posts.unshift(saved); else Object.assign(p, saved);
+      track('blog_save', { slug: saved.slug, lang: saved.lang, status: saved.status });
+      toast(t(saved.status === 'published' ? 'blogad.savedPub' : 'blogad.saved'));
+      list();
+    });
+  };
+  list();
+}
+
 async function activityPanel(body, qIn) {
   const since = new Date(Date.now() - actState.range * 864e5).toISOString();
   const q = (qIn.value || '').trim();
@@ -593,7 +676,7 @@ async function activityPanel(body, qIn) {
 async function adminModal() {
   openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
     <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
-    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
+    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button><button type="button" data-tab="blog" aria-pressed="false">${esc(t('blogad.tab'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
     <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
     <div id="ad-body" class="admin-body"></div>`, 'admin');
   const [u, k, hs] = await Promise.all([
@@ -613,6 +696,8 @@ async function adminModal() {
   const draw = () => {
     const q = ($('#ad-q').value || '').trim().toLowerCase();
     if (tab === 'activity') return activityPanel(body, $('#ad-q'));
+    $('#ad-q').closest('.field').hidden = tab === 'blog';
+    if (tab === 'blog') return blogPanel(body);
     if (tab === 'history') {
       const rows = historyRows.filter(h => { const ow = byId[h.user_id]; return !q || [h.name, h.birth.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
       body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th><th></th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr data-hid="${h.id}"><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(birthLine(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td><td><button type="button" class="linkbtn ad-del" data-del-hist>${esc(t('admin.delete'))}</button></td></tr>`; }).join('') || `<tr><td colspan="8">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;

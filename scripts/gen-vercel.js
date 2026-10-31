@@ -17,6 +17,14 @@ function rewrites() {
     out.push({ source: `/:lang(${langs})/rashifal/:slug(${signs})/${kind}/`, destination: `/api/[fn]?fn=seo&t=${t}&lang=:lang&slug=:slug` });
   }
   out.push({ source: '/sitemap-daily.xml', destination: '/api/[fn]?fn=seo&t=sitemap' });
+  // Blog: index, categories and posts, all rendered from the database
+  out.push({ source: '/blog/', destination: '/api/[fn]?fn=seo&t=blog&lang=en' });
+  out.push({ source: '/:lang(hi|gu|ta|te|kn)/blog/', destination: '/api/[fn]?fn=seo&t=blog&lang=:lang' });
+  out.push({ source: '/blog/category/:slug([a-z]+)/', destination: '/api/[fn]?fn=seo&t=blog&lang=en&slug=:slug' });
+  out.push({ source: '/:lang(hi|gu|ta|te|kn)/blog/category/:slug([a-z]+)/', destination: '/api/[fn]?fn=seo&t=blog&lang=:lang&slug=:slug' });
+  out.push({ source: '/blog/:slug([a-z0-9-]+)/', destination: '/api/[fn]?fn=seo&t=post&lang=en&slug=:slug' });
+  out.push({ source: '/:lang(hi|gu|ta|te|kn)/blog/:slug([a-z0-9-]+)/', destination: '/api/[fn]?fn=seo&t=post&lang=:lang&slug=:slug' });
+  out.push({ source: '/sitemap-blog.xml', destination: '/api/[fn]?fn=seo&t=blogmap' });
   return out;
 }
 function merged() {
