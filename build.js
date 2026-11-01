@@ -154,7 +154,8 @@ for (const [name, parts] of Object.entries(BUNDLES)) {
   fs.writeFileSync(path.join(OUT, 'assets', name + '.js'), `(function () {\n'use strict';\n${src}\nboot();\n})();\n`);
 }
 for (const l of LANGS) { const f = S.i18nFile(l); fs.writeFileSync(path.join(OUT, 'assets', f.name), f.content); }
-for (const f of ['places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
+for (const f of ['places.js', 'styles.css', 'reelmaker.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
+fs.copyFileSync(path.join(ROOT, 'node_modules', 'mp4-muxer', 'build', 'mp4-muxer.js'), path.join(OUT, 'assets', 'mp4-muxer.js')); // admin daily reels (MP4 in the browser)
 fs.copyFileSync(path.join(ROOT, 'lib', 'engine.js'), path.join(OUT, 'assets', 'engine.js')); // same maths in the browser for the live sky wheel
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 

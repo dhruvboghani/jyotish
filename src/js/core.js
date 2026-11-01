@@ -572,28 +572,79 @@ function mdPreview(md) {
 // ---------- Social: today's Rashifal and Panchang images in all 6 languages, with captions to copy ----------
 const SOC_LANGS = [['en', 'English'], ['hi', 'हिन्दी'], ['gu', 'ગુજરાતી'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['kn', 'ಕನ್ನಡ']];
 const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777], ['Ahmedabad', 23.0225, 72.5714], ['Surat', 21.1702, 72.8311], ['Bengaluru', 12.9716, 77.5946], ['Chennai', 13.0827, 80.2707], ['Hyderabad', 17.385, 78.4867], ['Kolkata', 22.5726, 88.3639], ['Pune', 18.5204, 73.8567], ['Jaipur', 26.9124, 75.7873], ['Lucknow', 26.8467, 80.9462], ['Varanasi', 25.3176, 82.9739]];
+const loadScript = src => new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => no(new Error(src)); document.head.appendChild(el); });
+// One caption for an all-language reel: a line per language, the website and a balanced set of hashtags
+function reelCaption(kind, caps) {
+  const lines = l => (caps[l] || '').split('\n');
+  const pick = (l, re) => (lines(l).find(x => re.test(x)) || '').replace(/\s*#\S+/g, '').trim();
+  const head = kind === 'rashifal' ? SOC_LANGS.map(([l]) => pick(l, /^✨/)) : SOC_LANGS.map(([l]) => pick(l, /^🪔/));
+  const extra = kind === 'rashifal' ? [pick('en', /^🌟/), pick('en', /^🙏/)] : [];
+  const tags = new Set(['#grahavani', '#reels', kind === 'rashifal' ? '#rashifal' : '#panchang']);
+  SOC_LANGS.forEach(([l]) => { const tl = lines(l).filter(x => /^#/.test(x)).join(' ').match(/#\S+/g) || []; tl.slice(0, 4).forEach(x => tags.add(x)); });
+  return [...head.filter(Boolean), '', ...extra.filter(Boolean), extra.length ? '' : null, '👉 ' + t('socad.reelCta', { u: SITE_ORIGIN.replace(/^https?:\/\//, '') }), '', [...tags].slice(0, 30).join(' ')].filter(x => x !== null).join('\n').replace(/\n{3,}/g, '\n\n');
+}
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: store.get('gv-soc-date') === today ? today : today, city: store.get('gv-soc-city') || 'New Delhi', fmt: store.get('gv-soc-fmt') || 'post' };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {} };
+  const reelOk = typeof VideoEncoder === 'function';
   body.innerHTML = `<div class="soc-bar"><div class="field"><label for="soc-date">${esc(t('socad.date'))}</label><input id="soc-date" type="date" value="${st.date}"></div>
-    <div class="field"><label for="soc-city">${esc(t('socad.city'))}</label><select id="soc-city">${SOC_CITIES.map(([n]) => `<option${n === st.city ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div>
-    <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="post" aria-pressed="${st.fmt === 'post'}">${esc(t('sc.post'))}</button><button type="button" data-fmt="story" aria-pressed="${st.fmt === 'story'}">${esc(t('sc.story'))}</button></div></div>
-    <p class="muted small">${esc(t('socad.lede'))}</p><div id="soc-grid" class="soc-grid"></div>`;
+    <div class="field"><label for="soc-city">${esc(t('socad.city'))}</label><select id="soc-city">${SOC_CITIES.map(([n]) => `<option${n === st.city ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div></div>
+    <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.reelsH'))}</h3><p class="muted small">${esc(t('socad.reelsLede'))}</p>
+    ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
+    <div class="soc-reels">${['rashifal', 'panchang'].map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
+      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('')}</div>
+    <h3 class="sub-h soc-h">${ic('i-download')}${esc(t('socad.imagesH'))}</h3>
+    <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="story" aria-pressed="true">${esc(t('sc.story'))}</button><button type="button" data-fmt="post" aria-pressed="false">${esc(t('sc.post'))}</button></div>
+    <div id="soc-grid" class="soc-grid"></div>`;
+  const cityQ = () => { const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0]; return encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`); };
+  const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' ? '&city=' + cityQ() : ''}`);
+  const resetReels = () => $$('.soc-reel').forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
   const draw = async () => {
-    const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0], cityQ = encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`);
-    const img = (kind, lang) => apiUrl(`/api/social/?img=${kind}&fmt=${st.fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' ? '&city=' + cityQ : ''}`);
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
       <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea><button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('');
+    const want = st.date + st.city;
     await Promise.all(SOC_LANGS.map(async ([l]) => {
-      try { const r = await api(`/api/social/?caption=1&lang=${l}&date=${st.date}&city=${cityQ}`); const ta = $(`[data-cap="${l}"]`); if (ta) ta.value = r.caption; } catch (e) { }
+      try { const r = await api(`/api/social/?caption=1&lang=${l}&date=${st.date}&city=${cityQ()}`); st.caps[l] = r.caption; const ta = $(`[data-cap="${l}"]`); if (ta) ta.value = r.caption; } catch (e) { }
     }));
+    if (want !== st.date + st.city) return;
+    ['rashifal', 'panchang'].forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps); });
   };
-  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; draw(); });
-  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); draw(); });
-  $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; store.set('gv-soc-fmt', st.fmt); $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
+  async function makeReel(kind, btn) {
+    const sec = btn.closest('.soc-reel'), box = sec.querySelector('.soc-vid');
+    btn.disabled = true; sec.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove());
+    box.innerHTML = `<div class="soc-prog"><i style="width:0%"></i></div><p class="muted small" data-ptext>${esc(t('socad.loading'))}</p>`;
+    try {
+      await loadScript('/assets/mp4-muxer.js'); await loadScript('/assets/reelmaker.js');
+      const blob = await window.GVReel.make({
+        slides: SOC_LANGS.map(([l]) => img(kind, l, 'story')), outro: apiUrl('/api/social/?img=outro&fmt=story'),
+        onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : t('socad.making', { p: Math.round(p * 100) }); }
+      });
+      const url = URL.createObjectURL(blob), name = `grahavani-${kind}-reel-${st.date}.mp4`;
+      if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
+      box.dataset.url = url;
+      box.innerHTML = `<video src="${url}" controls playsinline loop muted></video>`;
+      const acts = sec.querySelector('.soc-acts');
+      acts.insertAdjacentHTML('beforeend', `<a class="btn-line soc-dl" href="${url}" download="${name}">${ic('i-download')}${esc(t('socad.downloadMp4'))}</a>`);
+      const file = new File([blob], name, { type: 'video/mp4' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        acts.insertAdjacentHTML('beforeend', `<button type="button" class="btn-line soc-share">${ic('i-link')}${esc(t('sc.share'))}</button>`);
+        acts.querySelector('.soc-share').onclick = () => navigator.share({ files: [file], text: sec.querySelector('.soc-cap').value }).catch(() => { });
+      }
+      track('social_reel', { kind, date: st.date, kb: Math.round(blob.size / 1024) });
+    } catch (e) {
+      box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>`;
+    }
+    btn.disabled = false;
+  }
+  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; resetReels(); draw(); });
+  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels(); draw(); });
+  $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   body.addEventListener('click', async e => {
-    const b = e.target.closest('[data-copy]'); if (!b) return;
-    const ta = $(`[data-cap="${b.dataset.copy}"]`);
+    const mk = e.target.closest('[data-make]'); if (mk) return makeReel(mk.dataset.make, mk);
+    const b = e.target.closest('[data-copy],[data-rcopy]'); if (!b) return;
+    const ta = b.dataset.copy ? $(`[data-cap="${b.dataset.copy}"]`) : $(`[data-rcap="${b.dataset.rcopy}"]`);
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
     toast(t('socad.copied'));
   });
