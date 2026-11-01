@@ -755,12 +755,22 @@ async function activityPanel(body, qIn) {
     if (data.length < 200) more.remove();
   };
 }
-async function adminModal() {
-  openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
-    <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
-    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button><button type="button" data-tab="blog" aria-pressed="false">${esc(t('blogad.tab'))}</button><button type="button" data-tab="social" aria-pressed="false">${esc(t('socad.tab'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
-    <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
-    <div id="ad-body" class="admin-body"></div>`, 'admin');
+// Admin page (/admin/): menu on the left (a scrolling tab bar on phones), the panel on the right.
+const ADMIN_TABS = [['users', 'i-users', 'admin.users'], ['charts', 'i-chart', 'admin.charts'], ['history', 'i-clock', 'admin.history'], ['blog', 'i-doc', 'blogad.tab'], ['social', 'i-image', 'socad.tab'], ['activity', 'i-bell', 'admin.activity']];
+// Phones: tables turn into cards, each cell labelled with its column name
+function labelTables(root) { root.querySelectorAll('table').forEach(tb => { const hs = [...tb.querySelectorAll('thead th')].map(th => th.textContent.trim()); tb.querySelectorAll('tbody tr').forEach(tr => [...tr.children].forEach((td, i) => { if (hs[i] && !td.hasAttribute('data-label')) td.setAttribute('data-label', hs[i]); })); }); }
+async function adminView(root) {
+  const tabs = ADMIN_TABS.filter(x => x[0] !== 'activity' || isSuper);
+  const start = (location.hash || '').slice(1), first = tabs.some(x => x[0] === start) ? start : 'users';
+  root.innerHTML = `<div class="adm">
+    <aside class="adm-side"><nav class="adm-nav" id="ad-tabs" aria-label="${esc(t('admin.title'))}">${tabs.map(([id, icon, key]) => `<button type="button" data-tab="${id}" aria-pressed="${id === first}">${ic(icon)}<span>${esc(t(key))}</span></button>`).join('')}</nav>
+      <p class="adm-who muted small">${esc(session && session.user ? session.user.email : '')}</p></aside>
+    <div class="adm-main">
+      <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
+      <div class="field adm-search"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
+      <div id="ad-body" class="admin-body"></div>
+    </div></div>`;
+  new MutationObserver(() => labelTables($('#ad-body'))).observe($('#ad-body'), { childList: true, subtree: true });
   const [u, k, hs] = await Promise.all([
     sb.rpc('admin_users'),
     sb.from('kundalis').select('id,user_id,name,birth,created_at,updated_at').order('updated_at', { ascending: false }).limit(1000),
@@ -774,8 +784,9 @@ async function adminModal() {
   const stat = (n, l) => `<div><b>${n}</b><span>${esc(l)}</span></div>`;
   const drawStats = () => { $('#ad-stats').innerHTML = stat(users.length, t('admin.sUsers')) + stat(users.filter(x => x.confirmed).length, t('admin.sConfirmed')) + stat(charts.length, t('admin.sCharts')) + stat(users.filter(x => new Date(x.created_at) > weekAgo).length, t('admin.sNew')) + stat(historyRows.length, t('admin.sHistory')); };
   drawStats();
-  let tab = 'users';
+  let tab = first;
   const draw = () => {
+    $('.adm-main').dataset.tab = tab;
     const q = ($('#ad-q').value || '').trim().toLowerCase();
     if (tab === 'activity') return activityPanel(body, $('#ad-q'));
     $('#ad-q').closest('.field').style.display = tab === 'blog' || tab === 'social' ? 'none' : '';
@@ -792,7 +803,7 @@ async function adminModal() {
       body.innerHTML = `<ul class="saved-list">${rows.map(r => { const b = r.birth || {}, ow = byId[r.user_id]; return `<li data-id="${r.id}"><span class="rgic">${esc(((b.name || '?').trim().charAt(0) || '?').toUpperCase())}</span><div><b>${esc(b.name || t('res.defaultName'))}</b><span>${esc(birthLine(b))} · ${esc(b.placeLabel || '')}</span><span style="display:block">${esc(ow ? ow.email : '')} · ${fmtTs(r.updated_at)}</span></div><button class="btn-line" type="button" data-open>${esc(t('saved.open'))}</button><button class="btn-line ad-del" type="button" data-del-chart>${esc(t('admin.delete'))}</button></li>`; }).join('') || `<li><span>${esc(t('admin.none'))}</span></li>`}</ul>`;
     }
   };
-  $('#ad-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $('#ad-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+  $('#ad-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $('#ad-tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); history.replaceState(null, '', '#' + tab); b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); draw(); });
   let qT = null;
   $('#ad-q').addEventListener('input', () => { if (tab !== 'activity') return draw(); clearTimeout(qT); qT = setTimeout(draw, 400); });
   const delErr = error => toast(/function .* does not exist|PGRST202|schema cache/i.test(error.message || '') ? t('admin.delMissing') : (error.message || t('err.server')));
@@ -840,7 +851,7 @@ function renderAuthSlot() {
   menu.onclick = async e => {
     const m = e.target.closest('[data-menu]'); if (!m) return; menu.hidden = true;
     if (m.dataset.menu === 'saved') savedModal();
-    if (m.dataset.menu === 'admin') { track('admin_open'); adminModal(); }
+    if (m.dataset.menu === 'admin') { track('admin_open'); location.href = HOME + 'admin/'; }
     if (m.dataset.menu === 'logout') { track('logout'); ACT.flush(); await sb.auth.signOut(); }
   };
 }

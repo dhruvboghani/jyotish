@@ -94,6 +94,7 @@ function pagesFor(L) {
     P('today', 'today/', { noindex: true }),
     P('me', 'me/', { noindex: true }),
     P('settings', 'settings/', { noindex: true }),
+    P('admin', 'admin/', { noindex: true }),
     P('puja', 'puja/', { priority: '0.8', freq: 'weekly' }),
     P('vrat', 'vrat/', { priority: '0.8', freq: 'weekly' }),
     P('eclipses', 'eclipses/', { priority: '0.8', freq: 'monthly' }),

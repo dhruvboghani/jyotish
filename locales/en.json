@@ -1265,7 +1265,13 @@
   "delChartQ": "Delete the Kundali \"{n}\" saved by {e}? This can't be undone.",
   "delHistQ": "Delete this history entry? This can't be undone.",
   "delUserQ": "This permanently deletes {e}, their {n} saved Kundali(s), history, notes, shares and settings. Type the email address to confirm:",
-  "delMissing": "Delete isn't set up yet: run supabase/v11_admin_delete.sql in the Supabase SQL editor."
+  "delMissing": "Delete isn't set up yet: run supabase/v11_admin_delete.sql in the Supabase SQL editor.",
+  "eye": "Grahavani admin",
+  "loginH": "Log in to open the admin panel",
+  "loginP": "Only accounts listed as admins can see this page.",
+  "denyH": "No admin access",
+  "denyP": "{e} is not an admin account. Log in with an admin account to continue.",
+  "noDb": "Login is not set up on this site."
  },
  "trial": {
   "title": "Your free Kundali",
@@ -1630,6 +1636,11 @@
    "name": "Business Kundali",
    "title": "Business Kundali – Shop & Company Horoscope from Opening Date | Grahavani",
    "description": "Make a Kundali for your shop, firm or company from its opening or registration date. See profit, cash, customers and growth, the business name number, good periods and the next 12 months."
+  },
+  "admin": {
+   "name": "Admin",
+   "title": "Admin panel | Grahavani",
+   "description": "Grahavani admin panel."
   }
  },
  "pp": {
