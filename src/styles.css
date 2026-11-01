@@ -1964,3 +1964,17 @@ form.nu-check { margin: 0; }
 .follow.ig svg { color: #D6249F; }
 .follow.fb svg { color: #1877F2; }
 .follow:hover { border-color: var(--gold); }
+/* Admin: social images */
+.soc-bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; margin-bottom: 8px; }
+.soc-bar .field { min-width: 160px; }
+.soc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-top: 12px; }
+.soc-lang { padding: 14px; display: grid; gap: 10px; align-content: start; }
+.soc-lang h4 { font-size: 17px; }
+.soc-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.soc-imgs a { position: relative; display: block; border-radius: 10px; overflow: hidden; background: #16173B; aspect-ratio: 4 / 5; }
+.soc-imgs.story a { aspect-ratio: 9 / 16; }
+.soc-imgs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.soc-imgs span { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 5px 6px; border-radius: 8px; background: rgba(22, 23, 59, .82); color: #fff; font-size: 12.5px; font-weight: 600; text-decoration: none; }
+.soc-imgs span svg { width: 15px; height: 15px; }
+.soc-cap { width: 100%; font: inherit; font-size: 13px; line-height: 1.45; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; resize: vertical; background: var(--surface); color: var(--ink); }
+.soc-copy svg { width: 18px; height: 18px; }

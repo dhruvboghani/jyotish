@@ -569,6 +569,37 @@ function mdPreview(md) {
   }
   fp(); fl(); fq(); return out.join('');
 }
+// ---------- Social: today's Rashifal and Panchang images in all 6 languages, with captions to copy ----------
+const SOC_LANGS = [['en', 'English'], ['hi', 'हिन्दी'], ['gu', 'ગુજરાતી'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['kn', 'ಕನ್ನಡ']];
+const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777], ['Ahmedabad', 23.0225, 72.5714], ['Surat', 21.1702, 72.8311], ['Bengaluru', 12.9716, 77.5946], ['Chennai', 13.0827, 80.2707], ['Hyderabad', 17.385, 78.4867], ['Kolkata', 22.5726, 88.3639], ['Pune', 18.5204, 73.8567], ['Jaipur', 26.9124, 75.7873], ['Lucknow', 26.8467, 80.9462], ['Varanasi', 25.3176, 82.9739]];
+function socialPanel(body) {
+  const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
+  const st = { date: store.get('gv-soc-date') === today ? today : today, city: store.get('gv-soc-city') || 'New Delhi', fmt: store.get('gv-soc-fmt') || 'post' };
+  body.innerHTML = `<div class="soc-bar"><div class="field"><label for="soc-date">${esc(t('socad.date'))}</label><input id="soc-date" type="date" value="${st.date}"></div>
+    <div class="field"><label for="soc-city">${esc(t('socad.city'))}</label><select id="soc-city">${SOC_CITIES.map(([n]) => `<option${n === st.city ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div>
+    <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="post" aria-pressed="${st.fmt === 'post'}">${esc(t('sc.post'))}</button><button type="button" data-fmt="story" aria-pressed="${st.fmt === 'story'}">${esc(t('sc.story'))}</button></div></div>
+    <p class="muted small">${esc(t('socad.lede'))}</p><div id="soc-grid" class="soc-grid"></div>`;
+  const draw = async () => {
+    const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0], cityQ = encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`);
+    const img = (kind, lang) => apiUrl(`/api/social/?img=${kind}&fmt=${st.fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' ? '&city=' + cityQ : ''}`);
+    $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
+      <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea><button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('');
+    await Promise.all(SOC_LANGS.map(async ([l]) => {
+      try { const r = await api(`/api/social/?caption=1&lang=${l}&date=${st.date}&city=${cityQ}`); const ta = $(`[data-cap="${l}"]`); if (ta) ta.value = r.caption; } catch (e) { }
+    }));
+  };
+  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; draw(); });
+  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); draw(); });
+  $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; store.set('gv-soc-fmt', st.fmt); $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
+  body.addEventListener('click', async e => {
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    const ta = $(`[data-cap="${b.dataset.copy}"]`);
+    try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
+    toast(t('socad.copied'));
+  });
+  draw();
+}
+
 async function blogPanel(body) {
   body.innerHTML = '<div style="padding:20px;text-align:center"><span class="spin"></span></div>';
   const { data, error } = await sb.from('blog_posts').select('id,lang,slug,title,excerpt,body,category,tags,cover_url,group_key,status,published_at,updated_at').order('updated_at', { ascending: false }).limit(500);
@@ -676,7 +707,7 @@ async function activityPanel(body, qIn) {
 async function adminModal() {
   openModal(`<h2>${esc(t('admin.title'))}</h2><p class="muted">${esc(t('admin.lede'))}</p>
     <div class="admin-stats" id="ad-stats"><span class="spin"></span></div>
-    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button><button type="button" data-tab="blog" aria-pressed="false">${esc(t('blogad.tab'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
+    <div class="seg" role="group" style="margin:16px 0 10px" id="ad-tabs"><button type="button" data-tab="users" aria-pressed="true">${esc(t('admin.users'))}</button><button type="button" data-tab="charts" aria-pressed="false">${esc(t('admin.charts'))}</button><button type="button" data-tab="history" aria-pressed="false">${esc(t('admin.history'))}</button><button type="button" data-tab="blog" aria-pressed="false">${esc(t('blogad.tab'))}</button><button type="button" data-tab="social" aria-pressed="false">${esc(t('socad.tab'))}</button>${isSuper ? `<button type="button" data-tab="activity" aria-pressed="false">${esc(t('admin.activity'))}</button>` : ''}</div>
     <div class="field" style="margin-bottom:10px"><input id="ad-q" type="search" placeholder="${esc(t('admin.search'))}" aria-label="${esc(t('admin.search'))}"></div>
     <div id="ad-body" class="admin-body"></div>`, 'admin');
   const [u, k, hs] = await Promise.all([
@@ -696,8 +727,9 @@ async function adminModal() {
   const draw = () => {
     const q = ($('#ad-q').value || '').trim().toLowerCase();
     if (tab === 'activity') return activityPanel(body, $('#ad-q'));
-    $('#ad-q').closest('.field').hidden = tab === 'blog';
+    $('#ad-q').closest('.field').style.display = tab === 'blog' || tab === 'social' ? 'none' : '';
     if (tab === 'blog') return blogPanel(body);
+    if (tab === 'social') return socialPanel(body);
     if (tab === 'history') {
       const rows = historyRows.filter(h => { const ow = byId[h.user_id]; return !q || [h.name, h.birth.placeLabel, ow && ow.email].join(' ').toLowerCase().includes(q); });
       body.innerHTML = `<div class="tbl-card card"><table><thead><tr><th>${esc(t('admin.when'))}</th><th>${esc(t('admin.email'))}</th><th>${esc(t('admin.name'))}</th><th>${esc(t('admin.birth'))}</th><th>${esc(t('admin.place'))}</th><th>${esc(t('admin.result'))}</th><th>${esc(t('admin.lang'))}</th><th></th></tr></thead><tbody>${rows.map(h => { const ow = byId[h.user_id]; return `<tr data-hid="${h.id}"><td class="num">${fmtTs(h.created_at)}</td><td>${esc(ow ? ow.email : '')}</td><td>${esc(h.name || '—')}</td><td class="num">${esc(birthLine(h.birth))}</td><td>${esc(h.birth.placeLabel || '')}</td><td>${esc(histSum(h.summary))}</td><td>${esc(h.lang || '')}${h.source === 'session' ? ' · ' + esc(t('admin.fromSession')) : ''}</td><td><button type="button" class="linkbtn ad-del" data-del-hist>${esc(t('admin.delete'))}</button></td></tr>`; }).join('') || `<tr><td colspan="8">${esc(t(hs.error ? 'admin.historyMissing' : 'admin.none'))}</td></tr>`}</tbody></table></div>`;

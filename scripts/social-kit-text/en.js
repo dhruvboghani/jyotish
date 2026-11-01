@@ -1,0 +1,24 @@
+module.exports = {
+ welcome: { eye: 'Namaste', title: 'Welcome to Grahavani', tag: 'Voice of the planets', rows: [['Free Kundali', 'Birth chart, dashas, yogas, doshas and remedies'], ['Kundali matching', '36 gunas, Mangal Dosha and Porutham'], ['Daily Panchang', 'Tithi, nakshatra, Rahu Kaal for your city'], ['Rashifal', 'Daily, monthly and yearly for all 12 signs'], ['Muhurta', 'Good dates for marriage, griha pravesh, more']] },
+ diwali: { eye: 'Festival dates 2026', title: 'Dhanteras & Diwali Puja Muhurat', names: ['Dhanteras', 'Diwali · Lakshmi Puja'], label: 'Puja muhurat (New Delhi)', note: 'Timings for your own city on the Grahavani Panchang' },
+ sade: { eye: 'Shani explained', title: 'What is Sade Sati?', intro: 'Saturn takes about 2½ years per sign. Sade Sati is the 7½ years it spends in the sign before your Moon sign, in it, and after it.', phases: [['1 · Rising', 'Expenses, travel, restless sleep. Cut waste, finish old work.'], ['2 · Peak', 'Saturn over the Moon: pressure, duties, patience tested.'], ['3 · Setting', 'Money and family speech tested, but hard work pays off.']], note: 'Not always bad: Saturn rewards discipline and honest work.' },
+ rahu: { eye: 'Daily timing', title: 'Rahu Kaal by weekday', note: 'Approximate, for a 6:00 sunrise. Real times change with your city and season — avoid starting new work in this window.' },
+ mangal: { eye: 'Marriage matching', title: 'Mangal Dosha: myth vs fact', myth: 'Myth', fact: 'Fact', rows: [['A Manglik marriage will fail.', 'Almost half of all people have some Mangal Dosha. It describes temperament, not destiny.'], ['Only a Manglik can marry a Manglik.', 'Many rules cancel the dosha: Mars in own sign, Jupiter’s aspect, and more.']] },
+ rashis: { eye: 'Vedic zodiac', title: 'The 12 Rashis and their lords' },
+ guna: { eye: 'Kundali matching', title: 'The 36 Gunas explained', k: [['Varna', 'Work & ego'], ['Vashya', 'Attraction'], ['Tara', 'Health & luck'], ['Yoni', 'Intimacy'], ['Graha Maitri', 'Friendship'], ['Gana', 'Temperament'], ['Bhakoot', 'Love & family'], ['Nadi', 'Health & children']], note: '18+ is a fair match · 24+ is very good' },
+ gems: { eye: 'Ratna guide', title: 'A gemstone for each graha', stones: ['Ruby', 'Pearl', 'Red Coral', 'Emerald', 'Yellow Sapphire', 'Diamond', 'Blue Sapphire', 'Hessonite', "Cat's Eye"], note: 'Wear one only if that graha is good for your lagna.' },
+ app: { eye: 'Free app', title: 'Grahavani in your pocket', pts: ['Your Kundali saved, even offline', 'Morning Panchang and Rahu Kaal alerts', 'Daily Rashifal you can listen to', 'Japa counter, vrat tracker, puja guides', 'Six Indian languages'], note: 'Android app · download from the website' },
+ cover: { tag: 'Voice of the planets', line: 'Free Kundali · Matching · Panchang · Rashifal' },
+ tags: '#grahavani #kundali #rashifal #panchang #jyotish #vedicastrology #astrology',
+ cap: {
+  welcome: 'Namaste 🙏 Welcome to Grahavani — the voice of the planets.\nFree Vedic Kundali, Kundali matching, daily Panchang, Rashifal and Muhurta in 6 Indian languages.\nFollow for your daily Rashifal and Panchang ☀️',
+  diwali: 'Dhanteras & Diwali 2026 🪔\n✨ Dhanteras – Friday, 6 November · Puja muhurat 17:32–19:56 (New Delhi)\n✨ Diwali Lakshmi Puja – Sunday, 8 November · Puja muhurat 17:55–19:51 (New Delhi)\nTimings differ by city — find yours on Grahavani 👉 link in bio. #diwali2026 #dhanteras #lakshmipuja',
+  sade: 'What is Sade Sati? 🪐\nThe 7½ years Saturn moves through the sign before your Moon sign, your Moon sign and the sign after it. Not always bad — Saturn rewards discipline.\nCheck if yours is running 👉 link in bio. #sadesati #shani',
+  rahu: 'Rahu Kaal for every day of the week ⏰\nDon’t START important new work in Rahu Kaal. These times are for a 6:00 sunrise — see today’s exact time for your city on Grahavani 👉 link in bio.\nSave this post 📌 #rahukaal',
+  mangal: 'Mangal Dosha: myth vs fact 🔴\nAlmost half of all people have some Mangal Dosha, and many rules cancel it. Check yours and your partner’s free 👉 link in bio. #mangaldosha #manglik #kundalimatching',
+  rashis: 'The 12 Rashis and their ruling planets ♈♓\nYour Rashi is your Moon sign. Don’t know yours? Make your free Kundali 👉 link in bio.\nComment your Rashi 👇 #rashi #zodiac',
+  guna: 'What do the 36 gunas mean? 💑\n18+ is a fair match, 24+ is very good — but Nadi, Bhakoot and Mangal Dosha matter too. Check any two Kundalis free 👉 link in bio. #gunamilan #kundalimatching',
+  gems: 'A gemstone for each graha 💎\nA gemstone strengthens its planet — wear one only if that planet is good for your lagna. Your free Kundali shows which stones suit you 👉 link in bio. #gemstones #ratna',
+  app: 'Grahavani in your pocket 📱\nKundali saved offline, morning Panchang alerts, Rashifal you can listen to — free on Android 👉 link in bio. #astrologyapp'
+ }
+};
