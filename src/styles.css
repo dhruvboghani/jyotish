@@ -1958,7 +1958,7 @@ form.nu-check { margin: 0; }
 .sc-acts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .sc-acts .btn-cta svg, .sc-acts .btn-line svg { width: 20px; height: 20px; }
 .sc-hint { text-align: center; margin-top: 10px; }
-.follow-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 14px 0 0; font-size: 14px; color: var(--ink-2); }
+.follow-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; margin: 14px 0 0; font-size: 14px; color: var(--ink-2); }
 .follow { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px 6px 10px; font-size: 14px; }
 .follow svg { width: 20px; height: 20px; }
 .follow.ig svg { color: #D6249F; }
