@@ -6,6 +6,7 @@ const SC = { ink: '#16173B', ink2: '#2A2E7C', gold: '#E2A92E', goldL: '#F7E7B8',
 const scFont = () => getComputedStyle(document.body).fontFamily || 'system-ui, sans-serif';
 const scDisp = () => (getComputedStyle(document.documentElement).getPropertyValue('--f-display') || '').trim() || scFont();
 const scHost = () => SITE_ORIGIN.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const scIg = () => { const c = window.KG_CONFIG && KG_CONFIG.social; return c && c.instagram ? '@' + c.instagram.handle : ''; };
 
 // Make sure the page fonts (also the regional script) are ready before drawing, or canvas falls back to a system font
 async function scFonts(sample) {
@@ -77,7 +78,7 @@ function scFooter(x, W, H, story) {
   scRound(x, (W - pw) / 2, y, pw, pillH, pillH / 2); x.fillStyle = gr; x.fill();
   x.fillStyle = SC.ink; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(scFit(x, label, pw - 50), W / 2, y + pillH / 2 + 2);
   x.textBaseline = 'alphabetic'; x.font = `500 ${story ? 30 : 27}px ${F}`; x.fillStyle = 'rgba(255,255,255,.8)';
-  x.fillText(scHost(), W / 2, y + pillH + (story ? 62 : 52));
+  x.fillText(scHost() + (scIg() ? '  ·  Instagram ' + scIg() : ''), W / 2, y + pillH + (story ? 62 : 52));
 }
 function scCanvas(fmt) { const [W, H] = SC_SIZE[fmt] || SC_SIZE.story, cv = document.createElement('canvas'); cv.width = W; cv.height = H; return cv; }
 const scDate = iso => { const [y, m, d] = String(iso).split('-').map(Number); return longDateFmt.format(new Date(Date.UTC(y, m - 1, d))); };

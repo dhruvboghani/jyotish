@@ -27,7 +27,7 @@ fs.mkdirSync(path.join(WWW, 'assets', 'i18n'), { recursive: true });
 fs.copyFileSync(path.join(ROOT, 'node_modules/@supabase/supabase-js/dist/umd/supabase.js'), path.join(WWW, 'vendor/supabase.js'));
 fs.copyFileSync(path.join(__dirname, 'src/app-bridge.js'), path.join(WWW, 'app-bridge.js'));
 fs.copyFileSync(path.join(__dirname, 'src/app.css'), path.join(WWW, 'assets', 'app.css'));
-fs.writeFileSync(path.join(WWW, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: SUPABASE_URL, supabaseAnonKey: SUPABASE_KEY, vapidPublicKey: '', apiBase: API_BASE, app: true, gemShop: process.env.GEM_SHOP_URL || '' })};\n`);
+fs.writeFileSync(path.join(WWW, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: SUPABASE_URL, supabaseAnonKey: SUPABASE_KEY, vapidPublicKey: '', apiBase: API_BASE, app: true, gemShop: process.env.GEM_SHOP_URL || '', social: require('../lib/social-links.js').links() })};\n`);
 
 console.log('3/5 Rewriting pages…');
 const PRELOADER = fs.readFileSync(path.join(__dirname, 'src/preloader.html'), 'utf8').trim(); // launch screen, shown once per app session

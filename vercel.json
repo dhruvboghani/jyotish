@@ -8,7 +8,7 @@
     "api/*.js": {
       "maxDuration": 60,
       "memory": 1024,
-      "includeFiles": "{src/layout.html,src/sprite.svg,locales/*.json,.build-id}"
+      "includeFiles": "{src/layout.html,src/sprite.svg,locales/*.json,.build-id,lib/fonts/*.ttf,node_modules/harfbuzzjs/dist/harfbuzz.wasm,node_modules/harfbuzzjs/dist/harfbuzz.js,node_modules/harfbuzzjs/dist/index.mjs,node_modules/harfbuzzjs/package.json}"
     }
   },
   "headers": [

@@ -158,7 +158,7 @@ for (const f of ['places.js', 'styles.css']) fs.copyFileSync(path.join(ROOT, 'sr
 fs.copyFileSync(path.join(ROOT, 'lib', 'engine.js'), path.join(OUT, 'assets', 'engine.js')); // same maths in the browser for the live sky wheel
 for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
 
-fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '', gemShop: process.env.GEM_SHOP_URL || '' })};\n`);
+fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '', gemShop: process.env.GEM_SHOP_URL || '', social: require('./lib/social-links.js').links() })};\n`);
 
 const today = new Date().toISOString().slice(0, 10);
 const urlXml = (slug, freq, priority) => LANGS.map(l => `  <url>
