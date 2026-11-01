@@ -173,18 +173,11 @@ function chartCardCanvas(data) {
   x.fillStyle = 'rgba(255,255,255,.6)'; x.font = `400 24px ${F}`; x.fillText(t('cc.footer', { s: SITE_ORIGIN.replace(/^https?:\/\//, '') }), W / 2, H - 50);
   return cv;
 }
-async function shareChartCard(data) {
-  const name = 'grahavani-' + String(data.input.name || 'kundali').toLowerCase().replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') + '.png';
-  let cv;
-  try { cv = chartCardCanvas(data); } catch (e) { toast(t('err.server')); return; }
-  const text = t('cc.text', { n: data.input.name || t('res.defaultName') });
-  if (APP && APP.shareImage) { await APP.shareImage(cv.toDataURL('image/png'), name, text); return; }
-  const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
-  const file = blob && typeof File === 'function' ? new File([blob], name, { type: 'image/png' }) : null;
-  if (file && navigator.canShare && navigator.canShare({ files: [file] })) { try { await navigator.share({ files: [file], text }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
-  // Fallback: show the image with a download link
-  const url = URL.createObjectURL(blob);
-  openModal(`<h2>${esc(t('cc.title'))}</h2><img src="${url}" alt="" style="width:100%;border-radius:14px;margin:8px 0 14px"><a class="btn-cta" href="${url}" download="${name}">${ic('i-download')}${esc(t('cc.download'))}</a><p class="muted small" style="margin-top:10px">${esc(t('cc.hint'))}</p>`);
+function shareChartCard(data) {
+  const name = 'grahavani-' + (String(data.input.name || 'kundali').toLowerCase().replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') || 'kundali');
+  const nm = data.input.name || t('res.defaultName');
+  shareCardModal({ title: t('cc.title'), text: t('cc.text', { n: nm }) + ' ' + SITE_ORIGIN + HOME, name, sample: nm + t('res.lagna'),
+    draw: async fmt => { const inner = chartCardCanvas(data); return fmt === 'story' ? storyFrame(inner, t('sc.chartH', { n: nm })) : inner; } });
 }
 
 // Called from renderFull once the report is on the page

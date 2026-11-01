@@ -28,6 +28,10 @@ document.addEventListener('click', e => {
   speak(spokenSign(lastR, sign), () => { if (playing === b) setPlaying(null); });
 });
 if (myMoon && myMoon.sign != null) { const hb = $('#r-when'); if (hb) hb.insertAdjacentHTML('afterend', `<button type="button" class="btn-line listen-mine no-print" data-listen="mine">${ic('i-speaker')}<span>${esc(t('lis.listen'))}</span> · ${esc(rn(myMoon.sign))}</button>`); }
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-card]'); if (!b || !lastR) return;
+  if (b.dataset.card === 'all') shareRashifalAll(lastR); else shareRashifalCard(lastR, +b.dataset.card);
+});
 const stars = n => `<span class="stars" aria-label="${n}/5">${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`;
 const ord = h => t('rf.house', { h });
 async function loadR() {
@@ -42,11 +46,11 @@ async function loadR() {
     const pos = ORDER.map(p => `<span class="tag">${g(p, 'gimg sm')}${esc(ga(p))} ${esc(rn(data.positions[p].sign))}${data.positions[p].retro && p !== 'Rahu' && p !== 'Ketu' ? ' R' : ''}</span>`).join('');
     let signs = data.signs.slice();
     if (myMoon && myMoon.sign != null) signs = [signs[myMoon.sign], ...signs.filter(s => s.sign !== myMoon.sign)];
-    box.innerHTML = `<div class="card r-pos reveal"><b>${esc(t('rf.positions'))}</b><div class="meta">${pos}</div></div><div class="rgrid">${signs.map(s => {
+    box.innerHTML = `<div class="card r-share no-print reveal"><div><b>${esc(t('sc.allH'))}</b><p class="muted small">${esc(t('sc.allLede'))}</p></div><button type="button" class="btn-cta" data-card="all">${ic('i-whatsapp')}${esc(t('sc.allBtn'))}</button></div><div class="card r-pos reveal"><b>${esc(t('rf.positions'))}</b><div class="meta">${pos}</div></div><div class="rgrid">${signs.map(s => {
       const good = s.items.filter(i => i.good), bad = s.items.filter(i => !i.good && i.planet !== 'Moon');
       const mine = myMoon && myMoon.sign === s.sign;
       return `<article class="card rcard reveal${mine ? ' mine' : ''}${s.chandrashtama ? ' warn' : ''}" id="rs${s.sign}"><div class="rh">${rg(s.sign, 'rg big')}<div><h3>${esc(rn(s.sign))}</h3><small>${esc(t('res.lord', { g: { g: SIGN_LORD[s.sign] } }))}</small></div>${stars(s.stars)}</div>
-        <button type="button" class="listen no-print" data-listen="${s.sign}" aria-label="${esc(t('lis.listen'))} · ${esc(rn(s.sign))}">${ic('i-speaker')}<span>${esc(t('lis.listen'))}</span></button>
+        <div class="r-acts no-print"><button type="button" class="listen" data-listen="${s.sign}" aria-label="${esc(t('lis.listen'))} · ${esc(rn(s.sign))}">${ic('i-speaker')}<span>${esc(t('lis.listen'))}</span></button><button type="button" class="listen r-card" data-card="${s.sign}" aria-label="${esc(t('sc.button'))} · ${esc(rn(s.sign))}">${ic('i-whatsapp')}<span>${esc(t('sc.button'))}</span></button></div>
         ${mine ? `<span class="tag gold">${esc(t('rf.yours', { n: myMoon.name || t('res.defaultName') }))}</span>` : ''}
         <p class="rmoon">${esc(t('rf.moon.' + (s.moonHouse - 1)))}</p>
         ${s.chandrashtama ? `<p class="tag bad">${esc(t('rf.chandrashtama'))}</p>` : ''}
