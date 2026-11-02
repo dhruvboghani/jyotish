@@ -5950,7 +5950,12 @@
   "rfTitle": "{r} राशिफल कार्ड",
   "rfText": "{r} राशिफल, {d} — ग्रहवाणी",
   "allText": "सभी राशियों का राशिफल, {d} — ग्रहवाणी",
-  "chartH": "{n} की कुंडली"
+  "chartH": "{n} की कुंडली",
+  "weekH": "साप्ताहिक राशिफल",
+  "festH": "त्योहार और व्रत",
+  "weekBest": "शुभ {d}",
+  "weekCare": "सावधान {d}",
+  "festNone": "इन दिनों कोई त्योहार या व्रत नहीं"
  },
  "soc": {
   "title": "आज का राशिफल – {d}",
@@ -5960,7 +5965,10 @@
   "swipe": "आज का पंचांग देखने के लिए स्वाइप करें",
   "ctaIg": "मुफ़्त कुंडली, मिलान और दैनिक पंचांग, 6 भाषाओं में — लिंक बायो में।",
   "ctaFb": "मुफ़्त कुंडली, मिलान और दैनिक पंचांग, 6 भाषाओं में: {u}",
-  "tags": "#राशिफल #आज_का_राशिफल #पंचांग #ज्योतिष #कुंडली #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani"
+  "tags": "#राशिफल #आज_का_राशिफल #पंचांग #ज्योतिष #कुंडली #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani",
+  "weekTitle": "साप्ताहिक राशिफल – {r}",
+  "festTitle": "त्योहार और व्रत – {r}",
+  "weekTop": "सबसे अच्छा सप्ताह: {x}"
  },
  "foot": {
   "follow": "हमें फ़ॉलो करें"

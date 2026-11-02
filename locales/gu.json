@@ -5950,7 +5950,12 @@
   "rfTitle": "{r} રાશિફળ કાર્ડ",
   "rfText": "{r} રાશિફળ, {d} — ગ્રહવાણી",
   "allText": "બધી રાશિઓનું રાશિફળ, {d} — ગ્રહવાણી",
-  "chartH": "{n}ની કુંડળી"
+  "chartH": "{n}ની કુંડળી",
+  "weekH": "સાપ્તાહિક રાશિફળ",
+  "festH": "તહેવાર અને વ્રત",
+  "weekBest": "શુભ {d}",
+  "weekCare": "સાવધાન {d}",
+  "festNone": "આ દિવસોમાં કોઈ તહેવાર કે વ્રત નથી"
  },
  "soc": {
   "title": "આજનું રાશિફળ – {d}",
@@ -5960,7 +5965,10 @@
   "swipe": "આજનું પંચાંગ જોવા સ્વાઇપ કરો",
   "ctaIg": "મફત કુંડળી, મેળાપ અને દૈનિક પંચાંગ, 6 ભાષાઓમાં — લિંક બાયોમાં.",
   "ctaFb": "મફત કુંડળી, મેળાપ અને દૈનિક પંચાંગ, 6 ભાષાઓમાં: {u}",
-  "tags": "#રાશિફળ #આજનું_રાશિફળ #પંચાંગ #જ્યોતિષ #ગુજરાતી #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani"
+  "tags": "#રાશિફળ #આજનું_રાશિફળ #પંચાંગ #જ્યોતિષ #ગુજરાતી #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani",
+  "weekTitle": "સાપ્તાહિક રાશિફળ – {r}",
+  "festTitle": "તહેવાર અને વ્રત – {r}",
+  "weekTop": "શ્રેષ્ઠ અઠવાડિયું: {x}"
  },
  "foot": {
   "follow": "અમને ફોલો કરો"

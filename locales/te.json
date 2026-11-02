@@ -5950,7 +5950,12 @@
   "rfTitle": "{r} రాశిఫలం కార్డ్",
   "rfText": "{r} రాశిఫలం, {d} — గ్రహవాణి",
   "allText": "అన్ని రాశుల రాశిఫలం, {d} — గ్రహవాణి",
-  "chartH": "{n} జాతకం"
+  "chartH": "{n} జాతకం",
+  "weekH": "వార రాశిఫలాలు",
+  "festH": "పండుగలు & వ్రతాలు",
+  "weekBest": "మంచి రోజు {d}",
+  "weekCare": "జాగ్రత్త {d}",
+  "festNone": "ఈ రోజుల్లో పండుగలు లేదా వ్రతాలు లేవు"
  },
  "soc": {
   "title": "నేటి రాశిఫలం – {d}",
@@ -5960,7 +5965,10 @@
   "swipe": "నేటి పంచాంగం కోసం స్వైప్ చేయండి",
   "ctaIg": "ఉచిత జాతకం, పొంతన మరియు రోజువారీ పంచాంగం, 6 భాషల్లో — లింక్ బయోలో.",
   "ctaFb": "ఉచిత జాతకం, పొంతన మరియు రోజువారీ పంచాంగం, 6 భాషల్లో: {u}",
-  "tags": "#రాశిఫలాలు #నేటి_రాశిఫలం #పంచాంగం #జ్యోతిష్యం #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani"
+  "tags": "#రాశిఫలాలు #నేటి_రాశిఫలం #పంచాంగం #జ్యోతిష్యం #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani",
+  "weekTitle": "వార రాశిఫలాలు – {r}",
+  "festTitle": "పండుగలు & వ్రతాలు – {r}",
+  "weekTop": "ఉత్తమ వారం: {x}"
  },
  "foot": {
   "follow": "మమ్మల్ని ఫాలో అవ్వండి"

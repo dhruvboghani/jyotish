@@ -574,7 +574,12 @@ const SOC_LANGS = [['en', 'English'], ['hi', 'हिन्दी'], ['gu', 'ગ�
 const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777], ['Ahmedabad', 23.0225, 72.5714], ['Surat', 21.1702, 72.8311], ['Bengaluru', 12.9716, 77.5946], ['Chennai', 13.0827, 80.2707], ['Hyderabad', 17.385, 78.4867], ['Kolkata', 22.5726, 88.3639], ['Pune', 18.5204, 73.8567], ['Jaipur', 26.9124, 75.7873], ['Lucknow', 26.8467, 80.9462], ['Varanasi', 25.3176, 82.9739]];
 const loadScript = src => new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => no(new Error(src)); document.head.appendChild(el); });
 // One caption for an all-language reel: a line per language, the website and a balanced set of hashtags
-function reelCaption(kind, caps) {
+function reelCaption(kind, caps, extra2) {
+  if (kind === 'week' || kind === 'fest') { // titles in every language, the details in English, then the tags
+    const x = extra2 || {}, tags = new Set(['#grahavani', '#reels', kind === 'week' ? '#weeklyhoroscope' : '#hindufestivals']);
+    SOC_LANGS.forEach(([l]) => ((x[l] && x[l].tags) || '').split(/\s+/).filter(v => v.startsWith('#')).slice(0, 4).forEach(v => tags.add(v)));
+    return [...SOC_LANGS.map(([l]) => x[l] && x[l].title).filter(Boolean), '', ...((x.en && x.en.lines) || []), '', '👉 ' + t('socad.reelCta', { u: SITE_ORIGIN.replace(/^https?:\/\//, '') }), '', [...tags].slice(0, 30).join(' ')].join('\n').replace(/\n{3,}/g, '\n\n');
+  }
   const lines = l => (caps[l] || '').split('\n');
   const pick = (l, re) => (lines(l).find(x => re.test(x)) || '').replace(/\s*#\S+/g, '').trim();
   const head = kind === 'rashifal' ? SOC_LANGS.map(([l]) => pick(l, /^✨/)) : SOC_LANGS.map(([l]) => pick(l, /^🪔/));
@@ -585,13 +590,14 @@ function reelCaption(kind, caps) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {} };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {} } };
+  const REELS = ['rashifal', 'panchang', 'week', 'fest'];
   const reelOk = typeof VideoEncoder === 'function';
   body.innerHTML = `<div class="soc-bar"><div class="field"><label for="soc-date">${esc(t('socad.date'))}</label><input id="soc-date" type="date" value="${st.date}"></div>
     <div class="field"><label for="soc-city">${esc(t('socad.city'))}</label><select id="soc-city">${SOC_CITIES.map(([n]) => `<option${n === st.city ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div></div>
     <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.reelsH'))}</h3><p class="muted small">${esc(t('socad.reelsLede'))}</p>
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
-    <div class="soc-reels">${['rashifal', 'panchang'].map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
+    <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
       <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('')}</div>
@@ -599,7 +605,7 @@ function socialPanel(body) {
     <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="story" aria-pressed="true">${esc(t('sc.story'))}</button><button type="button" data-fmt="post" aria-pressed="false">${esc(t('sc.post'))}</button></div>
     <div id="soc-grid" class="soc-grid"></div>`;
   const cityQ = () => { const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0]; return encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`); };
-  const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' ? '&city=' + cityQ() : ''}`);
+  const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' || kind === 'fest' ? '&city=' + cityQ() : ''}`);
   const resetReels = () => $$('.soc-reel').forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
   const draw = async () => {
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
@@ -608,8 +614,11 @@ function socialPanel(body) {
     await Promise.all(SOC_LANGS.map(async ([l]) => {
       try { const r = await api(`/api/social/?caption=1&lang=${l}&date=${st.date}&city=${cityQ()}`); st.caps[l] = r.caption; const ta = $(`[data-cap="${l}"]`); if (ta) ta.value = r.caption; } catch (e) { }
     }));
+    await Promise.all(['week', 'fest'].flatMap(k => SOC_LANGS.map(async ([l]) => {
+      try { st.xcaps[k][l] = await api(`/api/social/?caption=1&kind=${k}&lang=${l}&date=${st.date}&city=${cityQ()}`); } catch (e) { }
+    })));
     if (want !== st.date + st.city) return;
-    ['rashifal', 'panchang'].forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps); });
+    REELS.forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps, st.xcaps[k]); });
   };
   async function makeReel(kind, btn) {
     const sec = btn.closest('.soc-reel'), box = sec.querySelector('.soc-vid');

@@ -6421,7 +6421,12 @@
   "rfTitle": "{r} Rashifal card",
   "rfText": "{r} Rashifal for {d} — Grahavani",
   "allText": "Rashifal for all signs, {d} — Grahavani",
-  "chartH": "{n}'s Kundali"
+  "chartH": "{n}'s Kundali",
+  "weekH": "Weekly Rashifal",
+  "festH": "Festivals & vrats",
+  "weekBest": "Best {d}",
+  "weekCare": "Care {d}",
+  "festNone": "No festivals or vrats in these days"
  },
  "soc": {
   "title": "Today's Rashifal – {d}",
@@ -6431,7 +6436,10 @@
   "swipe": "Swipe for today's Panchang",
   "ctaIg": "Free Kundali, matching and daily Panchang in 6 languages — link in bio.",
   "ctaFb": "Free Kundali, matching and daily Panchang in 6 languages: {u}",
-  "tags": "#rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani #hindu #indianastrology"
+  "tags": "#rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani #hindu #indianastrology",
+  "weekTitle": "Weekly Rashifal – {r}",
+  "festTitle": "Festivals & vrats – {r}",
+  "weekTop": "Best week: {x}"
  },
  "foot": {
   "follow": "Follow us"
@@ -6445,11 +6453,13 @@
   "copy": "Copy caption",
   "copied": "Caption copied",
   "lede": "Today's cards in all 6 languages for Instagram and Facebook. Tap an image to download it, then copy the caption for that language.",
-  "reelsH": "Daily reels — all 6 languages in one reel",
-  "reelsLede": "Pick any date (today, tomorrow or any day ahead or back). The reel is made right here in your browser from that day's cards: each language for about 4 seconds with a swipe to the next, then the website. Nothing is saved on the server.",
+  "reelsH": "Reels — all 6 languages in one reel",
+  "reelsLede": "Pick any date. Daily reels use that day; the weekly reel covers the 7 days starting that date and the festival reel the 14 days from it. Each reel is made right here in your browser from the cards in all 6 languages (about 4 seconds each, with a swipe to the next), then the website. Nothing is saved on the server.",
   "reel": {
    "rashifal": "Rashifal reel (all 12 signs)",
-   "panchang": "Panchang reel"
+   "panchang": "Panchang reel",
+   "week": "Weekly Rashifal reel (next 7 days)",
+   "fest": "Festivals & vrats reel (next 14 days)"
   },
   "reelHint": "Tap “Make reel” — it takes about 10–30 seconds.",
   "make": "Make reel",

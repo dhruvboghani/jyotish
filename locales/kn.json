@@ -5950,7 +5950,12 @@
   "rfTitle": "{r} ರಾಶಿಫಲ ಕಾರ್ಡ್",
   "rfText": "{r} ರಾಶಿಫಲ, {d} — ಗ್ರಹವಾಣಿ",
   "allText": "ಎಲ್ಲಾ ರಾಶಿಗಳ ರಾಶಿಫಲ, {d} — ಗ್ರಹವಾಣಿ",
-  "chartH": "{n} ಅವರ ಜಾತಕ"
+  "chartH": "{n} ಅವರ ಜಾತಕ",
+  "weekH": "ವಾರ ರಾಶಿಫಲ",
+  "festH": "ಹಬ್ಬಗಳು & ವ್ರತಗಳು",
+  "weekBest": "ಶುಭ {d}",
+  "weekCare": "ಎಚ್ಚರ {d}",
+  "festNone": "ಈ ದಿನಗಳಲ್ಲಿ ಹಬ್ಬ ಅಥವಾ ವ್ರತ ಇಲ್ಲ"
  },
  "soc": {
   "title": "ಇಂದಿನ ರಾಶಿಫಲ – {d}",
@@ -5960,7 +5965,10 @@
   "swipe": "ಇಂದಿನ ಪಂಚಾಂಗಕ್ಕಾಗಿ ಸ್ವೈಪ್ ಮಾಡಿ",
   "ctaIg": "ಉಚಿತ ಜಾತಕ, ಹೊಂದಾಣಿಕೆ ಮತ್ತು ದೈನಂದಿನ ಪಂಚಾಂಗ, 6 ಭಾಷೆಗಳಲ್ಲಿ — ಲಿಂಕ್ ಬಯೋದಲ್ಲಿ.",
   "ctaFb": "ಉಚಿತ ಜಾತಕ, ಹೊಂದಾಣಿಕೆ ಮತ್ತು ದೈನಂದಿನ ಪಂಚಾಂಗ, 6 ಭಾಷೆಗಳಲ್ಲಿ: {u}",
-  "tags": "#ರಾಶಿಭವಿಷ್ಯ #ಇಂದಿನ_ರಾಶಿಫಲ #ಪಂಚಾಂಗ #ಜ್ಯೋತಿಷ್ಯ #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani"
+  "tags": "#ರಾಶಿಭವಿಷ್ಯ #ಇಂದಿನ_ರಾಶಿಫಲ #ಪಂಚಾಂಗ #ಜ್ಯೋತಿಷ್ಯ #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani",
+  "weekTitle": "ವಾರ ರಾಶಿಫಲ – {r}",
+  "festTitle": "ಹಬ್ಬಗಳು & ವ್ರತಗಳು – {r}",
+  "weekTop": "ಉತ್ತಮ ವಾರ: {x}"
  },
  "foot": {
   "follow": "ನಮ್ಮನ್ನು ಫಾಲೋ ಮಾಡಿ"

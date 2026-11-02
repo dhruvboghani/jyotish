@@ -5950,7 +5950,12 @@
   "rfTitle": "{r} ராசிபலன் அட்டை",
   "rfText": "{r} ராசிபலன், {d} — கிரகவாணி",
   "allText": "அனைத்து ராசிகளுக்கும் ராசிபலன், {d} — கிரகவாணி",
-  "chartH": "{n} ஜாதகம்"
+  "chartH": "{n} ஜாதகம்",
+  "weekH": "வார ராசிபலன்",
+  "festH": "பண்டிகைகள் & விரதங்கள்",
+  "weekBest": "நல்ல நாள் {d}",
+  "weekCare": "கவனம் {d}",
+  "festNone": "இந்த நாட்களில் பண்டிகை அல்லது விரதம் இல்லை"
  },
  "soc": {
   "title": "இன்றைய ராசிபலன் – {d}",
@@ -5960,7 +5965,10 @@
   "swipe": "இன்றைய பஞ்சாங்கத்திற்கு ஸ்வைப் செய்யவும்",
   "ctaIg": "இலவச ஜாதகம், பொருத்தம் மற்றும் தினசரி பஞ்சாங்கம், 6 மொழிகளில் — லிங்க் பயோவில்.",
   "ctaFb": "இலவச ஜாதகம், பொருத்தம் மற்றும் தினசரி பஞ்சாங்கம், 6 மொழிகளில்: {u}",
-  "tags": "#ராசிபலன் #இன்றைய_ராசிபலன் #பஞ்சாங்கம் #ஜோதிடம் #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani"
+  "tags": "#ராசிபலன் #இன்றைய_ராசிபலன் #பஞ்சாங்கம் #ஜோதிடம் #rashifal #horoscope #dailyhoroscope #astrology #jyotish #vedicastrology #panchang #kundali #zodiac #grahavani",
+  "weekTitle": "வார ராசிபலன் – {r}",
+  "festTitle": "பண்டிகைகள் & விரதங்கள் – {r}",
+  "weekTop": "சிறந்த வாரம்: {x}"
  },
  "foot": {
   "follow": "எங்களைப் பின்தொடரவும்"
