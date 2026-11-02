@@ -6460,7 +6460,7 @@
   "copied": "Caption copied",
   "lede": "Today's cards in all 6 languages for Instagram and Facebook. Tap an image to download it, then copy the caption for that language.",
   "reelsH": "Reels — all 6 languages in one reel",
-  "reelsLede": "Pick any date. Daily reels use that day; the weekly reel covers the 7 days from that date and the festival reel the 14 days from it. In each language the reel shows the summary card, then slides up to a detail card (lucky colour & number and the four areas; Choghadiya, Yamaganda, Gulika, Brahma muhurat; the week day by day; puja muhurat and meaning), then swipes to the next language and ends on the website. About 55 seconds. Made right here in your browser; nothing is saved on the server.",
+  "reelsLede": "Pick any date and a music track. Daily reels use that day; the weekly reel covers the 7 days from that date and the festival reel the 14 days from it. In each language the summary card builds up line by line, then slides up to a detail card, then swipes to the next language and ends on the website. About a minute. Made right here in your browser; nothing is saved on the server.",
   "reel": {
    "rashifal": "Rashifal reel (all 12 signs)",
    "panchang": "Panchang reel",
@@ -6469,12 +6469,23 @@
   },
   "reelHint": "Tap “Make reel” — it takes about 20–60 seconds.",
   "make": "Make reel",
-  "loading": "Loading the 12 cards…",
+  "loading": "Loading the cards…",
   "making": "Making the reel… {p}%",
   "downloadMp4": "Download MP4",
   "reelFail": "Could not make the reel. Check the connection and try again.",
   "noReel": "This browser cannot make videos. Use Chrome or Edge on a computer or Android phone (or Safari 16.4+).",
   "reelCta": "Free Kundali, matching & Panchang in 6 languages: {u} (link in bio)",
-  "imagesH": "Single-language images for stories"
+  "imagesH": "Single-language images for stories",
+  "music": "Background music",
+  "preview": "Listen",
+  "addingMusic": "Adding the music…",
+  "tracks": {
+   "om": "Om Dhyan — tanpura & temple bells",
+   "bansuri": "Bansuri — flute in Raga Yaman",
+   "shanti": "Shanti — shruti & singing bowls",
+   "none": "No music"
+  },
+  "noAudio": "This browser could not add the music, so the reel is silent. Add music in Instagram, or use Chrome on a computer.",
+  "opusAudio": "Music added in Opus format. If Instagram removes the sound, use Chrome on Windows or Mac, or add the music in Instagram."
  }
 }

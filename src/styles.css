@@ -1983,8 +1983,8 @@ form.nu-check { margin: 0; }
 .soc-reels { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin: 10px 0 8px; }
 .soc-reel { padding: 14px; display: grid; gap: 10px; align-content: start; }
 .soc-reel h4 { font-size: 17px; }
-.soc-vid { aspect-ratio: 9 / 16; max-height: 520px; border-radius: 12px; background: #16173B; display: grid; place-items: center; overflow: hidden; padding: 16px; text-align: center; }
-.soc-vid .muted { color: rgba(255,255,255,.75); }
+.soc-vid { aspect-ratio: 9 / 16; max-height: 520px; border-radius: 12px; background: #F4EDE0; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; padding: 16px; text-align: center; }
+.soc-vid .muted { color: var(--ink-3); }
 .soc-vid video { width: 100%; height: 100%; object-fit: contain; display: block; margin: -16px; width: calc(100% + 32px); height: calc(100% + 32px); }
 .soc-prog { width: 80%; height: 8px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
 .soc-prog i { display: block; height: 100%; background: linear-gradient(90deg, #F3C459, #D3971C); transition: width .2s; }
@@ -2059,3 +2059,7 @@ form.nu-check { margin: 0; }
 
 .admin-page .soc-h { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; margin: 18px 0 4px; font-size: 20px; font-family: var(--f-display); }
 .admin-page .soc-h svg { flex: none; }
+.soc-music { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 14px; padding: 14px 16px; margin: 6px 0 4px; }
+.soc-music .field { flex: 1 1 260px; margin: 0; }
+.soc-music select { width: 100%; }
+.soc-music .btn-line svg { width: 18px; height: 18px; }

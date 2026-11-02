@@ -158,7 +158,7 @@ for (const l of LANGS) { const f = S.i18nFile(l); fs.writeFileSync(path.join(OUT
 for (const f of ['places.js', 'styles.css', 'reelmaker.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
 fs.copyFileSync(path.join(ROOT, 'node_modules', 'mp4-muxer', 'build', 'mp4-muxer.js'), path.join(OUT, 'assets', 'mp4-muxer.js')); // admin daily reels (MP4 in the browser)
 fs.copyFileSync(path.join(ROOT, 'lib', 'engine.js'), path.join(OUT, 'assets', 'engine.js')); // same maths in the browser for the live sky wheel
-for (const f of fs.readdirSync(path.join(ROOT, 'static'))) fs.copyFileSync(path.join(ROOT, 'static', f), path.join(OUT, f));
+fs.cpSync(path.join(ROOT, 'static'), OUT, { recursive: true }); // icons, manifest, sw.js, music/ for reels
 
 fs.writeFileSync(path.join(OUT, 'config.js'), `window.KG_CONFIG=${JSON.stringify({ supabaseUrl: process.env.SUPABASE_URL || '', supabaseAnonKey: PUBLIC_KEY, vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '', gemShop: process.env.GEM_SHOP_URL || '', social: require('./lib/social-links.js').links() })};\n`);
 

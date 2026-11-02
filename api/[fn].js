@@ -36,7 +36,7 @@ function cors(req, res) {
   res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-KG-Free');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Expose-Headers', 'X-KG-Free');
+  res.setHeader('Access-Control-Expose-Headers', 'X-KG-Free, X-Bands');
   res.setHeader('Access-Control-Max-Age', '86400');
   return true;
 }

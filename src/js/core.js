@@ -571,6 +571,7 @@ function mdPreview(md) {
 }
 // ---------- Social: today's Rashifal and Panchang images in all 6 languages, with captions to copy ----------
 const SOC_LANGS = [['en', 'English'], ['hi', 'हिन्दी'], ['gu', 'ગુજરાતી'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['kn', 'ಕನ್ನಡ']];
+const SOC_MUSIC = [['om-dhyan', 'om'], ['bansuri-yaman', 'bansuri'], ['shanti', 'shanti'], ['none', 'none']];
 const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777], ['Ahmedabad', 23.0225, 72.5714], ['Surat', 21.1702, 72.8311], ['Bengaluru', 12.9716, 77.5946], ['Chennai', 13.0827, 80.2707], ['Hyderabad', 17.385, 78.4867], ['Kolkata', 22.5726, 88.3639], ['Pune', 18.5204, 73.8567], ['Jaipur', 26.9124, 75.7873], ['Lucknow', 26.8467, 80.9462], ['Varanasi', 25.3176, 82.9739]];
 const loadScript = src => new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => no(new Error(src)); document.head.appendChild(el); });
 // One caption for an all-language reel: a line per language, the website and a balanced set of hashtags
@@ -592,11 +593,14 @@ function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
   const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {} } };
   const REELS = ['rashifal', 'panchang', 'week', 'fest'];
+  st.music = store.get('gv-soc-music') || 'om-dhyan';
   const reelOk = typeof VideoEncoder === 'function';
   body.innerHTML = `<div class="soc-bar"><div class="field"><label for="soc-date">${esc(t('socad.date'))}</label><input id="soc-date" type="date" value="${st.date}"></div>
     <div class="field"><label for="soc-city">${esc(t('socad.city'))}</label><select id="soc-city">${SOC_CITIES.map(([n]) => `<option${n === st.city ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div></div>
     <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.reelsH'))}</h3><p class="muted small">${esc(t('socad.reelsLede'))}</p>
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
+    <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
+      <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
     <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
@@ -626,14 +630,19 @@ function socialPanel(body) {
     box.innerHTML = `<div class="soc-prog"><i style="width:0%"></i></div><p class="muted small" data-ptext>${esc(t('socad.loading'))}</p>`;
     try {
       await loadScript('/assets/mp4-muxer.js'); await loadScript('/assets/reelmaker.js');
-      const blob = await window.GVReel.make({
-        slides: SOC_LANGS.flatMap(([l]) => [img(kind, l, 'story'), img(kind + '2', l, 'story')]), per: 2, outro: apiUrl('/api/social/?img=outro&fmt=story'),
-        onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : t('socad.making', { p: Math.round(p * 100) }); }
+      const card = (k, l) => { const u = img(k, l, 'story') + '&theme=modern'; return { full: u, base: u + '&part=base' }; };
+      const music = st.music && st.music !== 'none' ? '/music/' + st.music + '.mp3' : null;
+      const res = await window.GVReel.make({
+        cards: SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l)]), per: 2, outro: card('outro', 'en'), music,
+        onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
+      const blob = res.blob;
+      if (music && res.audio === 'none') toast(t('socad.noAudio'));
+      else if (res.audio === 'opus') toast(t('socad.opusAudio'));
       const url = URL.createObjectURL(blob), name = `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
-      box.innerHTML = `<video src="${url}" controls playsinline loop muted></video>`;
+      box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
       const acts = sec.querySelector('.soc-acts');
       acts.insertAdjacentHTML('beforeend', `<a class="btn-line soc-dl" href="${url}" download="${name}">${ic('i-download')}${esc(t('socad.downloadMp4'))}</a>`);
       const file = new File([blob], name, { type: 'video/mp4' });
@@ -641,12 +650,18 @@ function socialPanel(body) {
         acts.insertAdjacentHTML('beforeend', `<button type="button" class="btn-line soc-share">${ic('i-link')}${esc(t('sc.share'))}</button>`);
         acts.querySelector('.soc-share').onclick = () => navigator.share({ files: [file], text: sec.querySelector('.soc-cap').value }).catch(() => { });
       }
-      track('social_reel', { kind, date: st.date, kb: Math.round(blob.size / 1024) });
+      track('social_reel', { kind, date: st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
     } catch (e) {
       box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>`;
     }
     btn.disabled = false;
   }
+  const au = $('#soc-audio'), playBtn = $('#soc-play');
+  const setPlay = on => { playBtn.querySelector('span').textContent = t(on ? 'lis.stop' : 'socad.preview'); playBtn.querySelector('use').setAttribute('href', on ? '#i-stop' : '#i-speaker'); };
+  $('#soc-music').addEventListener('change', e => { st.music = e.target.value; store.set('gv-soc-music', st.music); au.pause(); setPlay(false); playBtn.disabled = st.music === 'none'; });
+  playBtn.disabled = st.music === 'none';
+  playBtn.addEventListener('click', () => { if (!au.paused) { au.pause(); setPlay(false); return; } au.src = '/music/' + st.music + '.mp3'; au.currentTime = 0; au.play().then(() => setPlay(true)).catch(() => { }); });
+  au.addEventListener('ended', () => setPlay(false));
   $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; resetReels(); draw(); });
   $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels(); draw(); });
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
