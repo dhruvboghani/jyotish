@@ -19,9 +19,9 @@
   }
 
   // Draw one card with a slow zoom-out (1.035 → 1.0) over its time on screen
-  function card(x, im, local, dx, alpha) {
-    const s = 1.035 - 0.035 * ease(Math.min(1, Math.max(0, local / (SEG + SWIPE))));
-    x.save(); x.globalAlpha = alpha; x.translate(W / 2 + dx, H / 2); x.scale(s, s); x.drawImage(im, -W / 2, -H / 2, W, H); x.restore();
+  function card(x, im, local, dx, alpha, dur = SEG, dy = 0) {
+    const s = 1.035 - 0.035 * ease(Math.min(1, Math.max(0, local / (dur + SWIPE))));
+    x.save(); x.globalAlpha = alpha; x.translate(W / 2 + dx, H / 2 + dy); x.scale(s, s); x.drawImage(im, -W / 2, -H / 2, W, H); x.restore();
   }
   function bars(x, n, idx, p) {
     const m = 36, g = 8, w = (W - m * 2 - g * (n - 1)) / n;
@@ -32,23 +32,35 @@
       if (f > 0) { x.fillStyle = 'rgba(255,255,255,.95)'; x.fillRect(bx, 22, w * f, 6); }
     }
   }
-  function frame(x, imgs, outro, t) {
-    const n = imgs.length, body = n * SEG;
+  // Timeline: each slide has its own time on screen; `per` slides make one language (one progress bar).
+  // Inside a language the next card slides up; to the next language it swipes left; the last fades into the outro.
+  function timeline(n, per, durs) {
+    const starts = []; let t = 0;
+    for (let i = 0; i < n; i++) { starts.push(t); t += durs[i]; }
+    return { starts, body: t };
+  }
+  function frame(x, imgs, outro, t, per, durs, tl) {
+    const n = imgs.length;
     x.fillStyle = '#16173B'; x.fillRect(0, 0, W, H);
-    if (t < body) {
-      const i = Math.min(n - 1, Math.floor(t / SEG)), local = t - i * SEG, sw = local - (SEG - SWIPE);
-      if (sw > 0 && i < n - 1) { // swipe to the next language
+    if (t < tl.body) {
+      let i = 0; while (i < n - 1 && t >= tl.starts[i + 1]) i++;
+      const D = durs[i], local = t - tl.starts[i], sw = local - (D - SWIPE);
+      if (sw > 0 && i < n - 1) {
+        const p = ease(sw / SWIPE), sameLang = Math.floor(i / per) === Math.floor((i + 1) / per);
+        if (sameLang) { card(x, imgs[i], local, 0, 1, D, -p * H * 0.35); card(x, imgs[i + 1], sw - SWIPE, 0, p, durs[i + 1], (1 - p) * H * 0.25); }
+        else { card(x, imgs[i], local, -p * W, 1, D); card(x, imgs[i + 1], sw - SWIPE, (1 - p) * W, 1, durs[i + 1]); }
+      } else if (sw > 0 && i === n - 1) {
         const p = ease(sw / SWIPE);
-        card(x, imgs[i], local, -p * W, 1); card(x, imgs[i + 1], sw - SWIPE, (1 - p) * W, 1);
-      } else if (sw > 0 && i === n - 1) { // last language fades into the outro
-        const p = ease(sw / SWIPE);
-        card(x, imgs[i], local, 0, 1); card(x, outro, 0, 0, p);
-      } else card(x, imgs[i], local, 0, 1);
-      bars(x, n, i, Math.min(1, local / SEG));
-    } else card(x, outro, t - body + SWIPE, 0, 1);
+        card(x, imgs[i], local, 0, 1, D); card(x, outro, 0, 0, p);
+      } else card(x, imgs[i], local, 0, 1, D);
+      const g = Math.floor(i / per), g0 = g * per, gEnd = Math.min(n, g0 + per);
+      const gStart = tl.starts[g0], gDur = (gEnd < n ? tl.starts[gEnd] : tl.body) - gStart;
+      bars(x, Math.ceil(n / per), g, Math.min(1, (t - gStart) / gDur));
+    } else card(x, outro, t - tl.body + SWIPE, 0, 1);
   }
 
-  async function make({ slides, outro, onProgress = () => { } }) {
+  // slides: flat list of card URLs; per: cards per language (1 or 2); durs: optional seconds per card
+  async function make({ slides, outro, per = 1, durs, onProgress = () => { } }) {
     if (!supported()) throw new Error('unsupported');
     const cd = await codec(); if (!cd) throw new Error('unsupported');
     onProgress(0, 'load');
@@ -59,10 +71,11 @@
     let fail = null;
     const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { fail = e; } });
     enc.configure(cd.cfg);
-    const total = Math.round((imgs.length * SEG + OUTRO) * FPS);
+    const d = durs && durs.length === imgs.length ? durs : imgs.map((_, i) => per > 1 && i % per ? SEG + 1.2 : SEG), tl = timeline(imgs.length, per, d);
+    const total = Math.round((tl.body + OUTRO) * FPS);
     for (let f = 0; f < total; f++) {
       if (fail) throw fail;
-      frame(x, imgs, out, f / FPS);
+      frame(x, imgs, out, f / FPS, per, d, tl);
       const vf = new VideoFrame(cv, { timestamp: Math.round(f * 1e6 / FPS), duration: Math.round(1e6 / FPS) });
       enc.encode(vf, { keyFrame: f % (FPS * 2) === 0 }); vf.close();
       while (enc.encodeQueueSize > 6) await sleep(2);
@@ -74,5 +87,5 @@
     onProgress(1, 'done');
     return new Blob([muxer.target.buffer], { type: 'video/mp4' });
   }
-  window.GVReel = { ...(window.GVReel || {}), make, supported, seconds: n => +(n * SEG + OUTRO).toFixed(1) };
+  window.GVReel = { ...(window.GVReel || {}), make, supported };
 })();

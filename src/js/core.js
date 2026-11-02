@@ -605,7 +605,7 @@ function socialPanel(body) {
     <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="story" aria-pressed="true">${esc(t('sc.story'))}</button><button type="button" data-fmt="post" aria-pressed="false">${esc(t('sc.post'))}</button></div>
     <div id="soc-grid" class="soc-grid"></div>`;
   const cityQ = () => { const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0]; return encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`); };
-  const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${kind === 'panchang' || kind === 'fest' ? '&city=' + cityQ() : ''}`);
+  const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${/^(panchang|fest)/.test(kind) ? '&city=' + cityQ() : ''}`);
   const resetReels = () => $$('.soc-reel').forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
   const draw = async () => {
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
@@ -627,7 +627,7 @@ function socialPanel(body) {
     try {
       await loadScript('/assets/mp4-muxer.js'); await loadScript('/assets/reelmaker.js');
       const blob = await window.GVReel.make({
-        slides: SOC_LANGS.map(([l]) => img(kind, l, 'story')), outro: apiUrl('/api/social/?img=outro&fmt=story'),
+        slides: SOC_LANGS.flatMap(([l]) => [img(kind, l, 'story'), img(kind + '2', l, 'story')]), per: 2, outro: apiUrl('/api/social/?img=outro&fmt=story'),
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const url = URL.createObjectURL(blob), name = `grahavani-${kind}-reel-${st.date}.mp4`;

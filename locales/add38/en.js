@@ -1,0 +1,1 @@
+module.exports = {"sc": {"detailH": "Rashifal details", "panDetH": "Panchang details", "weekDetH": "Week day by day", "festDetH": "Puja muhurat & meaning", "lucky": "Lucky", "muhurat": "Puja muhurat {r}"}};
