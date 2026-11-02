@@ -6486,6 +6486,7 @@
    "none": "No music"
   },
   "noAudio": "This browser could not add the music, so the reel is silent. Add music in Instagram, or use Chrome on a computer.",
-  "opusAudio": "Music added in Opus format. If Instagram removes the sound, use Chrome on Windows or Mac, or add the music in Instagram."
+  "opusAudio": "Music added in Opus format. If Instagram removes the sound, use Chrome on Windows or Mac, or add the music in Instagram.",
+  "why": "Details: {e}"
  }
 }

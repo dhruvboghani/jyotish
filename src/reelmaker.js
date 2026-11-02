@@ -10,12 +10,23 @@
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const supported = () => typeof VideoEncoder === 'function' && typeof VideoFrame === 'function' && !!window.Mp4Muxer;
 
+  // Cards are fetched up front (with retries) but only decoded to bitmaps when needed, so phones don't run out of memory
   async function fetchCard(url) {
-    const r = await fetch(url); if (!r.ok) throw new Error('Could not load ' + url);
-    let bands = []; try { bands = JSON.parse(r.headers.get('X-Bands') || '[]'); } catch (e) { }
-    return { img: await createImageBitmap(await r.blob()), bands };
+    let last;
+    for (let k = 0; k < 4; k++) {
+      try {
+        const r = await fetch(url);
+        if (r.ok) { let bands = []; try { bands = JSON.parse(r.headers.get('X-Bands') || '[]'); } catch (e) { } return { blob: await r.blob(), bands }; }
+        last = new Error('card ' + r.status);
+      } catch (e) { last = e; }
+      await sleep(600 * (k + 1));
+    }
+    throw new Error('Could not load a card (' + (last && last.message) + ')');
   }
-  async function loadCard(c) { const [full, base] = await Promise.all([fetchCard(c.full), fetchCard(c.base)]); return { full: full.img, base: base.img, bands: full.bands }; }
+  async function loadCard(c) { const [full, base] = await Promise.all([fetchCard(c.full), fetchCard(c.base)]); return { fullBlob: full.blob, baseBlob: base.blob, bands: full.bands, full: null, base: null }; }
+  async function inBatches(list, size, fn) { const out = []; for (let i = 0; i < list.length; i += size) out.push(...await Promise.all(list.slice(i, i + size).map(fn))); return out; }
+  async function decode(c) { if (!c.full) { c.full = await createImageBitmap(c.fullBlob); c.base = await createImageBitmap(c.baseBlob); } }
+  function release(c) { if (c && c.full) { try { c.full.close(); c.base.close(); } catch (e) { } c.full = c.base = null; } }
 
   async function videoCodec() {
     for (const c of ['avc1.640028', 'avc1.4d0028', 'avc1.42e028', 'avc1.640032']) {
@@ -75,21 +86,21 @@
     if (!supported()) throw new Error('unsupported');
     const vc = await videoCodec(); if (!vc) throw new Error('unsupported');
     onProgress(0, 'load');
-    const loaded = await Promise.all(cards.map(loadCard)), out = await loadCard(outro);
+    let got = 0; const nCards = cards.length + 1;
+    const loaded = await inBatches(cards, 4, async c => { const r = await loadCard(c); onProgress(++got / nCards * 0.2, 'load'); return r; }), out = await loadCard(outro);
+    await decode(out);
     const plans = loaded.map((c, i) => plan(c, per > 1 && i % per === per - 1)), oPlan = plan(out, false);
     const starts = []; let tt = 0; plans.forEach(p => { starts.push(tt); tt += p.dur; });
     const body = tt, total = body + Math.max(OUTRO, oPlan.dur - 1), n = loaded.length, groups = Math.ceil(n / per);
 
     const ac = music ? await audioCodec() : null, M = window.Mp4Muxer;
-    const muxer = new M.Muxer({ target: new M.ArrayBufferTarget(), video: { codec: vc.mux, width: W, height: H, frameRate: FPS }, ...(ac ? { audio: { codec: ac.mux, numberOfChannels: 2, sampleRate: ac.sampleRate } } : {}), fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
-    let fail = null, audioOk = false;
-
-    if (ac) { // music first (fast), then the frames
+    let fail = null, audioChunks = null;
+    if (ac) { // music first (fast); only added to the file if every chunk encoded
       try {
-        onProgress(0, 'music');
-        const ab = await prepareMusic(music, total, ac.sampleRate);
+        onProgress(0.2, 'music');
+        const ab = await prepareMusic(music, total, ac.sampleRate), list = [];
         let aerr = null;
-        const aenc = new AudioEncoder({ output: (chunk, meta) => muxer.addAudioChunk(chunk, meta), error: e => { aerr = e; } });
+        const aenc = new AudioEncoder({ output: (chunk, meta) => list.push([chunk, meta]), error: e => { aerr = e; } });
         aenc.configure(ac.cfg);
         const L = ab.getChannelData(0), R = ab.getChannelData(1), step = 4096;
         for (let i = 0; i < ab.length; i += step) {
@@ -97,18 +108,23 @@
           const a = new AudioData({ format: 'f32-planar', sampleRate: ac.sampleRate, numberOfFrames: len, numberOfChannels: 2, timestamp: Math.round(i * 1e6 / ac.sampleRate), data: d });
           aenc.encode(a); a.close();
         }
-        await aenc.flush(); aenc.close(); audioOk = !aerr;
-      } catch (e) { audioOk = false; }
+        await aenc.flush(); aenc.close();
+        if (!aerr && list.length && list[0][1] && list[0][1].decoderConfig) audioChunks = list;
+      } catch (e) { audioChunks = null; }
     }
+    const muxer = new M.Muxer({ target: new M.ArrayBufferTarget(), video: { codec: vc.mux, width: W, height: H, frameRate: FPS }, ...(audioChunks ? { audio: { codec: ac.mux, numberOfChannels: 2, sampleRate: ac.sampleRate } } : {}), fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
+    if (audioChunks) audioChunks.forEach(([c, m]) => muxer.addAudioChunk(c, m));
+    const audioOk = !!audioChunks;
 
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
     const x = cv.getContext('2d', { alpha: false });
     const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { fail = e; } });
     enc.configure(vc.cfg);
-    const frames = Math.round(total * FPS);
+    const frames = Math.round(total * FPS); let cur = -1;
     for (let f = 0; f < frames; f++) {
       if (fail) throw fail;
       const t = f / FPS;
+      if (t < body) { let j = 0; while (j < n - 1 && t >= starts[j + 1]) j++; if (j !== cur) { cur = j; await decode(loaded[j]); if (j + 1 < n) await decode(loaded[j + 1]); for (let q = 0; q < j - 1; q++) release(loaded[q]); } }
       x.fillStyle = '#FBF7EF'; x.fillRect(0, 0, W, H);
       if (t < body) {
         let i = 0; while (i < n - 1 && t >= starts[i + 1]) i++;
@@ -125,10 +141,11 @@
       const vf = new VideoFrame(cv, { timestamp: Math.round(f * 1e6 / FPS), duration: Math.round(1e6 / FPS) });
       enc.encode(vf, { keyFrame: f % (FPS * 2) === 0 }); vf.close();
       while (enc.encodeQueueSize > 6) await sleep(2);
-      if (f % 10 === 0) { onProgress(f / frames, 'encode'); await sleep(0); }
+      if (f % 10 === 0) { onProgress(0.25 + 0.75 * f / frames, 'encode'); await sleep(0); }
     }
     await enc.flush(); enc.close();
     if (fail) throw fail;
+    loaded.forEach(release); release(out);
     muxer.finalize();
     onProgress(1, 'done');
     return { blob: new Blob([muxer.target.buffer], { type: 'video/mp4' }), audio: audioOk ? ac.mux : (music ? 'none' : 'off'), seconds: +total.toFixed(1) };
