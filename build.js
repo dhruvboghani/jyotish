@@ -152,7 +152,7 @@ for (const pg of PAGESETS.en) if (!pg.noindex) sitemap.push(pg);
 fs.writeFileSync(path.join(OUT, '404.html'), require('./lib/routes/seo.js').notFound('en'));
 for (const [name, parts] of Object.entries(BUNDLES)) {
   const src = parts.map(p => `// ---- ${p}.js ----\n` + read(`src/js/${p}.js`)).join('\n');
-  fs.writeFileSync(path.join(OUT, 'assets', name + '.js'), `(function () {\n'use strict';\n${src}\nboot();\n})();\n`);
+  fs.writeFileSync(path.join(OUT, 'assets', name + '.js'), `(function () {\n'use strict';\nconst ASSET_V = ${JSON.stringify(BUILD)};\n${src}\nboot();\n})();\n`);
 }
 for (const l of LANGS) { const f = S.i18nFile(l); fs.writeFileSync(path.join(OUT, 'assets', f.name), f.content); }
 for (const f of ['places.js', 'styles.css', 'reelmaker.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(OUT, 'assets', f));
