@@ -6432,7 +6432,49 @@
   "weekDetH": "Week day by day",
   "festDetH": "Puja muhurat & meaning",
   "lucky": "Lucky",
-  "muhurat": "Puja muhurat {r}"
+  "muhurat": "Puja muhurat {r}",
+  "dy": {
+   "dayH": "What's special",
+   "precH": "Precautions & remedies",
+   "solar": "Solar eclipse",
+   "lunar": "Lunar eclipse",
+   "visible": "Visible in {c}",
+   "notVisible": "Not visible in {c}",
+   "guruPushya": "Guru Pushya Yoga",
+   "raviPushya": "Ravi Pushya Yoga",
+   "sarvartha": "Sarvartha Siddhi Yoga",
+   "until": "until {t}",
+   "ingress": "{g} enters {r}",
+   "retro": "{g} turns retrograde",
+   "direct": "{g} turns direct",
+   "moonSign": "Moon enters {r}",
+   "at": "at {t}",
+   "bhadra": "Bhadra",
+   "panchak": "Panchak",
+   "allDay": "all day",
+   "fromT": "from {t}",
+   "chandrashtama": "Chandrashtama",
+   "p_ekadashi": "Ekadashi fast: avoid rice and grains, worship Vishnu.",
+   "p_purnima": "Purnima: good for Satyanarayan katha, charity and Moon puja.",
+   "p_amavasya": "Amavasya: offer water and til to ancestors; avoid new purchases.",
+   "p_pradosh": "Pradosh: worship Shiva at sunset.",
+   "p_sankashti": "Sankashti: fast for Ganesha and break it after moonrise.",
+   "p_sankranti": "Sankranti: bathe early, donate and offer water to the Sun.",
+   "p_eclipse": "Eclipse: avoid eating during sutak, chant mantras, then bathe and donate.",
+   "p_guruPushya": "Guru Pushya: excellent for buying gold and starting studies or business.",
+   "p_raviPushya": "Ravi Pushya: very good for buying gold and new beginnings.",
+   "p_sarvartha": "Sarvartha Siddhi Yoga {t}: good for starting important work.",
+   "p_ingress": "{g} changes sign: read your Rashifal for what it brings.",
+   "p_retro": "{g} retrograde: review and re-check, don't rush new commitments.",
+   "p_direct": "{g} turns direct: delayed matters start moving again.",
+   "p_bhadra": "Bhadra {a}–{b}: avoid auspicious beginnings and ceremonies.",
+   "p_panchak": "Panchak: avoid starting roof work, buying wood or fuel, and travel towards the south.",
+   "p_rahu": "Rahu Kaal {a}–{b}: don't start new work, travel or purchases.",
+   "p_abhijit": "Abhijit muhurat {a}–{b}: the best time of the day for important tasks.",
+   "p_chandrashtama": "{x}: Chandrashtama — keep the day light, avoid big decisions.",
+   "p_festival": "{f}: {a}",
+   "caption": "What's special – {d}"
+  }
  },
  "soc": {
   "title": "Today's Rashifal – {d}",
@@ -6460,12 +6502,13 @@
   "copied": "Caption copied",
   "lede": "Today's cards in all 6 languages for Instagram and Facebook. Tap an image to download it, then copy the caption for that language.",
   "reelsH": "Reels — all 6 languages in one reel",
-  "reelsLede": "Pick any date and a music track. Daily reels use that day; the weekly reel covers the 7 days from that date and the festival reel the 14 days from it. In each language the summary card builds up line by line, then slides up to a detail card, then swipes to the next language and ends on the website. About a minute. Made right here in your browser; nothing is saved on the server.",
+  "reelsLede": "Pick the day the reel is for — today, tomorrow, the day after, next week or any future date. Daily reels use that day, the weekly reel the 7 days from it and the festival reel the 14 days from it. The special-day reel shows what is special that day (festival, vrat, eclipse, Sarvartha Siddhi or Pushya yoga, planets changing sign or turning retrograde) and the precautions (Bhadra, Panchak, Rahu Kaal, Chandrashtama) with remedies. Each language builds up line by line, slides to a detail card, then swipes to the next language. Made here in your browser; nothing is saved on the server.",
   "reel": {
    "rashifal": "Rashifal reel (all 12 signs)",
    "panchang": "Panchang reel",
    "week": "Weekly Rashifal reel (next 7 days)",
-   "fest": "Festivals & vrats reel (next 14 days)"
+   "fest": "Festivals & vrats reel (next 14 days)",
+   "day": "Special day reel — events, yogas & precautions"
   },
   "reelHint": "Tap “Make reel” — it takes about 20–60 seconds.",
   "make": "Make reel",
@@ -6487,6 +6530,12 @@
   },
   "noAudio": "This browser could not add the music, so the reel is silent. Add music in Instagram, or use Chrome on a computer.",
   "opusAudio": "Music added in Opus format. If Instagram removes the sound, use Chrome on Windows or Mac, or add the music in Instagram.",
-  "why": "Details: {e}"
+  "why": "Details: {e}",
+  "q": {
+   "today": "Today",
+   "tomorrow": "Tomorrow",
+   "dayAfter": "Day after",
+   "nextWeek": "Next week (Mon)"
+  }
  }
 }
