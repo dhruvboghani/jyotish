@@ -570,7 +570,8 @@ function mdPreview(md) {
   fp(); fl(); fq(); return out.join('');
 }
 // ---------- Social: today's Rashifal and Panchang images in all 6 languages, with captions to copy ----------
-const SOC_LANGS = [['en', 'English'], ['hi', 'हिन्दी'], ['gu', 'ગુજરાતી'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['kn', 'ಕನ್ನಡ']];
+// Reel order: Hindi first, English last
+const SOC_LANGS = [['hi', 'हिन्दी'], ['gu', 'ગુજરાતી'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['kn', 'ಕನ್ನಡ'], ['en', 'English']];
 const SOC_MUSIC = [['om-dhyan', 'om'], ['bansuri-yaman', 'bansuri'], ['shanti', 'shanti'], ['none', 'none']];
 const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777], ['Ahmedabad', 23.0225, 72.5714], ['Surat', 21.1702, 72.8311], ['Bengaluru', 12.9716, 77.5946], ['Chennai', 13.0827, 80.2707], ['Hyderabad', 17.385, 78.4867], ['Kolkata', 22.5726, 88.3639], ['Pune', 18.5204, 73.8567], ['Jaipur', 26.9124, 75.7873], ['Lucknow', 26.8467, 80.9462], ['Varanasi', 25.3176, 82.9739]];
 const loadScript = src => new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); document.querySelectorAll(`script[src^="${src.split('?')[0]}"]`).forEach(x => x.remove()); const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => no(new Error(src)); document.head.appendChild(el); });
