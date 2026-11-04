@@ -1,11 +1,16 @@
 """Original devotional background music for the reels (synthesised here, so no copyright issues).
-   python3 scripts/make-music.py  → static/music/{om-dhyan,bansuri-yaman,shanti}.mp3  (75 s, 44.1 kHz stereo)
+   python3 scripts/make-music.py  → static/music/<name>.mp3   60 s preview for the admin picker
+                                  static/music/<name>.aac   150 s AAC-LC (ADTS, 44.1 kHz stereo), no fade-out
+                                  static/music/<name>/tNNN.aac  fade-out tails, one per even reel length NNN = 16…150 s
+   The reel maker copies the AAC frames straight into the MP4 (no audio encoder in the browser, which iOS Safari got wrong):
+   body frames up to the tail's start, then the tail's frames. Both are cut from the same PCM on the same 1024-sample grid,
+   so the splice is seamless and the music fades out exactly at the end of the reel.
    Sa = C# (138.6 Hz). Tanpura with jawari shimmer, temple bells, a bansuri-style flute in Raga Yaman,
    a shruti box drone and singing bowls, all through a soft hall reverb."""
 import numpy as np, subprocess, os, sys
 from scipy.signal import fftconvolve, butter, sosfilt
 
-SR, DUR = 44100, 75.0
+SR, DUR = 44100, 150.0
 N = int(SR * DUR)
 SA = 138.59
 rng = np.random.default_rng(7)
@@ -87,15 +92,32 @@ def tanpura_layer(buf, gain=0.5, cycle=4.4):
         add(buf, cache[f], t0 + rng.uniform(-0.02, 0.02), pan, gain * (1.0 if k % 4 else 0.85))
         t0 += cycle / 4; k += 1
 
+FRAME, LEAD, FADE = 1024, 2, 2.2  # AAC frame size, encoder warm-up frames dropped from each tail, fade-out seconds
+TAILS = range(16, 151, 2)
+
+def encode(pcm, path, fmt):
+    raw = (np.clip(pcm, -1, 1).T * 32767).astype('<i2').tobytes()
+    codec = ['-c:a', 'libmp3lame', '-b:a', '128k'] if fmt == 'mp3' else ['-c:a', 'aac', '-b:a', '128k', '-f', 'adts']
+    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 's16le', '-ar', str(SR), '-ac', '2', '-i', '-', *codec, path], input=raw, check=True)
+
+def tail_start(T):  # first sample of a tail's PCM: on the frame grid, LEAD frames before the splice, splice before the fade
+    return (int((T - FADE - 0.2) * SR) // FRAME - LEAD) * FRAME
+
 def master(buf, name):
     buf = reverb(buf)
     buf /= np.max(np.abs(buf)) / 0.89
-    fade = int(2.5 * SR); buf[:, :int(1.5 * SR)] *= np.linspace(0, 1, int(1.5 * SR)); buf[:, -fade:] *= np.linspace(1, 0, fade)
-    os.makedirs(OUT, exist_ok=True)
-    raw = (buf.T * 32767).astype('<i2').tobytes()
-    path = os.path.join(OUT, name + '.mp3')
-    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 's16le', '-ar', str(SR), '-ac', '2', '-i', '-', '-c:a', 'libmp3lame', '-b:a', '128k', path], input=raw, check=True)
-    print('wrote', path, os.path.getsize(path) // 1024, 'KB')
+    buf[:, :int(1.5 * SR)] *= np.linspace(0, 1, int(1.5 * SR))
+    buf *= 0.9
+    os.makedirs(os.path.join(OUT, name), exist_ok=True)
+    prev = buf[:, :60 * SR].copy(); f = int(2.5 * SR); prev[:, -f:] *= np.linspace(1, 0, f)
+    encode(prev, os.path.join(OUT, name + '.mp3'), 'mp3')
+    encode(buf, os.path.join(OUT, name + '.aac'), 'aac')
+    for T in TAILS:
+        s0, end = tail_start(T), int(T * SR)
+        seg = buf[:, s0:end].copy(); n = int(FADE * SR)
+        seg[:, -n:] *= np.linspace(1, 0, n) ** 1.6
+        encode(seg, os.path.join(OUT, name, 't%03d.aac' % T), 'aac')
+    print('wrote', name)
 
 def om_dhyan():
     buf = np.zeros((2, N)); tanpura_layer(buf, 0.55)

@@ -21,7 +21,7 @@ execFileSync(process.execPath, [path.join(ROOT, 'build.js')], { cwd: ROOT, stdio
 console.log('2/5 Copying into mobile/www…');
 fs.rmSync(WWW, { recursive: true, force: true });
 const SKIP = new Set(['sw.js', 'robots.txt', 'sitemap.xml']);
-fs.cpSync(PUB, WWW, { recursive: true, filter: src => !SKIP.has(path.basename(src)) || path.dirname(src) !== PUB });
+fs.cpSync(PUB, WWW, { recursive: true, filter: src => (!SKIP.has(path.basename(src)) || path.dirname(src) !== PUB) && !src.startsWith(path.join(PUB, 'music')) }); // reel music is admin-only (web)
 fs.mkdirSync(path.join(WWW, 'vendor'), { recursive: true });
 fs.mkdirSync(path.join(WWW, 'assets', 'i18n'), { recursive: true });
 fs.copyFileSync(path.join(ROOT, 'node_modules/@supabase/supabase-js/dist/umd/supabase.js'), path.join(WWW, 'vendor/supabase.js'));

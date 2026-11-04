@@ -684,7 +684,7 @@ function socialPanel(body) {
     try {
       await loadScript('/assets/mp4-muxer.js?v=' + ASSET_V); await loadScript('/assets/reelmaker.js?v=' + ASSET_V); // versioned so phones never mix an old maker with a new page
       const card = (k, l) => { const u = img(k, l, 'story') + '&theme=modern'; return { full: u, base: u + '&part=base' }; };
-      const music = st.music && st.music !== 'none' ? '/music/' + st.music + '.mp3' : null;
+      const music = st.music && st.music !== 'none' ? '/music/' + st.music : null; // reelmaker adds .aac / tails
       const muh3 = kind === 'day' && !!(st.xcaps.day.en && st.xcaps.day.en.hasFest); // festival / vrat day: a third card with the best muhurats
       const res = await window.GVReel.make({
         cards: SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: muh3 ? 3 : 2, outro: card('outro', 'en'), music,
