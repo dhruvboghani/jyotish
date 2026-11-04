@@ -577,7 +577,7 @@ const SOC_CITIES = [['New Delhi', 28.6139, 77.209], ['Mumbai', 19.076, 72.8777],
 const loadScript = src => new Promise((ok, no) => { if (document.querySelector(`script[src="${src}"]`)) return ok(); document.querySelectorAll(`script[src^="${src.split('?')[0]}"]`).forEach(x => x.remove()); const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => no(new Error(src)); document.head.appendChild(el); });
 // One caption for an all-language reel: a line per language, the website and a balanced set of hashtags
 // Reel captions written for reach: a hook (Hindi + English) in the first lines Instagram shows, keywords in the text,
-// a comment prompt, save/share and follow prompts, then 5 hashtags (Instagram's limit). Facebook gets the real link and 3 tags.
+// a comment prompt, save/share and follow prompts, the site address, then 5 hashtags (Instagram's limit) — one caption for Instagram and Facebook.
 const RC_HOOK = {
   day: { hi: { today: 'आज का दिन कैसा है? 🤔', tomorrow: 'कल का दिन कैसा रहेगा? 🤔', other: '{d} को क्या खास है? 🤔' }, en: 'What’s special {w}? Read before you start anything 👇' },
   rashifal: { hi: { today: 'आज किस राशि की किस्मत चमकेगी? ✨', tomorrow: 'कल किस राशि की किस्मत चमकेगी? ✨', other: '{d} – किस राशि की किस्मत चमकेगी? ✨' }, en: 'Which signs are lucky {w}? Find yours 👇' },
@@ -621,7 +621,7 @@ function reelCaption(kind, caps, extra2, opts = {}) {
   if (kind === 'rashifal') details = [pick('en', /^🌟/), pick('en', /^🙏/)].map(v => rel === 'today' ? v : v.replace(/\btoday\b/i, rel === 'tomorrow' ? 'tomorrow' : 'on ' + dEn));
   else if (kind === 'panchang') details = [pick('en', /^🪔/)];
   else details = ((x.en && x.en.lines) || []).filter(v => !/^• /.test(v) || kind !== 'day').slice(0, kind === 'fest' ? 9 : 7);
-  if (kind === 'day') details = ((x.en && x.en.lines) || []).slice(0, 8);
+  if (kind === 'day') details = ((x.en && x.en.lines) || []).slice(0, 7).concat((x.en && x.en.muh && x.en.muh.length) ? ['', '🕉️ Best muhurat | श्रेष्ठ मुहूर्त:', ...x.en.muh] : []);
   const titles = kind === 'rashifal' ? (rel === 'today' ? SOC_LANGS.map(([l]) => pick(l, /^✨/)) : []) : kind === 'panchang' ? [] : SOC_LANGS.map(([l]) => x[l] && x[l].title);
   const evTag = eventTag((x.en && x.en.lines) || []) || (kind === 'day' ? '#rahukaal' : '#vrat');
   const tags = RC_TAGS[kind].map(v => v || evTag);
@@ -630,10 +630,10 @@ function reelCaption(kind, caps, extra2, opts = {}) {
     ...details.filter(Boolean), '',
     ...titles.filter(Boolean).slice(0, 2), '🗣️ हिन्दी · ગુજરાતી · தமிழ் · తెలుగు · ಕನ್ನಡ · English', '',
     RC_ASK[kind],
-    ig ? `➕ Follow ${ig} — रोज़ राशिफल और पंचांग | Daily Rashifal & Panchang` : null,
-    opts.fb ? `🔗 Free Kundali, matching & Panchang in 6 languages: https://${host}` : '🔗 Free Kundali in 6 languages — link in bio',
+    `➕ Follow Grahavani${ig ? ' (Instagram ' + ig + ' · Facebook)' : ''} — रोज़ राशिफल और पंचांग | Daily Rashifal & Panchang`,
+    `🔗 Free Kundali in 6 languages: ${host} (link in bio)`,
     '',
-    (opts.fb ? [tags[0], tags[1], tags[4]] : tags).join(' ')
+    tags.join(' ')
   ];
   return body.filter(v => v !== null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
@@ -656,7 +656,7 @@ function socialPanel(body) {
     <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-      <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea><div class="soc-acts"><button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copyIg'))}</button><button type="button" class="btn-line soc-copy" data-fbcopy="${k}">${ic('i-doc')}${esc(t('socad.copyFb'))}</button></div></section>`).join('')}</div>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>`).join('')}</div>
     <h3 class="sub-h soc-h">${ic('i-download')}${esc(t('socad.imagesH'))}</h3>
     <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="story" aria-pressed="true">${esc(t('sc.story'))}</button><button type="button" data-fmt="post" aria-pressed="false">${esc(t('sc.post'))}</button></div>
     <div id="soc-grid" class="soc-grid"></div>`;
@@ -675,8 +675,7 @@ function socialPanel(body) {
     })));
     if (want !== st.date + st.city) return;
     const copt = { date: st.date, today, tomorrow: plus(1) };
-    st.fbcap = {};
-    REELS.forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps, st.xcaps[k], copt); st.fbcap[k] = reelCaption(k, st.caps, st.xcaps[k], { ...copt, fb: true }); });
+    REELS.forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps, st.xcaps[k], copt); });
   };
   async function makeReel(kind, btn) {
     const sec = btn.closest('.soc-reel'), box = sec.querySelector('.soc-vid');
@@ -686,8 +685,9 @@ function socialPanel(body) {
       await loadScript('/assets/mp4-muxer.js?v=' + ASSET_V); await loadScript('/assets/reelmaker.js?v=' + ASSET_V); // versioned so phones never mix an old maker with a new page
       const card = (k, l) => { const u = img(k, l, 'story') + '&theme=modern'; return { full: u, base: u + '&part=base' }; };
       const music = st.music && st.music !== 'none' ? '/music/' + st.music + '.mp3' : null;
+      const muh3 = kind === 'day' && !!(st.xcaps.day.en && st.xcaps.day.en.hasFest); // festival / vrat day: a third card with the best muhurats
       const res = await window.GVReel.make({
-        cards: SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l)]), per: 2, outro: card('outro', 'en'), music,
+        cards: SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: muh3 ? 3 : 2, outro: card('outro', 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
@@ -725,8 +725,6 @@ function socialPanel(body) {
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   body.addEventListener('click', async e => {
     const mk = e.target.closest('[data-make]'); if (mk) return makeReel(mk.dataset.make, mk);
-    const fb = e.target.closest('[data-fbcopy]');
-    if (fb) { const v = (st.fbcap || {})[fb.dataset.fbcopy] || ''; try { await navigator.clipboard.writeText(v); } catch (err) { } toast(t('socad.copied')); return; }
     const b = e.target.closest('[data-copy],[data-rcopy]'); if (!b) return;
     const ta = b.dataset.copy ? $(`[data-cap="${b.dataset.copy}"]`) : $(`[data-rcap="${b.dataset.rcopy}"]`);
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }

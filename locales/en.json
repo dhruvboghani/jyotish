@@ -6473,7 +6473,29 @@
    "p_abhijit": "Abhijit muhurat {a}–{b}: the best time of the day for important tasks.",
    "p_chandrashtama": "{x}: Chandrashtama — keep the day light, avoid big decisions.",
    "p_festival": "{f}: {a}",
-   "caption": "What's special – {d}"
+   "caption": "What's special – {d}",
+   "muhH": "Best muhurat of the day",
+   "muhFestH": "{f}: best muhurat",
+   "pujaWin": "Puja muhurat",
+   "puja_pradosh": "Pradosh Kaal puja",
+   "puja_nishita": "Nishita Kaal puja",
+   "puja_madhyahna": "Madhyahna puja",
+   "puja_aparahna": "Aparahna puja",
+   "puja_morning": "Morning puja",
+   "puja_diwaliLagna": "Lakshmi Puja (Pradosh Kaal)",
+   "puja_moonrise": "Puja before moonrise",
+   "puja_prahar": "Night puja (first prahar)",
+   "sthir": "Sthir Lagna (Vrishabha)",
+   "use_sthir": "Most auspicious time for Lakshmi Puja",
+   "moonrise": "Moonrise",
+   "use_moonrise": "Offer arghya to the Moon and break the fast",
+   "chogh": "{n} Choghadiya",
+   "use_Amrit": "Best for every auspicious work",
+   "use_Labh": "Good for buying, business and gains",
+   "use_Shubh": "Good for puja, ceremonies and new starts",
+   "use_abhijit": "Best time for important work",
+   "use_puja": "Main puja time for {f}",
+   "use_avoid": "Don't start anything new or buy in this window"
   }
  },
  "soc": {
@@ -6508,7 +6530,7 @@
    "panchang": "Panchang reel",
    "week": "Weekly Rashifal reel (next 7 days)",
    "fest": "Festivals & vrats reel (next 14 days)",
-   "day": "Special day reel — events, yogas & precautions"
+   "day": "Special day reel — events, best muhurat & precautions"
   },
   "reelHint": "Tap “Make reel” — it takes about 20–60 seconds.",
   "make": "Make reel",
@@ -6538,6 +6560,7 @@
    "nextWeek": "Next week (Mon)"
   },
   "copyIg": "Copy for Instagram",
-  "copyFb": "Copy for Facebook"
+  "copyFb": "Copy for Facebook",
+  "copyBoth": "Copy caption (Instagram & Facebook)"
  }
 }
