@@ -1,0 +1,1 @@
+module.exports = { socad: { reel: { wish: "Festival wishes reel — greet your followers" }, wishFest: "Festival", wishLede: "One festive greeting card per language (Hindi first, English last) with the puja muhurat, then the Grahavani card. Post it on the festival morning.", wishNone: "No festivals in the next few months.", wishOther: "(general greeting)" } };

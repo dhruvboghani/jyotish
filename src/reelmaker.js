@@ -2,7 +2,7 @@
    (the same card with its rows cleared) and the rows' rectangles (X-Bands header). Rows pop in one by one, the summary
    card slides up into the detail card, languages swipe left, then the outro. Optional music: pre-encoded AAC
    (static/music) copied into the MP4 with a fade-out made for the reel's length. WebCodecs + mp4-muxer, all in the browser; nothing is stored.
-   window.GVReel.make({ cards: [{ full, base }], per, outro, music, onProgress }) → Promise<{ blob, audio, seconds }> */
+   window.GVReel.make({ cards: [{ full, base }], per, hold, outro, music, onProgress }) → Promise<{ blob, audio, seconds }> */
 (function () {
   const W = 1080, H = 1920, FPS = 30, SWIPE = 0.5, OUTRO = 3.6, ACCENT = '#E0701B';
   const ease = x => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
@@ -60,10 +60,10 @@
   }
 
   // When each band starts to appear, and how long the card stays on screen
-  function plan(card, isDetail) {
+  function plan(card, isDetail, hold) {
     const n = card.bands.length, stag = n > 1 ? Math.min(0.12, 1.5 / (n - 1)) : 0;
     const starts = card.bands.map((_, i) => 0.25 + i * stag), shown = starts.length ? starts[starts.length - 1] + 0.45 : 0.3;
-    return { starts, dur: shown + (isDetail ? 3.4 : 2.6) };
+    return { starts, dur: shown + (hold != null ? hold : isDetail ? 3.4 : 2.6) };
   }
   // Base card, then each band of the finished card rising into place
   function drawCard(x, c, pl, local, dx = 0, dy = 0, alpha = 1) {
@@ -85,14 +85,14 @@
     }
   }
 
-  async function make({ cards, per = 2, outro, music, onProgress = () => { } }) {
+  async function make({ cards, per = 2, hold, outro, music, onProgress = () => { } }) {
     if (!supported()) throw new Error('unsupported');
     const vc = await videoCodec(); if (!vc) throw new Error('unsupported');
     onProgress(0, 'load');
     let got = 0; const nCards = cards.length + 1;
     const loaded = await inBatches(cards, 4, async c => { const r = await loadCard(c); onProgress(++got / nCards * 0.2, 'load'); return r; }), out = await loadCard(outro);
     await decode(out);
-    const plans = loaded.map((c, i) => plan(c, per > 1 && i % per === per - 1)), oPlan = plan(out, false);
+    const plans = loaded.map((c, i) => plan(c, per > 1 && i % per === per - 1, hold)), oPlan = plan(out, false);
     const starts = []; let tt = 0; plans.forEach(p => { starts.push(tt); tt += p.dur; });
     const body = tt, n = loaded.length, groups = Math.ceil(n / per);
     const total = Math.max(TMIN, Math.ceil((body + Math.max(OUTRO, oPlan.dur - 1)) / 2) * 2); // even seconds, to match a music tail

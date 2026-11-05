@@ -6530,7 +6530,8 @@
    "panchang": "Panchang reel",
    "week": "Weekly Rashifal reel (next 7 days)",
    "fest": "Festivals & vrats reel (next 14 days)",
-   "day": "Special day reel — events, best muhurat & precautions"
+   "day": "Special day reel — events, best muhurat & precautions",
+   "wish": "Festival wishes reel — greet your followers"
   },
   "reelHint": "Tap “Make reel” — it takes about 20–60 seconds.",
   "make": "Make reel",
@@ -6561,6 +6562,10 @@
   },
   "copyIg": "Copy for Instagram",
   "copyFb": "Copy for Facebook",
-  "copyBoth": "Copy caption (Instagram & Facebook)"
+  "copyBoth": "Copy caption (Instagram & Facebook)",
+  "wishFest": "Festival",
+  "wishLede": "One festive greeting card per language (Hindi first, English last) with the puja muhurat, then the Grahavani card. Post it on the festival morning.",
+  "wishNone": "No festivals in the next few months.",
+  "wishOther": "(general greeting)"
  }
 }

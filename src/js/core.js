@@ -637,9 +637,27 @@ function reelCaption(kind, caps, extra2, opts = {}) {
   ];
   return body.filter(v => v !== null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
+// Festival wishes reel caption: greeting in Hindi + English, the blessings, the puja muhurat, greetings in the other
+// languages, a comment prompt ("type Happy Diwali"), follow + site, then 5 hashtags
+function wishCaption(x) {
+  const hi = x.hi || {}, en = x.en || {}, host = SITE_ORIGIN.replace(/^https?:\/\//, ''), ig = (window.KG_CONFIG && KG_CONFIG.social && KG_CONFIG.social.instagram) ? '@' + KG_CONFIG.social.instagram.handle : '';
+  if (!en.greet) return '…';
+  const em = en.art === 'sun' ? '☀️' : en.art === 'colours' ? '🎨' : '🪔';
+  const tags = (en.tags || []).slice(0, 3).concat('#indianfestival', '#grahavani');
+  return [
+    `${em} ${hi.greet}! ${en.greet}! ✨`, '',
+    hi.bless, en.bless, '',
+    ...(en.muh && en.muh.length && en.onDay ? [`🕉️ पूजा मुहूर्त | Puja muhurat (${en.city}):`, ...en.muh.map(v => '• ' + v), ''] : []),
+    '🗣️ ' + ['gu', 'ta', 'te', 'kn'].map(l => x[l] && x[l].greet).filter(Boolean).join(' · '), '',
+    `👇 कमेंट में "${hi.greet}" लिखें और अपनों को भेजें 🙏 | Type “${en.greet}” in the comments & share with your family`,
+    `➕ Follow Grahavani${ig ? ' (Instagram ' + ig + ' · Facebook)' : ''} — रोज़ राशिफल और पंचांग | Daily Rashifal & Panchang`,
+    `🔗 Free Kundali in 6 languages: ${host} (link in bio)`, '',
+    tags.join(' ')
+  ].filter(v => v != null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {} };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -653,6 +671,11 @@ function socialPanel(body) {
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
     <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
+    <section class="card soc-reel soc-wish" data-reel="wish"><h4>${esc(t('socad.reel.wish'))}</h4><p class="muted small">${esc(t('socad.wishLede'))}</p>
+      <div class="field"><label for="soc-wfest">${esc(t('socad.wishFest'))}</label><select id="soc-wfest"><option>…</option></select></div>
+      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
     <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
@@ -662,7 +685,7 @@ function socialPanel(body) {
     <div id="soc-grid" class="soc-grid"></div>`;
   const cityQ = () => { const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0]; return encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`); };
   const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${/^(panchang|fest|day)/.test(kind) ? '&city=' + cityQ() : ''}`);
-  const resetReels = () => $$('.soc-reel').forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
+  const resetReels = (sel = '.soc-reel:not(.soc-wish)') => $$(sel).forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
   const draw = async () => {
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
       <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea><button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('');
@@ -677,6 +700,21 @@ function socialPanel(body) {
     const copt = { date: st.date, today, tomorrow: plus(1) };
     REELS.forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps, st.xcaps[k], copt); });
   };
+  const drawWish = async () => {
+    const ta = $('[data-rcap="wish"]'); if (!st.wish) { ta.value = '…'; return; }
+    const want = st.wish.id + st.wish.date + st.city; ta.value = '…';
+    await Promise.all(SOC_LANGS.map(async ([l]) => { try { st.wcaps[l] = await api(`/api/social/?caption=1&kind=wish&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}`); } catch (e) { st.wcaps[l] = null; } }));
+    if (want === st.wish.id + st.wish.date + st.city) ta.value = wishCaption(st.wcaps);
+  };
+  const loadWishes = async () => {
+    const sel = $('#soc-wfest');
+    try { st.wishes = (await api(`/api/social/?caption=1&kind=wishlist&lang=en&date=${today}&city=${cityQ()}`)).list || []; } catch (e) { st.wishes = []; }
+    if (!st.wishes.length) { sel.innerHTML = `<option>${esc(t('socad.wishNone'))}</option>`; return; }
+    const fmtD = d => new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', weekday: 'short', timeZone: 'UTC' }).format(new Date(d + 'T00:00:00Z'));
+    sel.innerHTML = st.wishes.map((w, i) => `<option value="${i}">${esc(fmtD(w.date) + ' — ' + w.name + (w.known ? '' : ' ' + t('socad.wishOther')))}</option>`).join('');
+    st.wish = st.wishes.find(w => w.known) || st.wishes[0]; sel.value = String(st.wishes.indexOf(st.wish));
+    drawWish();
+  };
   async function makeReel(kind, btn) {
     const sec = btn.closest('.soc-reel'), box = sec.querySelector('.soc-vid');
     btn.disabled = true; sec.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove());
@@ -686,14 +724,16 @@ function socialPanel(body) {
       const card = (k, l) => { const u = img(k, l, 'story') + '&theme=modern'; return { full: u, base: u + '&part=base' }; };
       const music = st.music && st.music !== 'none' ? '/music/' + st.music : null; // reelmaker adds .aac / tails
       const muh3 = kind === 'day' && !!(st.xcaps.day.en && st.xcaps.day.en.hasFest); // festival / vrat day: a third card with the best muhurats
+      const wcard = l => { const u = apiUrl(`/api/social/?img=wish&fmt=story&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
-        cards: SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: muh3 ? 3 : 2, outro: card('outro', 'en'), music,
+        cards: kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'wish' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : undefined, outro: card('outro', 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -704,7 +744,7 @@ function socialPanel(body) {
         acts.insertAdjacentHTML('beforeend', `<button type="button" class="btn-line soc-share">${ic('i-link')}${esc(t('sc.share'))}</button>`);
         acts.querySelector('.soc-share').onclick = () => navigator.share({ files: [file], text: sec.querySelector('.soc-cap').value }).catch(() => { });
       }
-      track('social_reel', { kind, date: st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
+      track('social_reel', { kind, fest: kind === 'wish' ? st.wish.id : undefined, date: kind === 'wish' ? st.wish.date : st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
     } catch (e) {
       const why = e && e.message === 'unsupported' ? '' : String((e && (e.message || e.name)) || e || '').slice(0, 160);
       box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>${why ? `<p class="muted small">${esc(t('socad.why', { e: why }))}</p>` : ''}`;
@@ -721,7 +761,8 @@ function socialPanel(body) {
   const syncQuick = () => $$('#soc-quick button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.d === st.date)));
   $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); }));
   $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); });
-  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels(); draw(); });
+  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); });
+  $('#soc-wfest').addEventListener('change', e => { st.wish = st.wishes[+e.target.value] || null; resetReels('.soc-wish'); drawWish(); });
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   body.addEventListener('click', async e => {
     const mk = e.target.closest('[data-make]'); if (mk) return makeReel(mk.dataset.make, mk);
@@ -730,7 +771,7 @@ function socialPanel(body) {
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
     toast(t('socad.copied'));
   });
-  draw();
+  draw(); loadWishes();
 }
 
 async function blogPanel(body) {
