@@ -657,7 +657,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {} };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear() } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -671,11 +671,31 @@ function socialPanel(body) {
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
     <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
+    <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
+      <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea><button type="button" class="btn-line soc-copy" id="soc-ccopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
     <section class="card soc-reel soc-wish" data-reel="wish"><h4>${esc(t('socad.reel.wish'))}</h4><p class="muted small">${esc(t('socad.wishLede'))}</p>
       <div class="field"><label for="soc-wfest">${esc(t('socad.wishFest'))}</label><select id="soc-wfest"><option>…</option></select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
       <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+    <section class="card soc-nu"><h4>${esc(t('socad.nu.h'))}</h4><p class="muted small">${esc(t('socad.nu.lede'))}</p>
+      <div class="field"><label for="soc-nuy">${esc(t('socad.nu.year'))}</label><select id="soc-nuy">${[0, 1].map(k => { const y = new Date().getFullYear() + k; return `<option value="${y}"${y === st.nu.y ? ' selected' : ''}>${y}</option>`; }).join('')}</select></div>
+      <div class="soc-reels">
+        <section class="card soc-reel soc-nur" data-reel="nuall"><h4>${esc(t('socad.nu.all'))}</h4>
+          <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+          <div class="soc-acts"><button type="button" class="btn-cta" data-make="nuall"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="nuall">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="nuall">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+        <section class="card soc-reel soc-nur" data-reel="mulank"><h4>${esc(t('socad.nu.one'))}</h4>
+          <div class="field"><label for="soc-nun">${esc(t('socad.nu.num'))}</label><select id="soc-nun">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<option value="${n}">${esc(t('socad.nu.num'))} ${n}</option>`).join('')}</select></div>
+          <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+          <div class="soc-acts"><button type="button" class="btn-cta" data-make="mulank"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="mulank">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="mulank">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+      </div>
+      <section class="card soc-reply"><h4>${esc(t('socad.nu.replyH'))}</h4><p class="muted small">${esc(t('socad.nu.replyLede'))}</p>
+        <div class="soc-row"><div class="field"><label for="soc-dob">${esc(t('socad.nu.dob'))}</label><input id="soc-dob" inputmode="numeric" placeholder="16-08-1995" autocomplete="off"></div>
+        <div class="field"><label for="soc-rl">${esc(t('socad.nu.replyLang'))}</label><select id="soc-rl">${SOC_LANGS.map(([l, n]) => `<option value="${l}">${esc(n)}</option>`).join('')}</select></div></div>
+        <textarea class="soc-cap" rows="5" readonly id="soc-reply"></textarea><button type="button" class="btn-line soc-copy" id="soc-rcopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
+    </section>
     <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
@@ -686,7 +706,7 @@ function socialPanel(body) {
   const cityQ = () => { const c = SOC_CITIES.find(x => x[0] === st.city) || SOC_CITIES[0]; return encodeURIComponent(`${c[0]}|${c[1]}|${c[2]}|330`); };
   const img = (kind, lang, fmt = st.fmt) => apiUrl(`/api/social/?img=${kind}&fmt=${fmt}&lang=${lang}&date=${st.date}${/^(panchang|fest|day)/.test(kind) ? '&city=' + cityQ() : ''}`);
   const resetReels = (sel = '.soc-reel:not(.soc-wish)') => $$(sel).forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
-  const draw = async () => {
+  const draw = async () => { drawChan();
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
       <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea><button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('');
     const want = st.date + st.city;
@@ -715,6 +735,19 @@ function socialPanel(body) {
     st.wish = st.wishes.find(w => w.known) || st.wishes[0]; sel.value = String(st.wishes.indexOf(st.wish));
     drawWish();
   };
+  const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = r.text; }).catch(() => { ta.value = '—'; }); };
+  const drawNu = async () => {
+    for (const [k, q] of [['nuall', 'mode=all'], ['mulank', `mode=one&n=${st.nu.n}`]]) {
+      const ta = $(`[data-rcap="${k}"]`); ta.value = '…';
+      api(`/api/social/?caption=1&kind=nu&${q}&y=${st.nu.y}`).then(r => { ta.value = r.caption; }).catch(() => { ta.value = '—'; });
+    }
+  };
+  let rTimer;
+  const drawReply = () => {
+    clearTimeout(rTimer); const out = $('#soc-reply'), v = $('#soc-dob').value.trim();
+    if (!v) { out.value = ''; return; }
+    rTimer = setTimeout(() => api(`/api/social/?caption=1&kind=reply&dob=${encodeURIComponent(v)}&lang=${$('#soc-rl').value}&y=${st.nu.y}`).then(r => { out.value = r.text; }).catch(() => { out.value = t('socad.nu.bad'); }), 350);
+  };
   async function makeReel(kind, btn) {
     const sec = btn.closest('.soc-reel'), box = sec.querySelector('.soc-vid');
     btn.disabled = true; sec.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove());
@@ -725,15 +758,16 @@ function socialPanel(body) {
       const music = st.music && st.music !== 'none' ? '/music/' + st.music : null; // reelmaker adds .aac / tails
       const muh3 = kind === 'day' && !!(st.xcaps.day.en && st.xcaps.day.en.hasFest); // festival / vrat day: a third card with the best muhurats
       const wcard = l => { const u = apiUrl(`/api/social/?img=wish&fmt=story&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      const ncard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${st.nu.n}&y=${st.nu.y}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
-        cards: kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'wish' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : undefined, outro: card('outro', 'en'), music,
+        cards: kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -744,7 +778,7 @@ function socialPanel(body) {
         acts.insertAdjacentHTML('beforeend', `<button type="button" class="btn-line soc-share">${ic('i-link')}${esc(t('sc.share'))}</button>`);
         acts.querySelector('.soc-share').onclick = () => navigator.share({ files: [file], text: sec.querySelector('.soc-cap').value }).catch(() => { });
       }
-      track('social_reel', { kind, fest: kind === 'wish' ? st.wish.id : undefined, date: kind === 'wish' ? st.wish.date : st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
+      track('social_reel', { kind, fest: kind === 'wish' ? st.wish.id : undefined, n: kind === 'mulank' ? st.nu.n : undefined, y: /^(nuall|mulank)$/.test(kind) ? st.nu.y : undefined, date: kind === 'wish' ? st.wish.date : st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
     } catch (e) {
       const why = e && e.message === 'unsupported' ? '' : String((e && (e.message || e.name)) || e || '').slice(0, 160);
       box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>${why ? `<p class="muted small">${esc(t('socad.why', { e: why }))}</p>` : ''}`;
@@ -762,6 +796,11 @@ function socialPanel(body) {
   $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); }));
   $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); });
   $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); });
+  $('#soc-nuy').addEventListener('change', e => { st.nu.y = +e.target.value; resetReels('.soc-nur'); drawNu(); drawReply(); });
+  $('#soc-nun').addEventListener('change', e => { st.nu.n = +e.target.value; resetReels('[data-reel="mulank"]'); drawNu(); });
+  $('#soc-dob').addEventListener('input', drawReply); $('#soc-rl').addEventListener('change', drawReply);
+  $('#soc-ccopy').addEventListener('click', async () => { const v = $('#soc-chan').value; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-chan').select(); document.execCommand('copy'); } toast(t('socad.copied')); });
+  $('#soc-rcopy').addEventListener('click', async () => { const v = $('#soc-reply').value; if (!v) return; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-reply').select(); document.execCommand('copy'); } toast(t('socad.copied')); });
   $('#soc-wfest').addEventListener('change', e => { st.wish = st.wishes[+e.target.value] || null; resetReels('.soc-wish'); drawWish(); });
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   body.addEventListener('click', async e => {
@@ -771,7 +810,7 @@ function socialPanel(body) {
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
     toast(t('socad.copied'));
   });
-  draw(); loadWishes();
+  draw(); loadWishes(); drawNu();
 }
 
 async function blogPanel(body) {

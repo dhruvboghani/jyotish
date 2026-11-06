@@ -6496,6 +6496,21 @@
    "use_abhijit": "Best time for important work",
    "use_puja": "Main puja time for {f}",
    "use_avoid": "Don't start anything new or buy in this window"
+  },
+  "nu": {
+   "allH": "All 9 Mulank in {y}",
+   "allSub": "Your Mulank is the date you were born on",
+   "yearH": "{y} for Mulank {n}",
+   "vib": "Year number {v} · {g}",
+   "theme": "Theme of the year",
+   "best": "Best months",
+   "care": "Take care in",
+   "noCare": "No difficult month",
+   "more": "Full prediction",
+   "ctaH": "Comment your date of birth",
+   "ctaSub": "We'll reply with your Mulank and {y} prediction",
+   "ctaFree": "Free numerology calculator",
+   "reply": "Your Mulank is {mu} ({g}) and your Bhagyank is {bh} ✨ {y} is personal year {py} for you: {pyt} Lucky numbers: {lucky} · Colours: {color} · Day: {day}. Full {y} prediction free: {url}"
   }
  },
  "soc": {
@@ -6566,6 +6581,23 @@
   "wishFest": "Festival",
   "wishLede": "One festive greeting card per language (Hindi first, English last) with the puja muhurat, then the Grahavani card. Post it on the festival morning.",
   "wishNone": "No festivals in the next few months.",
-  "wishOther": "(general greeting)"
+  "wishOther": "(general greeting)",
+  "nu": {
+   "h": "Numerology reels",
+   "lede": "Numerology is the most used tool on the site. The 'all 9' reel asks people to comment their date of birth; reply to each comment with the reply maker below.",
+   "year": "Year",
+   "all": "All 9 Mulank — comment reel",
+   "one": "Mulank reel",
+   "num": "Mulank",
+   "replyH": "Comment reply maker",
+   "replyLede": "Paste the date of birth from a comment and copy the reply.",
+   "dob": "Date of birth",
+   "replyLang": "Reply language",
+   "bad": "Enter a date like 16-08-1995"
+  },
+  "chan": {
+   "h": "Morning message — Instagram channel, WhatsApp, Facebook group",
+   "lede": "Post this every morning in your Instagram broadcast channel, WhatsApp status/groups and Facebook group. It follows the date and city above."
+  }
  }
 }
