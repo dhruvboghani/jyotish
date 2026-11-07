@@ -1,0 +1,1 @@
+module.exports = { sc: { nu: { monthH: "{m}માં મૂળાંક", monthSub: "દરેક જન્મ તારીખ માટે મહિનો કેવો રહેશે", mnum: "મહિનાનો અંક {v} · {g}", datesH: "{m}ની શુભ તારીખો", lucky: "શુભ", careful: "સાવધાન" } } };

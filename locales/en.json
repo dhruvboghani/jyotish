@@ -6510,7 +6510,14 @@
    "ctaH": "Comment your date of birth",
    "ctaSub": "We'll reply with your Mulank and {y} prediction",
    "ctaFree": "Free numerology calculator",
-   "reply": "Your Mulank is {mu} ({g}) and your Bhagyank is {bh} ✨ {y} is personal year {py} for you: {pyt} Lucky numbers: {lucky} · Colours: {color} · Day: {day}. Full {y} prediction free: {url}"
+   "reply": "Your Mulank is {mu} ({g}) and your Bhagyank is {bh} ✨ {y} is personal year {py} for you: {pyt} Lucky numbers: {lucky} · Colours: {color} · Day: {day}. Full {y} prediction free: {url}",
+   "monthH": "Mulank in {m}",
+   "monthSub": "How the month goes for each birth date",
+   "mnum": "Month number {v} · {g}",
+   "datesH": "Lucky dates in {m}",
+   "lucky": "Lucky",
+   "careful": "Careful",
+   "ctaSubM": "We'll reply with your Mulank and {m} prediction"
   }
  },
  "soc": {
@@ -6593,7 +6600,9 @@
    "replyLede": "Paste the date of birth from a comment and copy the reply.",
    "dob": "Date of birth",
    "replyLang": "Reply language",
-   "bad": "Enter a date like 16-08-1995"
+   "bad": "Enter a date like 16-08-1995",
+   "month": "Month-wise Mulank reel",
+   "monthSel": "Month"
   },
   "chan": {
    "h": "Morning message — Instagram channel, WhatsApp, Facebook group",

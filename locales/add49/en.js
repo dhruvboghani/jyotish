@@ -1,0 +1,1 @@
+module.exports = { sc: { nu: { monthH: "Mulank in {m}", monthSub: "How the month goes for each birth date", mnum: "Month number {v} · {g}", datesH: "Lucky dates in {m}", lucky: "Lucky", careful: "Careful", ctaSubM: "We'll reply with your Mulank and {m} prediction" } }, socad: { nu: { month: "Month-wise Mulank reel", monthSel: "Month" } } };
