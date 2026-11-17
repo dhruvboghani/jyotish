@@ -690,10 +690,10 @@ function socialPanel(body) {
           <option value="all">${esc(t('socad.yt.allLangs'))}</option>
         </select></div>
       </div>
-      <div class="field soc-yt-ctrl" id="soc-yt-f-sign"><label for="soc-yt-sign">${esc(t('socad.yt.sign'))}</label><select id="soc-yt-sign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}">${esc(rn)}</option>`).join('')}</select></div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-sign"><label for="soc-yt-sign">${esc(t('socad.yt.sign'))}</label><select id="soc-yt-sign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}">${esc(rName)}</option>`).join('')}</select></div>
       <div class="soc-row soc-yt-ctrl" id="soc-yt-f-match" style="display:none">
-        <div class="field"><label for="soc-yt-bsign">${esc(t('socad.yt.boySign'))}</label><select id="soc-yt-bsign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}">${esc(rn)}</option>`).join('')}</select></div>
-        <div class="field"><label for="soc-yt-gsign">${esc(t('socad.yt.girlSign'))}</label><select id="soc-yt-gsign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(rn)}</option>`).join('')}</select></div>
+        <div class="field"><label for="soc-yt-bsign">${esc(t('socad.yt.boySign'))}</label><select id="soc-yt-bsign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}">${esc(rName)}</option>`).join('')}</select></div>
+        <div class="field"><label for="soc-yt-gsign">${esc(t('socad.yt.girlSign'))}</label><select id="soc-yt-gsign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(rName)}</option>`).join('')}</select></div>
       </div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="yt"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.yt.make'))}</button></div>
