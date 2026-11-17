@@ -2072,4 +2072,5 @@ form.nu-check { margin: 0; }
 .soc-music .btn-line svg { width: 18px; height: 18px; }
 .soc-quick { margin: 4px 0 10px; }
 .soc-quick button { font-weight: 600; }
-.soc-reel[data-reel="day"] { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-soft, rgba(226,169,46,.25)), var(--shadow); }
+.soc-reel[data-reel="day"], .soc-reel[data-reel="yt"] { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-soft, rgba(226,169,46,.25)), var(--shadow); }
+.soc-yt select { width: 100%; }

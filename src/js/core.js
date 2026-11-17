@@ -657,7 +657,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, lang: 'hi', cap: null } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -678,6 +678,32 @@ function socialPanel(body) {
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
       <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+    <section class="card soc-reel soc-yt" data-reel="yt"><h4>${esc(t('socad.yt.h'))}</h4><p class="muted small">${esc(t('socad.yt.lede'))}</p>
+      <div class="soc-row">
+        <div class="field"><label for="soc-yt-theme">${esc(t('socad.yt.theme'))}</label><select id="soc-yt-theme">
+          <option value="sign">${esc(t('socad.yt.tSign'))}</option>
+          <option value="transit">${esc(t('socad.yt.tTransit'))}</option>
+          <option value="match">${esc(t('socad.yt.tMatch'))}</option>
+          <option value="gem">${esc(t('socad.yt.tGem'))}</option>
+        </select></div>
+        <div class="field"><label for="soc-yt-lang">${esc(t('socad.yt.lang'))}</label><select id="soc-yt-lang">
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="en">English</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="all">${esc(t('socad.yt.allLangs'))}</option>
+        </select></div>
+      </div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-sign"><label for="soc-yt-sign">${esc(t('socad.yt.sign'))}</label><select id="soc-yt-sign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}">${esc(rn)}</option>`).join('')}</select></div>
+      <div class="soc-row soc-yt-ctrl" id="soc-yt-f-match" style="display:none">
+        <div class="field"><label for="soc-yt-bsign">${esc(t('socad.yt.boySign'))}</label><select id="soc-yt-bsign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}">${esc(rn)}</option>`).join('')}</select></div>
+        <div class="field"><label for="soc-yt-gsign">${esc(t('socad.yt.girlSign'))}</label><select id="soc-yt-gsign">${(L('names.rashi') || []).map((rn, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(rn)}</option>`).join('')}</select></div>
+      </div>
+      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts"><button type="button" class="btn-cta" data-make="yt"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.yt.make'))}</button></div>
+      <textarea class="soc-cap" rows="8" readonly id="soc-yt-cap">…</textarea><button type="button" class="btn-line soc-copy" id="soc-yt-copy">${ic('i-doc')}${esc(t('socad.yt.copy'))}</button></section>
     <section class="card soc-nu"><h4>${esc(t('socad.nu.h'))}</h4><p class="muted small">${esc(t('socad.nu.lede'))}</p>
       <div class="field"><label for="soc-nuy">${esc(t('socad.nu.year'))}</label><select id="soc-nuy">${[0, 1].map(k => { const y = new Date().getFullYear() + k; return `<option value="${y}"${y === st.nu.y ? ' selected' : ''}>${y}</option>`; }).join('')}</select></div>
       <div class="soc-reels">
@@ -766,15 +792,18 @@ function socialPanel(body) {
       const wcard = l => { const u = apiUrl(`/api/social/?img=wish&fmt=story&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const [nmy, nmm] = st.nu.ym.split('-'), mq = kind === 'numonth' ? `&y=${nmy}&m=${nmm}` : `&y=${st.nu.y}`;
       const ncard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${st.nu.n}${mq}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      const ytLangs = st.yt.lang === 'all' ? SOC_LANGS.map(([l]) => l) : [st.yt.lang];
+      const ytTh = st.yt.theme, ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
-        cards: kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', 'en'), music,
+        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? 2 : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : kind === 'yt' ? 3.4 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -810,6 +839,36 @@ function socialPanel(body) {
   $('#soc-ccopy').addEventListener('click', async () => { const v = $('#soc-chan').value; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-chan').select(); document.execCommand('copy'); } toast(t('socad.copied')); });
   $('#soc-rcopy').addEventListener('click', async () => { const v = $('#soc-reply').value; if (!v) return; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-reply').select(); document.execCommand('copy'); } toast(t('socad.copied')); });
   $('#soc-wfest').addEventListener('change', e => { st.wish = st.wishes[+e.target.value] || null; resetReels('.soc-wish'); drawWish(); });
+  const syncYtFields = () => {
+    const th = st.yt.theme;
+    const fSign = $('#soc-yt-f-sign'), fMatch = $('#soc-yt-f-match');
+    if (fSign) fSign.style.display = (th === 'sign' || th === 'gem') ? '' : 'none';
+    if (fMatch) fMatch.style.display = (th === 'match') ? '' : 'none';
+  };
+  const drawYt = async () => {
+    const ta = $('#soc-yt-cap'); if (!ta) return;
+    ta.value = '…';
+    const lang = st.yt.lang === 'all' ? (LANG || 'en') : st.yt.lang;
+    const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}`;
+    try {
+      const r = await api(`/api/social/?caption=1&${q}`);
+      st.yt.cap = `${r.title}\n\n${r.description}`;
+      ta.value = st.yt.cap;
+    } catch (e) {
+      ta.value = '—';
+    }
+  };
+  $('#soc-yt-theme').addEventListener('change', e => { st.yt.theme = e.target.value; syncYtFields(); resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-lang').addEventListener('change', e => { st.yt.lang = e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-sign').addEventListener('change', e => { st.yt.sign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-bsign').addEventListener('change', e => { st.yt.bSign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-gsign').addEventListener('change', e => { st.yt.gSign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-copy').addEventListener('click', async () => {
+    const v = $('#soc-yt-cap').value;
+    if (!v || v === '…' || v === '—') return;
+    try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-yt-cap').select(); document.execCommand('copy'); }
+    toast(t('socad.yt.copied'));
+  });
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   body.addEventListener('click', async e => {
     const mk = e.target.closest('[data-make]'); if (mk) return makeReel(mk.dataset.make, mk);
@@ -818,7 +877,7 @@ function socialPanel(body) {
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
     toast(t('socad.copied'));
   });
-  draw(); loadWishes(); drawNu();
+  draw(); loadWishes(); drawNu(); drawYt(); syncYtFields();
 }
 
 async function blogPanel(body) {

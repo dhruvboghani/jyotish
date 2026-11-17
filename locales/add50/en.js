@@ -1,0 +1,110 @@
+module.exports = {
+  admin: {
+    lord: "Sign Lord"
+  },
+  sc: {
+    rashifal: "Horoscope Today",
+    bestDay: "Auspicious day: Positive planetary support",
+    luckyAndRemedy: "Lucky Factors & Remedies",
+    luckyNum: "Lucky Number",
+    luckyCol: "Lucky Colour",
+    rashiLord: "Ruling Planet",
+    luckyDir: "Lucky Direction",
+    remedyTitle: "Today's Sacred Remedy",
+    beejMantra: "Beej Mantra",
+    mantraChant: "Chant {n} times for peace and success",
+    col: {
+      yellow: "Yellow",
+      red: "Red",
+      white: "White",
+      blue: "Blue",
+      green: "Green",
+      orange: "Orange"
+    },
+    dir: {
+      "0": "East",
+      "1": "South",
+      "2": "West",
+      "3": "North"
+    },
+    tr: {
+      shaniTitle: "Saturn Sade Sati & Dhaiya",
+      shaniSub: "Affected Signs & Gochar Impact",
+      sadeSati: "Sade Sati (7.5 Years)",
+      dhaiya: "Shani Dhaiya (2.5 Years)",
+      rising: "Rising Phase",
+      peak: "Peak Phase",
+      setting: "Setting Phase",
+      charan1: "1st Charan (12th House)",
+      charan2: "2nd Charan (1st House)",
+      charan3: "3rd Charan (2nd House)",
+      kantaka: "Kantaka Shani",
+      ashtama: "Ashtama Shani",
+      house4: "4th House from Moon",
+      house8: "8th House from Moon",
+      benefic: "Benefic Gochar Signs",
+      remediesTitle: "Shani Remedies & Relief",
+      remediesSub: "Vedic Remedies for Saturn Peace",
+      rem1H: "Hanuman Chalisa",
+      rem1D: "Chant daily or on Tuesdays & Saturdays",
+      rem2H: "Mustard Oil Lamp",
+      rem2D: "Light under Peepal tree on Saturday evening",
+      rem3H: "Shani Beej Mantra",
+      rem3D: "Om Sham Shanaicharaya Namah (108x)"
+    },
+    ma: {
+      title: "Kundali 36 Guna Milan",
+      excellent: "Excellent Match (28+ Gunas)",
+      average: "Acceptable Match (18–27 Gunas)",
+      low: "Low Compatibility (<18 Gunas)",
+      doshaTitle: "Dosha Analysis & Verdict",
+      doshaSub: "Nadi, Bhakoot & Gana Compatibility",
+      noDosha: "Dosha Free (Safe)",
+      nadiDosha: "Nadi Dosha Present",
+      bhakootDosha: "Bhakoot Dosha Present",
+      ganaFriendly: "Friendly Temperament",
+      ganaDiff: "Different Nature",
+      pariharaTitle: "Vedic Guidance & Harmony",
+      adv1: "Sign lord friendship cancels Nadi/Bhakoot dosha.",
+      adv2: "Perform Mahamrityunjaya Japa for marital peace.",
+      adv3: "Match full horoscopes before final marriage decisions."
+    },
+    gem: {
+      title: "Lucky Gemstones & Remedies",
+      sub: "Strengthen your Lagna & 9th House ({lord})",
+      life: "Life Stone (Lagna)",
+      lifeDesc: "Boosts health, vitality and self-confidence",
+      fortune: "Fortune Stone (Bhagya)",
+      fortuneDesc: "Attracts luck, prosperity and career growth",
+      deity: "Ruling Deity",
+      rulesTitle: "Wearing Guide & Rules",
+      rulesSub: "Auspicious Timing, Metal and Cautions",
+      day: "Auspicious Day",
+      metal: "Suitable Metal",
+      finger: "Finger to Wear",
+      rudraksha: "Recommended Rudraksha",
+      rudM: "{m} Mukhi Rudraksha",
+      cautionTitle: "Important Caution",
+      cautionDesc: "Never wear conflicting gemstones together (e.g. Ruby/Coral with Blue Sapphire/Diamond). Always test first."
+    }
+  },
+  socad: {
+    yt: {
+      h: "YouTube Shorts Generator",
+      lede: "Generate 1080×1920 MP4 YouTube Shorts with animated reveals, background music, and ready-to-copy titles, descriptions & hashtags.",
+      theme: "Short Theme",
+      tSign: "♈ Single Moon Sign Today",
+      tTransit: "🪐 Shani Sade Sati & Gochar",
+      tMatch: "💍 Kundali 36 Guna Milan",
+      tGem: "💎 Lucky Gemstone & Remedies",
+      lang: "Language",
+      allLangs: "All 6 Languages (Carousel)",
+      sign: "Moon Sign (Rashi)",
+      boySign: "Boy's Moon Sign",
+      girlSign: "Girl's Moon Sign",
+      make: "Make YouTube Short",
+      copy: "Copy Title & Description",
+      copied: "YouTube Title & Description copied!"
+    }
+  }
+};
