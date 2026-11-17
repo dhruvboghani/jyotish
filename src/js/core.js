@@ -657,7 +657,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, lang: 'hi', cap: null } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'hi', cap: null } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -679,6 +679,12 @@ function socialPanel(body) {
           <option value="transit">${esc(t('socad.yt.tTransit'))}</option>
           <option value="match">${esc(t('socad.yt.tMatch'))}</option>
           <option value="gem">${esc(t('socad.yt.tGem'))}</option>
+          <option value="muhurta">${esc(t('socad.yt.tMuhurta'))}</option>
+          <option value="prashna">${esc(t('socad.yt.tPrashna'))}</option>
+          <option value="vrat">${esc(t('socad.yt.tVrat'))}</option>
+          <option value="names">${esc(t('socad.yt.tNames'))}</option>
+          <option value="dream">${esc(t('socad.yt.tDream'))}</option>
+          <option value="dasha">${esc(t('socad.yt.tDasha'))}</option>
         </select></div>
         <div class="field"><label for="soc-yt-lang">${esc(t('socad.yt.lang'))}</label><select id="soc-yt-lang">
           <option value="hi">हिन्दी (Hindi)</option>
@@ -695,6 +701,38 @@ function socialPanel(body) {
         <div class="field"><label for="soc-yt-bsign">${esc(t('socad.yt.boySign'))}</label><select id="soc-yt-bsign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}">${esc(rName)}</option>`).join('')}</select></div>
         <div class="field"><label for="soc-yt-gsign">${esc(t('socad.yt.girlSign'))}</label><select id="soc-yt-gsign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}"${i === 4 ? ' selected' : ''}>${esc(rName)}</option>`).join('')}</select></div>
       </div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-planet" style="display:none"><label for="soc-yt-planet">${esc(t('socad.yt.dashaPlanet'))}</label><select id="soc-yt-planet">${['Saturn', 'Jupiter', 'Rahu', 'Sun', 'Moon', 'Mars', 'Mercury', 'Ketu', 'Venus'].map(p => `<option value="${p}">${esc((L.names.graha && L.names.graha[p]) ? `${L.names.graha[p]} (${p})` : p)}</option>`).join('')}</select></div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-purpose" style="display:none"><label for="soc-yt-purpose">${esc(t('socad.yt.muhurtaPurpose'))}</label><select id="soc-yt-purpose">
+        <option value="marriage">${esc(t('sc.mu.marriage'))}</option>
+        <option value="griha">${esc(t('sc.mu.griha'))}</option>
+        <option value="vehicle">${esc(t('sc.mu.vehicle'))}</option>
+        <option value="business">${esc(t('sc.mu.business'))}</option>
+        <option value="namkaran">${esc(t('sc.mu.namkaran'))}</option>
+        <option value="mundan">${esc(t('sc.mu.mundan'))}</option>
+      </select></div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-topic" style="display:none"><label for="soc-yt-topic">${esc(t('socad.yt.prashnaTopic'))}</label><select id="soc-yt-topic">
+        <option value="career">${esc(t('sc.pr.career'))}</option>
+        <option value="marriage">${esc(t('sc.pr.marriage'))}</option>
+        <option value="money">${esc(t('sc.pr.money'))}</option>
+        <option value="health">${esc(t('sc.pr.health'))}</option>
+        <option value="travel">${esc(t('sc.pr.travel'))}</option>
+      </select></div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-vrat" style="display:none"><label for="soc-yt-vrat">${esc(t('socad.yt.vratType'))}</label><select id="soc-yt-vrat">
+        <option value="ekadashi">${esc(t('sc.vr.ekadashi'))}</option>
+        <option value="pradosh">${esc(t('sc.vr.pradosh'))}</option>
+        <option value="sankashti">${esc(t('sc.vr.sankashti'))}</option>
+        <option value="purnima">${esc(t('sc.vr.purnima'))}</option>
+        <option value="shivratri">${esc(t('sc.vr.shivratri'))}</option>
+      </select></div>
+      <div class="field soc-yt-ctrl" id="soc-yt-f-dream" style="display:none"><label for="soc-yt-dream">${esc(t('socad.yt.dreamTopic'))}</label><select id="soc-yt-dream">
+        <option value="snake">${esc(t('sc.dr.snake'))}</option>
+        <option value="temple">${esc(t('sc.dr.temple'))}</option>
+        <option value="gold">${esc(t('sc.dr.gold'))}</option>
+        <option value="water">${esc(t('sc.dr.water'))}</option>
+        <option value="elephant">${esc(t('sc.dr.elephant'))}</option>
+        <option value="flying">${esc(t('sc.dr.flying'))}</option>
+        <option value="fire">${esc(t('sc.dr.fire'))}</option>
+      </select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="yt"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.yt.make'))}</button></div>
       <textarea class="soc-cap" rows="8" readonly id="soc-yt-cap">…</textarea><button type="button" class="btn-line soc-copy" id="soc-yt-copy">${ic('i-doc')}${esc(t('socad.yt.copy'))}</button></section>
@@ -793,7 +831,7 @@ function socialPanel(body) {
       const wcard = l => { const u = apiUrl(`/api/social/?img=wish&fmt=story&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const [nmy, nmm] = st.nu.ym.split('-'), mq = kind === 'numonth' ? `&y=${nmy}&m=${nmm}` : `&y=${st.nu.y}`;
       const ncard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${st.nu.n}${mq}&theme=modern`); return { full: u, base: u + '&part=base' }; };
-      const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const ytLangs = st.yt.lang === 'all' ? SOC_LANGS.map(([l]) => l) : [st.yt.lang];
       const ytTh = st.yt.theme, ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
@@ -843,14 +881,21 @@ function socialPanel(body) {
   const syncYtFields = () => {
     const th = st.yt.theme;
     const fSign = $('#soc-yt-f-sign'), fMatch = $('#soc-yt-f-match');
-    if (fSign) fSign.style.display = (th === 'sign' || th === 'gem') ? '' : 'none';
+    const fPlanet = $('#soc-yt-f-planet'), fPurpose = $('#soc-yt-f-purpose');
+    const fTopic = $('#soc-yt-f-topic'), fVrat = $('#soc-yt-f-vrat'), fDream = $('#soc-yt-f-dream');
+    if (fSign) fSign.style.display = (th === 'sign' || th === 'gem' || th === 'names') ? '' : 'none';
     if (fMatch) fMatch.style.display = (th === 'match') ? '' : 'none';
+    if (fPlanet) fPlanet.style.display = (th === 'dasha' || th === 'transit') ? '' : 'none';
+    if (fPurpose) fPurpose.style.display = (th === 'muhurta') ? '' : 'none';
+    if (fTopic) fTopic.style.display = (th === 'prashna') ? '' : 'none';
+    if (fVrat) fVrat.style.display = (th === 'vrat') ? '' : 'none';
+    if (fDream) fDream.style.display = (th === 'dream') ? '' : 'none';
   };
   const drawYt = async () => {
     const ta = $('#soc-yt-cap'); if (!ta) return;
     ta.value = '…';
     const lang = st.yt.lang === 'all' ? (LANG || 'en') : st.yt.lang;
-    const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}`;
+    const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}`;
     try {
       const r = await api(`/api/social/?caption=1&${q}`);
       st.yt.cap = `${r.title}\n\n${r.description}`;
@@ -864,6 +909,11 @@ function socialPanel(body) {
   $('#soc-yt-sign').addEventListener('change', e => { st.yt.sign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-bsign').addEventListener('change', e => { st.yt.bSign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-gsign').addEventListener('change', e => { st.yt.gSign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-planet').addEventListener('change', e => { st.yt.planet = e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-purpose').addEventListener('change', e => { st.yt.purpose = e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-topic').addEventListener('change', e => { st.yt.topic = e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-vrat').addEventListener('change', e => { st.yt.vrat = e.target.value; resetReels('.soc-yt'); drawYt(); });
+  $('#soc-yt-dream').addEventListener('change', e => { st.yt.dream = e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-copy').addEventListener('click', async () => {
     const v = $('#soc-yt-cap').value;
     if (!v || v === '…' || v === '—') return;
