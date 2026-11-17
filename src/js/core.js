@@ -671,14 +671,8 @@ function socialPanel(body) {
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
     <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
-    <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
-      <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea><button type="button" class="btn-line soc-copy" id="soc-ccopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
-    <section class="card soc-reel soc-wish" data-reel="wish"><h4>${esc(t('socad.reel.wish'))}</h4><p class="muted small">${esc(t('socad.wishLede'))}</p>
-      <div class="field"><label for="soc-wfest">${esc(t('socad.wishFest'))}</label><select id="soc-wfest"><option>…</option></select></div>
-      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
-      <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-      <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
-    <section class="card soc-reel soc-yt" data-reel="yt"><h4>${esc(t('socad.yt.h'))}</h4><p class="muted small">${esc(t('socad.yt.lede'))}</p>
+    <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.yt.h'))}</h3><p class="muted small">${esc(t('socad.yt.lede'))}</p>
+    <section class="card soc-reel soc-yt" data-reel="yt">
       <div class="soc-row">
         <div class="field"><label for="soc-yt-theme">${esc(t('socad.yt.theme'))}</label><select id="soc-yt-theme">
           <option value="sign">${esc(t('socad.yt.tSign'))}</option>
@@ -704,6 +698,13 @@ function socialPanel(body) {
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="yt"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.yt.make'))}</button></div>
       <textarea class="soc-cap" rows="8" readonly id="soc-yt-cap">…</textarea><button type="button" class="btn-line soc-copy" id="soc-yt-copy">${ic('i-doc')}${esc(t('socad.yt.copy'))}</button></section>
+    <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
+      <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea><button type="button" class="btn-line soc-copy" id="soc-ccopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
+    <section class="card soc-reel soc-wish" data-reel="wish"><h4>${esc(t('socad.reel.wish'))}</h4><p class="muted small">${esc(t('socad.wishLede'))}</p>
+      <div class="field"><label for="soc-wfest">${esc(t('socad.wishFest'))}</label><select id="soc-wfest"><option>…</option></select></div>
+      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
     <section class="card soc-nu"><h4>${esc(t('socad.nu.h'))}</h4><p class="muted small">${esc(t('socad.nu.lede'))}</p>
       <div class="field"><label for="soc-nuy">${esc(t('socad.nu.year'))}</label><select id="soc-nuy">${[0, 1].map(k => { const y = new Date().getFullYear() + k; return `<option value="${y}"${y === st.nu.y ? ' selected' : ''}>${y}</option>`; }).join('')}</select></div>
       <div class="soc-reels">
