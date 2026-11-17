@@ -121,7 +121,13 @@ function pagesFor(L) {
 }
 
 // ---- Write output ----
-fs.rmSync(OUT, { recursive: true, force: true });
+try {
+  fs.rmSync(OUT, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+} catch (e) {
+  try {
+    for (const f of fs.readdirSync(OUT)) fs.rmSync(path.join(OUT, f), { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  } catch (err) {}
+}
 fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
 const sitemap = [];
 let count = 0;
@@ -181,7 +187,26 @@ fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="U
 ${[['sitemap-pages.xml', newest(sitemap.filter(pg => !pg.seo))], ['sitemap-guides.xml', newest(sitemap.filter(pg => pg.seo))], ['sitemap-daily.xml', todayIso], ['sitemap-blog.xml', todayIso]].map(([f, d]) => `  <sitemap><loc>${SITE_URL}/${f}</loc><lastmod>${d || todayIso}</lastmod></sitemap>`).join('\n')}
 </sitemapindex>
 `);
-fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /share/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`);
 
 const missing = [];
 if (!process.env.SUPABASE_URL || !PUBLIC_KEY) missing.push('SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY (login will be disabled)');
