@@ -70,12 +70,12 @@
       alert('Astrology calculation engine is loading, please try again in a moment.');
       return;
     }
-    const b = readPerson('b'), g = readPerson('g');
-    if (typeof b === 'string') { alert('Partner 1: ' + b); return; }
-    if (typeof g === 'string') { alert('Partner 2: ' + g); return; }
+    const pBoy = readPerson('b'), pGirl = readPerson('g');
+    if (typeof pBoy === 'string') { alert('Partner 1: ' + pBoy); return; }
+    if (typeof pGirl === 'string') { alert('Partner 2: ' + pGirl); return; }
 
-    const bOut = window.Jyotish.compute(b);
-    const gOut = window.Jyotish.compute(g);
+    const bOut = window.Jyotish.compute(pBoy);
+    const gOut = window.Jyotish.compute(pGirl);
 
     // 1. Emotional Harmony (Moon - Moon relationship)
     const mDist = (gOut.P.Moon.sign - bOut.P.Moon.sign + 12) % 12 + 1;
@@ -100,8 +100,8 @@
     if (totalScore < 70) { tierLabel = '⚖️ Moderate Chemistry (Patience Required)'; tone = 'warn'; }
     else if (totalScore < 85) { tierLabel = '💖 Strong Harmonious Bond'; tone = 'good'; }
 
-    const bName = b.name || 'Partner 1';
-    const gName = g.name || 'Partner 2';
+    const bName = pBoy.name || 'Partner 1';
+    const gName = pGirl.name || 'Partner 2';
 
     res.innerHTML = `
       <div class="love-results reveal" style="margin-top:1.5rem;">
@@ -110,15 +110,18 @@
           <h2>${totalScore}% Love Compatibility — ${tierLabel}</h2>
           <p>Analysis of planetary wavelengths across emotions, romance, communication, and destiny.</p>
           <dl class="pq-facts" style="margin-top:1rem;">
-            <div><dt>Emotional Harmony (Moon)</dt><dd><strong>${emoScore}%</strong></dd></div>
-            <div><dt>Romantic Chemistry (Venus/Mars)</dt><dd><strong>${chemScore}%</strong></dd></div>
-            <div><dt>Mental Connection (Mercury)</dt><dd><strong>${mentalScore}%</strong></dd></div>
-            <div><dt>Spiritual Trust (Jupiter)</dt><dd><strong>${trustScore}%</strong></dd></div>
+            <div><dt>Emotional Harmony (Moon)</dt><dd>${g('Moon', 'gimg sm')} <strong>${emoScore}%</strong></dd></div>
+            <div><dt>Romantic Chemistry (Venus/Mars)</dt><dd>${g('Venus', 'gimg sm')}${g('Mars', 'gimg sm')} <strong>${chemScore}%</strong></dd></div>
+            <div><dt>Mental Connection (Mercury)</dt><dd>${g('Mercury', 'gimg sm')} <strong>${mentalScore}%</strong></dd></div>
+            <div><dt>Spiritual Trust (Jupiter)</dt><dd>${g('Jupiter', 'gimg sm')} <strong>${trustScore}%</strong></dd></div>
           </dl>
         </div>
 
-        <div class="card reveal" style="margin-top:1rem;">
-          <h3>Relationship Dynamic & Strengths</h3>
+        <div class="card details-card reveal" style="margin-top:1.5rem;">
+          <div class="details-card-header">
+            <h3>Relationship Dynamic & Strengths</h3>
+            <p class="muted small">Planetary synergy across emotional, intellectual, and spiritual dimensions.</p>
+          </div>
           <ul class="factor-list">
             <li class="good">${toneIcon('good')}<span><strong>Emotional Resonance:</strong> ${emoScore >= 80 ? 'Deep intuitive understanding and natural comfort around each other.' : 'Open communication about feelings helps bridge occasional emotional misunderstandings.'}</span></li>
             <li class="good">${toneIcon('good')}<span><strong>Romance & Passion:</strong> ${chemScore >= 85 ? 'High spontaneous attraction with playful spark and strong affection.' : 'Affection grows steadily with shared experiences and romantic dates.'}</span></li>

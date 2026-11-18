@@ -37,10 +37,10 @@
 
       tableRows.push(`
         <tr>
-          <td><strong>${gimg(p, 'gimg sm')} ${gn(p)}</strong></td>
-          <td>${rn(pSign)} ${dm(pDeg)}</td>
-          <td><strong>${houseFromSign}th House</strong> (${houseFromSign}वां भाव)</td>
-          <td><span class="tag ${tone}">${statusLabel}</span></td>
+          <td><span class="gr-cell">${g(p, 'gimg sm')}<b>${gn(p)}</b></span></td>
+          <td class="nowrap"><strong>${rn(pSign)}</strong> <small>${dm(pDeg)}</small></td>
+          <td class="nowrap"><strong>${houseFromSign}th House</strong> <small>(${houseFromSign}वां भाव)</small></td>
+          <td class="nowrap"><span class="tag ${tone}">${statusLabel}</span></td>
         </tr>
       `);
     });
@@ -53,25 +53,29 @@
     }) : '';
 
     res.innerHTML = `
-      <div class="gochar-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-top:1.5rem;">
-        <div class="card chart reveal">${chartHtml}</div>
-        <div class="card reveal">
-          <h3>${rn(s)} — Live Planetary Transit Positions</h3>
-          <p class="muted small">Transiting positions of all 9 planets counted from your Rashi / Ascendant.</p>
-          <div class="tablewrap" style="overflow-x:auto;">
-            <table class="seo-table">
-              <thead>
-                <tr>
-                  <th>Graha</th>
-                  <th>Sign & Degree</th>
-                  <th>House</th>
-                  <th>Impact</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${tableRows.join('')}
-              </tbody>
-            </table>
+      <div class="gochar-results reveal">
+        <div class="mod-grid">
+          <div class="card chart reveal">${chartHtml}</div>
+          <div class="card details-card reveal">
+            <div class="details-card-header">
+              <h3>${rn(s)} — Live Planetary Transit Positions</h3>
+              <p class="muted small">Transiting positions of all 9 planets counted from your Rashi / Ascendant.</p>
+            </div>
+            <div class="tablewrap">
+              <table class="mod-table">
+                <thead>
+                  <tr>
+                    <th>Graha</th>
+                    <th>Sign & Degree</th>
+                    <th>House</th>
+                    <th>Transit Impact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${tableRows.join('')}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

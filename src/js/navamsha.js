@@ -48,10 +48,10 @@
 
       rows.push(`
         <tr>
-          <td><strong>${gimg(p, 'gimg sm')} ${gn(p)}</strong></td>
-          <td>${rn(pl.sign)} (D1)</td>
-          <td><strong>${rn(d9Sign)} (D9)</strong></td>
-          <td>${isVargottama ? '<span class="tag gold">🌟 Vargottama (अत्यंत बली)</span>' : '<span class="tag good">Normal</span>'}</td>
+          <td><span class="gr-cell">${g(p, 'gimg sm')}<b>${gn(p)}</b></span></td>
+          <td class="nowrap">${rn(pl.sign)} <small class="muted">(D1)</small></td>
+          <td class="nowrap"><strong>${rn(d9Sign)}</strong> <small class="muted">(D9)</small></td>
+          <td class="nowrap">${isVargottama ? '<span class="tag gold">🌟 Vargottama (अत्यंत बली)</span>' : '<span class="tag good">Normal</span>'}</td>
         </tr>
       `);
     });
@@ -74,18 +74,21 @@
           ` : ''}
         </div>
 
-        <div class="navamsha-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-top:1rem;">
+        <div class="mod-grid">
           <div class="card chart reveal">${chartHtml}</div>
-          <div class="card reveal">
-            <h3>Planetary Positions in Navamsha (D9)</h3>
-            <div class="tablewrap" style="overflow-x:auto;">
-              <table class="seo-table">
+          <div class="card details-card reveal">
+            <div class="details-card-header">
+              <h3>Planetary Positions in Navamsha (D9)</h3>
+              <p class="muted small">Comparison of natal Rashi vs Navamsha placements.</p>
+            </div>
+            <div class="tablewrap">
+              <table class="mod-table">
                 <thead>
                   <tr>
                     <th>Planet</th>
                     <th>Rashi (D1)</th>
                     <th>Navamsha (D9)</th>
-                    <th>Strength</th>
+                    <th>Vedic Dignity</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -2077,3 +2077,100 @@ form.nu-check { margin: 0; }
 .soc-quick button { font-weight: 600; }
 .soc-reel[data-reel="day"], .soc-reel[data-reel="yt"] { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-soft, rgba(226,169,46,.25)), var(--shadow); }
 .soc-yt select { width: 100%; }
+
+/* ===== Interactive Jyotish Modules: Details Cards & Responsive Tables ===== */
+.mod-grid { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; align-items: start; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 880px) { .mod-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Universal card padding and margin for all 12 modules */
+.gochar-results .card,
+.mangal-results .card,
+.lagna-results .card,
+.love-results .card,
+.dasha-results .card,
+.yogas-results .card,
+.navamsha-results .card,
+.ashtakavarga-results .card,
+.varshphal-results .card,
+.ratna-results .card,
+.sarpa-results .card,
+.hora-results .card,
+.mod-grid > .card,
+.details-card {
+  padding: 24px 26px;
+  margin-bottom: 1.5rem;
+}
+
+/* Chart cards retain clean tighter padding so the SVG chart is maximized */
+.mod-grid > .card.chart,
+.card.chart {
+  padding: 16px 18px;
+}
+
+/* Verdict cards retain their colored top accent */
+.card.pq-verdict {
+  padding: 22px 26px;
+}
+
+/* Individual Gemstone cards */
+.ratna-grid .card {
+  padding: 22px 20px;
+  margin-bottom: 0;
+}
+
+/* Ashtakavarga house scorecards */
+.ashtakavarga-grid .card {
+  padding: 18px 14px;
+  margin-bottom: 0;
+}
+
+.details-card-header { margin-bottom: 1.25rem; }
+.details-card-header h3 { margin: 0 0 0.35rem; font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+.details-card-header p { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+
+.tablewrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin-top: 1.25rem;
+  background: var(--surface);
+}
+
+.mod-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.mod-table th, .mod-table td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.mod-table thead th { font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; white-space: nowrap; background: var(--surface-2, rgba(0,0,0,.02)); border-top: 0; }
+.mod-table tbody tr:last-child td { border-bottom: 0; }
+.mod-table tbody tr:hover { background: var(--gold-softer, rgba(212,175,55,.05)); }
+.mod-table .gr-cell { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-weight: 600; }
+.mod-table .gr-cell svg.gimg { width: 22px; height: 22px; flex: none; vertical-align: middle; }
+.mod-table .nowrap { white-space: nowrap; }
+.mod-table .tag { white-space: nowrap; font-size: 12px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; border-radius: 999px; }
+.mod-table .tag.good { background: #E7F6ED; color: #0E6237; }
+.mod-table .tag.warn { background: #FEF3D6; color: #8A5B00; }
+.mod-table .tag.gold { background: #FAF0D7; color: #7A5200; }
+.mod-table .tag.bad { background: #FDE8E8; color: #9B1C1C; }
+.mod-table td small { color: var(--ink-3); font-size: 12.5px; }
+
+@media (max-width: 640px) {
+  .gochar-results .card,
+  .mangal-results .card,
+  .lagna-results .card,
+  .love-results .card,
+  .dasha-results .card,
+  .yogas-results .card,
+  .navamsha-results .card,
+  .ashtakavarga-results .card,
+  .varshphal-results .card,
+  .ratna-results .card,
+  .sarpa-results .card,
+  .hora-results .card,
+  .mod-grid > .card,
+  .details-card {
+    padding: 18px 16px;
+    margin-bottom: 1.25rem;
+  }
+  .mod-table th, .mod-table td { padding: 10px 12px; }
+}
+

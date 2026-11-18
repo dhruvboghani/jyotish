@@ -26,7 +26,7 @@
     const tzMinutes = tzOffsetMinutes(c.tz || 'Asia/Kolkata', y, m, d, hh, mm);
 
     const out = window.Jyotish.compute({ year: y, month: m, day: d, hour: hh, minute: mm, lat: c.lat, lon: c.lon, tzMinutes });
-    const P = out.P, L = out.lagna.sign, lordOf = h => SIGN_LORD[(L + h - 1) % 12];
+    const P = out.P, lagnaSign = out.lagna.sign, lordOf = h => SIGN_LORD[(lagnaSign + h - 1) % 12];
 
     const yogas = [];
 
@@ -86,7 +86,11 @@
           <p>Planetary combinations present in your birth chart that shape your strengths, wealth, and destiny.</p>
         </div>
 
-        <div class="card reveal" style="margin-top:1.5rem;">
+        <div class="card details-card reveal" style="margin-top:1.5rem;">
+          <div class="details-card-header">
+            <h3>Detailed Analysis of Formed Yogas</h3>
+            <p class="muted small">Classical Vedic combinations with planetary impact on personality, wealth, and status.</p>
+          </div>
           <ul class="factor-list">
             ${yogas.map(y => `
               <li class="good" style="align-items:flex-start;">

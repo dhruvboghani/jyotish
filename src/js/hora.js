@@ -35,9 +35,9 @@
 
     const jdMid = Date.UTC(y, m - 1, d) / 86400000 + 2440587.5;
     const events = window.Jyotish.sunEvents(jdMid, c.lat, c.lon);
-    const riseMs = events.riseUT;
-    const setMs = events.setUT;
-    const nextRiseMs = events.nextRiseUT || (riseMs + 86400000);
+    const riseMs = events.rise ? jdMs(events.rise) : (dateObj.getTime() + 6 * 3600000);
+    const setMs = events.set ? jdMs(events.set) : (dateObj.getTime() + 18 * 3600000);
+    const nextRiseMs = riseMs + 86400000;
 
     const dayHoraLen = (setMs - riseMs) / 12;
     const nightHoraLen = (nextRiseMs - setMs) / 12;
@@ -74,11 +74,11 @@
     const currentHora = horas.find(h => h.isNow);
 
     const rows = horas.map(h => `
-      <tr style="${h.isNow ? 'background:rgba(212,175,55,0.14);font-weight:bold;' : ''}">
-        <td>${h.isNow ? '▶ ' : ''}${h.type} Hora ${h.idx <= 12 ? h.idx : h.idx - 12}</td>
-        <td><strong>${gimg(h.ruler, 'gimg sm')} ${gn(h.ruler)}</strong></td>
-        <td>${fmtT(h.start)} – ${fmtT(h.end)}</td>
-        <td><small class="muted">${HORA_ACTIONS[h.ruler]}</small></td>
+      <tr style="${h.isNow ? 'background:rgba(212,175,55,0.14);font-weight:600;' : ''}">
+        <td class="nowrap">${h.isNow ? '<span class="tag gold" style="margin-right:6px;">LIVE</span>' : ''}${h.type} Hora ${h.idx <= 12 ? h.idx : h.idx - 12}</td>
+        <td><span class="gr-cell">${g(h.ruler, 'gimg sm')}<b>${gn(h.ruler)}</b></span></td>
+        <td class="nowrap"><strong>${fmtT(h.start)}</strong> – <strong>${fmtT(h.end)}</strong></td>
+        <td><small>${HORA_ACTIONS[h.ruler]}</small></td>
       </tr>
     `).join('');
 
@@ -87,22 +87,27 @@
         ${currentHora ? `
           <div class="card pq-verdict good">
             <span class="eyebrow">${c.name} · Live Planetary Hour</span>
-            <h2>Current Hora: ${gn(currentHora.ruler)} Hora (${fmtT(currentHora.start)} – ${fmtT(currentHora.end)})</h2>
-            <p><strong>Recommended Activities:</strong> ${HORA_ACTIONS[currentHora.ruler]}</p>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:0.25rem;">
+              ${g(currentHora.ruler, 'gimg')}
+              <h2>Current Hora: ${gn(currentHora.ruler)} Hora (${fmtT(currentHora.start)} – ${fmtT(currentHora.end)})</h2>
+            </div>
+            <p style="margin-top:0.5rem;"><strong>Recommended Activities:</strong> ${HORA_ACTIONS[currentHora.ruler]}</p>
           </div>
         ` : ''}
 
-        <div class="card reveal" style="margin-top:1.5rem;">
-          <h3>Complete 24-Hour Hora Schedule (${c.name})</h3>
-          <p class="muted small">Calculated from local sunrise (${fmtT(riseMs)}) to sunset (${fmtT(setMs)}).</p>
-          <div class="tablewrap" style="overflow-x:auto;">
-            <table class="seo-table">
+        <div class="card details-card reveal" style="margin-top:1.5rem;">
+          <div class="details-card-header">
+            <h3>Complete 24-Hour Hora Schedule (${c.name})</h3>
+            <p class="muted small">Calculated from local sunrise (${fmtT(riseMs)}) to sunset (${fmtT(setMs)}).</p>
+          </div>
+          <div class="tablewrap">
+            <table class="mod-table">
               <thead>
                 <tr>
-                  <th>Hora #</th>
-                  <th>Planetary Ruler</th>
+                  <th>Hora Period</th>
+                  <th>Governing Graha</th>
                   <th>Timings</th>
-                  <th>Best Activities</th>
+                  <th>Classical Recommendations</th>
                 </tr>
               </thead>
               <tbody>

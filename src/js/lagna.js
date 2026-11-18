@@ -74,18 +74,20 @@
           <p>You rise as a <strong>${rn(l.sign)}</strong> ascendant. The Lagna describes your physical body, temperament, vitality, and primary life lens.</p>
           <dl class="pq-facts" style="margin-top:1rem;">
             <div><dt>Lagna Nakshatra</dt><dd>${nk(l.nak)} (Pada ${l.pada})</dd></div>
-            <div><dt>Nakshatra Lord</dt><dd>${gn(l.nakLord)}</dd></div>
-            <div><dt>Lagna Lord (लग्न स्वामी)</dt><dd>${gn(lord)} (in ${lordPlanet.house}th house, ${rn(lordPlanet.sign)})</dd></div>
+            <div><dt>Nakshatra Lord</dt><dd>${g(l.nakLord, 'gimg sm')} ${gn(l.nakLord)}</dd></div>
+            <div><dt>Lagna Lord (लग्न स्वामी)</dt><dd>${g(lord, 'gimg sm')} ${gn(lord)} (in ${lordPlanet.house}th house, ${rn(lordPlanet.sign)})</dd></div>
             <div><dt>Element (तत्व)</dt><dd>${info.el}</dd></div>
           </dl>
         </div>
 
-        <div class="lagna-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-top:1rem;">
+        <div class="mod-grid">
           <div class="card chart reveal">${chartHtml}</div>
-          <div class="card reveal">
-            <h3>Personality & Physical Blueprint</h3>
-            <p>${info.desc}</p>
-            <h4 style="margin-top:1rem;">Auspicious Alignments (शुभ कारक)</h4>
+          <div class="card details-card reveal">
+            <div class="details-card-header">
+              <h3>Personality & Physical Blueprint</h3>
+              <p class="muted small">${info.desc}</p>
+            </div>
+            <h4 style="margin-top:1.25rem;">Auspicious Alignments (शुभ कारक)</h4>
             <ul class="factor-list">
               <li class="good">${toneIcon('good')}<span><strong>Lucky Colors:</strong> ${info.col}</span></li>
               <li class="good">${toneIcon('good')}<span><strong>Benefic Gemstone:</strong> ${info.stone}</span></li>

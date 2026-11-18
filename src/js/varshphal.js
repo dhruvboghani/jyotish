@@ -61,15 +61,18 @@
           <h2>Muntha in ${rn(munthaSign)} (${munthaHouse}th House) — ${badge}</h2>
           <p>${verdict}</p>
           <dl class="pq-facts" style="margin-top:1rem;">
-            <div><dt>Muntha Sign</dt><dd>${rn(munthaSign)}</dd></div>
-            <div><dt>Muntha Lord (मुंथेश)</dt><dd>${gn(munthaLord)}</dd></div>
-            <div><dt>Muntha House</dt><dd>${munthaHouse}th House from Lagna</dd></div>
-            <div><dt>Completed Age</dt><dd>${completedYears} Years</dd></div>
+            <div><dt>Muntha Sign</dt><dd>${rg(munthaSign, 'rg sm')} <strong>${rn(munthaSign)}</strong></dd></div>
+            <div><dt>Muntha Lord (मुंथेश)</dt><dd>${g(munthaLord, 'gimg sm')} <strong>${gn(munthaLord)}</strong></dd></div>
+            <div><dt>Muntha House</dt><dd><strong>${munthaHouse}th House</strong> <small class="muted">from Lagna</small></dd></div>
+            <div><dt>Completed Age</dt><dd><strong>${completedYears} Years</strong></dd></div>
           </dl>
         </div>
 
-        <div class="card reveal" style="margin-top:1.5rem;">
-          <h3>Annual Guidance for ${targetY}</h3>
+        <div class="card details-card reveal" style="margin-top:1.5rem;">
+          <div class="details-card-header">
+            <h3>Annual Guidance for ${targetY}</h3>
+            <p class="muted small">Focal astrological priorities and classical recommendations for your current solar year.</p>
+          </div>
           <ul class="factor-list">
             <li class="good">${toneIcon('good')}<span><strong>Muntha Lord Focus:</strong> Chanting the mantra of <strong>${gn(munthaLord)}</strong> strengthens the year's governing focal point.</span></li>
             <li class="good">${toneIcon('good')}<span><strong>Life Sphere:</strong> The ${munthaHouse}th house themes will be central to your major decisions, travels, and investments during ${targetY}.</span></li>

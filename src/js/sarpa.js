@@ -78,20 +78,22 @@
           <h2>${verdictH}</h2>
           <p>${verdictP}</p>
           <dl class="pq-facts" style="margin-top:1rem;">
-            <div><dt>Rahu Position</dt><dd>${rahuHouse}th House (${rn(P.Rahu.sign)})</dd></div>
-            <div><dt>Ketu Position</dt><dd>${P.Ketu.house}th House (${rn(P.Ketu.sign)})</dd></div>
-            <div><dt>Type of Yoga</dt><dd>${esc(typeInfo.name)}</dd></div>
-            <div><dt>Axis Enclosure</dt><dd>${isPoorna ? 'Full (7/7)' : isAnshik ? 'Partial (6/7)' : 'Open (Balanced)'}</dd></div>
+            <div><dt>Rahu Position</dt><dd>${g('Rahu', 'gimg sm')} <strong>${rahuHouse}th House</strong> <small>(${rn(P.Rahu.sign)})</small></dd></div>
+            <div><dt>Ketu Position</dt><dd>${g('Ketu', 'gimg sm')} <strong>${P.Ketu.house}th House</strong> <small>(${rn(P.Ketu.sign)})</small></dd></div>
+            <div><dt>Type of Yoga</dt><dd><strong>${esc(typeInfo.name)}</strong></dd></div>
+            <div><dt>Axis Enclosure</dt><dd>${isPoorna ? '<span class="tag warn">Full Enclosure (7/7)</span>' : isAnshik ? '<span class="tag gold">Partial (6/7)</span>' : '<span class="tag good">Open (Balanced)</span>'}</dd></div>
           </dl>
         </div>
 
         ${isPoorna || isAnshik ? `
-          <div class="card reveal" style="margin-top:1rem;">
-            <h3>${typeInfo.name} — Life Dynamics</h3>
-            <p>${typeInfo.desc}</p>
-            <h4 style="margin-top:1rem;">Effective Shiva & Naga Remedies (शांति उपाय)</h4>
+          <div class="card details-card reveal" style="margin-top:1.5rem;">
+            <div class="details-card-header">
+              <h3>${typeInfo.name} — Life Dynamics</h3>
+              <p class="muted small">${typeInfo.desc}</p>
+            </div>
+            <h4 style="margin-top:1.25rem;">Effective Shiva & Naga Remedies (शांति उपाय)</h4>
             <ul class="factor-list">
-              <li class="good">${toneIcon('good')}<span><strong>Maha Mrityunjaya Japa:</strong> Chanting the Maha Mrityunjaya Mantra (*Om Tryambakam...*) 108 times daily calms both Rahu and Ketu.</span></li>
+              <li class="good">${toneIcon('good')}<span><strong>Maha Mrityunjaya Japa:</strong> Chanting the Maha Mrityunjaya Mantra (<em>Om Tryambakam...</em>) 108 times daily calms both Rahu and Ketu.</span></li>
               <li class="good">${toneIcon('good')}<span><strong>Shiva Abhishekam:</strong> Offering raw milk and water on a Shivling on Mondays or Pradosh days pacifies the serpent axis.</span></li>
               <li class="good">${toneIcon('good')}<span><strong>Feed Stray Dogs:</strong> Feeding stray dogs on Saturdays strengthens positive Ketu vibrations and dissolves sudden obstacles.</span></li>
             </ul>

@@ -74,24 +74,30 @@
           <h2>${verdictText}</h2>
           <p>${verdictDesc}</p>
           <dl class="pq-facts" style="margin-top:1rem;">
-            <div><dt>From Lagna (Ascendant)</dt><dd>${mg.houseL}th House — <strong>${isL ? 'Manglik' : 'Clear'}</strong></dd></div>
-            <div><dt>From Chandra (Moon)</dt><dd>${mg.houseM}th House — <strong>${isM ? 'Manglik' : 'Clear'}</strong></dd></div>
-            <div><dt>From Shukra (Venus)</dt><dd>${mg.houseV}th House — <strong>${isV ? 'Manglik' : 'Clear'}</strong></dd></div>
-            <div><dt>Mars Sign & Deg</dt><dd>${rn(mars.sign)} ${dm(mars.deg)}</dd></div>
+            <div><dt>From Lagna (Ascendant)</dt><dd>${rg(out.lagna.sign, 'rg sm')} ${mg.houseL}th House — <strong>${isL ? '<span class="tag warn">Manglik</span>' : '<span class="tag good">Clear</span>'}</strong></dd></div>
+            <div><dt>From Chandra (Moon)</dt><dd>${g('Moon', 'gimg sm')} ${mg.houseM}th House — <strong>${isM ? '<span class="tag warn">Manglik</span>' : '<span class="tag good">Clear</span>'}</strong></dd></div>
+            <div><dt>From Shukra (Venus)</dt><dd>${g('Venus', 'gimg sm')} ${mg.houseV}th House — <strong>${isV ? '<span class="tag warn">Manglik</span>' : '<span class="tag good">Clear</span>'}</strong></dd></div>
+            <div><dt>Mars Sign & Deg</dt><dd>${g('Mars', 'gimg sm')} <strong>${rn(mars.sign)}</strong> <small>${dm(mars.deg)}</small></dd></div>
           </dl>
         </div>
 
         ${cancels.length ? `
-          <div class="card reveal" style="margin-top:1rem;">
-            <h3>✨ Classical Cancellation Factors (दोष परिहार)</h3>
+          <div class="card details-card reveal" style="margin-top:1.5rem;">
+            <div class="details-card-header">
+              <h3>✨ Classical Cancellation Factors (दोष परिहार)</h3>
+              <p class="muted small">Exceptions described in Brihat Parashara Hora Shastra that mitigate Martian afflictions.</p>
+            </div>
             <ul class="factor-list">
               ${cancels.map(c => `<li class="good">${toneIcon('good')}<span>${esc(c)}</span></li>`).join('')}
             </ul>
           </div>
         ` : ''}
 
-        <div class="card reveal" style="margin-top:1rem;">
-          <h3>🕉️ Recommended Vedic Remedies for Mars (मंगल शांति उपाय)</h3>
+        <div class="card details-card reveal" style="margin-top:1.5rem;">
+          <div class="details-card-header">
+            <h3>🕉️ Recommended Vedic Remedies for Mars (मंगल शांति उपाय)</h3>
+            <p class="muted small">Traditional remedial actions to balance and harness Martian vitality.</p>
+          </div>
           <ul class="factor-list">
             <li class="good">${toneIcon('good')}<span><strong>Hanuman Chalisa:</strong> Recite the Hanuman Chalisa daily or on Tuesdays to channelize high Martian energy.</span></li>
             <li class="good">${toneIcon('good')}<span><strong>Charity:</strong> Donate red lentils (masoor dal), red sweets, or blood donation on Tuesdays.</span></li>

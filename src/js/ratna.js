@@ -38,7 +38,7 @@
     const tzMinutes = tzOffsetMinutes(c.tz || 'Asia/Kolkata', y, m, d, hh, mm);
 
     const out = window.Jyotish.compute({ year: y, month: m, day: d, hour: hh, minute: mm, lat: c.lat, lon: c.lon, tzMinutes });
-    const L = out.lagna.sign, lordOf = h => SIGN_LORD[(L + h - 1) % 12];
+    const lagnaSign = out.lagna.sign, lordOf = h => SIGN_LORD[(lagnaSign + h - 1) % 12];
 
     const l1Lord = lordOf(1);
     const l5Lord = lordOf(5);
@@ -53,16 +53,16 @@
     res.innerHTML = `
       <div class="ratna-results reveal" style="margin-top:1.5rem;">
         <div class="card pq-verdict good">
-          <span class="eyebrow">${rn(L)} Lagna · Vedic Gemstone Prescription</span>
+          <span class="eyebrow">${rn(lagnaSign)} Lagna · Vedic Gemstone Prescription</span>
           <h2>3 Primary Auspicious Gemstones (रत्न परामर्श)</h2>
-          <p>In Vedic astrology, gemstones strengthen friendly, benefic house lords. For your <strong>${rn(L)}</strong> ascendant, the lords of the 1st, 5th, and 9th houses are natural benefics.</p>
+          <p>In Vedic astrology, gemstones strengthen friendly, benefic house lords. For your <strong>${rn(lagnaSign)}</strong> ascendant, the lords of the 1st, 5th, and 9th houses are natural benefics.</p>
         </div>
 
         <div class="ratna-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem;">
           ${stones.map(s => `
             <div class="card reveal" style="border-top:3px solid var(--gold);">
               <span class="tag gold" style="font-size:0.8rem;">${esc(s.type)}</span>
-              <h3 style="margin:0.5rem 0 0.25rem;">${gimg(s.lord, 'gimg sm')} ${esc(s.name)}</h3>
+              <h3 style="margin:0.5rem 0 0.25rem;display:flex;align-items:center;gap:8px;">${g(s.lord, 'gimg sm')} <span>${esc(s.name)}</span></h3>
               <p class="muted small">${esc(s.role)}</p>
               <ul class="factor-list" style="margin-top:0.75rem;">
                 <li class="good">${toneIcon('good')}<span><strong>Ideal Metal:</strong> ${esc(s.metal)}</span></li>
