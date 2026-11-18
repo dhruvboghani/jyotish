@@ -1,0 +1,22 @@
+<main class="wrap page gochar-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.gochar}}</p>
+    <h1>{{pages.gochar.title}}</h1>
+    <p class="lede">{{pages.gochar.description}}</p>
+  </div>
+
+  <div class="card toolbar gochar-bar">
+    <div class="field">
+      <label for="gc-sign">{{pp.moonSign}} / Moon Sign / Lagna</label>
+      <select id="gc-sign"></select>
+    </div>
+    <div class="field">
+      <label for="gc-date">{{form.date}}</label>
+      <input type="date" id="gc-date">
+    </div>
+    <button type="button" class="btn-cta" id="gc-btn">{{form.submit}}</button>
+  </div>
+
+  <div id="gc-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

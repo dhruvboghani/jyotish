@@ -1,0 +1,30 @@
+<main class="wrap page yogas-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.yogas}}</p>
+    <h1>{{pages.yogas.title}}</h1>
+    <p class="lede">{{pages.yogas.description}}</p>
+  </div>
+
+  <form class="card toolbar yogas-form" id="yg-form" novalidate>
+    <select class="pick-saved" id="yg-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="yg-name">{{form.name}}</label>
+      <input type="text" id="yg-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="yg-date">{{form.date}}</label>
+        <input type="date" id="yg-date" required>
+      </div>
+      <div class="field">
+        <label for="yg-time">{{form.time}}</label>
+        <input type="time" id="yg-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="yg-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

@@ -1,0 +1,30 @@
+<main class="wrap page ashtakavarga-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.ashtakavarga}}</p>
+    <h1>{{pages.ashtakavarga.title}}</h1>
+    <p class="lede">{{pages.ashtakavarga.description}}</p>
+  </div>
+
+  <form class="card toolbar ashtakavarga-form" id="ak-form" novalidate>
+    <select class="pick-saved" id="ak-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="ak-name">{{form.name}}</label>
+      <input type="text" id="ak-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="ak-date">{{form.date}}</label>
+        <input type="date" id="ak-date" required>
+      </div>
+      <div class="field">
+        <label for="ak-time">{{form.time}}</label>
+        <input type="time" id="ak-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="ak-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

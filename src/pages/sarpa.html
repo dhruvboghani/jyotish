@@ -1,0 +1,30 @@
+<main class="wrap page sarpa-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.sarpa}}</p>
+    <h1>{{pages.sarpa.title}}</h1>
+    <p class="lede">{{pages.sarpa.description}}</p>
+  </div>
+
+  <form class="card toolbar sarpa-form" id="sp-form" novalidate>
+    <select class="pick-saved" id="sp-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="sp-name">{{form.name}}</label>
+      <input type="text" id="sp-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="sp-date">{{form.date}}</label>
+        <input type="date" id="sp-date" required>
+      </div>
+      <div class="field">
+        <label for="sp-time">{{form.time}}</label>
+        <input type="time" id="sp-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="sp-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

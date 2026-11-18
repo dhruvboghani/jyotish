@@ -1,0 +1,34 @@
+<main class="wrap page varshphal-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.varshphal}}</p>
+    <h1>{{pages.varshphal.title}}</h1>
+    <p class="lede">{{pages.varshphal.description}}</p>
+  </div>
+
+  <form class="card toolbar varshphal-form" id="vp-form" novalidate>
+    <select class="pick-saved" id="vp-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="vp-name">{{form.name}}</label>
+      <input type="text" id="vp-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="vp-date">{{form.date}}</label>
+        <input type="date" id="vp-date" required>
+      </div>
+      <div class="field">
+        <label for="vp-time">{{form.time}}</label>
+        <input type="time" id="vp-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <div class="field">
+      <label for="vp-year">Prediction Year (वर्षफल वर्ष)</label>
+      <select id="vp-year"></select>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="vp-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

@@ -1,0 +1,30 @@
+<main class="wrap page ratna-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.ratna}}</p>
+    <h1>{{pages.ratna.title}}</h1>
+    <p class="lede">{{pages.ratna.description}}</p>
+  </div>
+
+  <form class="card toolbar ratna-form" id="rt-form" novalidate>
+    <select class="pick-saved" id="rt-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="rt-name">{{form.name}}</label>
+      <input type="text" id="rt-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="rt-date">{{form.date}}</label>
+        <input type="date" id="rt-date" required>
+      </div>
+      <div class="field">
+        <label for="rt-time">{{form.time}}</label>
+        <input type="time" id="rt-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="rt-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>

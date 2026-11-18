@@ -1,0 +1,30 @@
+<main class="wrap page mangal-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{nav.mangal}}</p>
+    <h1>{{pages.mangal.title}}</h1>
+    <p class="lede">{{pages.mangal.description}}</p>
+  </div>
+
+  <form class="card toolbar mangal-form" id="mg-form" novalidate>
+    <select class="pick-saved" id="mg-saved" hidden aria-label="{{mt.pick}}"></select>
+    <div class="field">
+      <label for="mg-name">{{form.name}}</label>
+      <input type="text" id="mg-name" placeholder="{{form.namePh}}">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label for="mg-date">{{form.date}}</label>
+        <input type="date" id="mg-date" required>
+      </div>
+      <div class="field">
+        <label for="mg-time">{{form.time}}</label>
+        <input type="time" id="mg-time" step="60" value="12:00" required>
+      </div>
+    </div>
+    <!--CITY-->
+    <button class="btn-cta" type="submit">{{form.submit}}</button>
+  </form>
+
+  <div id="mg-res"></div>
+  <section class="static-sec"><div class="about"><!--INFO--></div></section>
+</main>
