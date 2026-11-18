@@ -57,6 +57,20 @@ const latStr = v => `${Math.abs(v).toFixed(4)}°${v >= 0 ? 'N' : 'S'}`, lonStr =
 const g = (name, cls = 'gimg') => `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><use href="#gr-${name}"/></svg>`;
 const rg = (s, cls = 'rg') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#rs-${s}"/></svg>`;
 const ic = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#${id}"/></svg>`;
+const toneIcon = tn => tn === 'good' ? ic('i-check') : tn === 'bad' ? ic('i-alert') : ic('i-info');
+async function bindSavedKundali(selId, onFill) {
+  const sel = $(selId); if (!sel) return;
+  if (!session) { sel.hidden = true; return; }
+  try {
+    const rows = await loadMyKundalis();
+    if (!rows || !rows.length) { sel.hidden = true; return; }
+    sel.hidden = false;
+    sel.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + rows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
+    sel.addEventListener('change', () => {
+      if (sel.value !== '') onFill(rows[+sel.value].birth);
+    });
+  } catch (e) { sel.hidden = true; }
+}
 const starRow = n => `<span class="stars" aria-label="${n}/5">${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`;
 const syllables = (n, pada) => L.names.syll[n].map((s, i) => i === pada - 1 ? `<b style="color:var(--gold-deep)">${esc(s)}</b>` : esc(s)).join(', ');
 function toast(text) { const el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); el.textContent = text; document.body.appendChild(el); setTimeout(() => el.remove(), 2800); }

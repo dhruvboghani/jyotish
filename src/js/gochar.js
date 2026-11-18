@@ -10,6 +10,10 @@
   sel.innerHTML = rNames.map((n, i) => `<option value="${i}">${esc(n)} (${dm(0)}–${dm(30)})</option>`).join('');
 
   function renderGochar() {
+    if (!window.Jyotish) {
+      setTimeout(renderGochar, 50);
+      return;
+    }
     const s = parseInt(sel.value, 10) || 0;
     const dt = dateIn.value ? new Date(dateIn.value + 'T12:00:00Z') : new Date();
     const jd = dt.getTime() / 86400000 + 2440587.5;
@@ -41,7 +45,7 @@
       `);
     });
 
-    const chartHtml = drawChart ? drawChart({
+    const chartHtml = typeof drawChart === 'function' ? drawChart({
       asc: s,
       bySign,
       title: `${rn(s)} Gochar Chart`,

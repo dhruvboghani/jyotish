@@ -1,21 +1,15 @@
 /* Rashi Ratna (Vedic Gemstone) Recommender */
 (() => {
-  const form = $('#rt-form'), res = $('#rt-res'), saved = $('#rt-saved');
+  const form = $('#rt-form'), res = $('#rt-res');
   if (!form || !res) return;
 
   const rtCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#rt-name').value = c.name || '';
-      $('#rt-date').value = c.date || '';
-      $('#rt-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        rtCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#rt-saved', b => {
+    $('#rt-name').value = b.name || '';
+    $('#rt-date').value = isoDay(b.year, b.month, b.day);
+    $('#rt-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) rtCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   const GEM_INFO = {
     Sun: { name: 'Ruby (माणिक्य)', metal: 'Gold / Copper', finger: 'Ring finger (अनामिका)', day: 'Sunday morning', mantra: 'Om Hram Hreem Hroum Sah Suryaya Namah' },
@@ -31,6 +25,10 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#rt-date').value, timeVal = $('#rt-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }
 

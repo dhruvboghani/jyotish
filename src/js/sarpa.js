@@ -1,21 +1,15 @@
 /* Kaal Sarp & Sarpa Dosha Calculator */
 (() => {
-  const form = $('#sp-form'), res = $('#sp-res'), saved = $('#sp-saved');
+  const form = $('#sp-form'), res = $('#sp-res');
   if (!form || !res) return;
 
   const spCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#sp-name').value = c.name || '';
-      $('#sp-date').value = c.date || '';
-      $('#sp-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        spCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#sp-saved', b => {
+    $('#sp-name').value = b.name || '';
+    $('#sp-date').value = isoDay(b.year, b.month, b.day);
+    $('#sp-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) spCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   const KS_TYPES = [
     null,
@@ -35,6 +29,10 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#sp-date').value, timeVal = $('#sp-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }
 
@@ -45,7 +43,7 @@
 
     const out = window.Jyotish.compute({ year: y, month: m, day: d, hour: hh, minute: mm, lat: c.lat, lon: c.lon, tzMinutes });
     const P = out.P;
-    const rLon = P.Rahu.lon, kLon = P.Ketu.lon;
+    const rLon = P.Rahu.lon;
 
     const planets7 = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
     let side1 = 0, side2 = 0;

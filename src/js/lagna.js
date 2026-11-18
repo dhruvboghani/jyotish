@@ -1,21 +1,15 @@
 /* Lagna (Ascendant / Rising Sign) Calculator */
 (() => {
-  const form = $('#lg-form'), res = $('#lg-res'), saved = $('#lg-saved');
+  const form = $('#lg-form'), res = $('#lg-res');
   if (!form || !res) return;
 
   const lgCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#lg-name').value = c.name || '';
-      $('#lg-date').value = c.date || '';
-      $('#lg-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        lgCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#lg-saved', b => {
+    $('#lg-name').value = b.name || '';
+    $('#lg-date').value = isoDay(b.year, b.month, b.day);
+    $('#lg-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) lgCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   const LAGNA_TRAITS = [
     { el: 'Fire', col: 'Red / Coral', stone: 'Red Coral', num: '1, 9', dir: 'East', desc: 'Courageous, energetic, pioneering, dynamic natural leaders with high physical vitality.' },
@@ -34,6 +28,10 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#lg-date').value;
     const timeVal = $('#lg-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }
@@ -61,7 +59,7 @@
       bySign[pl.sign].push({ t: ga(p), c: COL[p], r: pl.retro });
     });
 
-    const chartHtml = drawChart ? drawChart({
+    const chartHtml = typeof drawChart === 'function' ? drawChart({
       asc: l.sign,
       bySign,
       title: `${rn(l.sign)} Lagna Chart`,

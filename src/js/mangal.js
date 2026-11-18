@@ -1,24 +1,22 @@
 /* Mangal Dosha (Manglik) Calculator */
 (() => {
-  const form = $('#mg-form'), res = $('#mg-res'), saved = $('#mg-saved');
+  const form = $('#mg-form'), res = $('#mg-res');
   if (!form || !res) return;
 
   const mgCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#mg-name').value = c.name || '';
-      $('#mg-date').value = c.date || '';
-      $('#mg-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        mgCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#mg-saved', b => {
+    $('#mg-name').value = b.name || '';
+    $('#mg-date').value = isoDay(b.year, b.month, b.day);
+    $('#mg-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) mgCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#mg-date').value;
     const timeVal = $('#mg-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }

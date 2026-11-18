@@ -22,6 +22,10 @@
   };
 
   function renderHora() {
+    if (!window.Jyotish) {
+      setTimeout(renderHora, 50);
+      return;
+    }
     const c = hrCity.city || DEFAULT_PLACE;
     const dtStr = dateIn.value || today;
     const [y, m, d] = dtStr.split('-').map(Number);

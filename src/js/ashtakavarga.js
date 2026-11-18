@@ -1,24 +1,22 @@
 /* Ashtakavarga Points Calculator */
 (() => {
-  const form = $('#ak-form'), res = $('#ak-res'), saved = $('#ak-saved');
+  const form = $('#ak-form'), res = $('#ak-res');
   if (!form || !res) return;
 
   const akCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#ak-name').value = c.name || '';
-      $('#ak-date').value = c.date || '';
-      $('#ak-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        akCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#ak-saved', b => {
+    $('#ak-name').value = b.name || '';
+    $('#ak-date').value = isoDay(b.year, b.month, b.day);
+    $('#ak-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) akCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#ak-date').value, timeVal = $('#ak-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }
 

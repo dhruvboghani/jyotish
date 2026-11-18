@@ -1,24 +1,22 @@
 /* Vimshottari Dasha Planner & Timeline */
 (() => {
-  const form = $('#ds-form'), res = $('#ds-res'), saved = $('#ds-saved');
+  const form = $('#ds-form'), res = $('#ds-res');
   if (!form || !res) return;
 
   const dsCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#ds-name').value = c.name || '';
-      $('#ds-date').value = c.date || '';
-      $('#ds-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        dsCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#ds-saved', b => {
+    $('#ds-name').value = b.name || '';
+    $('#ds-date').value = isoDay(b.year, b.month, b.day);
+    $('#ds-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) dsCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#ds-date').value;
     const timeVal = $('#ds-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }

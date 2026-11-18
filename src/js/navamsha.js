@@ -1,21 +1,15 @@
 /* Navamsha (D9) Chart Explorer */
 (() => {
-  const form = $('#nv-form'), res = $('#nv-res'), saved = $('#nv-saved');
+  const form = $('#nv-form'), res = $('#nv-res');
   if (!form || !res) return;
 
   const nvCity = cityPicker(() => {});
-  if (saved && typeof fillSavedSelect === 'function') {
-    fillSavedSelect(saved, c => {
-      if (!c) return;
-      $('#nv-name').value = c.name || '';
-      $('#nv-date').value = c.date || '';
-      $('#nv-time').value = c.time || '12:00';
-      if (c.place) {
-        $('#c-place').value = c.place;
-        nvCity.setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-      }
-    });
-  }
+  bindSavedKundali('#nv-saved', b => {
+    $('#nv-name').value = b.name || '';
+    $('#nv-date').value = isoDay(b.year, b.month, b.day);
+    $('#nv-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    if (b.placeLabel) nvCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+  });
 
   function getD9(sign, deg) {
     const navIndex = Math.floor(deg / (30 / 9));
@@ -25,6 +19,10 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
     const dateVal = $('#nv-date').value, timeVal = $('#nv-time').value || '12:00';
     if (!dateVal) { alert('Please enter date of birth'); return; }
 
@@ -58,7 +56,7 @@
       `);
     });
 
-    const chartHtml = drawChart ? drawChart({
+    const chartHtml = typeof drawChart === 'function' ? drawChart({
       asc: d9Lagna,
       bySign,
       title: 'Navamsha (D9) Chart',

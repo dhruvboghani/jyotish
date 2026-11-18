@@ -3,39 +3,79 @@
   const form = $('#lv-form'), res = $('#lv-res');
   if (!form || !res) return;
 
-  const bCity = cityPicker(() => {}, 'b');
-  const gCity = cityPicker(() => {}, 'g');
-
+  const people = {};
   ['b', 'g'].forEach(p => {
-    const sel = $(`.pick-saved[data-p="${p}"]`);
-    if (sel && typeof fillSavedSelect === 'function') {
-      fillSavedSelect(sel, c => {
-        if (!c) return;
-        $(`#${p}-name`).value = c.name || '';
-        $(`#${p}-date`).value = c.date || '';
-        $(`#${p}-time`).value = c.time || '12:00';
-        if (c.place) {
-          $(`#${p}-place`).value = c.place;
-          (p === 'b' ? bCity : gCity).setCity({ name: c.place, lat: c.lat, lon: c.lon, tz: c.tz || 'Asia/Kolkata' });
-        }
-      });
-    }
+    people[p] = placePicker({
+      input: p + '-place',
+      suggest: p + '-suggest',
+      meta: p + '-meta',
+      lat: p + '-lat',
+      lon: p + '-lon',
+      off: p + '-off',
+      date: p + '-date',
+      time: p + '-time',
+      err: 'lv-err',
+      online: p + '-online'
+    });
   });
+
+  let myRows = [];
+  async function fillPickers() {
+    const sels = $$('.pick-saved');
+    if (!session) { sels.forEach(s => { s.hidden = true; }); return; }
+    try {
+      myRows = await loadMyKundalis();
+      sels.forEach(s => {
+        s.hidden = !myRows.length;
+        s.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + myRows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
+      });
+    } catch (e) { sels.forEach(s => { s.hidden = true; }); }
+  }
+
+  function fillPerson(p, b) {
+    $('#' + p + '-name').value = b.name || '';
+    $('#' + p + '-date').value = isoDay(b.year, b.month, b.day);
+    $('#' + p + '-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+    $('#' + p + '-lat').value = b.lat;
+    $('#' + p + '-lon').value = b.lon;
+    $('#' + p + '-off').value = offStr(b.tzMinutes);
+    people[p].set(null, b.placeLabel || '');
+    people[p].offAuto = false;
+    people[p].chosen === null && ($('#' + p + '-meta').innerHTML = `<b>✓</b> ${latStr(b.lat)}, ${lonStr(b.lon)} · UTC${offStr(b.tzMinutes)}`);
+  }
+
+  $$('.pick-saved').forEach(s => s.addEventListener('change', () => {
+    if (s.value !== '') fillPerson(s.dataset.p, myRows[+s.value].birth);
+  }));
+  readyHooks.push(fillPickers);
+
+  function readPerson(p) {
+    const date = $('#' + p + '-date').value, time = $('#' + p + '-time').value;
+    if (!date) return 'Please enter birth date.';
+    if (!time) return 'Please enter birth time.';
+    people[p].pickFirst();
+    const lat = parseFloat($('#' + p + '-lat').value), lon = parseFloat($('#' + p + '-lon').value);
+    if (!isFinite(lat) || !isFinite(lon)) return 'Please pick a city from suggestions.';
+    people[p].autoOffset();
+    const off = parseOff($('#' + p + '-off').value);
+    if (off === null) return 'Invalid timezone offset.';
+    const [year, month, day] = date.split('-').map(Number);
+    const [hour, minute] = time.split(':').map(Number);
+    return { name: $('#' + p + '-name').value.trim(), year, month, day, hour, minute, lat, lon, tzMinutes: off };
+  }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const bDate = $('#b-date').value, gDate = $('#g-date').value;
-    if (!bDate || !gDate) { alert('Please enter birth dates for both partners.'); return; }
+    if (!window.Jyotish) {
+      alert('Astrology calculation engine is loading, please try again in a moment.');
+      return;
+    }
+    const b = readPerson('b'), g = readPerson('g');
+    if (typeof b === 'string') { alert('Partner 1: ' + b); return; }
+    if (typeof g === 'string') { alert('Partner 2: ' + g); return; }
 
-    const bc = bCity.city || DEFAULT_PLACE, gc = gCity.city || DEFAULT_PLACE;
-    const [by, bm, bd] = bDate.split('-').map(Number), [btH, btM] = ($('#b-time').value || '12:00').split(':').map(Number);
-    const [gy, gm, gd] = gDate.split('-').map(Number), [gtH, gtM] = ($('#g-time').value || '12:00').split(':').map(Number);
-
-    const bTz = tzOffsetMinutes(bc.tz || 'Asia/Kolkata', by, bm, bd, btH, btM);
-    const gTz = tzOffsetMinutes(gc.tz || 'Asia/Kolkata', gy, gm, gd, gtH, gtM);
-
-    const bOut = window.Jyotish.compute({ year: by, month: bm, day: bd, hour: btH, minute: btM, lat: bc.lat, lon: bc.lon, tzMinutes: bTz });
-    const gOut = window.Jyotish.compute({ year: gy, month: gm, day: gd, hour: gtH, minute: gtM, lat: gc.lat, lon: gc.lon, tzMinutes: gTz });
+    const bOut = window.Jyotish.compute(b);
+    const gOut = window.Jyotish.compute(g);
 
     // 1. Emotional Harmony (Moon - Moon relationship)
     const mDist = (gOut.P.Moon.sign - bOut.P.Moon.sign + 12) % 12 + 1;
@@ -60,8 +100,8 @@
     if (totalScore < 70) { tierLabel = '⚖️ Moderate Chemistry (Patience Required)'; tone = 'warn'; }
     else if (totalScore < 85) { tierLabel = '💖 Strong Harmonious Bond'; tone = 'good'; }
 
-    const bName = $('#b-name').value || 'Partner 1';
-    const gName = $('#g-name').value || 'Partner 2';
+    const bName = b.name || 'Partner 1';
+    const gName = g.name || 'Partner 2';
 
     res.innerHTML = `
       <div class="love-results reveal" style="margin-top:1.5rem;">
