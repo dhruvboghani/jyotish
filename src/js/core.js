@@ -657,7 +657,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', dur: 60, sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'hi', cap: null } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', dur: 60, sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'all', cap: null } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -706,13 +706,13 @@ function socialPanel(body) {
           <option value="30">Quick Short (~30s)</option>
         </select></div>
         <div class="field"><label for="soc-yt-lang">${esc(t('socad.yt.lang'))}</label><select id="soc-yt-lang">
-          <option value="hi" selected>हिन्दी (Hindi)</option>
-          <option value="en">English</option>
-          <option value="gu">ગુજરાતી (Gujarati)</option>
-          <option value="ta">தமிழ் (Tamil)</option>
-          <option value="te">తెలుగు (Telugu)</option>
-          <option value="kn">ಕನ್ನಡ (Kannada)</option>
-          <option value="all">${esc(t('socad.yt.allLangs'))}</option>
+          <option value="all" selected>🌐 All 6 Languages in 1 Short / सभी 6 भाषाएं (एक ही शॉर्ट में)</option>
+          <option value="hi">हिन्दी (Hindi only)</option>
+          <option value="en">English only</option>
+          <option value="gu">ગુજરાતી (Gujarati only)</option>
+          <option value="ta">தமிழ் (Tamil only)</option>
+          <option value="te">తెలుగు (Telugu only)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada only)</option>
         </select></div>
       </div>
       <div class="field soc-yt-ctrl" id="soc-yt-f-sign"><label for="soc-yt-sign">${esc(t('socad.yt.sign'))}</label><select id="soc-yt-sign">${(L.names.rashi || []).map((rName, i) => `<option value="${i}">${esc(rName)}</option>`).join('')}</select></div>
@@ -925,9 +925,11 @@ function socialPanel(body) {
         ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
       }
       if (targetSec >= 60 && ytCards.length) {
-        ytHold = Math.min(18, Math.max(3.2, Math.round(((targetSec - 5) / ytCards.length - 1.2) * 10) / 10));
+        const rawHold = (targetSec - 5) / ytCards.length - 1.2;
+        ytHold = Math.min(18, Math.max(1.8, Math.round(rawHold * 10) / 10));
       } else if (targetSec <= 30 && ytCards.length) {
-        ytHold = 2.4;
+        const rawHold = (30 - 5) / ytCards.length - 1.2;
+        ytHold = Math.min(18, Math.max(1.2, Math.round(rawHold * 10) / 10));
       }
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
@@ -937,7 +939,7 @@ function socialPanel(body) {
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.lang === 'all' ? 'all-langs' : st.yt.lang}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -989,7 +991,7 @@ function socialPanel(body) {
   const drawYt = async () => {
     const ta = $('#soc-yt-cap'); if (!ta) return;
     ta.value = '…';
-    const lang = st.yt.lang === 'all' ? 'hi' : st.yt.lang;
+    const lang = st.yt.lang || 'all';
     const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}`;
     try {
       const r = await api(`/api/social/?caption=1&${q}`);
