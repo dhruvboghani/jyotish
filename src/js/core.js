@@ -657,7 +657,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'hi', cap: null } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', dur: 60, sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'hi', cap: null } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -675,19 +675,38 @@ function socialPanel(body) {
     <section class="card soc-reel soc-yt" data-reel="yt">
       <div class="soc-row">
         <div class="field"><label for="soc-yt-theme">${esc(t('socad.yt.theme'))}</label><select id="soc-yt-theme">
-          <option value="sign">${esc(t('socad.yt.tSign'))}</option>
-          <option value="transit">${esc(t('socad.yt.tTransit'))}</option>
-          <option value="match">${esc(t('socad.yt.tMatch'))}</option>
-          <option value="gem">${esc(t('socad.yt.tGem'))}</option>
-          <option value="muhurta">${esc(t('socad.yt.tMuhurta'))}</option>
-          <option value="prashna">${esc(t('socad.yt.tPrashna'))}</option>
-          <option value="vrat">${esc(t('socad.yt.tVrat'))}</option>
-          <option value="names">${esc(t('socad.yt.tNames'))}</option>
-          <option value="dream">${esc(t('socad.yt.tDream'))}</option>
-          <option value="dasha">${esc(t('socad.yt.tDasha'))}</option>
+          <optgroup label="✨ Astrology Modules / कुंडली एवं ज्योतिष">
+            <option value="sign">${esc(t('socad.yt.tSign'))}</option>
+            <option value="transit">${esc(t('socad.yt.tTransit'))}</option>
+            <option value="match">${esc(t('socad.yt.tMatch'))}</option>
+            <option value="gem">${esc(t('socad.yt.tGem'))}</option>
+            <option value="muhurta">${esc(t('socad.yt.tMuhurta'))}</option>
+            <option value="prashna">${esc(t('socad.yt.tPrashna'))}</option>
+            <option value="vrat">${esc(t('socad.yt.tVrat'))}</option>
+            <option value="names">${esc(t('socad.yt.tNames'))}</option>
+            <option value="dream">${esc(t('socad.yt.tDream'))}</option>
+            <option value="dasha">${esc(t('socad.yt.tDasha'))}</option>
+          </optgroup>
+          <optgroup label="🎬 Reel Contents as Shorts / सभी रील्स">
+            <option value="day">${esc(t('socad.yt.tDay'))}</option>
+            <option value="rashifal">${esc(t('socad.yt.tRashifal'))}</option>
+            <option value="panchang">${esc(t('socad.yt.tPanchang'))}</option>
+            <option value="week">${esc(t('socad.yt.tWeek'))}</option>
+            <option value="fest">${esc(t('socad.yt.tFest'))}</option>
+            <option value="wish">✨ ${esc(t('socad.reel.wish'))}</option>
+            <option value="nuall">${esc(t('socad.yt.tNuall'))}</option>
+            <option value="numonth">${esc(t('socad.yt.tNumonth'))}</option>
+            <option value="mulank">${esc(t('socad.yt.tMulank'))}</option>
+          </optgroup>
+        </select></div>
+        <div class="field"><label for="soc-yt-dur">⏱️ Shorts Duration / लंबाई</label><select id="soc-yt-dur">
+          <option value="60" selected>1 Minute (~60s - Recommended)</option>
+          <option value="90">1.5 Minutes (~90s)</option>
+          <option value="120">2 Minutes (~120s)</option>
+          <option value="30">Quick Short (~30s)</option>
         </select></div>
         <div class="field"><label for="soc-yt-lang">${esc(t('socad.yt.lang'))}</label><select id="soc-yt-lang">
-          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="hi" selected>हिन्दी (Hindi)</option>
           <option value="en">English</option>
           <option value="gu">ગુજરાતી (Gujarati)</option>
           <option value="ta">தமிழ் (Tamil)</option>
@@ -735,41 +754,81 @@ function socialPanel(body) {
       </select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="yt"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.yt.make'))}</button></div>
-      <textarea class="soc-cap" rows="8" readonly id="soc-yt-cap">…</textarea><button type="button" class="btn-line soc-copy" id="soc-yt-copy">${ic('i-doc')}${esc(t('socad.yt.copy'))}</button></section>
+      <textarea class="soc-cap" rows="8" readonly id="soc-yt-cap">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" id="soc-yt-copy">${ic('i-doc')}${esc(t('socad.yt.copy'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="yt">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
+    </section>
     <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
-      <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea><button type="button" class="btn-line soc-copy" id="soc-ccopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
+      <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" id="soc-ccopy">${ic('i-doc')}${esc(t('socad.copy'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="chan">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
+    </section>
     <section class="card soc-reel soc-wish" data-reel="wish"><h4>${esc(t('socad.reel.wish'))}</h4><p class="muted small">${esc(t('socad.wishLede'))}</p>
       <div class="field"><label for="soc-wfest">${esc(t('socad.wishFest'))}</label><select id="soc-wfest"><option>…</option></select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="wish"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-      <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="wish">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" data-rcopy="wish">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="wish">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
+    </section>
     <section class="card soc-nu"><h4>${esc(t('socad.nu.h'))}</h4><p class="muted small">${esc(t('socad.nu.lede'))}</p>
       <div class="field"><label for="soc-nuy">${esc(t('socad.nu.year'))}</label><select id="soc-nuy">${[0, 1].map(k => { const y = new Date().getFullYear() + k; return `<option value="${y}"${y === st.nu.y ? ' selected' : ''}>${y}</option>`; }).join('')}</select></div>
       <div class="soc-reels">
         <section class="card soc-reel soc-nur" data-reel="nuall"><h4>${esc(t('socad.nu.all'))}</h4>
           <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
           <div class="soc-acts"><button type="button" class="btn-cta" data-make="nuall"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-          <textarea class="soc-cap" rows="7" readonly data-rcap="nuall">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="nuall">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="nuall">…</textarea>
+          <div class="soc-row-btns">
+            <button type="button" class="btn-line soc-copy" data-rcopy="nuall">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+            <button type="button" class="btn-line soc-speak" data-speak="nuall">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+          </div>
+        </section>
         <section class="card soc-reel soc-nur" data-reel="numonth"><h4>${esc(t('socad.nu.month'))}</h4>
           <div class="field"><label for="soc-num">${esc(t('socad.nu.monthSel'))}</label><select id="soc-num">${Array.from({ length: 12 }, (_, k) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + k); const v = d.getFullYear() + '-' + (d.getMonth() + 1); return `<option value="${v}"${v === st.nu.ym ? ' selected' : ''}>${esc(new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' }).format(d))}</option>`; }).join('')}</select></div>
           <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
           <div class="soc-acts"><button type="button" class="btn-cta" data-make="numonth"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-          <textarea class="soc-cap" rows="7" readonly data-rcap="numonth">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="numonth">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="numonth">…</textarea>
+          <div class="soc-row-btns">
+            <button type="button" class="btn-line soc-copy" data-rcopy="numonth">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+            <button type="button" class="btn-line soc-speak" data-speak="numonth">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+          </div>
+        </section>
         <section class="card soc-reel soc-nur" data-reel="mulank"><h4>${esc(t('socad.nu.one'))}</h4>
           <div class="field"><label for="soc-nun">${esc(t('socad.nu.num'))}</label><select id="soc-nun">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<option value="${n}">${esc(t('socad.nu.num'))} ${n}</option>`).join('')}</select></div>
           <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
           <div class="soc-acts"><button type="button" class="btn-cta" data-make="mulank"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-          <textarea class="soc-cap" rows="7" readonly data-rcap="mulank">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="mulank">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="mulank">…</textarea>
+          <div class="soc-row-btns">
+            <button type="button" class="btn-line soc-copy" data-rcopy="mulank">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+            <button type="button" class="btn-line soc-speak" data-speak="mulank">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+          </div>
+        </section>
       </div>
       <section class="card soc-reply"><h4>${esc(t('socad.nu.replyH'))}</h4><p class="muted small">${esc(t('socad.nu.replyLede'))}</p>
         <div class="soc-row"><div class="field"><label for="soc-dob">${esc(t('socad.nu.dob'))}</label><input id="soc-dob" inputmode="numeric" placeholder="16-08-1995" autocomplete="off"></div>
         <div class="field"><label for="soc-rl">${esc(t('socad.nu.replyLang'))}</label><select id="soc-rl">${SOC_LANGS.map(([l, n]) => `<option value="${l}">${esc(n)}</option>`).join('')}</select></div></div>
-        <textarea class="soc-cap" rows="5" readonly id="soc-reply"></textarea><button type="button" class="btn-line soc-copy" id="soc-rcopy">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>
+        <textarea class="soc-cap" rows="5" readonly id="soc-reply"></textarea>
+        <div class="soc-row-btns">
+          <button type="button" class="btn-line soc-copy" id="soc-rcopy">${ic('i-doc')}${esc(t('socad.copy'))}</button>
+          <button type="button" class="btn-line soc-speak" data-speak="reply">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+        </div>
+      </section>
     </section>
     <div class="soc-reels">${REELS.map(k => `<section class="card soc-reel" data-reel="${k}"><h4>${esc(t('socad.reel.' + k))}</h4>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="${k}"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
-      <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea><button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button></section>`).join('')}</div>
+      <textarea class="soc-cap" rows="7" readonly data-rcap="${k}">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" data-rcopy="${k}">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="${k}">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
+    </section>`).join('')}</div>
     <h3 class="sub-h soc-h">${ic('i-download')}${esc(t('socad.imagesH'))}</h3>
     <div class="seg" role="group" id="soc-fmt"><button type="button" data-fmt="story" aria-pressed="true">${esc(t('sc.story'))}</button><button type="button" data-fmt="post" aria-pressed="false">${esc(t('sc.post'))}</button></div>
     <div id="soc-grid" class="soc-grid"></div>`;
@@ -778,7 +837,11 @@ function socialPanel(body) {
   const resetReels = (sel = '.soc-reel:not(.soc-wish)') => $$(sel).forEach(s => { const v = s.querySelector('.soc-vid'); if (v.dataset.url) URL.revokeObjectURL(v.dataset.url); v.dataset.url = ''; v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; s.querySelectorAll('.soc-dl,.soc-share').forEach(x => x.remove()); });
   const draw = async () => { drawChan();
     $('#soc-grid').innerHTML = SOC_LANGS.map(([l, name]) => `<section class="card soc-lang"><h4>${esc(name)}</h4><div class="soc-imgs ${st.fmt}">${['rashifal', 'panchang'].map(k => `<a href="${img(k, l)}" download="${k}-${l}-${st.date}-${st.fmt}.png" title="${esc(t('cc.download'))}"><img loading="lazy" src="${img(k, l)}" alt="${k} ${l}"><span>${ic('i-download')}${esc(t(k === 'rashifal' ? 'socad.rashifal' : 'socad.panchang'))}</span></a>`).join('')}</div>
-      <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea><button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button></section>`).join('');
+      <textarea class="soc-cap" rows="6" readonly data-cap="${l}">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" data-copy="${l}">${ic('i-doc')}${esc(t('socad.copy'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="grid_${l}">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div></section>`).join('');
     const want = st.date + st.city;
     await Promise.all(SOC_LANGS.map(async ([l]) => {
       try { const r = await api(`/api/social/?caption=1&lang=${l}&date=${st.date}&city=${cityQ()}`); st.caps[l] = r.caption; const ta = $(`[data-cap="${l}"]`); if (ta) ta.value = r.caption; } catch (e) { }
@@ -833,16 +896,48 @@ function socialPanel(body) {
       const ncard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${st.nu.n}${mq}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const ytLangs = st.yt.lang === 'all' ? SOC_LANGS.map(([l]) => l) : [st.yt.lang];
-      const ytTh = st.yt.theme, ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
+      const ytTh = st.yt.theme;
+      let ytCards, ytPer = 2, ytHold = 3.4;
+      const targetSec = st.yt.dur || 60;
+      if (ytTh === 'rashifal') {
+        ytCards = ytLangs.flatMap(l => [card('rashifal', l), card('rashifal2', l)]);
+      } else if (ytTh === 'panchang') {
+        ytCards = ytLangs.flatMap(l => [card('panchang', l), card('panchang2', l)]);
+      } else if (ytTh === 'day') {
+        ytCards = ytLangs.flatMap(l => [card('day', l), card('day2', l), ...(muh3 ? [card('day3', l)] : [])]);
+        if (muh3) ytPer = 3;
+      } else if (ytTh === 'week') {
+        ytCards = ytLangs.flatMap(l => [card('week', l), card('week2', l)]);
+      } else if (ytTh === 'fest') {
+        ytCards = ytLangs.flatMap(l => [card('fest', l), card('fest2', l)]);
+      } else if (ytTh === 'wish') {
+        if (!st.wish) throw new Error(t('socad.wishNone'));
+        ytCards = ytLangs.map(l => wcard(l));
+        ytPer = 1;
+      } else if (ytTh === 'nuall') {
+        ytCards = ytLangs.map(l => ncard('nuall', l)).concat(ncard('nucta', 'hi'));
+        ytPer = 1;
+      } else if (ytTh === 'numonth') {
+        ytCards = ytLangs.flatMap(l => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi'));
+      } else if (ytTh === 'mulank') {
+        ytCards = ytLangs.flatMap(l => [ncard('mulank', l), ncard('mulank2', l)]);
+      } else {
+        ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
+      }
+      if (targetSec >= 60 && ytCards.length) {
+        ytHold = Math.min(18, Math.max(3.2, Math.round(((targetSec - 5) / ytCards.length - 1.2) * 10) / 10));
+      } else if (targetSec <= 30 && ytCards.length) {
+        ytHold = 2.4;
+      }
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
-        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? 2 : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : kind === 'yt' ? 3.4 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
+        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -894,7 +989,7 @@ function socialPanel(body) {
   const drawYt = async () => {
     const ta = $('#soc-yt-cap'); if (!ta) return;
     ta.value = '…';
-    const lang = st.yt.lang === 'all' ? (LANG || 'en') : st.yt.lang;
+    const lang = st.yt.lang === 'all' ? 'hi' : st.yt.lang;
     const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}`;
     try {
       const r = await api(`/api/social/?caption=1&${q}`);
@@ -905,6 +1000,8 @@ function socialPanel(body) {
     }
   };
   $('#soc-yt-theme').addEventListener('change', e => { st.yt.theme = e.target.value; syncYtFields(); resetReels('.soc-yt'); drawYt(); });
+  const durEl = $('#soc-yt-dur');
+  if (durEl) durEl.addEventListener('change', e => { st.yt.dur = +e.target.value; resetReels('.soc-yt'); });
   $('#soc-yt-lang').addEventListener('change', e => { st.yt.lang = e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-sign').addEventListener('change', e => { st.yt.sign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-bsign').addEventListener('change', e => { st.yt.bSign = +e.target.value; resetReels('.soc-yt'); drawYt(); });
@@ -921,8 +1018,97 @@ function socialPanel(body) {
     toast(t('socad.yt.copied'));
   });
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
+  let activeSpeakBtn = null;
+  function stopSpeaking() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (activeSpeakBtn) {
+      activeSpeakBtn.classList.remove('active');
+      const sp = activeSpeakBtn.querySelector('span');
+      if (sp) sp.textContent = t('socad.speakHindi');
+      const use = activeSpeakBtn.querySelector('use');
+      if (use) use.setAttribute('href', '#i-speaker');
+      activeSpeakBtn = null;
+    }
+  }
+
+  function getHindiFemaleVoice() {
+    if (!window.speechSynthesis) return null;
+    const voices = window.speechSynthesis.getVoices() || [];
+    const hiVoices = voices.filter(v => /^hi([-_]|$)/i.test(v.lang) || /hindi/i.test(v.name));
+    if (!hiVoices.length) {
+      const inVoices = voices.filter(v => /[-_]IN$/i.test(v.lang));
+      const inFemale = inVoices.find(v => /(female|aditi|raveena|priya|heera|veena)/i.test(v.name));
+      return inFemale || inVoices[0] || null;
+    }
+    const female = hiVoices.find(v => /(female|lekha|swara|kalpana|aditi|veena|priya|zira|sangeeta|meera|ananya)/i.test(v.name));
+    return female || hiVoices[0];
+  }
+
+  function extractHindiSpeechText(raw) {
+    if (!raw) return '';
+    const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+    const cleanLines = lines.filter(l => !l.startsWith('#') && !/^https?:\/\//i.test(l) && !/^[-—=_\s]+$/.test(l));
+    const devanagariLines = cleanLines.filter(l => /[\u0900-\u097F]/.test(l));
+    const targetLines = devanagariLines.length ? devanagariLines : cleanLines;
+    return targetLines.join(' ')
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/#[\w\u0900-\u097F]+/g, '')
+      .replace(/[★☆✦✧•●■◆✓✔✨🪔🕉️🔮☀️🎨🔗➕🗣️]/gu, ' ')
+      .replace(/[*_~`]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function speakHindiFemale(text, btn) {
+    if (!('speechSynthesis' in window)) {
+      toast('Speech synthesis not supported');
+      return;
+    }
+    if (activeSpeakBtn === btn && window.speechSynthesis.speaking) {
+      stopSpeaking();
+      return;
+    }
+    stopSpeaking();
+
+    const clean = extractHindiSpeechText(text);
+    if (!clean) {
+      toast(t('socad.speakHindi'));
+      return;
+    }
+
+    const ut = new SpeechSynthesisUtterance(clean);
+    ut.lang = 'hi-IN';
+    ut.rate = 0.92;
+    ut.pitch = 1.15;
+
+    const voice = getHindiFemaleVoice();
+    if (voice) ut.voice = voice;
+
+    btn.classList.add('active');
+    const sp = btn.querySelector('span');
+    if (sp) sp.textContent = t('socad.speakStop');
+    const use = btn.querySelector('use');
+    if (use) use.setAttribute('href', '#i-stop');
+    activeSpeakBtn = btn;
+
+    ut.onend = () => { if (activeSpeakBtn === btn) stopSpeaking(); };
+    ut.onerror = () => { if (activeSpeakBtn === btn) stopSpeaking(); };
+    window.speechSynthesis.speak(ut);
+  }
+
   body.addEventListener('click', async e => {
     const mk = e.target.closest('[data-make]'); if (mk) return makeReel(mk.dataset.make, mk);
+    const spk = e.target.closest('[data-speak]');
+    if (spk) {
+      const k = spk.dataset.speak;
+      let text = '';
+      if (k === 'yt') text = ($('#soc-yt-cap') || {}).value;
+      else if (k === 'chan') text = ($('#soc-chan') || {}).value;
+      else if (k === 'reply') text = ($('#soc-reply') || {}).value;
+      else if (k.startsWith('grid_')) text = ($(`[data-cap="${k.replace('grid_', '')}"]`) || {}).value;
+      else text = ($(`[data-rcap="${k}"]`) || {}).value;
+      return speakHindiFemale(text, spk);
+    }
     const b = e.target.closest('[data-copy],[data-rcopy]'); if (!b) return;
     const ta = b.dataset.copy ? $(`[data-cap="${b.dataset.copy}"]`) : $(`[data-rcap="${b.dataset.rcopy}"]`);
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
