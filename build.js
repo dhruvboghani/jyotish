@@ -205,7 +205,38 @@ Disallow: /api/
 Disallow: /share/
 Disallow: /admin/
 
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+Disallow: /share/
+Disallow: /admin/
+
 Sitemap: ${SITE_URL}/sitemap.xml
+Host: ${SITE_URL.replace(/^https?:\/\//, '')}
 `);
 
 const missing = [];
