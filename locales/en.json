@@ -1479,6 +1479,10 @@
     "eye": "More tools",
     "title": "Everything in one place",
     "lede": "Free Jyotish tools computed with the same mathematics as your Kundali.",
+    "face": {
+      "h": "Face Reading",
+      "p": "Samudrika Shastra reading from a selfie to discover your ruling graha and life fortune."
+    },
     "matching": {
       "h": "Kundali matching",
       "p": "Ashtakoot Guna Milan out of 36 with Manglik check for two charts."
@@ -1711,7 +1715,55 @@
       "name": "Hora Timings",
       "title": "Live 24-Hour Planetary Hora – Real-Time Auspicious Hours | Grahavani",
       "description": "Live planetary Hora calculator based on local sunrise and sunset. Discover auspicious hours for finance, contracts, romance, and travel."
+    },
+    "face": {
+      "name": "Face Reading",
+      "title": "Samudrika Shastra – Vedic Face Reading & Kundali | Grahavani",
+      "description": "Discover your ruling graha, elemental balance, life predictions and lucky remedies from a face selfie using ancient Vedic Samudrika Shastra."
     }
+  },
+  "face": {
+    "eye": "Samudrika Shastra",
+    "title": "Vedic Face Reading & Kundali",
+    "lede": "Capture a live selfie or upload a photo. Ancient Samudrika Shastra analyzes your facial landmarks to reveal your ruling graha, elemental balance and life predictions.",
+    "startCam": "Open Camera",
+    "captureBtn": "Capture Selfie",
+    "uploadBtn": "Upload Photo",
+    "flipCam": "Flip",
+    "newScan": "New Selfie",
+    "hint": "Ensure even lighting and face directly towards the camera.",
+    "hintAlign": "Align your face inside the golden oval with good lighting.",
+    "camError": "Could not access camera. Please allow camera permissions or upload a photo.",
+    "specsTitle": "Spectacles or Glasses Detected",
+    "gogglesTitle": "Sunglasses or Goggles Detected",
+    "specsMsg": "For the most accurate Vedic Samudrika Shastra reading, please remove your spectacles or sunglasses so your eyes, brows, and nasal bridge can be clearly measured.",
+    "retakeBtn": "Retake Photo",
+    "ignoreBtn": "Proceed Anyway",
+    "analyzingTitle": "Analyzing Mukha Lakshanas…",
+    "analyzingSub": "Evaluating Trishula facial zones, forehead expanse, eye alignment and jaw contour.",
+    "savedCloud": "Saved to Profile",
+    "rulingGraha": "Dominant Planetary Archetype",
+    "zonesHeading": "Tri-Bhumi Facial Zone Analysis",
+    "upperZone": "Upper Zone (Bhagya)",
+    "upperSub": "Forehead & Brows · Jupiter & Sun",
+    "midZone": "Middle Zone (Karma)",
+    "midSub": "Eyes, Nose & Cheeks · Venus & Mars",
+    "lowerZone": "Lower Zone (Dhairya)",
+    "lowerSub": "Lips, Chin & Jaw · Saturn & Mercury",
+    "predHeading": "Astrological Life Forecast",
+    "predCareer": "Career & Calling",
+    "predWealth": "Wealth & Fortune",
+    "predLove": "Love & Relationships",
+    "predNature": "Soul Strengths & Nature",
+    "remediesHeading": "Personalized Vedic Remedies",
+    "luckyGem": "Auspicious Gemstone",
+    "luckyRudraksha": "Sacred Rudraksha",
+    "luckyColor": "Lucky Colors",
+    "luckyDay": "Auspicious Day",
+    "prescribedMantra": "Prescribed Vedic Graha Mantra",
+    "aboutTitle": "About Samudrika Shastra (सामुद्रिक शास्त्र)",
+    "aboutP1": "Samudrika Shastra is the ancient Vedic discipline of body and facial physiognomy, founded on the principle that the physical form reflects the subtle planetary energies (grahas) and karma at birth.",
+    "aboutP2": "By examining the forehead (destiny and intellect), eyes (vitality and intuition), nose (prosperity), and jawline (tenacity and longevity), this reading uncovers your dominant astrological archetype even without knowing your exact birth time."
   },
   "pp": {
     "eye": "Daily Panchang",

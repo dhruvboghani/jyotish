@@ -1,0 +1,183 @@
+<main class="wrap page face-page">
+  <div class="page-hero">
+    <p class="eyebrow"><svg class="icon"><use href="#i-image"/></svg> {{face.eye}}</p>
+    <h1>{{face.title}}</h1>
+    <p class="lede">{{face.lede}}</p>
+  </div>
+
+  <section class="card face-scanner-card">
+    <div class="scanner-view-container">
+      <div class="scanner-frame" id="scanner-frame">
+        <video id="face-video" playsinline autoplay muted></video>
+        <canvas id="face-overlay"></canvas>
+        <img id="face-preview" alt="Captured Selfie" style="display:none" />
+        <div class="scanner-oval" id="scanner-oval">
+          <div class="scanner-crosshair"></div>
+          <div class="scanner-pulse"></div>
+        </div>
+        <div class="scanning-beam" id="scanning-beam" style="display:none"></div>
+      </div>
+      
+      <!-- Spectacles / Goggles Detection Alert -->
+      <div class="specs-alert" id="specs-alert" style="display:none" role="alert">
+        <div class="specs-alert-icon"><svg class="icon"><use href="#i-alert"/></svg></div>
+        <div class="specs-alert-content">
+          <h4 id="specs-alert-title">{{face.specsTitle}}</h4>
+          <p id="specs-alert-msg">{{face.specsMsg}}</p>
+          <div class="specs-alert-actions">
+            <button type="button" class="btn-cta sm" id="btn-retake-specs">{{face.retakeBtn}}</button>
+            <button type="button" class="btn-line sm" id="btn-ignore-specs">{{face.ignoreBtn}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scanner-controls">
+      <div class="primary-controls">
+        <button type="button" class="btn-cta" id="btn-start-camera">
+          <svg class="icon"><use href="#i-image"/></svg> <span>{{face.startCam}}</span>
+        </button>
+        <button type="button" class="btn-cta" id="btn-snap" style="display:none">
+          <svg class="icon"><use href="#i-star"/></svg> <span>{{face.captureBtn}}</span>
+        </button>
+        <label class="btn-line file-upload-btn" id="lbl-upload">
+          <input type="file" id="face-file-input" accept="image/*" />
+          <svg class="icon"><use href="#i-download"/></svg> <span>{{face.uploadBtn}}</span>
+        </label>
+        <button type="button" class="btn-line" id="btn-flip-cam" style="display:none" title="{{face.flipCam}}">
+          <svg class="icon"><use href="#i-loop"/></svg> <span>{{face.flipCam}}</span>
+        </button>
+        <button type="button" class="btn-line" id="btn-reset" style="display:none">
+          {{face.newScan}}
+        </button>
+      </div>
+      <p class="scanner-hint muted small" id="scanner-hint">{{face.hint}}</p>
+    </div>
+  </section>
+
+  <!-- Scanning status / loader -->
+  <div class="face-analyzing card" id="face-analyzing" style="display:none">
+    <div class="spinner"></div>
+    <div class="analyzing-text">
+      <h3>{{face.analyzingTitle}}</h3>
+      <p class="muted">{{face.analyzingSub}}</p>
+    </div>
+  </div>
+
+  <!-- Detailed Results -->
+  <section class="face-results" id="face-results" style="display:none">
+    <!-- Header with Ruling Graha and Element -->
+    <div class="card result-hero-card">
+      <div class="result-badge-row">
+        <span class="tag gold" id="res-tattva-tag">Agni Tattva</span>
+        <span class="tag good" id="res-sync-tag"><svg class="icon sm"><use href="#i-check"/></svg> {{face.savedCloud}}</span>
+      </div>
+      <div class="graha-main-showcase">
+        <div class="graha-avatar" id="res-graha-icon"></div>
+        <div>
+          <p class="eyebrow">{{face.rulingGraha}}</p>
+          <h2 id="res-graha-name">Surya (Sun) Dominance</h2>
+          <p class="lede" id="res-graha-tagline">Natural authority, radiant vitality, high destiny</p>
+        </div>
+      </div>
+      <p id="res-graha-summary" class="graha-summary-text"></p>
+    </div>
+
+    <!-- 3-Zone Vedic Trishula Analysis -->
+    <h2 class="sub-h">{{face.zonesHeading}}</h2>
+    <div class="mod-grid three-col">
+      <div class="card zone-card">
+        <div class="zone-header">
+          <span class="zone-number">1</span>
+          <div>
+            <h4>{{face.upperZone}}</h4>
+            <small class="muted">{{face.upperSub}}</small>
+          </div>
+        </div>
+        <p class="zone-desc" id="res-zone-upper"></p>
+        <div class="zone-score" id="res-score-upper"></div>
+      </div>
+
+      <div class="card zone-card">
+        <div class="zone-header">
+          <span class="zone-number">2</span>
+          <div>
+            <h4>{{face.midZone}}</h4>
+            <small class="muted">{{face.midSub}}</small>
+          </div>
+        </div>
+        <p class="zone-desc" id="res-zone-mid"></p>
+        <div class="zone-score" id="res-score-mid"></div>
+      </div>
+
+      <div class="card zone-card">
+        <div class="zone-header">
+          <span class="zone-number">3</span>
+          <div>
+            <h4>{{face.lowerZone}}</h4>
+            <small class="muted">{{face.lowerSub}}</small>
+          </div>
+        </div>
+        <p class="zone-desc" id="res-zone-lower"></p>
+        <div class="zone-score" id="res-score-lower"></div>
+      </div>
+    </div>
+
+    <!-- Predictions: Career, Wealth, Love, Personality -->
+    <h2 class="sub-h">{{face.predHeading}}</h2>
+    <div class="mod-grid two-col">
+      <div class="card pred-card">
+        <h4><svg class="icon"><use href="#i-star"/></svg> {{face.predCareer}}</h4>
+        <p id="res-pred-career"></p>
+      </div>
+      <div class="card pred-card">
+        <h4><svg class="icon"><use href="#i-sun"/></svg> {{face.predWealth}}</h4>
+        <p id="res-pred-wealth"></p>
+      </div>
+      <div class="card pred-card">
+        <h4><svg class="icon"><use href="#i-heart"/></svg> {{face.predLove}}</h4>
+        <p id="res-pred-love"></p>
+      </div>
+      <div class="card pred-card">
+        <h4><svg class="icon"><use href="#i-shield"/></svg> {{face.predNature}}</h4>
+        <p id="res-pred-nature"></p>
+      </div>
+    </div>
+
+    <!-- Vedic Remedies based on Facial Signature -->
+    <h2 class="sub-h">{{face.remediesHeading}}</h2>
+    <div class="card remedies-card">
+      <div class="remedies-grid">
+        <div class="remedy-item">
+          <span class="remedy-label">{{face.luckyGem}}</span>
+          <b id="res-rem-gem">Ruby (Manikya)</b>
+        </div>
+        <div class="remedy-item">
+          <span class="remedy-label">{{face.luckyRudraksha}}</span>
+          <b id="res-rem-rudraksha">1 Mukhi or 12 Mukhi</b>
+        </div>
+        <div class="remedy-item">
+          <span class="remedy-label">{{face.luckyColor}}</span>
+          <b id="res-rem-color">Golden Yellow / Saffron</b>
+        </div>
+        <div class="remedy-item">
+          <span class="remedy-label">{{face.luckyDay}}</span>
+          <b id="res-rem-day">Sunday (Ravivar)</b>
+        </div>
+      </div>
+      <div class="mantra-box">
+        <p class="muted small">{{face.prescribedMantra}}</p>
+        <blockquote id="res-rem-mantra">Om Hram Hreem Hroum Sah Suryaya Namah</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explanatory static section for SEO & Trust -->
+  <section class="static-sec">
+    <div class="about">
+      <h3>{{face.aboutTitle}}</h3>
+      <p>{{face.aboutP1}}</p>
+      <p>{{face.aboutP2}}</p>
+    </div>
+  </section>
+</main>

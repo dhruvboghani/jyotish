@@ -24,7 +24,8 @@ const ROUTES = {
   seo: () => require('../lib/routes/seo.js'),
   log: () => require('../lib/routes/log.js'),
   ask: () => require('../lib/routes/ask.js'),
-  social: () => require('../lib/routes/social.js')
+  social: () => require('../lib/routes/social.js'),
+  face: () => require('../lib/routes/face.js')
 };
 
 // The Android app (Capacitor) serves its pages from https://localhost and calls this API cross-origin.

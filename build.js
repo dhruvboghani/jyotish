@@ -117,6 +117,7 @@ function pagesFor(L) {
     P('ratna', 'rashi-ratna/', { priority: '0.8', freq: 'monthly' }),
     P('sarpa', 'sarpa-dosha/', { priority: '0.8', freq: 'monthly' }),
     P('hora', 'hora-time/', { priority: '0.8', freq: 'daily' }),
+    P('face', 'face-reading/', { priority: '0.8', freq: 'weekly' }),
     P('learn', 'learn/', { priority: '0.8', freq: 'monthly', body: learnIndex(L) }),
     P('share', 'share/', { noindex: true }),
     P('privacy', 'privacy/', { priority: '0.3', freq: 'yearly', body: legalBody(L, 'privacy') }),
