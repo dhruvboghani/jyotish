@@ -2198,6 +2198,25 @@ form.nu-check { margin: 0; }
 
 
 /* ---- Face Reading / Samudrika Shastra ---- */
+.face-page svg {
+  max-width: 100%;
+}
+.face-page .eyebrow svg,
+.face-page svg.ui {
+  width: 18px !important;
+  height: 18px !important;
+  flex: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+.face-page svg.ui.sm {
+  width: 14px !important;
+  height: 14px !important;
+}
+.face-page svg.ui.xl {
+  width: 32px !important;
+  height: 32px !important;
+}
 .face-page .btn-cta, .face-page .btn-line {
   display: inline-flex;
   align-items: center;
@@ -2211,8 +2230,8 @@ form.nu-check { margin: 0; }
   vertical-align: middle;
 }
 .face-page .btn-cta svg.ui, .face-page .btn-line svg.ui {
-  width: 18px;
-  height: 18px;
+  width: 18px !important;
+  height: 18px !important;
   flex: none;
   display: inline-block;
   vertical-align: middle;
@@ -2245,7 +2264,20 @@ form.nu-check { margin: 0; }
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 1rem;
+}
+.scanner-controls {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.scanner-hint {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  text-align: center;
 }
 .face-scanner-card {
   max-width: 560px;
