@@ -49,6 +49,7 @@ for (const file of walk(WWW).filter(f => f.endsWith('.html'))) {
     return `<script src="/assets/sprite-${h}.js"></script>\n${PRELOADER}`;
   });
   html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ''); // search-engine data, not needed in the app
+  html = html.replace(/<script async src="https:\/\/pagead2\.googlesyndication\.com\/[^"]*"[^>]*><\/script>\s*/g, ''); // AdSense is web-only, mobile uses AdMob
   html = html.replace(/<script defer src="\/_vercel\/insights\/script\.js"><\/script>\s*/g, '');
   html = html.replace(/<script (?:defer )?src="(\/config\.js[^"]*)"><\/script>/, '<script src="$1"></script>\n<script src="/offline.js" defer></script>');
   html = html.replace(/<link rel="manifest"[^>]*>\s*/, '');
