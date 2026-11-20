@@ -3,8 +3,8 @@
    and saves base64 photo + reading into Supabase. */
 (function() {
   const video = document.getElementById('face-video');
-  const overlay = document.getElementById('face-overlay');
   const preview = document.getElementById('face-preview');
+  const placeholder = document.getElementById('scanner-placeholder');
   const scannerOval = document.getElementById('scanner-oval');
   const scanningBeam = document.getElementById('scanning-beam');
   const specsAlert = document.getElementById('specs-alert');
@@ -13,6 +13,7 @@
   const btnStart = document.getElementById('btn-start-camera');
   const btnSnap = document.getElementById('btn-snap');
   const fileInput = document.getElementById('face-file-input');
+  const lblUpload = document.getElementById('lbl-upload');
   const btnFlip = document.getElementById('btn-flip-cam');
   const btnReset = document.getElementById('btn-reset');
   const btnRetakeSpecs = document.getElementById('btn-retake-specs');
@@ -32,6 +33,11 @@
   async function startCamera() {
     stopCamera();
     try {
+      if (placeholder) placeholder.style.display = 'none';
+      if (preview) preview.style.display = 'none';
+      if (specsAlert) specsAlert.style.display = 'none';
+      if (resultsSec) resultsSec.style.display = 'none';
+
       const constraints = {
         video: {
           facingMode: { ideal: facingMode },
@@ -40,21 +46,27 @@
         },
         audio: false
       };
+
       stream = await navigator.mediaDevices.getUserMedia(constraints);
       video.srcObject = stream;
-      await video.play();
-
       video.style.display = 'block';
-      if (preview) preview.style.display = 'none';
-      if (scannerOval) scannerOval.style.display = 'block';
-      btnStart.style.display = 'none';
-      btnSnap.style.display = 'inline-flex';
-      btnFlip.style.display = 'inline-flex';
-      if (specsAlert) specsAlert.style.display = 'none';
-      if (scannerHint) scannerHint.textContent = (window.I18N && window.I18N.face && window.I18N.face.hintAlign) || 'Align your face inside the golden oval with good lighting.';
+
+      video.onloadedmetadata = () => {
+        video.play();
+        if (scannerOval) scannerOval.style.display = 'flex';
+        btnStart.style.display = 'none';
+        if (lblUpload) lblUpload.style.display = 'none';
+        btnSnap.style.display = 'inline-flex';
+        btnFlip.style.display = 'inline-flex';
+        if (scannerHint) scannerHint.textContent = (window.I18N && window.I18N.face && window.I18N.face.hintAlign) || 'Align your face inside the golden oval with good lighting.';
+      };
     } catch (err) {
       console.warn('Camera error:', err);
-      alert((window.I18N && window.I18N.face && window.I18N.face.camError) || 'Could not open camera. Please allow camera permissions or upload a photo.');
+      if (placeholder) placeholder.style.display = 'flex';
+      video.style.display = 'none';
+      btnStart.style.display = 'inline-flex';
+      if (lblUpload) lblUpload.style.display = 'inline-flex';
+      alert((window.I18N && window.I18N.face && window.I18N.face.camError) || 'Could not open camera. Please grant camera permission or use the "Upload Photo" button.');
     }
   }
 
@@ -63,6 +75,7 @@
       stream.getTracks().forEach(t => t.stop());
       stream = null;
     }
+    video.srcObject = null;
   }
 
   function flipCamera() {
@@ -73,24 +86,24 @@
   // --- Image Capture & Scaling (Base64) ---
   function captureCurrentFrame() {
     const canvas = document.createElement('canvas');
-    const w = video.videoWidth || 640;
-    const h = video.videoHeight || 800;
+    let w = video.videoWidth || 640;
+    let h = video.videoHeight || 800;
+    if (w < 10) w = 640;
+    if (h < 10) h = 800;
 
-    // Rescale to 360x480 max for fast network transfer and lean base64 storage (~35 KB)
     const targetW = 360;
-    const targetH = Math.round((h / w) * targetW);
+    const targetH = Math.round((h / w) * targetW) || 480;
     canvas.width = targetW;
     canvas.height = targetH;
 
     const ctx = canvas.getContext('2d');
-    // Mirror front camera
     if (facingMode === 'user') {
       ctx.translate(targetW, 0);
       ctx.scale(-1, 1);
     }
     ctx.drawImage(video, 0, 0, targetW, targetH);
 
-    const base64 = canvas.toDataURL('image/jpeg', 0.82);
+    const base64 = canvas.toDataURL('image/jpeg', 0.84);
     stopCamera();
     return { base64, canvas, width: targetW, height: targetH };
   }
@@ -101,7 +114,7 @@
     const imgData = ctx.getImageData(0, 0, width, height);
     const data = imgData.data;
 
-    // Center face box approximation
+    // Center facial bounding box
     const boxX = Math.round(width * 0.20);
     const boxW = Math.round(width * 0.60);
     const boxY = Math.round(height * 0.15);
@@ -112,13 +125,12 @@
     const fhY2 = boxY + Math.round(boxH * 0.22);
     let fhLumaSum = 0, fhCount = 0;
 
-    // 2. Eye and Nose-bridge band (32% to 50% of face)
+    // 2. Eye & Nasal Bridge band (32% to 50% of face)
     const eyeY1 = boxY + Math.round(boxH * 0.30);
     const eyeY2 = boxY + Math.round(boxH * 0.50);
     let eyeLumaSum = 0, eyeCount = 0;
     let bridgeGradients = 0, bridgePixels = 0;
 
-    // Central bridge coordinates (45% to 55% of face width)
     const bridgeX1 = boxX + Math.round(boxW * 0.42);
     const bridgeX2 = boxX + Math.round(boxW * 0.58);
 
@@ -127,7 +139,7 @@
       return 0.299 * data[idx] + 0.587 * data[idx + 1] + 0.114 * data[idx + 2];
     };
 
-    // Sample forehead luminance
+    // Sample forehead
     for (let y = fhY1; y < fhY2; y += 3) {
       for (let x = boxX + 10; x < boxX + boxW - 10; x += 3) {
         fhLumaSum += lumaAt(x, y);
@@ -136,19 +148,18 @@
     }
     const avgFhLuma = fhCount > 0 ? (fhLumaSum / fhCount) : 120;
 
-    // Sample eye and nasal bridge luminance and edge gradients
+    // Sample eye and nasal bridge
     for (let y = eyeY1; y < eyeY2; y += 2) {
       for (let x = boxX + 5; x < boxX + boxW - 5; x += 2) {
         const lum = lumaAt(x, y);
         eyeLumaSum += lum;
         eyeCount++;
 
-        // In the bridge area, measure horizontal Sobel-like edge steps
         if (x >= bridgeX1 && x <= bridgeX2) {
           const leftLum = lumaAt(x - 2, y);
           const rightLum = lumaAt(x + 2, y);
           const grad = Math.abs(rightLum - leftLum);
-          if (grad > 38) bridgeGradients++;
+          if (grad > 42) bridgeGradients++;
           bridgePixels++;
         }
       }
@@ -157,20 +168,19 @@
     const avgEyeLuma = eyeCount > 0 ? (eyeLumaSum / eyeCount) : 100;
     const bridgeEdgeDensity = bridgePixels > 0 ? (bridgeGradients / bridgePixels) : 0;
 
-    // Condition A: Dark Sunglasses / Goggles (eye zone is disproportionately dark)
-    const isDarkGoggles = (avgEyeLuma < 55) || (avgEyeLuma < avgFhLuma * 0.48);
+    // Dark Sunglasses / Goggles
+    const isDarkGoggles = (avgEyeLuma < 52) || (avgEyeLuma < avgFhLuma * 0.45);
 
-    // Condition B: Clear Spectacles / Frames (sharp bridge gradient density or frame rim contrast)
-    const hasSpectacles = bridgeEdgeDensity > 0.16;
+    // Clear Spectacles Frames
+    const hasSpectacles = bridgeEdgeDensity > 0.18;
 
     const specsDetected = isDarkGoggles || hasSpectacles;
     const specsType = isDarkGoggles ? 'goggles' : hasSpectacles ? 'spectacles' : 'none';
 
-    // Measure Samudrika proportions:
-    // Upper zone (Forehead), Mid zone (Eyes + Nose), Lower zone (Chin + Jaw)
+    // Measure Samudrika proportions
     const upperRatio = ((fhY2 - fhY1) / boxH);
     const midRatio = ((eyeY2 - eyeY1) / boxH);
-    const lowerRatio = 1 - (upperRatio + midRatio);
+    const lowerRatio = Math.max(0.2, 1 - (upperRatio + midRatio));
 
     return {
       specsDetected,
@@ -187,7 +197,6 @@
   function computeSamudrikaReading(features) {
     const { upperRatio, midRatio, lowerRatio, avgLuma } = features;
 
-    // Calculate Graha affinity scores
     const scores = {
       Guru: Math.round(40 + upperRatio * 130 + (avgLuma > 110 ? 15 : 5)),
       Surya: Math.round(35 + (avgLuma > 130 ? 25 : 10) + upperRatio * 90),
@@ -198,7 +207,6 @@
       Shani: Math.round(30 + lowerRatio * 110 + (avgLuma < 100 ? 20 : 5))
     };
 
-    // Find dominant planet
     let dominant = 'Guru';
     let maxScore = -1;
     for (const [planet, score] of Object.entries(scores)) {
@@ -209,13 +217,13 @@
     }
 
     const tattvaMap = {
-      Surya: { name: 'Agni (Fire)', desc: 'High vitality, leadership, radiant self-determination' },
+      Surya: { name: 'Agni (Fire)', desc: 'High vitality, inherent authority, vibrant self-determination' },
       Mangal: { name: 'Agni (Fire)', desc: 'Courage, physical stamina, decisive execution' },
       Guru: { name: 'Akasha (Ether)', desc: 'Broad wisdom, philosophical depth, natural benevolence' },
       Shukra: { name: 'Jala (Water)', desc: 'Artistic appreciation, magnetic charm, emotional grace' },
-      Chandra: { name: 'Jala (Water)', desc: 'Intuition, empathetic perception, deep maternal caring' },
-      Budha: { name: 'Prithvi (Earth)', desc: 'Intellectual adaptability, eloquence, sharp commerce' },
-      Shani: { name: 'Vayu (Air)', desc: 'Disciplined perseverance, realism, structured foundation' }
+      Chandra: { name: 'Jala (Water)', desc: 'Intuition, empathetic perception, peaceful harmony' },
+      Budha: { name: 'Prithvi (Earth)', desc: 'Intellectual adaptability, eloquence, commercial sharpness' },
+      Shani: { name: 'Vayu (Air)', desc: 'Disciplined perseverance, realism, lasting foundations' }
     };
 
     const grahaData = {
@@ -224,22 +232,22 @@
         tagline: 'High destiny, inherent authority, vibrant vital force',
         summary: 'Your facial structure exhibits high solar vitality with an open, luminous forehead and focused brow. Samudrika Shastra considers this a signature of natural leadership, dignity, and an ambitious soul that commands respect.',
         career: 'Excels in administration, management, public office, entrepreneurship, and leadership roles where autonomy and vision are required.',
-        wealth: 'Strong earning capability through independent initiative, government patronage, or commanding high executive value.',
-        love: 'Warm, devoted, and protective; appreciates mutual respect, loyalty, and a partner who honors your inner dignity.',
-        nature: 'Honest, courageous, and proud with a high sense of moral duty and aversion to pettiness.',
-        gem: 'Ruby (Manikya) in Gold / Copper',
+        wealth: 'Strong earning capability through independent initiative, executive value, and commanding leadership.',
+        love: 'Warm, devoted, and protective; values loyalty, honesty, and mutual respect.',
+        nature: 'Honest, courageous, and proud with a high sense of moral duty and self-respect.',
+        gem: 'Ruby (Manikya) in Gold or Copper',
         rudraksha: '1 Mukhi or 12 Mukhi Rudraksha',
-        color: 'Saffron, Radiant Gold, Deep Crimson',
+        color: 'Saffron, Radiant Gold, Crimson',
         day: 'Sunday (Ravivar)',
         mantra: 'Om Hram Hreem Hroum Sah Suryaya Namah'
       },
       Guru: {
         title: 'Guru (Jupiter) Archetype — The Sage & Visionary',
-        tagline: 'Expansive wisdom, high intellect, auspicious blessings',
+        tagline: 'Expansive wisdom, high intellect, auspicious fortune',
         summary: 'A broad, dignified forehead and calm, steady gaze indicate strong Jupiterian influence. In Mukha Samudrika, this marks a person blessed with righteous judgment, counsel capability, and innate spiritual intelligence.',
         career: 'Thrives in mentorship, teaching, law, finance, consulting, research, and guiding organizations with strategic ethical clarity.',
         wealth: 'Consistent, principled prosperity accumulated through knowledge, wise investments, and societal goodwill.',
-        love: 'Values intellectual companionship, shared spiritual principles, and a harmonious, supportive family life.',
+        love: 'Values intellectual companionship, shared spiritual principles, and a harmonious family life.',
         nature: 'Generous, noble-minded, forgiving, with a persistent thirst for learning and uplifting others.',
         gem: 'Yellow Sapphire (Pukhraj) in Gold',
         rudraksha: '5 Mukhi Rudraksha',
@@ -251,9 +259,9 @@
         title: 'Mangal (Mars) Archetype — The Warrior & Achiever',
         tagline: 'High determination, stamina, fearless execution',
         summary: 'A structured, resolute jawline and penetrating gaze reveal intense Martian energy. Samudrika Shastra links this bone structure to courage, physical endurance, and a refusal to give up under pressure.',
-        career: 'Outstanding in engineering, sports, technical industries, surgery, real estate, and high-stakes problem-solving.',
+        career: 'Outstanding in engineering, technical industries, sports, surgery, real estate, and high-stakes problem-solving.',
         wealth: 'Created through competitive drive, property gains, calculated risk-taking, and tireless effort.',
-        love: 'Passionate, direct, and fiercely protective of loved ones; seeks honesty and equal enthusiasm.',
+        love: 'Passionate, direct, and fiercely loyal; seeks honesty, passion, and equal enthusiasm.',
         nature: 'Dynamic, candid, action-oriented, with high resilience that turns challenges into triumphs.',
         gem: 'Red Coral (Moonga) in Silver or Copper',
         rudraksha: '3 Mukhi Rudraksha',
@@ -425,7 +433,7 @@
       const syncTag = document.getElementById('res-sync-tag');
       if (syncTag) {
         if (json && json.ok) {
-          syncTag.innerHTML = `<svg class="icon sm"><use href="#i-check"/></svg> ${(window.I18N && window.I18N.face && window.I18N.face.savedCloud) || 'Saved to Profile'}`;
+          syncTag.innerHTML = `<svg class="ui sm" viewBox="0 0 24 24"><use href="#i-check"/></svg> ${(window.I18N && window.I18N.face && window.I18N.face.savedCloud) || 'Saved to Profile'}`;
           syncTag.className = 'tag good';
         } else {
           syncTag.style.display = 'none';
@@ -455,7 +463,6 @@
     detectedAnalysis = { features, reading };
 
     if (features.specsDetected) {
-      // Spectacles or Goggles detected! Alert user
       if (scanningBeam) scanningBeam.style.display = 'none';
       if (specsAlert) {
         specsAlert.style.display = 'flex';
@@ -481,6 +488,26 @@
         saveToSupabase(capturedBase64, detectedAnalysis.features, detectedAnalysis.reading);
       }
     }, 600);
+  }
+
+  // --- Reset All to Initial State ---
+  function resetAll() {
+    stopCamera();
+    video.style.display = 'none';
+    if (preview) preview.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'flex';
+    if (scannerOval) scannerOval.style.display = 'none';
+    if (scanningBeam) scanningBeam.style.display = 'none';
+    if (specsAlert) specsAlert.style.display = 'none';
+    if (analyzingCard) analyzingCard.style.display = 'none';
+    if (resultsSec) resultsSec.style.display = 'none';
+
+    btnSnap.style.display = 'none';
+    btnFlip.style.display = 'none';
+    btnReset.style.display = 'none';
+    btnStart.style.display = 'inline-flex';
+    if (lblUpload) lblUpload.style.display = 'inline-flex';
+    if (scannerHint) scannerHint.textContent = (window.I18N && window.I18N.face && window.I18N.face.hint) || 'Ensure even lighting and face directly towards the camera.';
   }
 
   // --- Event Listeners ---
@@ -509,7 +536,8 @@
           canvas.height = h;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
-          const base64 = canvas.toDataURL('image/jpeg', 0.82);
+          const base64 = canvas.toDataURL('image/jpeg', 0.84);
+          if (placeholder) placeholder.style.display = 'none';
           processCapturedImage(canvas, base64);
         };
         img.src = evt.target.result;
@@ -521,7 +549,7 @@
   if (btnRetakeSpecs) {
     btnRetakeSpecs.addEventListener('click', () => {
       if (specsAlert) specsAlert.style.display = 'none';
-      if (resultsSec) resultsSec.style.display = 'none';
+      if (preview) preview.style.display = 'none';
       startCamera();
     });
   }
@@ -531,12 +559,6 @@
   }
 
   if (btnReset) {
-    btnReset.addEventListener('click', () => {
-      if (resultsSec) resultsSec.style.display = 'none';
-      btnReset.style.display = 'none';
-      btnStart.style.display = 'inline-flex';
-      if (preview) preview.style.display = 'none';
-      if (scannerOval) scannerOval.style.display = 'block';
-    });
+    btnReset.addEventListener('click', resetAll);
   }
 })();

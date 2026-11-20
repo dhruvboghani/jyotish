@@ -1,6 +1,6 @@
 <main class="wrap page face-page">
   <div class="page-hero">
-    <p class="eyebrow"><svg class="icon"><use href="#i-image"/></svg> {{face.eye}}</p>
+    <p class="eyebrow"><svg class="ui" viewBox="0 0 24 24"><use href="#i-image"/></svg> {{face.eye}}</p>
     <h1>{{face.title}}</h1>
     <p class="lede">{{face.lede}}</p>
   </div>
@@ -8,19 +8,33 @@
   <section class="card face-scanner-card">
     <div class="scanner-view-container">
       <div class="scanner-frame" id="scanner-frame">
-        <video id="face-video" playsinline autoplay muted></video>
-        <canvas id="face-overlay"></canvas>
+        <!-- Initial Placeholder State (Before Camera Opens) -->
+        <div class="scanner-placeholder" id="scanner-placeholder">
+          <div class="placeholder-icon">
+            <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-image"/></svg>
+          </div>
+          <h3>Ready for Scan</h3>
+          <p class="muted small">Click "Open Camera" or "Upload Photo" to begin</p>
+        </div>
+
+        <video id="face-video" playsinline autoplay muted style="display:none"></video>
         <img id="face-preview" alt="Captured Selfie" style="display:none" />
-        <div class="scanner-oval" id="scanner-oval">
+        
+        <!-- Golden Oval Guidelines -->
+        <div class="scanner-oval" id="scanner-oval" style="display:none">
           <div class="scanner-crosshair"></div>
           <div class="scanner-pulse"></div>
         </div>
+
+        <!-- Scanning Light Effect -->
         <div class="scanning-beam" id="scanning-beam" style="display:none"></div>
       </div>
       
       <!-- Spectacles / Goggles Detection Alert -->
       <div class="specs-alert" id="specs-alert" style="display:none" role="alert">
-        <div class="specs-alert-icon"><svg class="icon"><use href="#i-alert"/></svg></div>
+        <div class="specs-alert-icon">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-alert"/></svg>
+        </div>
         <div class="specs-alert-content">
           <h4 id="specs-alert-title">{{face.specsTitle}}</h4>
           <p id="specs-alert-msg">{{face.specsMsg}}</p>
@@ -32,32 +46,37 @@
       </div>
     </div>
 
+    <!-- Scanner Action Controls -->
     <div class="scanner-controls">
       <div class="primary-controls">
         <button type="button" class="btn-cta" id="btn-start-camera">
-          <svg class="icon"><use href="#i-image"/></svg> <span>{{face.startCam}}</span>
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-image"/></svg> <span>{{face.startCam}}</span>
         </button>
-        <button type="button" class="btn-cta" id="btn-snap" style="display:none">
-          <svg class="icon"><use href="#i-star"/></svg> <span>{{face.captureBtn}}</span>
+
+        <button type="button" class="btn-cta btn-snap" id="btn-snap" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> <span>{{face.captureBtn}}</span>
         </button>
+
         <label class="btn-line file-upload-btn" id="lbl-upload">
           <input type="file" id="face-file-input" accept="image/*" />
-          <svg class="icon"><use href="#i-download"/></svg> <span>{{face.uploadBtn}}</span>
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> <span>{{face.uploadBtn}}</span>
         </label>
+
         <button type="button" class="btn-line" id="btn-flip-cam" style="display:none" title="{{face.flipCam}}">
-          <svg class="icon"><use href="#i-loop"/></svg> <span>{{face.flipCam}}</span>
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{face.flipCam}}</span>
         </button>
+
         <button type="button" class="btn-line" id="btn-reset" style="display:none">
-          {{face.newScan}}
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{face.newScan}}</span>
         </button>
       </div>
       <p class="scanner-hint muted small" id="scanner-hint">{{face.hint}}</p>
     </div>
   </section>
 
-  <!-- Scanning status / loader -->
+  <!-- Analyzing State -->
   <div class="face-analyzing card" id="face-analyzing" style="display:none">
-    <div class="spinner"></div>
+    <div class="face-spinner"></div>
     <div class="analyzing-text">
       <h3>{{face.analyzingTitle}}</h3>
       <p class="muted">{{face.analyzingSub}}</p>
@@ -66,14 +85,15 @@
 
   <!-- Detailed Results -->
   <section class="face-results" id="face-results" style="display:none">
-    <!-- Header with Ruling Graha and Element -->
     <div class="card result-hero-card">
       <div class="result-badge-row">
         <span class="tag gold" id="res-tattva-tag">Agni Tattva</span>
-        <span class="tag good" id="res-sync-tag"><svg class="icon sm"><use href="#i-check"/></svg> {{face.savedCloud}}</span>
+        <span class="tag good" id="res-sync-tag"><svg class="ui sm" viewBox="0 0 24 24"><use href="#i-check"/></svg> {{face.savedCloud}}</span>
       </div>
       <div class="graha-main-showcase">
-        <div class="graha-avatar" id="res-graha-icon"></div>
+        <div class="graha-symbol-box" id="res-graha-icon">
+          <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-sun"/></svg>
+        </div>
         <div>
           <p class="eyebrow">{{face.rulingGraha}}</p>
           <h2 id="res-graha-name">Surya (Sun) Dominance</h2>
@@ -95,7 +115,6 @@
           </div>
         </div>
         <p class="zone-desc" id="res-zone-upper"></p>
-        <div class="zone-score" id="res-score-upper"></div>
       </div>
 
       <div class="card zone-card">
@@ -107,7 +126,6 @@
           </div>
         </div>
         <p class="zone-desc" id="res-zone-mid"></p>
-        <div class="zone-score" id="res-score-mid"></div>
       </div>
 
       <div class="card zone-card">
@@ -119,7 +137,6 @@
           </div>
         </div>
         <p class="zone-desc" id="res-zone-lower"></p>
-        <div class="zone-score" id="res-score-lower"></div>
       </div>
     </div>
 
@@ -127,19 +144,19 @@
     <h2 class="sub-h">{{face.predHeading}}</h2>
     <div class="mod-grid two-col">
       <div class="card pred-card">
-        <h4><svg class="icon"><use href="#i-star"/></svg> {{face.predCareer}}</h4>
+        <h4><svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> {{face.predCareer}}</h4>
         <p id="res-pred-career"></p>
       </div>
       <div class="card pred-card">
-        <h4><svg class="icon"><use href="#i-sun"/></svg> {{face.predWealth}}</h4>
+        <h4><svg class="ui" viewBox="0 0 24 24"><use href="#i-sun"/></svg> {{face.predWealth}}</h4>
         <p id="res-pred-wealth"></p>
       </div>
       <div class="card pred-card">
-        <h4><svg class="icon"><use href="#i-heart"/></svg> {{face.predLove}}</h4>
+        <h4><svg class="ui" viewBox="0 0 24 24"><use href="#i-heart"/></svg> {{face.predLove}}</h4>
         <p id="res-pred-love"></p>
       </div>
       <div class="card pred-card">
-        <h4><svg class="icon"><use href="#i-shield"/></svg> {{face.predNature}}</h4>
+        <h4><svg class="ui" viewBox="0 0 24 24"><use href="#i-shield"/></svg> {{face.predNature}}</h4>
         <p id="res-pred-nature"></p>
       </div>
     </div>
