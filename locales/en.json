@@ -7022,7 +7022,9 @@
       "replyLang": "Reply language",
       "bad": "Enter a date like 16-08-1995",
       "month": "Month-wise Mulank reel",
-      "monthSel": "Month"
+      "monthSel": "Month",
+      "bhagyank": "Bhagyank reel",
+      "bhagyankNum": "Bhagyank"
     },
     "chan": {
       "h": "Morning message — Instagram channel, WhatsApp, Facebook group",
@@ -7062,7 +7064,8 @@
       "prashnaTopic": "Question Topic",
       "dashaPlanet": "Mahadasha Planet",
       "vratType": "Vrat Type",
-      "dreamTopic": "Dream Subject"
+      "dreamTopic": "Dream Subject",
+      "tBhagyank": "✨ Numerology: Single Bhagyank"
     }
   }
 }

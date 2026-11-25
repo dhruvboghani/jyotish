@@ -672,7 +672,7 @@ function wishCaption(x) {
 }
 function socialPanel(body) {
   const td = todayIn(330), today = isoDay(td.y, td.m, td.d);
-  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', dur: 60, sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'all', cap: null } };
+  const st = { date: today, city: store.get('gv-soc-city') || 'New Delhi', fmt: 'story', caps: {}, xcaps: { week: {}, fest: {}, day: {} }, wish: null, wishes: [], wcaps: {}, nu: { n: 1, b: 1, y: new Date().getMonth() >= 9 ? new Date().getFullYear() + 1 : new Date().getFullYear(), ym: (() => { const d = new Date(); d.setDate(1); if (new Date().getDate() >= 20) d.setMonth(d.getMonth() + 1); return d.getFullYear() + '-' + (d.getMonth() + 1); })() }, yt: { theme: 'sign', dur: 60, sign: 0, planet: 'Saturn', bSign: 0, gSign: 4, purpose: 'marriage', topic: 'career', vrat: 'ekadashi', dream: 'snake', lang: 'all', cap: null } };
   const REELS = ['day', 'rashifal', 'panchang', 'week', 'fest'];
   const plus = n => { const x = new Date(Date.UTC(td.y, td.m - 1, td.d + n)); return isoDay(x.getUTCFullYear(), x.getUTCMonth() + 1, x.getUTCDate()); };
   const nextMon = (() => { const wd = new Date(Date.UTC(td.y, td.m - 1, td.d)).getUTCDay(); return plus(((8 - wd) % 7) || 7); })();
@@ -712,6 +712,7 @@ function socialPanel(body) {
             <option value="nuall">${esc(t('socad.yt.tNuall'))}</option>
             <option value="numonth">${esc(t('socad.yt.tNumonth'))}</option>
             <option value="mulank">${esc(t('socad.yt.tMulank'))}</option>
+            <option value="bhagyank">${esc(t('socad.yt.tBhagyank') || '✨ Numerology: Single Bhagyank')}</option>
           </optgroup>
         </select></div>
         <div class="field"><label for="soc-yt-dur">⏱️ Shorts Duration / लंबाई</label><select id="soc-yt-dur">
@@ -824,6 +825,16 @@ function socialPanel(body) {
             <button type="button" class="btn-line soc-speak" data-speak="mulank">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
           </div>
         </section>
+        <section class="card soc-reel soc-nur" data-reel="bhagyank"><h4>${esc(t('socad.nu.bhagyank') || 'Bhagyank reel')}</h4>
+          <div class="field"><label for="soc-nub">${esc(t('socad.nu.bhagyankNum') || 'Bhagyank')}</label><select id="soc-nub">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<option value="${n}">${esc(t('socad.nu.bhagyankNum') || 'Bhagyank')} ${n}</option>`).join('')}</select></div>
+          <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+          <div class="soc-acts"><button type="button" class="btn-cta" data-make="bhagyank"${reelOk ? '' : ' disabled'}>${ic('i-image')}${esc(t('socad.make'))}</button></div>
+          <textarea class="soc-cap" rows="7" readonly data-rcap="bhagyank">…</textarea>
+          <div class="soc-row-btns">
+            <button type="button" class="btn-line soc-copy" data-rcopy="bhagyank">${ic('i-doc')}${esc(t('socad.copyBoth'))}</button>
+            <button type="button" class="btn-line soc-speak" data-speak="bhagyank">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+          </div>
+        </section>
       </div>
       <section class="card soc-reply"><h4>${esc(t('socad.nu.replyH'))}</h4><p class="muted small">${esc(t('socad.nu.replyLede'))}</p>
         <div class="soc-row"><div class="field"><label for="soc-dob">${esc(t('socad.nu.dob'))}</label><input id="soc-dob" inputmode="numeric" placeholder="16-08-1995" autocomplete="off"></div>
@@ -886,9 +897,9 @@ function socialPanel(body) {
   const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = r.text; }).catch(() => { ta.value = '—'; }); };
   const drawNu = async () => {
     const [my, mm] = st.nu.ym.split('-');
-    for (const [k, q] of [['nuall', 'mode=all'], ['mulank', `mode=one&n=${st.nu.n}`], ['numonth', `mode=month&m=${mm}`]]) {
-      const ta = $(`[data-rcap="${k}"]`); ta.value = '…';
-      api(`/api/social/?caption=1&kind=nu&${q}&y=${k === 'numonth' ? my : st.nu.y}`).then(r => { ta.value = r.caption; }).catch(() => { ta.value = '—'; });
+    for (const [k, q] of [['nuall', 'mode=all'], ['mulank', `mode=one&n=${st.nu.n}`], ['bhagyank', `mode=bhagyank&n=${st.nu.b}`], ['numonth', `mode=month&m=${mm}`]]) {
+      const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = '…';
+      api(`/api/social/?caption=1&kind=nu&${q}&y=${k === 'numonth' ? my : st.nu.y}`).then(r => { if (ta) ta.value = r.caption; }).catch(() => { if (ta) ta.value = '—'; });
     }
   };
   let rTimer;
@@ -908,7 +919,7 @@ function socialPanel(body) {
       const muh3 = kind === 'day' && !!(st.xcaps.day.en && st.xcaps.day.en.hasFest); // festival / vrat day: a third card with the best muhurats
       const wcard = l => { const u = apiUrl(`/api/social/?img=wish&fmt=story&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const [nmy, nmm] = st.nu.ym.split('-'), mq = kind === 'numonth' ? `&y=${nmy}&m=${nmm}` : `&y=${st.nu.y}`;
-      const ncard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${st.nu.n}${mq}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+      const ncard = (k, l) => { const num = k.startsWith('bhagyank') ? st.nu.b : st.nu.n; const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${num}${mq}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
       const ytLangs = st.yt.lang === 'all' ? SOC_LANGS.map(([l]) => l) : [st.yt.lang];
       const ytTh = st.yt.theme;
@@ -936,6 +947,8 @@ function socialPanel(body) {
         ytCards = ytLangs.flatMap(l => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi'));
       } else if (ytTh === 'mulank') {
         ytCards = ytLangs.flatMap(l => [ncard('mulank', l), ncard('mulank2', l)]);
+      } else if (ytTh === 'bhagyank') {
+        ytCards = ytLangs.flatMap(l => [ncard('bhagyank', l), ncard('bhagyank2', l)]);
       } else {
         ytCards = ytLangs.flatMap(l => [ycard(ytTh, l), ycard(ytTh + '2', l)]);
       }
@@ -948,13 +961,13 @@ function socialPanel(body) {
       }
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const res = await window.GVReel.make({
-        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
+        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.lang === 'all' ? 'all-langs' : st.yt.lang}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.lang === 'all' ? 'all-langs' : st.yt.lang}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : kind === 'bhagyank' ? `grahavani-bhagyank-${st.nu.b}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -965,7 +978,7 @@ function socialPanel(body) {
         acts.insertAdjacentHTML('beforeend', `<button type="button" class="btn-line soc-share">${ic('i-link')}${esc(t('sc.share'))}</button>`);
         acts.querySelector('.soc-share').onclick = () => navigator.share({ files: [file], text: sec.querySelector('.soc-cap').value }).catch(() => { });
       }
-      track('social_reel', { kind, fest: kind === 'wish' ? st.wish.id : undefined, n: kind === 'mulank' ? st.nu.n : undefined, y: /^(nuall|mulank)$/.test(kind) ? st.nu.y : kind === 'numonth' ? st.nu.ym : undefined, date: kind === 'wish' ? st.wish.date : st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
+      track('social_reel', { kind, fest: kind === 'wish' ? st.wish.id : undefined, n: kind === 'mulank' ? st.nu.n : kind === 'bhagyank' ? st.nu.b : undefined, y: /^(nuall|mulank|bhagyank)$/.test(kind) ? st.nu.y : kind === 'numonth' ? st.nu.ym : undefined, date: kind === 'wish' ? st.wish.date : st.date, kb: Math.round(blob.size / 1024), music: st.music, audio: res.audio, sec: res.seconds });
     } catch (e) {
       const why = e && e.message === 'unsupported' ? '' : String((e && (e.message || e.name)) || e || '').slice(0, 160);
       box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>${why ? `<p class="muted small">${esc(t('socad.why', { e: why }))}</p>` : ''}`;
@@ -983,9 +996,10 @@ function socialPanel(body) {
   $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); }));
   $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); });
   $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); });
-  $('#soc-nuy').addEventListener('change', e => { st.nu.y = +e.target.value; resetReels('[data-reel="nuall"], [data-reel="mulank"]'); drawNu(); drawReply(); });
+  $('#soc-nuy').addEventListener('change', e => { st.nu.y = +e.target.value; resetReels('[data-reel="nuall"], [data-reel="mulank"], [data-reel="bhagyank"]'); drawNu(); drawReply(); });
   $('#soc-num').addEventListener('change', e => { st.nu.ym = e.target.value; resetReels('[data-reel="numonth"]'); drawNu(); });
   $('#soc-nun').addEventListener('change', e => { st.nu.n = +e.target.value; resetReels('[data-reel="mulank"]'); drawNu(); });
+  const nubEl = $('#soc-nub'); if (nubEl) nubEl.addEventListener('change', e => { st.nu.b = +e.target.value; resetReels('[data-reel="bhagyank"]'); drawNu(); });
   $('#soc-dob').addEventListener('input', drawReply); $('#soc-rl').addEventListener('change', drawReply);
   $('#soc-ccopy').addEventListener('click', async () => { const v = $('#soc-chan').value; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-chan').select(); document.execCommand('copy'); } toast(t('socad.copied')); });
   $('#soc-rcopy').addEventListener('click', async () => { const v = $('#soc-reply').value; if (!v) return; try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-reply').select(); document.execCommand('copy'); } toast(t('socad.copied')); });

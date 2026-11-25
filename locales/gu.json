@@ -6466,7 +6466,12 @@
       "prashnaTopic": "प्रश्न विषय",
       "dashaPlanet": "महादशा ग्रह",
       "vratType": "व्रत का प्रकार",
-      "dreamTopic": "स्वप्न विषय"
+      "dreamTopic": "स्वप्न विषय",
+      "tBhagyank": "✨ અંકશાસ્ત્ર: એકલ ભાગ્યાંક"
+    },
+    "nu": {
+      "bhagyank": "ભાગ્યાંક રીલ",
+      "bhagyankNum": "ભાગ્યાંક"
     }
   }
 }

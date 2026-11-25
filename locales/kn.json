@@ -6464,7 +6464,12 @@
       "prashnaTopic": "Question Topic",
       "dashaPlanet": "Mahadasha Planet",
       "vratType": "Vrat Type",
-      "dreamTopic": "Dream Subject"
+      "dreamTopic": "Dream Subject",
+      "tBhagyank": "✨ ಸಂಖ್ಯಾಶಾಸ್ತ್ರ: ಏಕೈಕ ಭಾಗ್ಯಾಂಕ"
+    },
+    "nu": {
+      "bhagyank": "ಭಾಗ್ಯಾಂಕ ರೀಲ್",
+      "bhagyankNum": "ಭಾಗ್ಯಾಂಕ"
     }
   }
 }

@@ -6464,7 +6464,12 @@
       "prashnaTopic": "Question Topic",
       "dashaPlanet": "Mahadasha Planet",
       "vratType": "Vrat Type",
-      "dreamTopic": "Dream Subject"
+      "dreamTopic": "Dream Subject",
+      "tBhagyank": "✨ எண் கணிதம்: ஒற்றை விதி எண்"
+    },
+    "nu": {
+      "bhagyank": "விதி எண் ரீல்",
+      "bhagyankNum": "விதி எண்"
     }
   }
 }
