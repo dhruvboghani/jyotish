@@ -1,0 +1,134 @@
+<main class="wrap page signature-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{signature.eye}}</p>
+    <h1>{{signature.title}}</h1>
+    <p class="lede">{{signature.lede}}</p>
+  </div>
+
+  <!-- Drawing Board / Upload Card -->
+  <section class="card signature-board-card">
+    <div class="board-tabs" role="tablist">
+      <button type="button" class="tab-btn active" id="tab-draw" role="tab">{{signature.tabDraw}}</button>
+      <button type="button" class="tab-btn" id="tab-upload" role="tab">{{signature.tabUpload}}</button>
+    </div>
+
+    <!-- Live Drawing Canvas -->
+    <div class="canvas-container" id="canvas-container">
+      <canvas id="sig-pad" class="sig-pad"></canvas>
+      <div class="canvas-guide-line"></div>
+      <p class="canvas-watermark">Sign here smoothly</p>
+    </div>
+
+    <!-- Upload View (Hidden by default) -->
+    <div class="upload-container" id="upload-container" style="display:none">
+      <div class="upload-dropzone">
+        <label class="btn-cta file-upload-btn">
+          <input type="file" id="sig-file-input" accept="image/*" style="display:none" />
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> <span>Choose Signature Photo</span>
+        </label>
+        <p class="muted small mt-2">Take a photo of your signature written on plain white paper with a blue or black pen.</p>
+      </div>
+      <img id="sig-upload-preview" alt="Signature preview" style="display:none" />
+    </div>
+
+    <!-- Board Controls -->
+    <div class="sig-actions-row">
+      <button type="button" class="btn-line" id="btn-clear-sig">
+        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{signature.clearBtn}}</span>
+      </button>
+      <button type="button" class="btn-cta" id="btn-analyze-sig">
+        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-star"/></svg> <span>{{signature.analyzeBtn}}</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Analyzing State -->
+  <div class="sig-analyzing card" id="sig-analyzing" style="display:none">
+    <div class="face-spinner"></div>
+    <div class="analyzing-text">
+      <h3>Analyzing Signature Geometry...</h3>
+      <p class="muted">Measuring baseline angle, stroke pressure, loop flow, and planetary vibration.</p>
+    </div>
+  </div>
+
+  <!-- Detailed Results -->
+  <section class="card signature-results" id="sig-results" style="display:none">
+    <div class="result-hero-row">
+      <!-- Luck & Power Score Gauge -->
+      <div class="score-box">
+        <span class="score-number" id="res-sig-score">85</span>
+        <span class="score-max">/ 100</span>
+        <p class="score-label">{{signature.scoreTitle}}</p>
+      </div>
+      <div class="score-summary">
+        <span class="tag gold" id="res-sig-verdict">Auspicious & Ambitious</span>
+        <h2 id="res-sig-heading">Rising Trajectory & Commercial Intuition</h2>
+        <p class="lede" id="res-sig-desc">Your signature exhibits an upward baseline angle with continuous stroke flow, indicating strong confidence and positive wealth accumulation.</p>
+      </div>
+    </div>
+
+    <!-- Parameter Analysis Cards -->
+    <div class="sig-metrics-grid">
+      <div class="card sub-card">
+        <div class="metric-header">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-rise"/></svg>
+          <h4>Baseline Slant & Ambition</h4>
+        </div>
+        <p class="metric-val" id="res-slant-val">+22° Upward Slant</p>
+        <p class="small muted" id="res-slant-desc">Upward angles between +15° and +30° reflect an active, optimistic drive that overcomes adversity.</p>
+      </div>
+
+      <div class="card sub-card">
+        <div class="metric-header">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg>
+          <h4>Stroke Flow & Speed</h4>
+        </div>
+        <p class="metric-val" id="res-flow-val">Fluid & Connected</p>
+        <p class="small muted" id="res-flow-desc">Connected letters reflect mental agility and commercial instinct governed by Mercury (Budha).</p>
+      </div>
+
+      <div class="card sub-card">
+        <div class="metric-header">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-sun"/></svg>
+          <h4>Initial Letter & Authority</h4>
+        </div>
+        <p class="metric-val" id="res-initial-val">Prominent Capital Letter</p>
+        <p class="small muted" id="res-initial-desc">A bold initial letter channels Surya (Sun), projecting leadership, dignity, and high self-esteem.</p>
+      </div>
+
+      <div class="card sub-card">
+        <div class="metric-header">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-check"/></svg>
+          <h4>Underline & Stability</h4>
+        </div>
+        <p class="metric-val" id="res-underline-val">Supported Baseline</p>
+        <p class="small muted" id="res-underline-desc">A supportive upward underline stabilizes finances and creates firm self-reliance.</p>
+      </div>
+    </div>
+
+    <!-- Vedic Hastakshar Vastu Remedies -->
+    <div class="card vastu-tips-card">
+      <div class="tip-header">
+        <svg class="ui" viewBox="0 0 24 24"><use href="#i-lamp"/></svg>
+        <h3>{{signature.remedyTitle}}</h3>
+      </div>
+      <ul class="vastu-checklist" id="res-vastu-tips">
+        <li><strong>Maintain an Upward Slant (15°–25°):</strong> Never let your signature slope downwards at the end. An upward slant keeps wealth and energy ascending.</li>
+        <li><strong>Avoid Crossing Out Your Name:</strong> Backtracking or slicing strokes through your letters acts as energetic self-doubt. Keep the stroke moving cleanly forward.</li>
+        <li><strong>Add Two Dots Below an Underline:</strong> In Hastakshar Vastu, two balanced dots below a clean underline represent the twin eyes of Kubera (Lord of Wealth) and prevent wasteful expenditure.</li>
+        <li><strong>Ensure First Letter is Clear:</strong> Let your initial capital letter stand tall and proud without jagged knots. This attracts royal favors and executive promotions.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Educational Section -->
+  <section class="card prose">
+    <h2>The Science of Hastakshar Shastra (Vedic Signature Graphology)</h2>
+    <p>In Vedic thought, writing is ruled by Goddess Saraswati and governed by Mercury (*Budha*). Your signature is your daily personal seal (*Mudrā*):</p>
+    <ul>
+      <li><strong>Sun (Surya):</strong> Governs the size of your name and the clarity of your initials. A confident signature invites public honor.</li>
+      <li><strong>Mercury (Budha):</strong> Governs the fluidity, speed, and connectivity between letters. Fluid connections indicate business sharpness.</li>
+      <li><strong>Saturn (Shani):</strong> Governs the foundation line (*Rekha*) and dots (*Bindu*). Underlines establish discipline and long-term asset retention.</li>
+    </ul>
+  </section>
+</main>

@@ -3008,3 +3008,590 @@ form.nu-check { margin: 0; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Samudrika Shastra Suite (7 Features: Moles, Forehead, Signature, Thumb, Foot, Eye, Dreamcalc)
+   ========================================================================== */
+
+/* 1. Mole Reading (Til Vichar) */
+.mole-controls-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 20px;
+}
+.mole-gender-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.label-heading {
+  font-weight: 600;
+  font-size: 14px;
+}
+.mole-search-wrap .input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 1rem;
+}
+.mole-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.mole-interactive-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.interactive-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+.avatar-svg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avatar-svg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  color: var(--gold, #d97706);
+}
+.hotspot-pulse {
+  fill: var(--gold, #d97706);
+  opacity: 0.25;
+  animation: pulse-ring 2s infinite ease-out;
+}
+.hotspot-dot {
+  fill: #854d0e;
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition: r 0.2s ease, fill 0.2s ease;
+}
+.mole-hotspot:hover .hotspot-dot,
+.mole-hotspot.active .hotspot-dot {
+  r: 6.5;
+  fill: #e11d48;
+}
+.spots-quick-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+  align-content: flex-start;
+  padding-right: 4px;
+}
+.spot-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.spot-badge-btn:hover {
+  border-color: var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.08);
+}
+.spot-badge-btn.active {
+  border-color: var(--gold, #d97706);
+  background: var(--gold, #d97706);
+  color: #fff;
+  font-weight: 600;
+}
+.spot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.mole-result-card {
+  padding: 1.75rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+/* 2. Forehead Line Scanner (Bhāla Rekha) */
+.forehead-scanner-card, .forehead-pills-card, .forehead-visual-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.forehead-line-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.75rem;
+}
+.forehead-canvas-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+.forehead-canvas-wrap canvas {
+  width: 100%;
+  display: block;
+}
+.forehead-overlay-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.forehead-line-path.dimmed {
+  opacity: 0.25;
+}
+.forehead-line-path.active {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+}
+.forehead-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.forehead-line-card {
+  padding: 1.25rem;
+  border-radius: 16px;
+  transition: all 0.25s ease;
+}
+.forehead-line-card.active-card {
+  border-color: var(--gold, #d97706);
+  box-shadow: 0 0 0 2px var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.04);
+}
+.strength-box, .remedy-box {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border);
+}
+
+/* 3. Signature Analyzer (Hastakshar) */
+.signature-board-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.board-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  background: #ffffff;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.sig-pad {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.canvas-guide-line {
+  position: absolute;
+  bottom: 60px;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.canvas-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  font-weight: 500;
+  pointer-events: none;
+  user-select: none;
+}
+.sig-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 1.25rem;
+}
+.signature-results {
+  padding: 1.75rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.result-hero-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 1.25rem 1.5rem;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 2px solid var(--gold, #d97706);
+  text-align: center;
+}
+.score-number {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--gold, #d97706);
+}
+.score-max {
+  font-size: 14px;
+  color: var(--muted);
+}
+.score-label {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+.sig-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.metric-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold, #d97706);
+  margin-bottom: 4px;
+}
+.vastu-tips-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(217, 119, 6, 0.05);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+.vastu-checklist {
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+  line-height: 1.6;
+}
+
+/* 4. Thumbprint & Nadi (Angustha Rekha) */
+.thumb-note-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(217, 119, 6, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.thumb-selector-card, .thumb-result-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.thumb-patterns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.pattern-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pattern-card:hover {
+  border-color: var(--gold, #d97706);
+}
+.pattern-card.active {
+  border-color: var(--gold, #d97706);
+  box-shadow: 0 0 0 2px var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.06);
+}
+.pattern-svg-wrap {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 0.75rem;
+  color: var(--gold, #d97706);
+}
+.nadi-symbol-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(217, 119, 6, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold, #d97706);
+  flex-shrink: 0;
+}
+.nadi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+/* 5. Foot Reading (Pada Samudrika) */
+.foot-selector-card, .foot-result-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.foot-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+.pill-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0.75rem;
+}
+.pill-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pill-btn.active {
+  border-color: var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.08);
+}
+.signs-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0.75rem;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.foot-symbol-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(217, 119, 6, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold, #d97706);
+  flex-shrink: 0;
+}
+.foot-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+/* 6. Eye Reading (Netra Samudrika) */
+.eye-selector-card, .eye-result-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.eye-archetypes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.archetype-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.archetype-card.active {
+  border-color: var(--gold, #d97706);
+  box-shadow: 0 0 0 2px var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.06);
+}
+.eye-svg-wrap {
+  width: 80px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+  color: var(--gold, #d97706);
+}
+.eye-symbol-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(217, 119, 6, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold, #d97706);
+  flex-shrink: 0;
+}
+.eye-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+/* 7. Dream Manifestation Calculator (Swapna Shastra) */
+.prahar-calc-card, .dream-search-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.prahar-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.prahar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.prahar-btn.active {
+  border-color: var(--gold, #d97706);
+  box-shadow: 0 0 0 2px var(--gold, #d97706);
+  background: rgba(217, 119, 6, 0.06);
+}
+.prahar-num {
+  font-weight: 700;
+  font-size: 15px;
+}
+.prahar-time {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.prahar-result-banner {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+.banner-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--gold, #d97706);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.search-input-box {
+  margin: 1rem 0;
+}
+.search-input-box .input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+.dream-filter-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+.dreams-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.dream-symbol-card {
+  padding: 1.25rem;
+  border-radius: 16px;
+}
+.symbol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .interactive-layout {
+    grid-template-columns: 1fr;
+  }
+  .prahar-result-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

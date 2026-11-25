@@ -79,7 +79,14 @@
     "ratna": "ರತ್ನ ಶಿಫಾರಸು",
     "sarpa": "ಕಾಲಸರ್ಪ ದೋಷ",
     "hora": "ಹೋರಾ ಸಮಯ",
-    "palm": "ಹಸ್ತಸಾಮುದ್ರಿಕ"
+    "palm": "ಹಸ್ತಸಾಮುದ್ರಿಕ",
+    "moles": "ಮಚ್ಚೆ ಶಾಸ್ತ್ರ",
+    "forehead": "ಹಣೆಯ ರೇಖೆಗಳು",
+    "signature": "ಸಹಿ ವಿಶ್ಲೇಷಣೆ",
+    "thumb": "ಹೆಬ್ಬೆರಳು ನಾಡಿ",
+    "foot": "ಪಾದ ಸಾಮುದ್ರಿಕ",
+    "eye": "ನೇತ್ರ ಸಾಮುದ್ರಿಕ",
+    "dreamcalc": "ಸ್ವಪ್ನ ಕ್ಯಾಲ್ಕುಲೇಟರ್"
   },
   "hero": {
     "kicker": "ವೈದಿಕ ಜ್ಯೋತಿಷ · ಊಹೆಯಲ್ಲ, ಗಣಿತ",
@@ -1045,7 +1052,10 @@
     "yours": "ನಿಮ್ಮ ಸಮಯ"
   },
   "tools": {
-    "eye": "ಇನ್ನಷ್ಟು ಉಪಕರಣಗಳು",
+    "eye": {
+      "h": "ನೇತ್ರ ಸಾಮುದ್ರಿಕ (ಕಣ್ಣಿನ ವಿಶ್ಲೇಷಣೆ)",
+      "p": "ಕಮಲ, ಮೃಗ, ಮತ್ಸ್ಯ, ಗರುಡ ಕಣ್ಣಿನ ಆಕಾರಗಳಿಂದ ನಿಮ್ಮ ಆಂತರಿಕ ಸ್ವಭಾವ ತಿಳಿಯಿರಿ."
+    },
     "title": "ಎಲ್ಲವೂ ಒಂದೇ ಕಡೆ",
     "lede": "ನಿಮ್ಮ ಜಾತಕದ ಅದೇ ಗಣಿತದಿಂದ ಲೆಕ್ಕಹಾಕುವ ಉಚಿತ ಜ್ಯೋತಿಷ ಉಪಕರಣಗಳು.",
     "matching": {
@@ -1087,6 +1097,30 @@
     "palm": {
       "h": "ಹಸ್ತಸಾಮುದ್ರಿಕ ವಿಶ್ಲೇಷಣೆ",
       "p": "ಅಂಗೈ ರೇಖೆಗಳು ಮತ್ತು ಗ್ರಹ ಪರ್ವತಗಳ ಅಧ್ಯಯನದ ಮೂಲಕ ಜೀವನ ಭವಿಷ್ಯ ತಿಳಿಯಿರಿ."
+    },
+    "moles": {
+      "h": "ಮಚ್ಚೆ ಶಾಸ್ತ್ರ (ತಿಲ ವಿಚಾರ)",
+      "p": "ಮುಖ ಮತ್ತು ದೇಹದ ಮಚ್ಚೆಗಳಿಂದ ನಿಮ್ಮ ಅದೃಷ್ಟ, ಸಂಪತ್ತು ಮತ್ತು ಸ್ವಭಾವವನ್ನು ತಿಳಿಯಿರಿ."
+    },
+    "forehead": {
+      "h": "ಹಣೆಯ ರೇಖೆಗಳು (ಭಾಲ ರೇಖೆ)",
+      "p": "ಹಣೆಯ 7 ಗ್ರಹ ರೇಖೆಗಳಿಂದ ಆಯುಷ್ಯ, ಬುದ್ಧಿ ಮತ್ತು ರಾಜಯೋಗವನ್ನು ತಿಳಿಯಿರಿ."
+    },
+    "signature": {
+      "h": "ಸಹಿ ವಿಶ್ಲೇಷಣೆ (ಹಸ್ತಾಕ್ಷರ ವಾಸ್ತು)",
+      "p": "ನಿಮ್ಮ ಸಹಿಯ ಇಳಿಜಾರು, ರೇಖೆಗಳು ಮತ್ತು ಅಕ್ಷರಗಳಿಂದ ಆರ್ಥಿಕ ಸಮೃದ್ಧಿ ತಿಳಿಯಿರಿ."
+    },
+    "thumb": {
+      "h": "ಹೆಬ್ಬೆರಳು ನಾಡಿ ಮುದ್ರೆ",
+      "p": "ಚಕ್ರ, ಶಂಖ, ಧ್ವಜ ಗುರುತುಗಳಿಂದ ನಿಮ್ಮ ನಾಡಿ ಜ್ಯೋತಿಷ್ಯ ವಿಧಿಯನ್ನು ತಿಳಿಯಿರಿ."
+    },
+    "foot": {
+      "h": "ಪಾದ ಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರ",
+      "p": "ಅಂಗಾಲಿನ ರಚನೆ, ಬೆರಳುಗಳ ಗಾತ್ರ ಮತ್ತು ಶುಭ ಚಿಹ್ನೆಗಳಿಂದ ಪ್ರಯಾಣ ಮತ್ತು ವಿಜಯ ತಿಳಿಯಿರಿ."
+    },
+    "dreamcalc": {
+      "h": "ಸ್ವಪ್ನ ಫಲ ಕ್ಯಾಲ್ಕುಲೇಟರ್",
+      "p": "ಕನಸು ಕಂಡ ಸಮಯದ ಆಧಾರದ ಮೇಲೆ ಫಲ ಸಿಗುವ ಸಮಯ ಮತ್ತು ಶಾಸ್ತ್ರೋಕ್ತ ಪರಿಹಾರ ತಿಳಿಯಿರಿ."
     }
   },
   "pages": {
@@ -1289,6 +1323,41 @@
       "name": "ಹಸ್ತಸಾಮುದ್ರಿಕ",
       "title": "ಹಸ್ತಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರ – ಅಂಗೈ ರೇಖೆಗಳ ವೈದಿಕ ವಿಶ್ಲೇಷಣೆ | ಗ್ರಹವಾಣಿ",
       "description": "ಅಂಗೈ ಫೋಟೋದಿಂದ ಆಯುಷ್ಯ, ಬುದ್ಧಿ, ಹೃದಯ ಮತ್ತು ಭಾಗ್ಯ ರೇಖೆಗಳ ನಿಖರ ವೈದಿಕ ಫಲಿತಾಂಶ ತಿಳಿಯಿರಿ."
+    },
+    "moles": {
+      "name": "ಮಚ್ಚೆ ಶಾಸ್ತ್ರ",
+      "title": "ತಿಲ ವಿಚಾರ – ದೇಹದ ಮಚ್ಚೆಗಳ ಜ್ಯೋತಿಷ್ಯ ರಹಸ್ಯ | ಗ್ರಹವಾಣಿ",
+      "description": "ಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ ಮುಖ ಮತ್ತು ದೇಹದ ಮಚ್ಚೆಗಳ ಶುಭ-ಅಶುಭ ಫಲಗಳು ಮತ್ತು ಅದೃಷ್ಟ ವಿಶ್ಲೇಷಣೆ."
+    },
+    "forehead": {
+      "name": "ಹಣೆಯ ರೇಖೆಗಳು",
+      "title": "ಭಾಲ ರೇಖೆ – ಹಣೆಯ 7 ಗ್ರಹ ರೇಖೆಗಳ ಸಾಮುದ್ರಿಕ ವಿಶ್ಲೇಷಣೆ | ಗ್ರಹವಾಣಿ",
+      "description": "ಹಣೆಯ ಮೇಲಿರುವ 7 ಗ್ರಹ ರೇಖೆಗಳ ಮೂಲಕ ಆಯುಷ್ಯ, ಕೀರ್ತಿ ಮತ್ತು ರಾಜಯೋಗವನ್ನು ತಿಳಿಯಿರಿ."
+    },
+    "signature": {
+      "name": "ಸಹಿ ವಿಶ್ಲೇಷಣೆ",
+      "title": "ಹಸ್ತಾಕ್ಷರ ಶಾಸ್ತ್ರ – ಅದೃಷ್ಟದ ಸಹಿ ಮತ್ತು ವಾಸ್ತು ತಿದ್ದುಪಡಿ | ಗ್ರಹವಾಣಿ",
+      "description": "ನಿಮ್ಮ ಸಹಿಯ ಇಳಿಜಾರು, ರೇಖೆಗಳು ಮತ್ತು ಬಿಂದುಗಳ ಮೂಲಕ ಆರ್ಥಿಕ ಯಶಸ್ಸಿಗೆ ಲಕ್ಕಿ ಸಹಿ ರೂಪಿಸಿ."
+    },
+    "thumb": {
+      "name": "ಹೆಬ್ಬೆರಳು ನಾಡಿ",
+      "title": "ಅಂಗುಷ್ಠ ನಾಡಿ – ಹೆಬ್ಬೆರಳಿನ ಮುದ್ರೆಯಿಂದ ನಾಡಿ ಜ್ಯೋತಿಷ್ಯ ರಹಸ್ಯ | ಗ್ರಹವಾಣಿ",
+      "description": "ಚಕ್ರ, ಶಂಖ, ಧ್ವಜ ಗುರುತುಗಳಿಂದ ನಿಮ್ಮ ನಾಡಿ ಜ್ಯೋತಿಷ್ಯ ಪ್ರಮುಖ ಅಧ್ಯಾಯವನ್ನು ತಿಳಿಯಿರಿ."
+    },
+    "foot": {
+      "name": "ಪಾದ ಸಾಮುದ್ರಿಕ",
+      "title": "ಪಾದ ಸಾಮುದ್ರಿಕ – ಅಂಗಾಲಿನ ರೇಖೆಗಳು ಮತ್ತು ಬೆರಳುಗಳ ರಹಸ್ಯ | ಗ್ರಹವಾಣಿ",
+      "description": "ಅಂಗಾಲಿನ ವಕ್ರತೆ, ಬೆರಳುಗಳ ಗಾತ್ರ ಮತ್ತು ಪದ್ಮ-ಶಂಖ ಗುರುತುಗಳಿಂದ ಉದ್ಯೋಗ ಮತ್ತು ಪ್ರವಾಸ ತಿಳಿಯಿರಿ."
+    },
+    "eye": {
+      "name": "ನೇತ್ರ ಸಾಮುದ್ರಿಕ",
+      "title": "ನೇತ್ರ ಸಾಮುದ್ರಿಕ – ಕಣ್ಣಿನ ರಚನೆ ಮತ್ತು ಅಂತರಾಳದ ರಹಸ್ಯ | ಗ್ರಹವಾಣಿ",
+      "description": "ಕಮಲ, ಮೃಗ, ಮತ್ಸ್ಯ, ಗರುಡ ಕಣ್ಣಿನ ಆಕಾರಗಳಿಂದ ಮನಸ್ಸಿನ ಆಳ ಮತ್ತು ನೈಜ ವ್ಯಕ್ತಿತ್ವ ತಿಳಿಯಿರಿ."
+    },
+    "dreamcalc": {
+      "name": "ಸ್ವಪ್ನ ಫಲ ಕ್ಯಾಲ್ಕುಲೇಟರ್",
+      "title": "ಸ್ವಪ್ನ ಶಾಸ್ತ್ರ – ಕನಸು ಫಲಿಸುವ ಸಮಯದ ಕ್ಯಾಲ್ಕುಲೇಟರ್ | ಗ್ರಹವಾಣಿ",
+      "description": "ಕನಸು ಕಂಡ ರಾತ್ರಿಯ ಪ್ರಹರದ ಆಧಾರದ ಮೇಲೆ ಫಲ ಸಿಗುವ ಸಮಯವನ್ನು ಲೆಕ್ಕಹಾಕಿ ಮತ್ತು ದುಃಸ್ವಪ್ನ ಶಾಂತಿ ಪರಿಹಾರ ತಿಳಿಯಿರಿ."
     }
   },
   "pp": {
@@ -6437,6 +6506,21 @@
     "weekTop": "ಉತ್ತಮ ವಾರ: {x}"
   },
   "foot": {
+    "eye": "Samudrika Shastra · Pāda Rekha",
+    "title": "ಪಾದ ಸಾಮುದ್ರಿಕ",
+    "lede": "From the foot markings of royalty and spiritual masters to everyday vitality: discover what your sole arch, toe balance, and sacred signs indicate about destiny and travel.",
+    "archH": "Sole Arch Classification",
+    "archHigh": "Deva Pada (High Arch - Spiritual & Independent)",
+    "archMedium": "Manushya Pada (Balanced Arch - Pragmatic & Successful)",
+    "archFlat": "Bhumi Pada (Flat Foot - Hardworking & Grounded)",
+    "toesH": "Toe Length Proportions",
+    "toesAgni": "Second Toe Longest (Agni Dominance - Natural Leader)",
+    "toesPrithvi": "Big Toe Longest (Prithvi Dominance - Steady Wealth)",
+    "signsH": "Auspicious Sacred Markings (Padatala)",
+    "signLotus": "Kamala (Lotus Sign) – Abundance & Respect",
+    "signFish": "Matsya (Fish Sign) – High Wealth & Ocean Travel",
+    "signConch": "Shankha (Conch Sign) – Knowledge & Eloquence",
+    "signTrident": "Trishul (Trident) – Divine Protection & Courage",
     "follow": "ನಮ್ಮನ್ನು ಫಾಲೋ ಮಾಡಿ"
   },
   "socad": {
@@ -6533,5 +6617,95 @@
     "aboutTitle": "ಹಸ್ತಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರದ ಬಗ್ಗೆ",
     "aboutP1": "ಹಸ್ತಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರವು ವೈದಿಕ ಜ್ಯೋತಿಷ್ಯದ ಪ್ರಮುಖ ಅಂಗ. ಅಂಗೈ ರೇಖೆಗಳು ಮನುಷ್ಯನ ಕರ್ಮ ಮತ್ತು ಸಂಸ್ಕಾರದ ಕನ್ನಡಿ.",
     "aboutP2": "ಹುಟ್ಟಿದ ಸಮಯವಿಲ್ಲದಿದ್ದರೂ ಅಂಗೈ ರೇಖೆಗಳು ಮತ್ತು ಪರ್ವತಗಳ ಆಧಾರದ ಮೇಲೆ ನಿಖರ ಮಾರ್ಗದರ್ಶನ ಪಡೆಯಬಹುದು."
+  },
+  "moles": {
+    "eye": "Samudrika Shastra · Til Vichar",
+    "title": "ಮಚ್ಚೆ ಶಾಸ್ತ್ರ",
+    "lede": "According to Brihat Samhita and Garuda Purana, moles (Til) and birthmarks (Lanchhan) are karmic signposts. Their location, size, and gender-side polarity reveal hidden fortunes and life trials.",
+    "tabFace": "Face & Head Moles",
+    "tabBody": "Body & Torso Moles",
+    "tabArms": "Arms & Palms",
+    "genderLabel": "Body Polarity:",
+    "male": "Male (Right side auspicious)",
+    "female": "Female (Left side auspicious)",
+    "searchHint": "Search or tap a body region below...",
+    "auspicious": "Auspicious (Shubha)",
+    "inauspicious": "Caution (Ashubha)",
+    "neutral": "Karmic Indicator (Madhyam)"
+  },
+  "forehead": {
+    "eye": "Samudrika Shastra · Bhāla Rekha",
+    "title": "ಹಣೆಯ ರೇಖೆಗಳು",
+    "lede": "Classical Vedic physiognomy maps the 7 sacred planets across the horizontal creases of the human forehead. Discover your ruling intellectual and karmic currents.",
+    "startCam": "Scan Forehead Camera",
+    "snapBtn": "Capture Forehead",
+    "uploadBtn": "Upload Forehead Photo",
+    "newScan": "New Scan",
+    "flipCam": "Flip Camera",
+    "hint": "Position your forehead inside the guide frame under clear lighting and raise your eyebrows slightly to reveal natural crease lines.",
+    "analyzingTitle": "Scanning Forehead Creases...",
+    "analyzingSub": "Mapping 7 planetary lines (Saturn to Moon) with Vedic pixel edge profiling.",
+    "allLines": "All 7 Planetary Lines"
+  },
+  "signature": {
+    "eye": "Hastakshar Shastra · Vedic Graphology",
+    "title": "ಸಹಿ ವಿಶ್ಲೇಷಣೆ",
+    "lede": "Your signature is a direct manifestation of Mercury (Budha - intellect), Sun (Surya - self-projection), and Saturn (Shani - discipline). Check your slant, balance, and financial flow.",
+    "tabDraw": "Draw Signature on Screen",
+    "tabUpload": "Upload Photo of Signature",
+    "clearBtn": "Clear Canvas",
+    "analyzeBtn": "Analyze Signature Now",
+    "strokePrompt": "Sign your name smoothly in the box above using your finger or stylus.",
+    "slantLabel": "Baseline Slant:",
+    "loopsLabel": "Loop & Flow:",
+    "dotsLabel": "Underline & Dots:",
+    "scoreTitle": "Signature Luck & Power Score",
+    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips"
+  },
+  "thumb": {
+    "eye": "Nadi Jyotish · Angustha Rekha",
+    "title": "ಹೆಬ್ಬೆರಳು ನಾಡಿ",
+    "lede": "In ancient Tamil Nadi Astrology, thumb impression classification connects the seeker to their destined palm-leaf chapter. Identify your sacred ridge archetype.",
+    "maleThumbNote": "Traditional Rule: Men consult Right thumb; Women consult Left thumb.",
+    "tabSelect": "Select Ridge Pattern",
+    "tabScan": "Macro Camera Scan",
+    "whorl": "Chakra (Concentric Whorl)",
+    "loop": "Shankha (Sacred Conch Loop)",
+    "arch": "Dhwaja (Steep Tent / Arch)",
+    "composite": "Gadha (Composite / Club)",
+    "archetypeTitle": "Your Nadi Destiny Archetype",
+    "rulingGraha": "Governing Graha & Deity",
+    "strengths": "Karmic Powers & Vocation",
+    "remedyTitle": "Recommended Nadi Vedic Remedies"
+  },
+  "eye": {
+    "eye": "Samudrika Shastra · Netra Vigyan",
+    "title": "ನೇತ್ರ ಸಾಮುದ್ರಿಕ",
+    "lede": "The eyes are the throne of Sun (Surya) and Moon (Chandra). Sages categorized the human gaze into 5 classical archetypes reflecting inner virtue, intuition, and leadership.",
+    "archetypesH": "The 5 Sacred Vedic Eye Archetypes",
+    "lotusEye": "Kamala Netra (Lotus-Shaped Eyes)",
+    "deerEye": "Mriga Netra (Deer / Fawn-Shaped Eyes)",
+    "fishEye": "Matsya Netra (Fish-Shaped Eyes)",
+    "eagleEye": "Garuda Netra (Eagle / Piercing Eyes)",
+    "elephantEye": "Gaja Netra (Elephant / Wise Eyes)",
+    "irisH": "Iris Radiance & Sclera Tone",
+    "pupilH": "Pupil Focus & Mental Stillness",
+    "remedyH": "Eye Health & Solar Trataka Practice"
+  },
+  "dreamcalc": {
+    "eye": "Swapna Shastra · Agni Purana",
+    "title": "ಸ್ವಪ್ನ ಫಲ ಕ್ಯಾಲ್ಕುಲೇಟರ್",
+    "lede": "In Vedic Swapna Shastra, the exact watch of the night (Prahar) when a dream occurs determines when and how its omen manifests in your waking life.",
+    "praharH": "When did you see the dream?",
+    "prahar1": "1st Prahar (6 PM – 9 PM) · Manifests within 1 Year",
+    "prahar2": "2nd Prahar (9 PM – 12 Midnight) · Manifests within 6 to 8 Months",
+    "prahar3": "3rd Prahar (12 Midnight – 3 AM) · Manifests within 1 to 3 Months",
+    "prahar4": "4th Prahar (3 AM – 6 AM / Brahma Muhurta) · Manifests within 10 Days to Same Day",
+    "calcBtn": "Calculate Manifestation & Omens",
+    "searchH": "Search Vedic Dream Symbol Meaning",
+    "searchPlaceholder": "Type what you saw (e.g. elephant, snake, river, temple)...",
+    "resultH": "Dream Time & Karma Manifestation Period",
+    "badDreamH": "Vedic Remedies for Nightmares (Dusswapna Shanti)",
+    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise."
   }
 }

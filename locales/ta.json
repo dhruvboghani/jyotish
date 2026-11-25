@@ -79,7 +79,14 @@
     "ratna": "ராசி ரத்தினம்",
     "sarpa": "காலசர்ப்ப தோஷம்",
     "hora": "ஹோரை நேரம்",
-    "palm": "கைரேகை"
+    "palm": "கைரேகை",
+    "moles": "மச்ச சாஸ்திரம்",
+    "forehead": "நெற்றி ரேகை",
+    "signature": "கையெழுத்து சாஸ்திரம்",
+    "thumb": "பெருவிரல் நாடி",
+    "foot": "பாத சாஸ்திரம்",
+    "eye": "நேத்ர சாஸ்திரம்",
+    "dreamcalc": "கனவு கணிப்பான்"
   },
   "hero": {
     "kicker": "வேத ஜோதிடம் · ஊகம் அல்ல, கணக்கு",
@@ -1045,7 +1052,10 @@
     "yours": "உங்கள் நேரம்"
   },
   "tools": {
-    "eye": "மேலும் கருவிகள்",
+    "eye": {
+      "h": "நேத்ர சாஸ்திரம் (கண் அமைப்பு)",
+      "p": "தாமரை, மான், மீன், கழுகு கண்களின் வடிவங்கள் மூலம் உங்கள் மனப்பான்மையை அறியுங்கள்."
+    },
     "title": "அனைத்தும் ஒரே இடத்தில்",
     "lede": "உங்கள் ஜாதகத்தின் அதே கணிதத்தால் கணக்கிடப்படும் இலவச ஜோதிட கருவிகள்.",
     "matching": {
@@ -1087,6 +1097,30 @@
     "palm": {
       "h": "கைரேகை ஜோதிடம்",
       "p": "உங்கள் உள்ளங்கை ரேகைகள் மற்றும் கிரக மேடுகளை ஆராய்ந்து வாழ்வின் பலன்களை அறியுங்கள்."
+    },
+    "moles": {
+      "h": "மச்ச சாஸ்திரம்",
+      "p": "உடல் மற்றும் முக மச்சங்கள் மூலம் உங்கள் அதிர்ஷ்டம் மற்றும் செல்வத்தை அறியுங்கள்."
+    },
+    "forehead": {
+      "h": "நெற்றி ரேகை சாஸ்திரம்",
+      "p": "நெற்றியின் 7 கிரக ரேகைகள் மூலம் ஆயுள், அறிவு மற்றும் யோகத்தை அறியுங்கள்."
+    },
+    "signature": {
+      "h": "கையெழுத்து சாஸ்திரம்",
+      "p": "உங்கள் கையெழுத்தின் சாய்வு மற்றும் அமைப்பிலிருந்து அதிர்ஷ்டத்தை அறியுங்கள்."
+    },
+    "thumb": {
+      "h": "பெருவிரல் நாடி சாஸ்திரம்",
+      "p": "சக்கரம், சங்கு, கொடி ரேகை அமைப்புகளிலிருந்து உங்கள் வாழ்க்கை விதியை அறியுங்கள்."
+    },
+    "foot": {
+      "h": "பாத சாமுத்ரிகா சாஸ்திரம்",
+      "p": "உள்ளங்கால் வளைவு, கால் விரல்கள் மற்றும் சுப குறிகள் மூலம் தொழில் மற்றும் பயணத்தை அறியுங்கள்."
+    },
+    "dreamcalc": {
+      "h": "கனவு பலன் கணிப்பான்",
+      "p": "கனவு கண்ட நேரத்தை உள்ளிட்டு பலன் கிடைக்கும் காலம் மற்றும் பரிகாரங்களை அறியுங்கள்."
     }
   },
   "pages": {
@@ -1289,6 +1323,41 @@
       "name": "கைரேகை",
       "title": "கைரேகை சாஸ்திரம் – உள்ளங்கை ரேகை பலன்கள் | கிரகவாணி",
       "description": "உள்ளங்கை புகைப்படத்தின் மூலம் ஆயுள் ரேகை, புத்தி ரேகை, இதய ரேகை, விதி ரேகை பலன்களை அறியுங்கள்."
+    },
+    "moles": {
+      "name": "மச்ச சாஸ்திரம்",
+      "title": "மச்ச சாஸ்திரம் – உடல் மற்றும் முக மச்ச பலன்கள் | கிரகவாணி",
+      "description": "வேத மச்ச சாஸ்திரம் மூலம் உங்கள் முக மற்றும் உடல் மச்சங்களின் பலன்களைத் துல்லியமாக அறியுங்கள்."
+    },
+    "forehead": {
+      "name": "நெற்றி ரேகை",
+      "title": "நெற்றி ரேகை – 7 கிரக ரேகைகளின் சாமுத்ரிகா பலன்கள் | கிரகவாணி",
+      "description": "நெற்றியில் உள்ள 7 கிரக ரேகைகளை ஸ்கேன் செய்து ஆயுள் மற்றும் தலைமை யோகத்தை அறியுங்கள்."
+    },
+    "signature": {
+      "name": "கையெழுத்து சாஸ்திரம்",
+      "title": "கையெழுத்து சாஸ்திரம் – அதிர்ஷ்ட கையெழுத்து அமைப்பு | கிரகவாணி",
+      "description": "உங்கள் கையெழுத்தின் கோணம் மற்றும் வடிவங்களை ஆய்வு செய்து வெற்றிக்கான அமைப்பைப் பெறுங்கள்."
+    },
+    "thumb": {
+      "name": "பெருவிரல் நாடி",
+      "title": "பெருவிரல் நாடி – கைரேகை நாடி ஜோதிட ரகசியங்கள் | கிரகவாணி",
+      "description": "சக்கரம், சங்கு, கொடி ரேகை அமைப்புகளிலிருந்து உங்கள் நாடி அத்தியாயத்தைக் கண்டறியுங்கள்."
+    },
+    "foot": {
+      "name": "பாத சாஸ்திரம்",
+      "title": "பாத சாமுத்ரிகா – உள்ளங்கால் ரேகை மற்றும் வடிவ ரகசியங்கள் | கிரகவாணி",
+      "description": "பாத வளைவு, விரல் அமைப்புகள் மற்றும் சுப குறிகள் மூலம் தொழில் அதிர்ஷ்டத்தை அறியுங்கள்."
+    },
+    "eye": {
+      "name": "நேத்ர சாஸ்திரம்",
+      "title": "நேத்ர சாமுத்ரிகா – கண் வடிவங்கள் மற்றும் ஆன்மீக ரகசியங்கள் | கிரகவாணி",
+      "description": "தாமரை, மான், மீன், கழுகு கண்களின் வடிவங்கள் மூலம் உங்கள் உள்ளுணர்வு மற்றும் ஆன்மாவை அறியுங்கள்."
+    },
+    "dreamcalc": {
+      "name": "கனவு பலன் கணிப்பான்",
+      "title": "கனவு சாஸ்திரம் – கனவு பலிக்கும் காலம் கணிக்கும் கருவி | கிரகவாணி",
+      "description": "கனவு கண்ட நேரத்தின் அடிப்படையில் பலன் கிடைக்கும் காலத்தைக் கணித்து சாந்தி பரிகாரங்களை அறியுங்கள்."
     }
   },
   "pp": {
@@ -6437,6 +6506,21 @@
     "weekTop": "சிறந்த வாரம்: {x}"
   },
   "foot": {
+    "eye": "Samudrika Shastra · Pāda Rekha",
+    "title": "பாத சாஸ்திரம்",
+    "lede": "From the foot markings of royalty and spiritual masters to everyday vitality: discover what your sole arch, toe balance, and sacred signs indicate about destiny and travel.",
+    "archH": "Sole Arch Classification",
+    "archHigh": "Deva Pada (High Arch - Spiritual & Independent)",
+    "archMedium": "Manushya Pada (Balanced Arch - Pragmatic & Successful)",
+    "archFlat": "Bhumi Pada (Flat Foot - Hardworking & Grounded)",
+    "toesH": "Toe Length Proportions",
+    "toesAgni": "Second Toe Longest (Agni Dominance - Natural Leader)",
+    "toesPrithvi": "Big Toe Longest (Prithvi Dominance - Steady Wealth)",
+    "signsH": "Auspicious Sacred Markings (Padatala)",
+    "signLotus": "Kamala (Lotus Sign) – Abundance & Respect",
+    "signFish": "Matsya (Fish Sign) – High Wealth & Ocean Travel",
+    "signConch": "Shankha (Conch Sign) – Knowledge & Eloquence",
+    "signTrident": "Trishul (Trident) – Divine Protection & Courage",
     "follow": "எங்களைப் பின்தொடரவும்"
   },
   "socad": {
@@ -6533,5 +6617,95 @@
     "aboutTitle": "கைரேகை சாஸ்திரம் பற்றி",
     "aboutP1": "கைரேகை சாஸ்திரம் வேத ஜோதிடத்தின் ஆழமான அங்கம். ஒருவரின் கர்ம வினையும் எதிர்காலமும் உள்ளங்கையில் ரேகைகளாக பதிவாகின்றன.",
     "aboutP2": "பிறந்த நேரம் தெரியாவிட்டாலும் உள்ளங்கை ரேகைகள் மற்றும் மேடுகளின் மூலம் ஒருவரின் வாழ்க்கை பாதையை துல்லியமாக அறிய முடியும்."
+  },
+  "moles": {
+    "eye": "Samudrika Shastra · Til Vichar",
+    "title": "மச்ச சாஸ்திரம்",
+    "lede": "According to Brihat Samhita and Garuda Purana, moles (Til) and birthmarks (Lanchhan) are karmic signposts. Their location, size, and gender-side polarity reveal hidden fortunes and life trials.",
+    "tabFace": "Face & Head Moles",
+    "tabBody": "Body & Torso Moles",
+    "tabArms": "Arms & Palms",
+    "genderLabel": "Body Polarity:",
+    "male": "Male (Right side auspicious)",
+    "female": "Female (Left side auspicious)",
+    "searchHint": "Search or tap a body region below...",
+    "auspicious": "Auspicious (Shubha)",
+    "inauspicious": "Caution (Ashubha)",
+    "neutral": "Karmic Indicator (Madhyam)"
+  },
+  "forehead": {
+    "eye": "Samudrika Shastra · Bhāla Rekha",
+    "title": "நெற்றி ரேகை",
+    "lede": "Classical Vedic physiognomy maps the 7 sacred planets across the horizontal creases of the human forehead. Discover your ruling intellectual and karmic currents.",
+    "startCam": "Scan Forehead Camera",
+    "snapBtn": "Capture Forehead",
+    "uploadBtn": "Upload Forehead Photo",
+    "newScan": "New Scan",
+    "flipCam": "Flip Camera",
+    "hint": "Position your forehead inside the guide frame under clear lighting and raise your eyebrows slightly to reveal natural crease lines.",
+    "analyzingTitle": "Scanning Forehead Creases...",
+    "analyzingSub": "Mapping 7 planetary lines (Saturn to Moon) with Vedic pixel edge profiling.",
+    "allLines": "All 7 Planetary Lines"
+  },
+  "signature": {
+    "eye": "Hastakshar Shastra · Vedic Graphology",
+    "title": "கையெழுத்து சாஸ்திரம்",
+    "lede": "Your signature is a direct manifestation of Mercury (Budha - intellect), Sun (Surya - self-projection), and Saturn (Shani - discipline). Check your slant, balance, and financial flow.",
+    "tabDraw": "Draw Signature on Screen",
+    "tabUpload": "Upload Photo of Signature",
+    "clearBtn": "Clear Canvas",
+    "analyzeBtn": "Analyze Signature Now",
+    "strokePrompt": "Sign your name smoothly in the box above using your finger or stylus.",
+    "slantLabel": "Baseline Slant:",
+    "loopsLabel": "Loop & Flow:",
+    "dotsLabel": "Underline & Dots:",
+    "scoreTitle": "Signature Luck & Power Score",
+    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips"
+  },
+  "thumb": {
+    "eye": "Nadi Jyotish · Angustha Rekha",
+    "title": "பெருவிரல் நாடி",
+    "lede": "In ancient Tamil Nadi Astrology, thumb impression classification connects the seeker to their destined palm-leaf chapter. Identify your sacred ridge archetype.",
+    "maleThumbNote": "Traditional Rule: Men consult Right thumb; Women consult Left thumb.",
+    "tabSelect": "Select Ridge Pattern",
+    "tabScan": "Macro Camera Scan",
+    "whorl": "Chakra (Concentric Whorl)",
+    "loop": "Shankha (Sacred Conch Loop)",
+    "arch": "Dhwaja (Steep Tent / Arch)",
+    "composite": "Gadha (Composite / Club)",
+    "archetypeTitle": "Your Nadi Destiny Archetype",
+    "rulingGraha": "Governing Graha & Deity",
+    "strengths": "Karmic Powers & Vocation",
+    "remedyTitle": "Recommended Nadi Vedic Remedies"
+  },
+  "eye": {
+    "eye": "Samudrika Shastra · Netra Vigyan",
+    "title": "நேத்ர சாஸ்திரம்",
+    "lede": "The eyes are the throne of Sun (Surya) and Moon (Chandra). Sages categorized the human gaze into 5 classical archetypes reflecting inner virtue, intuition, and leadership.",
+    "archetypesH": "The 5 Sacred Vedic Eye Archetypes",
+    "lotusEye": "Kamala Netra (Lotus-Shaped Eyes)",
+    "deerEye": "Mriga Netra (Deer / Fawn-Shaped Eyes)",
+    "fishEye": "Matsya Netra (Fish-Shaped Eyes)",
+    "eagleEye": "Garuda Netra (Eagle / Piercing Eyes)",
+    "elephantEye": "Gaja Netra (Elephant / Wise Eyes)",
+    "irisH": "Iris Radiance & Sclera Tone",
+    "pupilH": "Pupil Focus & Mental Stillness",
+    "remedyH": "Eye Health & Solar Trataka Practice"
+  },
+  "dreamcalc": {
+    "eye": "Swapna Shastra · Agni Purana",
+    "title": "கனவு பலன் கணிப்பான்",
+    "lede": "In Vedic Swapna Shastra, the exact watch of the night (Prahar) when a dream occurs determines when and how its omen manifests in your waking life.",
+    "praharH": "When did you see the dream?",
+    "prahar1": "1st Prahar (6 PM – 9 PM) · Manifests within 1 Year",
+    "prahar2": "2nd Prahar (9 PM – 12 Midnight) · Manifests within 6 to 8 Months",
+    "prahar3": "3rd Prahar (12 Midnight – 3 AM) · Manifests within 1 to 3 Months",
+    "prahar4": "4th Prahar (3 AM – 6 AM / Brahma Muhurta) · Manifests within 10 Days to Same Day",
+    "calcBtn": "Calculate Manifestation & Omens",
+    "searchH": "Search Vedic Dream Symbol Meaning",
+    "searchPlaceholder": "Type what you saw (e.g. elephant, snake, river, temple)...",
+    "resultH": "Dream Time & Karma Manifestation Period",
+    "badDreamH": "Vedic Remedies for Nightmares (Dusswapna Shanti)",
+    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise."
   }
 }

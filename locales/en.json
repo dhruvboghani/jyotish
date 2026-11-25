@@ -80,7 +80,14 @@
     "sarpa": "Kaal Sarp Dosha",
     "hora": "Hora Timings",
     "face": "Face Reading",
-    "palm": "Palm Reading"
+    "palm": "Palm Reading",
+    "moles": "Mole Reading",
+    "forehead": "Forehead Lines",
+    "signature": "Signature Analysis",
+    "thumb": "Thumb & Nadi",
+    "foot": "Foot Reading",
+    "eye": "Eye Reading",
+    "dreamcalc": "Dream Calculator"
   },
   "hero": {
     "kicker": "Vedic Jyotish · computed, not guessed",
@@ -1478,7 +1485,10 @@
     "yours": "your time"
   },
   "tools": {
-    "eye": "More tools",
+    "eye": {
+      "h": "Vedic Eye Reading (Netra Samudrika)",
+      "p": "Identify your soul archetype: Lotus, Deer, Fish, Eagle, or Elephant eyes."
+    },
     "title": "Everything in one place",
     "lede": "Free Jyotish tools computed with the same mathematics as your Kundali.",
     "face": {
@@ -1524,6 +1534,30 @@
     "palm": {
       "h": "Palm Reading",
       "p": "Hastarekha Shastra palm analysis to read your lines, planetary mounts, and life destiny."
+    },
+    "moles": {
+      "h": "Mole Astrology (Til Vichar)",
+      "p": "Vedic body and face mole analysis for karmic fortune and wealth."
+    },
+    "forehead": {
+      "h": "Forehead Reading (Bhāla Rekha)",
+      "p": "7-planet forehead line scanner for intellect, longevity, and fate."
+    },
+    "signature": {
+      "h": "Lucky Signature (Hastakshar)",
+      "p": "Analyze signature slant, baseline, and loops for prosperity and confidence."
+    },
+    "thumb": {
+      "h": "Nadi Thumbprint (Angustha Rekha)",
+      "p": "Sacred Chakra, Shankha, and Dhwaja ridge patterns for destiny archetype."
+    },
+    "foot": {
+      "h": "Foot Reading (Pāda Samudrika)",
+      "p": "Sole arch, toe alignments, and auspicious markings for travel and success."
+    },
+    "dreamcalc": {
+      "h": "Dream Interpreter (Swapna Shastra)",
+      "p": "Timing calculator and Vedic meanings for nocturnal omens and dreams."
     }
   },
   "pages": {
@@ -1731,6 +1765,41 @@
       "name": "Palm Reading",
       "title": "Hastarekha Shastra – Vedic Palm Reading & Hand Analysis | Grahavani",
       "description": "Read your palm lines, planetary mounts (graha parvats), and life predictions with ancient Vedic Hastarekha Shastra. 100% in-browser, no paid AI."
+    },
+    "moles": {
+      "name": "Mole Reading",
+      "title": "Til Vichar – Vedic Mole Astrology & Body Mark Meaning | Grahavani",
+      "description": "Interactive Vedic mole astrology (Til Vichar Shastra) for face and body. Discover destiny, wealth, relationships, and hidden personality."
+    },
+    "forehead": {
+      "name": "Forehead Reading",
+      "title": "Bhāla Rekha – Vedic Forehead Line Reading & Planetary Scanner | Grahavani",
+      "description": "Scan and analyze the 7 planetary forehead lines with Vedic Samudrika Shastra. Uncover wisdom, authority, and life path."
+    },
+    "signature": {
+      "name": "Signature Analysis",
+      "title": "Hastakshar Shastra – Lucky Signature Analysis & Correction | Grahavani",
+      "description": "Free lucky signature analyzer using Vedic graphology. Check baseline slant, loops, dots, and planetary alignment for financial success."
+    },
+    "thumb": {
+      "name": "Nadi Thumbprint",
+      "title": "Angustha Rekha – Nadi Thumbprint & Fingerprint Analysis | Grahavani",
+      "description": "Discover your sacred Vedic thumb impression archetype (Chakra, Shankha, Dhwaja) according to ancient Nadi Shastra."
+    },
+    "foot": {
+      "name": "Foot Reading",
+      "title": "Pāda Samudrika – Vedic Sole & Foot Reading Analysis | Grahavani",
+      "description": "Analyze sole arch, toe lengths, and auspicious marks with ancient Vedic Pada Samudrika Shastra for travel and career predictions."
+    },
+    "eye": {
+      "name": "Eye Reading",
+      "title": "Netra Samudrika – Vedic Eye Shape & Iris Reading | Grahavani",
+      "description": "Discover your Vedic eye archetype (Kamala, Mriga, Matsya, Garuda, Gaja) and soul temperament with Netra Samudrika Shastra."
+    },
+    "dreamcalc": {
+      "name": "Dream Calculator",
+      "title": "Swapna Shastra – Vedic Dream Timing Calculator & Interpretation | Grahavani",
+      "description": "Calculate when your dream manifests according to the Prahar (time of night) and find authentic Vedic meanings from Brihat Samhita & Agni Purana."
     }
   },
   "face": {
@@ -6962,6 +7031,21 @@
     "weekTop": "Best week: {x}"
   },
   "foot": {
+    "eye": "Samudrika Shastra · Pāda Rekha",
+    "title": "Foot Reading",
+    "lede": "From the foot markings of royalty and spiritual masters to everyday vitality: discover what your sole arch, toe balance, and sacred signs indicate about destiny and travel.",
+    "archH": "Sole Arch Classification",
+    "archHigh": "Deva Pada (High Arch - Spiritual & Independent)",
+    "archMedium": "Manushya Pada (Balanced Arch - Pragmatic & Successful)",
+    "archFlat": "Bhumi Pada (Flat Foot - Hardworking & Grounded)",
+    "toesH": "Toe Length Proportions",
+    "toesAgni": "Second Toe Longest (Agni Dominance - Natural Leader)",
+    "toesPrithvi": "Big Toe Longest (Prithvi Dominance - Steady Wealth)",
+    "signsH": "Auspicious Sacred Markings (Padatala)",
+    "signLotus": "Kamala (Lotus Sign) – Abundance & Respect",
+    "signFish": "Matsya (Fish Sign) – High Wealth & Ocean Travel",
+    "signConch": "Shankha (Conch Sign) – Knowledge & Eloquence",
+    "signTrident": "Trishul (Trident) – Divine Protection & Courage",
     "follow": "Follow us"
   },
   "socad": {
@@ -7129,5 +7213,95 @@
     "aboutTitle": "About Hastarekha Shastra (हस्तरेखा शास्त्र)",
     "aboutP1": "Hastarekha Shastra is the ancient Vedic science of palmistry, traditionally linked to Jyotish (astrology). The palm reflects an individual's conscious and subconscious mind, past karma, and latent potential through subtle line creases and planetary mounts.",
     "aboutP2": "By examining the depth, curvature, and branching of the major lines—along with the elevation of the graha parvats—this analysis provides personalized insights into your career milestones, emotional nature, and vitality without needing an exact birth time."
+  },
+  "moles": {
+    "eye": "Samudrika Shastra · Til Vichar",
+    "title": "Mole Reading",
+    "lede": "According to Brihat Samhita and Garuda Purana, moles (Til) and birthmarks (Lanchhan) are karmic signposts. Their location, size, and gender-side polarity reveal hidden fortunes and life trials.",
+    "tabFace": "Face & Head Moles",
+    "tabBody": "Body & Torso Moles",
+    "tabArms": "Arms & Palms",
+    "genderLabel": "Body Polarity:",
+    "male": "Male (Right side auspicious)",
+    "female": "Female (Left side auspicious)",
+    "searchHint": "Search or tap a body region below...",
+    "auspicious": "Auspicious (Shubha)",
+    "inauspicious": "Caution (Ashubha)",
+    "neutral": "Karmic Indicator (Madhyam)"
+  },
+  "forehead": {
+    "eye": "Samudrika Shastra · Bhāla Rekha",
+    "title": "Forehead Reading",
+    "lede": "Classical Vedic physiognomy maps the 7 sacred planets across the horizontal creases of the human forehead. Discover your ruling intellectual and karmic currents.",
+    "startCam": "Scan Forehead Camera",
+    "snapBtn": "Capture Forehead",
+    "uploadBtn": "Upload Forehead Photo",
+    "newScan": "New Scan",
+    "flipCam": "Flip Camera",
+    "hint": "Position your forehead inside the guide frame under clear lighting and raise your eyebrows slightly to reveal natural crease lines.",
+    "analyzingTitle": "Scanning Forehead Creases...",
+    "analyzingSub": "Mapping 7 planetary lines (Saturn to Moon) with Vedic pixel edge profiling.",
+    "allLines": "All 7 Planetary Lines"
+  },
+  "signature": {
+    "eye": "Hastakshar Shastra · Vedic Graphology",
+    "title": "Signature Analysis",
+    "lede": "Your signature is a direct manifestation of Mercury (Budha - intellect), Sun (Surya - self-projection), and Saturn (Shani - discipline). Check your slant, balance, and financial flow.",
+    "tabDraw": "Draw Signature on Screen",
+    "tabUpload": "Upload Photo of Signature",
+    "clearBtn": "Clear Canvas",
+    "analyzeBtn": "Analyze Signature Now",
+    "strokePrompt": "Sign your name smoothly in the box above using your finger or stylus.",
+    "slantLabel": "Baseline Slant:",
+    "loopsLabel": "Loop & Flow:",
+    "dotsLabel": "Underline & Dots:",
+    "scoreTitle": "Signature Luck & Power Score",
+    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips"
+  },
+  "thumb": {
+    "eye": "Nadi Jyotish · Angustha Rekha",
+    "title": "Nadi Thumbprint",
+    "lede": "In ancient Tamil Nadi Astrology, thumb impression classification connects the seeker to their destined palm-leaf chapter. Identify your sacred ridge archetype.",
+    "maleThumbNote": "Traditional Rule: Men consult Right thumb; Women consult Left thumb.",
+    "tabSelect": "Select Ridge Pattern",
+    "tabScan": "Macro Camera Scan",
+    "whorl": "Chakra (Concentric Whorl)",
+    "loop": "Shankha (Sacred Conch Loop)",
+    "arch": "Dhwaja (Steep Tent / Arch)",
+    "composite": "Gadha (Composite / Club)",
+    "archetypeTitle": "Your Nadi Destiny Archetype",
+    "rulingGraha": "Governing Graha & Deity",
+    "strengths": "Karmic Powers & Vocation",
+    "remedyTitle": "Recommended Nadi Vedic Remedies"
+  },
+  "eye": {
+    "eye": "Samudrika Shastra · Netra Vigyan",
+    "title": "Eye Reading",
+    "lede": "The eyes are the throne of Sun (Surya) and Moon (Chandra). Sages categorized the human gaze into 5 classical archetypes reflecting inner virtue, intuition, and leadership.",
+    "archetypesH": "The 5 Sacred Vedic Eye Archetypes",
+    "lotusEye": "Kamala Netra (Lotus-Shaped Eyes)",
+    "deerEye": "Mriga Netra (Deer / Fawn-Shaped Eyes)",
+    "fishEye": "Matsya Netra (Fish-Shaped Eyes)",
+    "eagleEye": "Garuda Netra (Eagle / Piercing Eyes)",
+    "elephantEye": "Gaja Netra (Elephant / Wise Eyes)",
+    "irisH": "Iris Radiance & Sclera Tone",
+    "pupilH": "Pupil Focus & Mental Stillness",
+    "remedyH": "Eye Health & Solar Trataka Practice"
+  },
+  "dreamcalc": {
+    "eye": "Swapna Shastra · Agni Purana",
+    "title": "Dream Calculator",
+    "lede": "In Vedic Swapna Shastra, the exact watch of the night (Prahar) when a dream occurs determines when and how its omen manifests in your waking life.",
+    "praharH": "When did you see the dream?",
+    "prahar1": "1st Prahar (6 PM – 9 PM) · Manifests within 1 Year",
+    "prahar2": "2nd Prahar (9 PM – 12 Midnight) · Manifests within 6 to 8 Months",
+    "prahar3": "3rd Prahar (12 Midnight – 3 AM) · Manifests within 1 to 3 Months",
+    "prahar4": "4th Prahar (3 AM – 6 AM / Brahma Muhurta) · Manifests within 10 Days to Same Day",
+    "calcBtn": "Calculate Manifestation & Omens",
+    "searchH": "Search Vedic Dream Symbol Meaning",
+    "searchPlaceholder": "Type what you saw (e.g. elephant, snake, river, temple)...",
+    "resultH": "Dream Time & Karma Manifestation Period",
+    "badDreamH": "Vedic Remedies for Nightmares (Dusswapna Shanti)",
+    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise."
   }
 }

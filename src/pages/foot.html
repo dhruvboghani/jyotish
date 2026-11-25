@@ -1,0 +1,123 @@
+<main class="wrap page foot-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{foot.eye}}</p>
+    <h1>{{foot.title}}</h1>
+    <p class="lede">{{foot.lede}}</p>
+  </div>
+
+  <!-- Interactive Foot Diagram & Selector Card -->
+  <section class="card foot-selector-card">
+    <div class="foot-options-grid">
+      <!-- 1. Sole Arch Selector -->
+      <div class="card sub-card">
+        <h3 class="sub-h">{{foot.archH}}</h3>
+        <div class="pill-group-vertical" id="arch-group" role="radiogroup">
+          <button type="button" class="pill-btn active" data-arch="high">
+            <strong>Deva Pada</strong> (High Arch · Independent & Spiritual)
+          </button>
+          <button type="button" class="pill-btn" data-arch="medium">
+            <strong>Manushya Pada</strong> (Balanced Arch · Prosperous & Pragmatic)
+          </button>
+          <button type="button" class="pill-btn" data-arch="flat">
+            <strong>Bhumi Pada</strong> (Flat Arch · Grounded & Hardworking)
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Toe Length Ratio Selector -->
+      <div class="card sub-card">
+        <h3 class="sub-h">{{foot.toesH}}</h3>
+        <div class="pill-group-vertical" id="toe-group" role="radiogroup">
+          <button type="button" class="pill-btn active" data-toe="second">
+            <strong>Second Toe Longest</strong> (Agni Dominance · Natural Leader)
+          </button>
+          <button type="button" class="pill-btn" data-toe="big">
+            <strong>Big Toe Longest</strong> (Prithvi Dominance · Steady Wealth)
+          </button>
+          <button type="button" class="pill-btn" data-toe="even">
+            <strong>Even Proportion</strong> (Vayu Dominance · Balanced Diplomat)
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Auspicious Sole Signs -->
+      <div class="card sub-card">
+        <h3 class="sub-h">{{foot.signsH}}</h3>
+        <div class="signs-checkbox-list" id="signs-group">
+          <label class="check-item">
+            <input type="checkbox" value="lotus" checked />
+            <span>🪷 Kamala (Lotus Sign)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" value="fish" />
+            <span>🐟 Matsya (Fish Sign)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" value="conch" />
+            <span>🐚 Shankha (Conch Sign)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" value="trident" />
+            <span>🔱 Trishul (Trident Sign)</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Photo Upload Viewfinder -->
+    <div class="foot-upload-row">
+      <label class="btn-line file-upload-btn">
+        <input type="file" id="foot-file-input" accept="image/*" style="display:none" />
+        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-image"/></svg> Upload Sole Photo
+      </label>
+      <span class="small muted">Or select the matching parameters directly above for instant reading.</span>
+    </div>
+  </section>
+
+  <!-- Detailed Results -->
+  <section class="card foot-result-card" id="foot-result-card">
+    <div class="result-hero-row">
+      <div class="foot-symbol-box">
+        <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-foot"/></svg>
+      </div>
+      <div>
+        <span class="tag gold" id="res-foot-tag">Deva Pada · Agni Dominance</span>
+        <h2 id="res-foot-title">Independent Visionary & Dynamic Leader</h2>
+        <p class="lede" id="res-foot-summary">A high sole arch combined with a commanding second toe indicates royal spirit, executive initiative, and flourishing fortune away from birthplace.</p>
+      </div>
+    </div>
+
+    <div class="foot-details-grid">
+      <div class="card sub-card">
+        <h3>Travel & Overseas Fortune</h3>
+        <p id="res-foot-travel" class="prose-text">Favors overseas ventures, foreign travel, and international acclaim. The native earns recognition in distant lands.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>Career & Leadership Destiny</h3>
+        <p id="res-foot-career" class="prose-text">Natural decision-maker who excels in independent businesses, governance, innovation, and leadership.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>Temperament & Vitality</h3>
+        <p id="res-foot-nature" class="prose-text">High physical vitality and sharp willpower. Driven by ideals and allergic to monotonous subservience.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>Sacred Sign Blessing & Remedies</h3>
+        <p id="res-foot-remedy" class="prose-text">Massage feet with warm sesame oil before sleep (Pada Abhyanga) to ground restless vata energy and cultivate restful sleep.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Section -->
+  <section class="card prose">
+    <h2>Principles of Pāda Samudrika Shastra</h2>
+    <p>In *Brihat Samhita* (Chapter 67) and *Garuda Purana*, the feet represent the foundation of the human temple (*Pratishtha*):</p>
+    <ul>
+      <li><strong>Deva Pada (High Arch):</strong> Reflects spiritual refinement, light-footed mobility, and self-reliance.</li>
+      <li><strong>Manushya Pada (Balanced Arch):</strong> Reflects balanced earth and water elements, granting material prosperity and strong family bonds.</li>
+      <li><strong>Bhumi Pada (Flat Foot):</strong> Directly grounded with Mother Earth (*Bhumi Mata*), granting endurance, patience, and realistic execution.</li>
+    </ul>
+  </section>
+</main>

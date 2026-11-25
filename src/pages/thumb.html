@@ -1,0 +1,134 @@
+<main class="wrap page thumb-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{thumb.eye}}</p>
+    <h1>{{thumb.title}}</h1>
+    <p class="lede">{{thumb.lede}}</p>
+    <div class="thumb-note-badge">
+      <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-info"/></svg>
+      <span>{{thumb.maleThumbNote}}</span>
+    </div>
+  </div>
+
+  <!-- Interactive Archetype Selector & Scanner Card -->
+  <section class="card thumb-selector-card">
+    <div class="selector-head">
+      <h3 class="sub-h">Select Your Thumbprint Ridge Pattern</h3>
+      <p class="muted small">Look closely at the whorl or loop in the center of your thumb pad in good light.</p>
+    </div>
+
+    <!-- 4 Sacred Archetypes Grid -->
+    <div class="thumb-patterns-grid" id="patterns-grid" role="radiogroup">
+      <!-- 1. Chakra -->
+      <button type="button" class="card pattern-card active" data-type="chakra">
+        <div class="pattern-svg-wrap">
+          <svg viewBox="0 0 100 100" class="pattern-svg">
+            <circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="2.5" />
+          </svg>
+        </div>
+        <h4>{{thumb.whorl}}</h4>
+        <span class="tag gold">Surya & Vishnu</span>
+        <p class="small muted">Concentric circles / spiral solar disc</p>
+      </button>
+
+      <!-- 2. Shankha -->
+      <button type="button" class="card pattern-card" data-type="shankha">
+        <div class="pattern-svg-wrap">
+          <svg viewBox="0 0 100 100" class="pattern-svg">
+            <path d="M20 80 Q50 20 80 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path d="M30 80 Q50 35 70 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path d="M40 80 Q50 50 60 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+          </svg>
+        </div>
+        <h4>{{thumb.loop}}</h4>
+        <span class="tag gold">Chandra & Varuna</span>
+        <p class="small muted">Graceful flowing curved loops</p>
+      </button>
+
+      <!-- 3. Dhwaja -->
+      <button type="button" class="card pattern-card" data-type="dhwaja">
+        <div class="pattern-svg-wrap">
+          <svg viewBox="0 0 100 100" class="pattern-svg">
+            <path d="M15 80 L50 20 L85 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path d="M28 80 L50 38 L72 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path d="M40 80 L50 55 L60 80" fill="none" stroke="currentColor" stroke-width="2.5" />
+          </svg>
+        </div>
+        <h4>{{thumb.arch}}</h4>
+        <span class="tag gold">Mangala & Kartikeya</span>
+        <p class="small muted">Steep peaked pyramid / tent arch</p>
+      </button>
+
+      <!-- 4. Gadha -->
+      <button type="button" class="card pattern-card" data-type="gadha">
+        <div class="pattern-svg-wrap">
+          <svg viewBox="0 0 100 100" class="pattern-svg">
+            <path d="M30 35 C45 20 65 35 50 50 C35 65 55 80 70 65" fill="none" stroke="currentColor" stroke-width="2.5" />
+            <path d="M20 40 C40 10 80 30 60 60" fill="none" stroke="currentColor" stroke-width="2.5" />
+          </svg>
+        </div>
+        <h4>{{thumb.composite}}</h4>
+        <span class="tag gold">Guru & Budha</span>
+        <p class="small muted">Twin interlaced loops / S-curve</p>
+      </button>
+    </div>
+
+    <!-- Optional Camera Upload Viewfinder -->
+    <div class="thumb-upload-row">
+      <label class="btn-line file-upload-btn">
+        <input type="file" id="thumb-file-input" accept="image/*" style="display:none" />
+        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-image"/></svg> Upload Close-up Photo of Thumb
+      </label>
+      <span class="small muted">Or select the matching pattern directly above.</span>
+    </div>
+  </section>
+
+  <!-- Detailed Nadi Destiny Breakdown -->
+  <section class="card thumb-result-card" id="thumb-result-card">
+    <div class="result-hero-row">
+      <div class="nadi-symbol-box" id="nadi-symbol-box">
+        <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-fingerprint"/></svg>
+      </div>
+      <div>
+        <span class="tag gold" id="res-nadi-tag">Chakra Archetype</span>
+        <h2 id="res-nadi-title">Chakra (Concentric Whorl) — Sovereign Leader</h2>
+        <p class="lede" id="res-nadi-subtitle">Governed by Surya (Sun) & Lord Maha Vishnu. Marked by independent authority, self-earned wealth, and magnetic willpower.</p>
+      </div>
+    </div>
+
+    <div class="nadi-grid">
+      <div class="card sub-card">
+        <h3>Primary Nadi Chapter (Kandam)</h3>
+        <p id="res-nadi-kandam" class="prose-text">Associated with the <strong>Podhu Kandam (General Chapter)</strong> and <strong>Arasiyal Kandam (Governance Chapter)</strong>. Predicts notable social stature and executive leadership.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>{{thumb.rulingGraha}}</h3>
+        <p id="res-nadi-graha" class="prose-text">Governed by <strong>Surya (Sun)</strong> and <strong>Maha Vishnu</strong>. Channeling truth, nobility, and high executive stamina.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>{{thumb.strengths}}</h3>
+        <p id="res-nadi-strengths" class="prose-text">Natural decision-maker who dislikes subservience. Succeeds when leading enterprises, governing teams, and creating original systems.</p>
+      </div>
+
+      <div class="card sub-card">
+        <h3>{{thumb.remedyTitle}}</h3>
+        <p id="res-nadi-remedies" class="prose-text">Offer water (Arghya) to the rising sun, chant the Vishnu Sahasranama or Gayatri Mantra, and donate grain on Sundays.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Nadi Shastra Card -->
+  <section class="card prose">
+    <h2>Principles of Nadi Angustha Shastra</h2>
+    <p>In ancient Tamil palm-leaf traditions (*Nadi Granthas*) attributed to Sages Agastya, Bhrigu, and Kaushika:</p>
+    <ul>
+      <li><strong>Index of Karma:</strong> The thumb impression (*Angustha Rekha*) is considered the unique thumbprint of the soul's current incarnation.</li>
+      <li><strong>108 Sub-Categories:</strong> The 4 primary archetypes (Chakra, Shankha, Dhwaja, and Gadha) branch into 108 subtle ridge variations reflecting karmic debts (*Prarabdha Karma*) and destined soul blessings.</li>
+      <li><strong>Male & Female Polarity:</strong> Men present the right thumb, connecting with solar Pingala prana; women present the left thumb, connecting with lunar Ida prana.</li>
+    </ul>
+  </section>
+</main>

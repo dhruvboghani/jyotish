@@ -1,0 +1,125 @@
+<main class="wrap page forehead-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{forehead.eye}}</p>
+    <h1>{{forehead.title}}</h1>
+    <p class="lede">{{forehead.lede}}</p>
+  </div>
+
+  <section class="card forehead-scanner-card">
+    <div class="scanner-view-container">
+      <div class="scanner-frame" id="scanner-frame">
+        <!-- Placeholder State -->
+        <div class="scanner-placeholder" id="scanner-placeholder">
+          <div class="placeholder-icon">
+            <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-star"/></svg>
+          </div>
+          <h3>Ready for Forehead Scan</h3>
+          <p class="muted small">{{forehead.hint}}</p>
+        </div>
+
+        <video id="forehead-video" playsinline autoplay muted style="display:none"></video>
+        <img id="forehead-preview" alt="Forehead Photo" style="display:none" />
+
+        <!-- Golden Forehead Silhouette Guideline -->
+        <div class="scanner-forehead-guide" id="scanner-forehead-guide" style="display:none">
+          <svg class="guide-forehead-svg" viewBox="0 0 240 180" aria-hidden="true">
+            <!-- Eyebrow Guide and Forehead Arc -->
+            <path d="M30 140 Q120 40 210 140" fill="none" stroke="var(--gold, #d97706)" stroke-width="2" stroke-dasharray="4 4" />
+            <path d="M40 145 Q80 135 110 145" fill="none" stroke="var(--gold, #d97706)" stroke-width="2" />
+            <path d="M130 145 Q160 135 200 145" fill="none" stroke="var(--gold, #d97706)" stroke-width="2" />
+          </svg>
+          <div class="scanner-pulse"></div>
+        </div>
+
+        <!-- Scanning Beam -->
+        <div class="scanning-beam" id="scanning-beam" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Scanner Action Controls -->
+    <div class="scanner-controls">
+      <div class="primary-controls">
+        <button type="button" class="btn-cta" id="btn-start-camera">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-image"/></svg> <span>{{forehead.startCam}}</span>
+        </button>
+
+        <button type="button" class="btn-cta btn-snap" id="btn-snap" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> <span>{{forehead.snapBtn}}</span>
+        </button>
+
+        <label class="btn-line file-upload-btn" id="lbl-upload">
+          <input type="file" id="forehead-file-input" accept="image/*" />
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> <span>{{forehead.uploadBtn}}</span>
+        </label>
+
+        <button type="button" class="btn-line" id="btn-flip-cam" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{forehead.flipCam}}</span>
+        </button>
+
+        <button type="button" class="btn-line" id="btn-reset" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{forehead.newScan}}</span>
+        </button>
+      </div>
+      <p class="scanner-hint muted small">{{forehead.hint}}</p>
+    </div>
+  </section>
+
+  <!-- Analyzing Spinner -->
+  <div class="forehead-analyzing card" id="forehead-analyzing" style="display:none">
+    <div class="face-spinner"></div>
+    <div class="analyzing-text">
+      <h3>{{forehead.analyzingTitle}}</h3>
+      <p class="muted">{{forehead.analyzingSub}}</p>
+    </div>
+  </div>
+
+  <!-- Detailed Results -->
+  <section class="forehead-results" id="forehead-results" style="display:none">
+    <!-- Interactive Highlight Pills -->
+    <div class="card forehead-pills-card">
+      <div class="pills-header">
+        <p class="eyebrow">Interactive Line Spotlights</p>
+        <h3>Select a Planetary Line to Inspect</h3>
+      </div>
+      <div class="forehead-line-toggles" id="line-toggles" role="tablist">
+        <button type="button" class="line-pill active" data-line="all">🌟 All 7 Lines</button>
+        <button type="button" class="line-pill" data-line="saturn">🪐 Saturn (Shani)</button>
+        <button type="button" class="line-pill" data-line="jupiter">✨ Jupiter (Guru)</button>
+        <button type="button" class="line-pill" data-line="mars">🔥 Mars (Mangala)</button>
+        <button type="button" class="line-pill" data-line="sun">☀️ Sun (Surya)</button>
+        <button type="button" class="line-pill" data-line="venus">💎 Venus (Shukra)</button>
+        <button type="button" class="line-pill" data-line="mercury">🌿 Mercury (Budha)</button>
+        <button type="button" class="line-pill" data-line="moon">🌙 Moon (Chandra)</button>
+      </div>
+    </div>
+
+    <!-- Visual SVG Overlay on Captured Forehead -->
+    <div class="card forehead-visual-card">
+      <div class="forehead-canvas-wrap" id="forehead-canvas-wrap">
+        <canvas id="forehead-display-canvas"></canvas>
+        <svg id="forehead-overlay-svg" class="forehead-overlay-svg" viewBox="0 0 400 300" preserveAspectRatio="none"></svg>
+      </div>
+      <p class="muted small text-center" id="active-line-caption">Showing all 7 classical planetary lines</p>
+    </div>
+
+    <!-- Planetary Line Analysis Cards Grid -->
+    <div class="forehead-cards-grid" id="forehead-cards-grid">
+      <!-- Injected by forehead.js -->
+    </div>
+  </section>
+
+  <!-- Educational Samudrika Card -->
+  <section class="card prose">
+    <h2>The 7 Planetary Creases in Vedic Bhāla Shastra</h2>
+    <p>In *Brihat Samhita* (Chapter 68, *Purusha Lakshana*) and *Agni Purana*, the forehead is known as the **Bhāla Patra** (the tablet of destiny):</p>
+    <ul>
+      <li><strong>Saturn Line (Top):</strong> Indicates philosophical patience, longevity, resilience against chronic hardships, and deep concentration.</li>
+      <li><strong>Jupiter Line (2nd):</strong> Governs dharma, academic honors, public ethics, and spiritual blessings.</li>
+      <li><strong>Mars Line (3rd):</strong> Grants executive drive, physical bravery, strategic thinking, and leadership.</li>
+      <li><strong>Sun Line (Center):</strong> Represents royal favor (*Raja Yoga*), public illumination, self-respect, and vitality.</li>
+      <li><strong>Venus Line (5th):</strong> Imparts aesthetic charisma, love for poetry, luxury, and magnetic charm.</li>
+      <li><strong>Mercury Line (6th):</strong> Bestows commercial acumen, mathematical skill, wit, and linguistic fluency.</li>
+      <li><strong>Moon Line (Bottom):</strong> Reflects intuition, deep emotional resonance, artistic perception, and wanderlust.</li>
+    </ul>
+  </section>
+</main>
