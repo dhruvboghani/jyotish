@@ -61,8 +61,7 @@ begin
       case when e ? 'detail' and length((e->'detail')::text) <= 8000 then e->'detail' else null end);
     n := n + 1;
   end loop;
-  -- Keep 180 days
-  if random() < 0.005 then delete from public.activity_log where created_at < now() - interval '180 days'; end if;
+  -- Permanent retention (do not delete activity logs)
   return n;
 end $$;
 revoke all on function public.log_activity(jsonb, text, text, text) from public;

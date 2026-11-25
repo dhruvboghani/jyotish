@@ -89,6 +89,31 @@
     if (resCareer) resCareer.textContent = career;
     if (resNature) resNature.textContent = nature;
     if (resRemedy) resRemedy.textContent = remedy;
+    persistReading();
+  }
+
+  let saveTimer = null;
+  function persistReading() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        const selectedSigns = Array.from(signInputs).filter(i => i.checked).map(i => i.value);
+        let token = null;
+        if (window.KG && window.KG.sb && window.KG.sb.auth) {
+          const s = (await window.KG.sb.auth.getSession()).data.session;
+          if (s && s.access_token) token = s.access_token;
+        }
+        fetch('/api/divination', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+          body: JSON.stringify({
+            kind: 'foot',
+            input: { arch: currentArch, toe: currentToe, signs: selectedSigns },
+            result: { tag: resTag ? resTag.textContent : '', title: resTitle ? resTitle.textContent : '' }
+          })
+        }).catch(() => {});
+      } catch (e) {}
+    }, 600);
   }
 
   archBtns.forEach(btn => {

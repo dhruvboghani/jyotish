@@ -211,7 +211,28 @@
     if (resInitialVal) resInitialVal.textContent = 'Clear & Prominent (Surya Blessing)';
     if (resUnderlineVal) resUnderlineVal.textContent = 'Harmonious Balance (Shani Support)';
 
+    persistReading({ strokeCount: strokePoints.length, slantDeg, score, verdict });
+
     resultsSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function persistReading(data) {
+    try {
+      let token = null;
+      if (window.KG && window.KG.sb && window.KG.sb.auth) {
+        const s = (await window.KG.sb.auth.getSession()).data.session;
+        if (s && s.access_token) token = s.access_token;
+      }
+      fetch('/api/divination', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+        body: JSON.stringify({
+          kind: 'signature',
+          input: { strokes: data.strokeCount, slantDeg: data.slantDeg },
+          result: { score: data.score, verdict: data.verdict }
+        })
+      }).catch(() => {});
+    } catch (e) {}
   }
 
 })();

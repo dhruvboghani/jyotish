@@ -445,6 +445,33 @@
     if (resSpotWealth) resSpotWealth.textContent = m.wealth;
     if (resSpotNature) resSpotNature.textContent = m.nature;
     if (resSpotRemedy) resSpotRemedy.textContent = m.remedy;
+    persistReading(id, currentGender);
+  }
+
+  let saveTimer = null;
+  function persistReading(id, gender) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        const m = MOLE_DATA.find(item => item.id === id);
+        if (!m) return;
+        const rule = m.genderRules[gender];
+        let token = null;
+        if (window.KG && window.KG.sb && window.KG.sb.auth) {
+          const s = (await window.KG.sb.auth.getSession()).data.session;
+          if (s && s.access_token) token = s.access_token;
+        }
+        fetch('/api/divination', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+          body: JSON.stringify({
+            kind: 'moles',
+            input: { spotId: id, gender },
+            result: { title: m.title, polarity: rule.polarity, tag: rule.tag, summary: rule.summary, destiny: m.destiny, wealth: m.wealth }
+          })
+        }).catch(() => {});
+      } catch (e) {}
+    }, 600);
   }
 
   // Event Listeners for Gender Polarity

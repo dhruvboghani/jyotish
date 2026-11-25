@@ -175,9 +175,29 @@
 
         renderVisuals(img);
         renderCards();
+        persistReading();
       }, 700);
     };
     img.src = src;
+  }
+
+  async function persistReading() {
+    try {
+      let token = null;
+      if (window.KG && window.KG.sb && window.KG.sb.auth) {
+        const s = (await window.KG.sb.auth.getSession()).data.session;
+        if (s && s.access_token) token = s.access_token;
+      }
+      fetch('/api/divination', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+        body: JSON.stringify({
+          kind: 'forehead',
+          input: { activeLine: activeLineId },
+          result: { lines: PLANET_LINES.map(p => ({ id: p.id, graha: p.graha, role: p.role, destiny: p.destiny })) }
+        })
+      }).catch(() => {});
+    } catch (e) {}
   }
 
   function renderVisuals(img) {

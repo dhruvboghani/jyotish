@@ -75,6 +75,30 @@
     if (resCareer) resCareer.textContent = data.career;
     if (resLove) resLove.textContent = data.love;
     if (resRemedy) resRemedy.textContent = data.remedy;
+    persistReading(key, data);
+  }
+
+  let saveTimer = null;
+  function persistReading(key, data) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        let token = null;
+        if (window.KG && window.KG.sb && window.KG.sb.auth) {
+          const s = (await window.KG.sb.auth.getSession()).data.session;
+          if (s && s.access_token) token = s.access_token;
+        }
+        fetch('/api/divination', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+          body: JSON.stringify({
+            kind: 'eye',
+            input: { archetype: key },
+            result: { tag: data.tag, title: data.title, soul: data.soul, career: data.career }
+          })
+        }).catch(() => {});
+      } catch (e) {}
+    }, 600);
   }
 
   cards.forEach(c => {
