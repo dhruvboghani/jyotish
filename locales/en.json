@@ -79,7 +79,8 @@
     "ratna": "Gemstone Finder",
     "sarpa": "Kaal Sarp Dosha",
     "hora": "Hora Timings",
-    "face": "Face Reading"
+    "face": "Face Reading",
+    "palm": "Palm Reading"
   },
   "hero": {
     "kicker": "Vedic Jyotish · computed, not guessed",
@@ -1519,6 +1520,10 @@
     "numerology": {
       "h": "Numerology",
       "p": "Mulank, Bhagyank, name number, lucky numbers and mobile number check."
+    },
+    "palm": {
+      "h": "Palm Reading",
+      "p": "Hastarekha Shastra palm analysis to read your lines, planetary mounts, and life destiny."
     }
   },
   "pages": {
@@ -1721,6 +1726,11 @@
       "name": "Face Reading",
       "title": "Samudrika Shastra – Vedic Face Reading & Kundali | Grahavani",
       "description": "Discover your ruling graha, elemental balance, life predictions and lucky remedies from a face selfie using ancient Vedic Samudrika Shastra."
+    },
+    "palm": {
+      "name": "Palm Reading",
+      "title": "Hastarekha Shastra – Vedic Palm Reading & Hand Analysis | Grahavani",
+      "description": "Read your palm lines, planetary mounts (graha parvats), and life predictions with ancient Vedic Hastarekha Shastra. 100% in-browser, no paid AI."
     }
   },
   "face": {
@@ -7067,5 +7077,57 @@
       "dreamTopic": "Dream Subject",
       "tBhagyank": "✨ Numerology: Single Bhagyank"
     }
+  },
+  "palm": {
+    "eye": "Hastarekha Shastra",
+    "title": "Vedic Palm Reading & Hand Analysis",
+    "lede": "Capture or upload a photo of your palm. Classical Hastarekha Shastra analyzes your hand shape, planetary mounts, and lines to reveal destiny, intellect, relationships, and vitality.",
+    "startCam": "Open Camera",
+    "captureBtn": "Capture Palm",
+    "uploadBtn": "Upload Photo",
+    "flipCam": "Flip",
+    "newScan": "New Scan",
+    "hint": "Place your hand flat with fingers slightly apart under bright, even lighting.",
+    "hintAlign": "Align your palm inside the golden hand guideline with fingers slightly spread.",
+    "camError": "Could not access camera. Please allow camera permissions or upload a photo.",
+    "shadowTitle": "Low-Contrast or Shadowed Image",
+    "shadowMsg": "For the clearest palm reading, place your hand under direct light so the natural creases are visible.",
+    "retakeBtn": "Retake Photo",
+    "ignoreBtn": "Proceed Anyway",
+    "analyzingTitle": "Analyzing Palm Lines & Mounts…",
+    "analyzingSub": "Tracing Heart, Head, Life, and Fate lines, and calculating mount elevations.",
+    "savedCloud": "Saved to Profile",
+    "handType": "Elemental Hand Type",
+    "linesHeading": "Interactive Palm Lines & Classical Meanings",
+    "linesSub": "Click any line below to highlight its path on your hand photo and read its Vedic interpretation.",
+    "lineAll": "All Lines",
+    "lineHeart": "Heart Line (Hriday)",
+    "lineHead": "Head Line (Mastishk)",
+    "lineLife": "Life Line (Jeevan)",
+    "lineFate": "Fate Line (Bhagya)",
+    "lineSun": "Sun Line (Surya)",
+    "mountsHeading": "Graha Parvats (Planetary Mounts)",
+    "mountGuru": "Jupiter Mount (Guru)",
+    "mountShani": "Saturn Mount (Shani)",
+    "mountSurya": "Sun Mount (Surya)",
+    "mountBudha": "Mercury Mount (Budha)",
+    "mountShukra": "Venus Mount (Shukra)",
+    "mountChandra": "Moon Mount (Chandra)",
+    "mountMangal": "Mars Mount (Mangal)",
+    "signsHeading": "Auspicious Hastarekha Signs Detected",
+    "predHeading": "Astrological Life Forecast",
+    "predCareer": "Career & Life Calling",
+    "predWealth": "Financial Stability",
+    "predLove": "Love & Emotional Depth",
+    "predNature": "Personality & Intellect",
+    "remediesHeading": "Personalized Vedic Remedies",
+    "luckyGem": "Auspicious Gemstone",
+    "luckyRudraksha": "Sacred Rudraksha",
+    "luckyColor": "Lucky Colors",
+    "luckyDay": "Auspicious Day",
+    "prescribedMantra": "Prescribed Vedic Mantra",
+    "aboutTitle": "About Hastarekha Shastra (हस्तरेखा शास्त्र)",
+    "aboutP1": "Hastarekha Shastra is the ancient Vedic science of palmistry, traditionally linked to Jyotish (astrology). The palm reflects an individual's conscious and subconscious mind, past karma, and latent potential through subtle line creases and planetary mounts.",
+    "aboutP2": "By examining the depth, curvature, and branching of the major lines—along with the elevation of the graha parvats—this analysis provides personalized insights into your career milestones, emotional nature, and vitality without needing an exact birth time."
   }
 }

@@ -1,0 +1,333 @@
+<main class="wrap page palm-page">
+  <div class="page-hero">
+    <p class="eyebrow">{{palm.eye}}</p>
+    <h1>{{palm.title}}</h1>
+    <p class="lede">{{palm.lede}}</p>
+  </div>
+
+  <section class="card palm-scanner-card">
+    <div class="scanner-view-container">
+      <div class="scanner-frame" id="scanner-frame">
+        <!-- Initial Placeholder State (Before Camera Opens) -->
+        <div class="scanner-placeholder" id="scanner-placeholder">
+          <div class="placeholder-icon">
+            <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-hand"/></svg>
+          </div>
+          <h3>Ready for Scan</h3>
+          <p class="muted small">{{palm.hint}}</p>
+        </div>
+
+        <video id="palm-video" playsinline autoplay muted style="display:none"></video>
+        <img id="palm-preview" alt="Captured Palm" style="display:none" />
+        
+        <!-- Golden Hand Silhouette Guideline -->
+        <div class="scanner-hand-guide" id="scanner-hand-guide" style="display:none">
+          <svg class="guide-hand-svg" viewBox="0 0 200 280" aria-hidden="true">
+            <path class="guide-hand-path" d="M35 155 C30 140 22 125 15 110 C10 100 20 90 28 98 C38 108 55 130 65 140 C65 110 65 50 65 35 C65 24 78 24 78 35 C78 55 78 105 78 115 C82 95 86 35 88 20 C89 9 102 9 103 20 C105 40 105 105 106 115 C110 95 116 48 118 38 C120 27 132 28 132 38 C132 60 131 112 131 122 C135 108 144 75 148 65 C152 56 163 60 161 70 C155 95 148 135 148 155 C148 190 140 230 125 250 C110 265 90 270 70 270 C50 270 40 250 35 220 Z" />
+            <circle cx="100" cy="170" r="4" class="guide-center-dot" />
+          </svg>
+          <div class="scanner-pulse"></div>
+        </div>
+
+        <!-- Scanning Light Effect -->
+        <div class="scanning-beam" id="scanning-beam" style="display:none"></div>
+      </div>
+      
+      <!-- Lighting / Contrast Alert -->
+      <div class="shadow-alert" id="shadow-alert" style="display:none" role="alert">
+        <div class="specs-alert-icon">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-alert"/></svg>
+        </div>
+        <div class="specs-alert-content">
+          <h4 id="shadow-alert-title">{{palm.shadowTitle}}</h4>
+          <p id="shadow-alert-msg">{{palm.shadowMsg}}</p>
+          <div class="specs-alert-actions">
+            <button type="button" class="btn-cta sm" id="btn-retake-shadow">{{palm.retakeBtn}}</button>
+            <button type="button" class="btn-line sm" id="btn-ignore-shadow">{{palm.ignoreBtn}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scanner Action Controls -->
+    <div class="scanner-controls">
+      <div class="primary-controls">
+        <button type="button" class="btn-cta" id="btn-start-camera">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-hand"/></svg> <span>{{palm.startCam}}</span>
+        </button>
+
+        <button type="button" class="btn-cta btn-snap" id="btn-snap" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> <span>{{palm.captureBtn}}</span>
+        </button>
+
+        <label class="btn-line file-upload-btn" id="lbl-upload">
+          <input type="file" id="palm-file-input" accept="image/*" />
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> <span>{{palm.uploadBtn}}</span>
+        </label>
+
+        <button type="button" class="btn-line" id="btn-flip-cam" style="display:none" title="{{palm.flipCam}}">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{palm.flipCam}}</span>
+        </button>
+
+        <button type="button" class="btn-line" id="btn-reset" style="display:none">
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-loop"/></svg> <span>{{palm.newScan}}</span>
+        </button>
+      </div>
+      <p class="scanner-hint muted small" id="scanner-hint">{{palm.hintAlign}}</p>
+    </div>
+  </section>
+
+  <!-- Analyzing State -->
+  <div class="palm-analyzing card" id="palm-analyzing" style="display:none">
+    <div class="face-spinner"></div>
+    <div class="analyzing-text">
+      <h3>{{palm.analyzingTitle}}</h3>
+      <p class="muted">{{palm.analyzingSub}}</p>
+    </div>
+  </div>
+
+  <!-- Detailed Results -->
+  <section class="palm-results" id="palm-results" style="display:none">
+    
+    <!-- Hero Archetype Card -->
+    <div class="card result-hero-card">
+      <div class="result-badge-row">
+        <span class="tag gold" id="res-tattva-tag">Prithvi Tattva (Earth Hand)</span>
+        <span class="tag good" id="res-sync-tag"><svg class="ui sm" viewBox="0 0 24 24"><use href="#i-check"/></svg> {{palm.savedCloud}}</span>
+      </div>
+      <div class="graha-main-showcase">
+        <div class="graha-symbol-box" id="res-graha-icon">
+          <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-sun"/></svg>
+        </div>
+        <div>
+          <p class="eyebrow">{{palm.handType}}</p>
+          <h2 id="res-hand-name">Earth Hand · Shani &amp; Shukra Influence</h2>
+          <p class="lede" id="res-hand-tagline">Grounded practicality, relentless endurance, and structured prosperity</p>
+        </div>
+      </div>
+      <div class="archetype-description" id="res-hand-desc">
+        Your square palm with measured finger proportions indicates a grounded, practical temperament with deep integrity.
+      </div>
+    </div>
+
+    <!-- Interactive Palm Line Visualizer -->
+    <div class="card palm-visualizer-card">
+      <div class="sec-head">
+        <h2>{{palm.linesHeading}}</h2>
+        <p class="muted small">{{palm.linesSub}}</p>
+      </div>
+
+      <!-- Line Filter Toggle Pills -->
+      <div class="palm-line-toggles" id="palm-line-toggles">
+        <button type="button" class="line-pill active" data-line="all">
+          <span class="pill-dot dot-all"></span> <span>{{palm.lineAll}}</span>
+        </button>
+        <button type="button" class="line-pill" data-line="heart">
+          <span class="pill-dot dot-heart"></span> <span>{{palm.lineHeart}}</span>
+        </button>
+        <button type="button" class="line-pill" data-line="head">
+          <span class="pill-dot dot-head"></span> <span>{{palm.lineHead}}</span>
+        </button>
+        <button type="button" class="line-pill" data-line="life">
+          <span class="pill-dot dot-life"></span> <span>{{palm.lineLife}}</span>
+        </button>
+        <button type="button" class="line-pill" data-line="fate">
+          <span class="pill-dot dot-fate"></span> <span>{{palm.lineFate}}</span>
+        </button>
+        <button type="button" class="line-pill" data-line="sun">
+          <span class="pill-dot dot-sun"></span> <span>{{palm.lineSun}}</span>
+        </button>
+      </div>
+
+      <!-- Interactive Palm Image Container with Overlay Lines -->
+      <div class="palm-interactive-stage">
+        <div class="palm-canvas-wrap" id="palm-canvas-wrap">
+          <img id="palm-result-img" alt="Analyzed Palm" />
+          <svg class="palm-overlay-svg" id="palm-overlay-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <!-- Dynamic Glowing Line Paths will be inserted here -->
+          </svg>
+        </div>
+        <div class="palm-lines-legend">
+          <div class="legend-item"><span class="legend-bar bar-heart"></span><b>Heart Line:</b> Emotional depth &amp; relationships</div>
+          <div class="legend-item"><span class="legend-bar bar-head"></span><b>Head Line:</b> Intellectual focus &amp; wisdom</div>
+          <div class="legend-item"><span class="legend-bar bar-life"></span><b>Life Line:</b> Vitality &amp; Prana Shakti</div>
+          <div class="legend-item"><span class="legend-bar bar-fate"></span><b>Fate Line:</b> Career destiny &amp; Karma</div>
+          <div class="legend-item"><span class="legend-bar bar-sun"></span><b>Sun Line:</b> Fame, art &amp; public recognition</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Line Cards -->
+    <div class="palm-cards-grid">
+      
+      <!-- Heart Line Card -->
+      <div class="card palm-line-card card-heart" id="card-line-heart">
+        <div class="line-card-header">
+          <span class="pill-dot dot-heart"></span>
+          <div>
+            <h3>{{palm.lineHeart}}</h3>
+            <span class="tag gold" id="tag-heart-shape">Curving to Jupiter Mount</span>
+          </div>
+        </div>
+        <div class="line-reading-body">
+          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Governs emotional temperament, love devotion, loyalty, and heart vitality.</p>
+          <p class="line-specific-desc" id="desc-heart">Your heart line sweeps elegantly upwards toward the Mount of Jupiter. This signifies high ideals in love, unwavering loyalty to your partner, and emotional generosity.</p>
+        </div>
+      </div>
+
+      <!-- Head Line Card -->
+      <div class="card palm-line-card card-head" id="card-line-head">
+        <div class="line-card-header">
+          <span class="pill-dot dot-head"></span>
+          <div>
+            <h3>{{palm.lineHead}}</h3>
+            <span class="tag good" id="tag-head-shape">Deep &amp; Clear Path</span>
+          </div>
+        </div>
+        <div class="line-reading-body">
+          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Governs intellect (Buddhi), analytical concentration, mental endurance, and problem solving.</p>
+          <p class="line-specific-desc" id="desc-head">A well-defined, unbroken head line indicating exceptional mental stamina, strategic planning capability, and practical discernment under pressure.</p>
+        </div>
+      </div>
+
+      <!-- Life Line Card -->
+      <div class="card palm-line-card card-life" id="card-line-life">
+        <div class="line-card-header">
+          <span class="pill-dot dot-life"></span>
+          <div>
+            <h3>{{palm.lineLife}}</h3>
+            <span class="tag gold" id="tag-life-shape">Wide Venus Arc</span>
+          </div>
+        </div>
+        <div class="line-reading-body">
+          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents Prana Shakti (vital life force), immunity, adaptability, and major life rhythm.</p>
+          <p class="line-specific-desc" id="desc-life">A wide, unbroken arc embracing the Mount of Venus, reflecting strong constitution, high physical stamina, and warm, enthusiastic engagement with life.</p>
+        </div>
+      </div>
+
+      <!-- Fate Line Card -->
+      <div class="card palm-line-card card-fate" id="card-line-fate">
+        <div class="line-card-header">
+          <span class="pill-dot dot-fate"></span>
+          <div>
+            <h3>{{palm.lineFate}}</h3>
+            <span class="tag" id="tag-fate-shape">Self-Made Trajectory</span>
+          </div>
+        </div>
+        <div class="line-reading-body">
+          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents career karma, vocational breakthroughs, and financial fortune.</p>
+          <p class="line-specific-desc" id="desc-fate">Rising strongly through the center of the palm towards the Mount of Saturn. Indicates self-made professional success achieved through diligence and merit.</p>
+        </div>
+      </div>
+
+      <!-- Sun Line Card -->
+      <div class="card palm-line-card card-sun" id="card-line-sun">
+        <div class="line-card-header">
+          <span class="pill-dot dot-sun"></span>
+          <div>
+            <h3>{{palm.lineSun}}</h3>
+            <span class="tag gold" id="tag-sun-shape">Auspicious Creative Spark</span>
+          </div>
+        </div>
+        <div class="line-reading-body">
+          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents public reputation, artistic brilliance, executive charisma, and radiant fortune.</p>
+          <p class="line-specific-desc" id="desc-sun">Rising distinctly toward the ring finger (Sun Mount), bringing goodwill, respect from peers, and prominent recognition for creative or leadership contributions.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Planetary Mounts (Graha Parvats) Section -->
+    <div class="card palm-mounts-card">
+      <div class="sec-head">
+        <h2>{{palm.mountsHeading}}</h2>
+        <p class="muted small">Elevation and energetic dominance of the 7 palm mounts</p>
+      </div>
+      <div class="mounts-list-grid" id="mounts-list-grid">
+        <!-- Rendered by palm.js -->
+      </div>
+    </div>
+
+    <!-- Auspicious Signs & Marks Card -->
+    <div class="card palm-signs-card">
+      <div class="sec-head">
+        <h2>{{palm.signsHeading}}</h2>
+      </div>
+      <div class="signs-tags-row" id="signs-tags-row">
+        <!-- Injected by palm.js -->
+      </div>
+    </div>
+
+    <!-- Astrological Life Predictions -->
+    <div class="card palm-pred-card">
+      <div class="sec-head">
+        <h2>{{palm.predHeading}}</h2>
+      </div>
+      <div class="predictions-grid">
+        <div class="pred-box">
+          <div class="pred-icon"><svg class="ui" viewBox="0 0 24 24"><use href="#i-chart"/></svg></div>
+          <h4>{{palm.predCareer}}</h4>
+          <p id="pred-career-text">Leadership roles, executive entrepreneurship, or high-level strategic management suit your analytical depth.</p>
+        </div>
+        <div class="pred-box">
+          <div class="pred-icon"><svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg></div>
+          <h4>{{palm.predWealth}}</h4>
+          <p id="pred-wealth-text">Steady cumulative wealth accumulation with substantial financial acceleration after age 28.</p>
+        </div>
+        <div class="pred-box">
+          <div class="pred-icon"><svg class="ui" viewBox="0 0 24 24"><use href="#i-heart"/></svg></div>
+          <h4>{{palm.predLove}}</h4>
+          <p id="pred-love-text">Values profound loyalty and emotional honesty; seeks a partner who respects intellectual independence.</p>
+        </div>
+        <div class="pred-box">
+          <div class="pred-icon"><svg class="ui" viewBox="0 0 24 24"><use href="#i-sun"/></svg></div>
+          <h4>{{palm.predNature}}</h4>
+          <p id="pred-nature-text">Deeply self-reliant, ethical, and calm in crises, possessing instinctive wisdom and tenacity.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personalized Vedic Remedies -->
+    <div class="card palm-remedies-card">
+      <div class="sec-head">
+        <h2>{{palm.remediesHeading}}</h2>
+      </div>
+      <div class="remedies-grid">
+        <div class="remedy-box">
+          <span class="eyebrow">{{palm.luckyGem}}</span>
+          <h4 id="rem-gem">Yellow Sapphire (Pukhraj)</h4>
+          <p class="muted small" id="rem-gem-sub">Worn on index finger for wisdom and fortune</p>
+        </div>
+        <div class="remedy-box">
+          <span class="eyebrow">{{palm.luckyRudraksha}}</span>
+          <h4 id="rem-rudraksha">5 Mukhi Rudraksha</h4>
+          <p class="muted small" id="rem-rudraksha-sub">For mental peace and spiritual alignment</p>
+        </div>
+        <div class="remedy-box">
+          <span class="eyebrow">{{palm.luckyDay}}</span>
+          <h4 id="rem-day">Thursday (Guruvar)</h4>
+          <p class="muted small" id="rem-day-sub">Ideal for major decisions &amp; investments</p>
+        </div>
+        <div class="remedy-box">
+          <span class="eyebrow">{{palm.luckyColor}}</span>
+          <h4 id="rem-color">Golden Yellow &amp; Royal Blue</h4>
+          <p class="muted small" id="rem-color-sub">Enhances positive planetary vibrations</p>
+        </div>
+      </div>
+      <div class="mantra-showcase">
+        <span class="eyebrow">{{palm.prescribedMantra}}</span>
+        <blockquote class="mantra-text" id="rem-mantra">
+          ॐ बृं बृहस्पतये नमः (Om Brim Brihaspataye Namah)
+        </blockquote>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Educational Background -->
+  <section class="card palm-about-card">
+    <h2>{{palm.aboutTitle}}</h2>
+    <p>{{palm.aboutP1}}</p>
+    <p>{{palm.aboutP2}}</p>
+  </section>
+</main>
