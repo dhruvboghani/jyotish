@@ -3010,50 +3010,166 @@ form.nu-check { margin: 0; }
 }
 
 /* ==========================================================================
-   Samudrika Shastra Suite (7 Features: Moles, Forehead, Signature, Thumb, Foot, Eye, Dreamcalc)
+   Samudrika Shastra Suite (Face, Palm, Moles, Forehead, Signature, Thumb, Foot, Eye, Dreamcalc)
+   Styling harmonized with Kundali Home Page Design System
    ========================================================================== */
 
-/* 1. Mole Reading (Til Vichar) */
-.mole-controls-card {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 20px;
+/* Strict Icon Sizing on all Divination & Samudrika Pages */
+.face-page svg.ui, .palm-page svg.ui, .moles-page svg.ui, .forehead-page svg.ui,
+.signature-page svg.ui, .thumb-page svg.ui, .foot-page svg.ui, .eye-page svg.ui,
+.dreamcalc-page svg.ui,
+.btn-cta svg, .btn-line svg, .btn-ghost svg,
+.tip-header svg, .metric-header svg, .specs-alert-icon svg,
+.thumb-note-badge svg, .sign-tag-badge svg, .symbol-header svg,
+.gender-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  flex: none;
+  display: inline-block;
+  vertical-align: middle;
 }
+
+.face-page svg.ui.sm, .palm-page svg.ui.sm, .moles-page svg.ui.sm, .forehead-page svg.ui.sm,
+.signature-page svg.ui.sm, .thumb-page svg.ui.sm, .foot-page svg.ui.sm, .eye-page svg.ui.sm,
+.dreamcalc-page svg.ui.sm, .gender-btn svg.ui.sm {
+  width: 14px !important;
+  height: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+}
+
+.face-page svg.ui.xl, .palm-page svg.ui.xl, .moles-page svg.ui.xl, .forehead-page svg.ui.xl,
+.signature-page svg.ui.xl, .thumb-page svg.ui.xl, .foot-page svg.ui.xl, .eye-page svg.ui.xl,
+.dreamcalc-page svg.ui.xl {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+}
+
+/* File upload button - ensure input is always completely hidden */
+.file-upload-btn input[type="file"] {
+  display: none !important;
+}
+
+/* Cards Padding & Surfaces (Matched to Kundali Page) */
+.moles-page .card, .forehead-page .card, .signature-page .card, .thumb-page .card,
+.foot-page .card, .eye-page .card, .dreamcalc-page .card, .palm-page .card, .face-page .card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .moles-page .card, .forehead-page .card, .signature-page .card, .thumb-page .card,
+  .foot-page .card, .eye-page .card, .dreamcalc-page .card, .palm-page .card, .face-page .card {
+    padding: 18px 16px;
+    margin-bottom: 18px;
+  }
+}
+
+/* Sub-cards inside grids */
+.sub-card, .card.sub-card, .forehead-line-card, .pattern-card, .archetype-card,
+.prahar-btn, .dream-symbol-card, .vastu-tips-card, .score-box {
+  padding: 16px 20px !important;
+  margin-bottom: 0 !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+/* 1. Mole Reading (Til Vichar) */
 .mole-gender-toggle {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin-bottom: 18px;
 }
-.label-heading {
+.gender-pill-group {
+  display: inline-flex;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+}
+.gender-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 13.5px;
   font-weight: 600;
-  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.gender-btn:hover {
+  color: var(--ink);
+}
+.gender-btn.active {
+  background: var(--gold-softer);
+  color: var(--gold-deep);
+  border: 1px solid var(--gold);
+  box-shadow: 0 2px 8px rgba(211, 151, 28, .2);
 }
 .mole-search-wrap .input-field {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  font-size: 15px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14.5px;
   margin-bottom: 1rem;
 }
-.mole-tabs {
+.mole-tabs, .board-tabs, .dream-filter-pills, .forehead-line-toggles {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
   overflow-x: auto;
   padding-bottom: 4px;
+  margin-bottom: 16px;
 }
-.mole-interactive-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
+.tab-btn, .line-pill, .dream-filter-pills .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.tab-btn:hover, .line-pill:hover, .dream-filter-pills .pill:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.tab-btn.active, .line-pill.active, .dream-filter-pills .pill.active {
+  background: var(--gold-softer);
+  color: var(--gold-deep);
+  border-color: var(--gold);
+  box-shadow: 0 2px 8px rgba(211, 151, 28, .2);
 }
 .interactive-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 1.5rem;
   align-items: center;
 }
@@ -3061,17 +3177,20 @@ form.nu-check { margin: 0; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  padding: 16px;
 }
 .avatar-svg {
-  width: 100%;
-  max-width: 280px;
+  width: 220px;
+  max-width: 100%;
   height: auto;
-  color: var(--gold, #d97706);
+  color: var(--gold-deep);
 }
 .hotspot-pulse {
-  fill: var(--gold, #d97706);
-  opacity: 0.25;
-  animation: pulse-ring 2s infinite ease-out;
+  fill: var(--gold);
+  opacity: 0.3;
 }
 .hotspot-dot {
   fill: #854d0e;
@@ -3088,7 +3207,7 @@ form.nu-check { margin: 0; }
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  max-height: 340px;
+  max-height: 320px;
   overflow-y: auto;
   align-content: flex-start;
   padding-right: 4px;
@@ -3097,35 +3216,31 @@ form.nu-check { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 7px 14px;
   border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 13.5px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .spot-badge-btn:hover {
-  border-color: var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.08);
+  border-color: var(--gold);
+  background: var(--gold-softer);
 }
 .spot-badge-btn.active {
-  border-color: var(--gold, #d97706);
-  background: var(--gold, #d97706);
-  color: #fff;
-  font-weight: 600;
+  border-color: var(--gold);
+  background: var(--gold-softer);
+  color: var(--gold-deep);
+  font-weight: 700;
 }
 .spot-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   display: inline-block;
-}
-.mole-result-card {
-  padding: 1.75rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
 }
 .result-grid {
   display: grid;
@@ -3135,21 +3250,10 @@ form.nu-check { margin: 0; }
 }
 
 /* 2. Forehead Line Scanner (Bhāla Rekha) */
-.forehead-scanner-card, .forehead-pills-card, .forehead-visual-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-}
-.forehead-line-toggles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 0.75rem;
-}
 .forehead-canvas-wrap {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 360px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -3177,42 +3281,22 @@ form.nu-check { margin: 0; }
 .forehead-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
 }
-.forehead-line-card {
-  padding: 1.25rem;
-  border-radius: 16px;
-  transition: all 0.25s ease;
-}
 .forehead-line-card.active-card {
-  border-color: var(--gold, #d97706);
-  box-shadow: 0 0 0 2px var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.04);
-}
-.strength-box, .remedy-box {
-  margin-top: 0.75rem;
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--border);
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 2px var(--gold) !important;
+  background: var(--gold-softer) !important;
 }
 
 /* 3. Signature Analyzer (Hastakshar) */
-.signature-board-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-}
-.board-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1.25rem;
-}
 .canvas-container {
   position: relative;
   width: 100%;
-  height: 240px;
-  border: 2px dashed var(--border);
-  border-radius: 16px;
+  height: 200px;
+  border: 2px dashed var(--line-2);
+  border-radius: 14px;
   background: #ffffff;
   overflow: hidden;
   cursor: crosshair;
@@ -3224,7 +3308,7 @@ form.nu-check { margin: 0; }
 }
 .canvas-guide-line {
   position: absolute;
-  bottom: 60px;
+  bottom: 50px;
   left: 5%;
   right: 5%;
   height: 1px;
@@ -3236,8 +3320,8 @@ form.nu-check { margin: 0; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(0, 0, 0, 0.15);
-  font-size: 20px;
+  color: rgba(0, 0, 0, 0.18);
+  font-size: 18px;
   font-weight: 500;
   pointer-events: none;
   user-select: none;
@@ -3246,41 +3330,38 @@ form.nu-check { margin: 0; }
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 1.25rem;
-}
-.signature-results {
-  padding: 1.75rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
+  margin-top: 1rem;
 }
 .result-hero-row {
   display: flex;
   gap: 1.5rem;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .score-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
-  padding: 1.25rem 1.5rem;
-  border-radius: 20px;
-  background: var(--bg);
-  border: 2px solid var(--gold, #d97706);
+  min-width: 110px;
+  padding: 16px 20px !important;
+  border-radius: 14px !important;
+  background: var(--gold-softer) !important;
+  border: 1px solid #F0DDB0 !important;
   text-align: center;
+  flex-shrink: 0;
 }
 .score-number {
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 800;
   line-height: 1;
-  color: var(--gold, #d97706);
+  color: var(--gold-deep);
+  font-family: var(--f-display);
 }
 .score-max {
-  font-size: 14px;
-  color: var(--muted);
+  font-size: 13px;
+  color: var(--ink-3);
 }
 .score-label {
   font-size: 12px;
@@ -3291,7 +3372,7 @@ form.nu-check { margin: 0; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .metric-header {
   display: flex;
@@ -3300,20 +3381,28 @@ form.nu-check { margin: 0; }
   margin-bottom: 4px;
 }
 .metric-val {
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 700;
-  color: var(--gold, #d97706);
+  color: var(--gold-deep);
   margin-bottom: 4px;
 }
 .vastu-tips-card {
-  padding: 1.5rem;
-  border-radius: 16px;
-  background: rgba(217, 119, 6, 0.05);
-  border: 1px solid rgba(217, 119, 6, 0.2);
+  background: var(--gold-softer) !important;
+  border: 1px solid #F0DDB0 !important;
+  padding: 20px 24px !important;
+}
+.tip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.tip-header svg {
+  color: var(--gold-deep);
 }
 .vastu-checklist {
   padding-left: 1.25rem;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   line-height: 1.6;
 }
 
@@ -3322,16 +3411,16 @@ form.nu-check { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(217, 119, 6, 0.1);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  margin-top: 8px;
+  background: var(--gold-softer);
+  border: 1px solid #F0DDB0;
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-top: 10px;
 }
-.thumb-selector-card, .thumb-result-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
+.thumb-note-badge svg {
+  color: var(--gold-deep);
 }
 .thumb-patterns-grid {
   display: grid;
@@ -3344,34 +3433,36 @@ form.nu-check { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1.25rem 1rem;
-  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .2s;
 }
 .pattern-card:hover {
-  border-color: var(--gold, #d97706);
+  border-color: var(--gold) !important;
+  transform: translateY(-2px);
 }
 .pattern-card.active {
-  border-color: var(--gold, #d97706);
-  box-shadow: 0 0 0 2px var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.06);
+  border-color: var(--gold) !important;
+  background: var(--gold-softer) !important;
+  box-shadow: 0 4px 12px rgba(211, 151, 28, .18) !important;
 }
 .pattern-svg-wrap {
-  width: 72px;
-  height: 72px;
-  margin-bottom: 0.75rem;
-  color: var(--gold, #d97706);
+  width: 44px;
+  height: 44px;
+  margin-bottom: 8px;
+  color: var(--gold-deep);
 }
-.nadi-symbol-box {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: rgba(217, 119, 6, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold, #d97706);
+.pattern-svg {
+  width: 100%;
+  height: 100%;
+}
+.nadi-symbol-box, .foot-symbol-box, .eye-symbol-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--gold-softer);
+  color: var(--gold-deep);
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
 }
 .nadi-grid {
@@ -3382,61 +3473,65 @@ form.nu-check { margin: 0; }
 }
 
 /* 5. Foot Reading (Pada Samudrika) */
-.foot-selector-card, .foot-result-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-}
 .foot-options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 1rem;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 .pill-group-vertical {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 0.75rem;
+  margin-top: 10px;
 }
 .pill-btn {
   padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
   font-size: 13.5px;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .2s;
+}
+.pill-btn:hover {
+  border-color: var(--gold);
 }
 .pill-btn.active {
-  border-color: var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.08);
+  border-color: var(--gold);
+  background: var(--gold-softer);
+  color: var(--gold-deep);
+  font-weight: 600;
 }
 .signs-checkbox-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 0.75rem;
+  gap: 8px;
+  margin-top: 10px;
 }
 .check-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 13.5px;
+  color: var(--ink);
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  transition: all .2s;
 }
-.foot-symbol-box {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: rgba(217, 119, 6, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold, #d97706);
-  flex-shrink: 0;
+.check-item:hover {
+  border-color: var(--gold);
+  background: var(--gold-softer);
+}
+.check-item input[type="checkbox"] {
+  accent-color: var(--gold-deep);
+  width: 16px;
+  height: 16px;
 }
 .foot-details-grid {
   display: grid;
@@ -3446,11 +3541,6 @@ form.nu-check { margin: 0; }
 }
 
 /* 6. Eye Reading (Netra Samudrika) */
-.eye-selector-card, .eye-result-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-}
 .eye-archetypes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -3462,32 +3552,27 @@ form.nu-check { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1.25rem 1rem;
-  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .2s;
+}
+.archetype-card:hover {
+  border-color: var(--gold) !important;
+  transform: translateY(-2px);
 }
 .archetype-card.active {
-  border-color: var(--gold, #d97706);
-  box-shadow: 0 0 0 2px var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.06);
+  border-color: var(--gold) !important;
+  background: var(--gold-softer) !important;
+  box-shadow: 0 4px 12px rgba(211, 151, 28, .18) !important;
 }
 .eye-svg-wrap {
-  width: 80px;
-  height: 48px;
-  margin-bottom: 0.5rem;
-  color: var(--gold, #d97706);
+  width: 60px;
+  height: 36px;
+  margin-bottom: 8px;
+  color: var(--gold-deep);
 }
-.eye-symbol-box {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: rgba(217, 119, 6, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold, #d97706);
-  flex-shrink: 0;
+.eye-svg {
+  width: 100%;
+  height: 100%;
 }
 .eye-details-grid {
   display: grid;
@@ -3497,31 +3582,27 @@ form.nu-check { margin: 0; }
 }
 
 /* 7. Dream Manifestation Calculator (Swapna Shastra) */
-.prahar-calc-card, .dream-search-card {
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-}
 .prahar-buttons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin: 1.25rem 0;
+  gap: 12px;
+  margin: 16px 0;
 }
 .prahar-btn {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1.25rem;
-  border-radius: 16px;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .2s;
+}
+.prahar-btn:hover {
+  border-color: var(--gold) !important;
 }
 .prahar-btn.active {
-  border-color: var(--gold, #d97706);
-  box-shadow: 0 0 0 2px var(--gold, #d97706);
-  background: rgba(217, 119, 6, 0.06);
+  border-color: var(--gold) !important;
+  background: var(--gold-softer) !important;
+  box-shadow: 0 4px 12px rgba(211, 151, 28, .18) !important;
 }
 .prahar-num {
   font-weight: 700;
@@ -3529,27 +3610,27 @@ form.nu-check { margin: 0; }
 }
 .prahar-time {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--ink-3);
   margin-bottom: 6px;
 }
 .prahar-result-banner {
   display: flex;
-  gap: 1.25rem;
+  gap: 16px;
   align-items: center;
-  padding: 1.25rem 1.5rem;
-  border-radius: 16px;
-  background: rgba(217, 119, 6, 0.08);
-  border: 1px solid rgba(217, 119, 6, 0.2);
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: var(--gold-softer);
+  border: 1px solid #F0DDB0;
+  margin-top: 14px;
 }
 .banner-icon {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
-  background: var(--gold, #d97706);
+  background: var(--gold-deep);
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
 }
 .search-input-box {
@@ -3557,32 +3638,21 @@ form.nu-check { margin: 0; }
 }
 .search-input-box .input-field {
   width: 100%;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-}
-.dream-filter-pills {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 1.25rem;
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14.5px;
 }
 .dreams-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
 }
-.dream-symbol-card {
-  padding: 1.25rem;
-  border-radius: 16px;
-}
-.symbol-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+.dusswapna-card {
+  background: var(--gold-softer) !important;
+  border: 1px solid #F0DDB0 !important;
 }
 
 /* Mobile responsive adjustments */
