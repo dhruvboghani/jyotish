@@ -21,6 +21,23 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   if (urls.length > MAX_PER_DEPLOY) {
     console.log(`IndexNow: capping ${urls.length} changed URLs to ${MAX_PER_DEPLOY} (sitemap covers the rest)`);
   }
+  const keyLocation = `${site}/${key}.txt`;
+  if (toSend.length <= CHUNK_SIZE) {
+    for (const u of toSend) {
+      try {
+        const ctl = new AbortController();
+        const t = setTimeout(() => ctl.abort(), 10000);
+        const q = new URLSearchParams({ url: u, key, keyLocation });
+        const r = await fetch(`https://api.indexnow.org/indexnow?${q}`, { signal: ctl.signal });
+        clearTimeout(t);
+        console.log(`IndexNow: ${u} → ${r.status}`);
+      } catch (e) {
+        console.log('IndexNow skipped:', e.message);
+      }
+      await sleep(50);
+    }
+    return;
+  }
   for (let i = 0; i < toSend.length; i += CHUNK_SIZE) {
     const batch = toSend.slice(i, i + CHUNK_SIZE);
     try {
@@ -30,7 +47,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
         method: 'POST',
         signal: ctl.signal,
         headers: { 'content-type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({ host, key, keyLocation: `${site}/${key}.txt`, urlList: batch })
+        body: JSON.stringify({ host, key, keyLocation, urlList: batch })
       });
       clearTimeout(t);
       console.log(`IndexNow: ${batch.length} URLs → ${r.status}`);
