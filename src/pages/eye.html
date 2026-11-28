@@ -9,7 +9,7 @@
   <section class="card eye-selector-card">
     <div class="selector-head">
       <h3 class="sub-h">{{eye.archetypesH}}</h3>
-      <p class="muted small">Select your matching eye shape archetype below, or take a close-up selfie.</p>
+      <p class="muted small">{{eye.selectHint}}</p>
     </div>
 
     <div class="eye-archetypes-grid" id="eye-archetypes-grid" role="radiogroup">
@@ -22,9 +22,9 @@
             <circle cx="50" cy="30" r="5" fill="currentColor" />
           </svg>
         </div>
-        <h4>Kamala Netra</h4>
-        <span class="tag gold">Lotus · Noble & Pure</span>
-        <p class="small muted">Elongated almond with upward outer curve</p>
+        <h4>{{eye.cards.kamala.name}}</h4>
+        <span class="tag gold">{{eye.cards.kamala.badge}}</span>
+        <p class="small muted">{{eye.cards.kamala.desc}}</p>
       </button>
 
       <!-- 2. Mriga Netra (Deer) -->
@@ -36,9 +36,9 @@
             <circle cx="50" cy="30" r="7" fill="currentColor" />
           </svg>
         </div>
-        <h4>Mriga Netra</h4>
-        <span class="tag gold">Deer · Artistic & Gentle</span>
-        <p class="small muted">Large, wide, luminous, expressive eyes</p>
+        <h4>{{eye.cards.mriga.name}}</h4>
+        <span class="tag gold">{{eye.cards.mriga.badge}}</span>
+        <p class="small muted">{{eye.cards.mriga.desc}}</p>
       </button>
 
       <!-- 3. Matsya Netra (Fish) -->
@@ -50,9 +50,9 @@
             <circle cx="48" cy="30" r="4.5" fill="currentColor" />
           </svg>
         </div>
-        <h4>Matsya Netra</h4>
-        <span class="tag gold">Fish · Wealth & Shrewd</span>
-        <p class="small muted">Sharp corners with alert commercial focus</p>
+        <h4>{{eye.cards.matsya.name}}</h4>
+        <span class="tag gold">{{eye.cards.matsya.badge}}</span>
+        <p class="small muted">{{eye.cards.matsya.desc}}</p>
       </button>
 
       <!-- 4. Garuda Netra (Eagle) -->
@@ -65,9 +65,9 @@
             <path d="M12 22 Q50 10 88 18" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3" />
           </svg>
         </div>
-        <h4>Garuda Netra</h4>
-        <span class="tag gold">Eagle · Fearless Leader</span>
-        <p class="small muted">Deep-set, piercing, commanding focus</p>
+        <h4>{{eye.cards.garuda.name}}</h4>
+        <span class="tag gold">{{eye.cards.garuda.badge}}</span>
+        <p class="small muted">{{eye.cards.garuda.desc}}</p>
       </button>
 
       <!-- 5. Gaja Netra (Elephant) -->
@@ -79,9 +79,9 @@
             <circle cx="50" cy="30" r="3.5" fill="currentColor" />
           </svg>
         </div>
-        <h4>Gaja Netra</h4>
-        <span class="tag gold">Elephant · Sage & Patient</span>
-        <p class="small muted">Serene, small, deep contemplation</p>
+        <h4>{{eye.cards.gaja.name}}</h4>
+        <span class="tag gold">{{eye.cards.gaja.badge}}</span>
+        <p class="small muted">{{eye.cards.gaja.desc}}</p>
       </button>
     </div>
 
@@ -89,9 +89,9 @@
     <div class="eye-upload-row">
       <label class="btn-line file-upload-btn">
         <input type="file" id="eye-file-input" accept="image/*" style="display:none" />
-        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-image"/></svg> Upload Eye Selfie Photo
+        <svg class="ui sm" viewBox="0 0 24 24"><use href="#i-image"/></svg> {{eye.uploadBtn}}
       </label>
-      <span class="small muted">Or select your matching archetype directly above.</span>
+      <span class="small muted">{{eye.uploadHint}}</span>
     </div>
   </section>
 
@@ -102,42 +102,42 @@
         <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-eye"/></svg>
       </div>
       <div>
-        <span class="tag gold" id="res-eye-tag">Kamala Netra Archetype</span>
-        <h2 id="res-eye-title">Kamala Netra (Lotus Eyes) — Spiritual Royalty</h2>
-        <p class="lede" id="res-eye-subtitle">Associated with Vishnu and Lakshmi. Reflects noble integrity, pure aesthetic discernment, and high spiritual merit from past lives.</p>
+        <span class="tag gold" id="res-eye-tag">{{eye.data.kamala.tag}}</span>
+        <h2 id="res-eye-title">{{eye.data.kamala.title}}</h2>
+        <p class="lede" id="res-eye-subtitle">{{eye.data.kamala.subtitle}}</p>
       </div>
     </div>
 
     <div class="eye-details-grid">
       <div class="card sub-card">
-        <h3>Inner Soul Temperament</h3>
-        <p id="res-eye-soul" class="prose-text">Natural dignity, calm in adversity, highly ethical, and allergic to deception. Radiates reassuring warmth to others.</p>
+        <h3>{{eye.soulH}}</h3>
+        <p id="res-eye-soul" class="prose-text">{{eye.data.kamala.soul}}</p>
       </div>
 
       <div class="card sub-card">
-        <h3>Career & Intellectual Acumen</h3>
-        <p id="res-eye-career" class="prose-text">Flourishes in law, advisory councils, creative diplomacy, spiritual guidance, and ethical leadership.</p>
+        <h3>{{eye.careerH}}</h3>
+        <p id="res-eye-career" class="prose-text">{{eye.data.kamala.career}}</p>
       </div>
 
       <div class="card sub-card">
-        <h3>Relationship & Emotional Depth</h3>
-        <p id="res-eye-love" class="prose-text">Deeply devoted and loyal partner. Seeks soul connection rather than superficial glamour.</p>
+        <h3>{{eye.loveH}}</h3>
+        <p id="res-eye-love" class="prose-text">{{eye.data.kamala.love}}</p>
       </div>
 
       <div class="card sub-card">
         <h3>{{eye.remedyH}}</h3>
-        <p id="res-eye-remedy" class="prose-text">Practice early morning Trataka (gazing at a pure ghee lamp flame) or rising sun for 3 minutes to enhance solar prana and eye luster.</p>
+        <p id="res-eye-remedy" class="prose-text">{{eye.data.kamala.remedy}}</p>
       </div>
     </div>
   </section>
 
   <!-- Educational Section -->
   <section class="card prose">
-    <h2>Principles of Netra Samudrika Shastra</h2>
-    <p>In Vedic physiology, the right eye is illuminated by the **Sun (Surya)** and the left eye is illuminated by the **Moon (Chandra)**:</p>
+    <h2>{{eye.aboutH}}</h2>
+    <p>{{eye.aboutIntro}}</p>
     <ul>
-      <li><strong>Sclera Purity:</strong> Clear white sclera denotes Sattvic harmony; yellowish tones reflect Pitta (Mars/Sun overload); bluish-white reflects high Vata/Kapha.</li>
-      <li><strong>Pupil Radiance (*Tejas*):</strong> Sages regarded the spark in the pupil as the reflection of the Atman (Soul). A steady, blinking-controlled gaze signals mastery over the mind (*Dharana*).</li>
+      <li><strong>{{eye.aboutL1H}}</strong> {{eye.aboutL1P}}</li>
+      <li><strong>{{eye.aboutL2H}}</strong> {{eye.aboutL2P}}</li>
     </ul>
   </section>
 </main>

@@ -13,7 +13,7 @@
           <div class="placeholder-icon">
             <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-hand"/></svg>
           </div>
-          <h3>Ready for Scan</h3>
+          <h3>{{palm.readyTitle}}</h3>
           <p class="muted small">{{palm.hint}}</p>
         </div>
 
@@ -148,11 +148,11 @@
           </svg>
         </div>
         <div class="palm-lines-legend">
-          <div class="legend-item"><span class="legend-bar bar-heart"></span><b>Heart Line:</b> Emotional depth &amp; relationships</div>
-          <div class="legend-item"><span class="legend-bar bar-head"></span><b>Head Line:</b> Intellectual focus &amp; wisdom</div>
-          <div class="legend-item"><span class="legend-bar bar-life"></span><b>Life Line:</b> Vitality &amp; Prana Shakti</div>
-          <div class="legend-item"><span class="legend-bar bar-fate"></span><b>Fate Line:</b> Career destiny &amp; Karma</div>
-          <div class="legend-item"><span class="legend-bar bar-sun"></span><b>Sun Line:</b> Fame, art &amp; public recognition</div>
+          <div class="legend-item"><span class="legend-bar bar-heart"></span><b>{{palm.lineHeart}}:</b> {{palm.legHeart}}</div>
+          <div class="legend-item"><span class="legend-bar bar-head"></span><b>{{palm.lineHead}}:</b> {{palm.legHead}}</div>
+          <div class="legend-item"><span class="legend-bar bar-life"></span><b>{{palm.lineLife}}:</b> {{palm.legLife}}</div>
+          <div class="legend-item"><span class="legend-bar bar-fate"></span><b>{{palm.lineFate}}:</b> {{palm.legFate}}</div>
+          <div class="legend-item"><span class="legend-bar bar-sun"></span><b>{{palm.lineSun}}:</b> {{palm.legSun}}</div>
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
           </div>
         </div>
         <div class="line-reading-body">
-          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Governs emotional temperament, love devotion, loyalty, and heart vitality.</p>
+          <p class="line-meaning-intro"><strong>{{palm.sigLabel}}</strong> {{palm.sigHeart}}</p>
           <p class="line-specific-desc" id="desc-heart">Your heart line sweeps elegantly upwards toward the Mount of Jupiter. This signifies high ideals in love, unwavering loyalty to your partner, and emotional generosity.</p>
         </div>
       </div>
@@ -185,7 +185,7 @@
           </div>
         </div>
         <div class="line-reading-body">
-          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Governs intellect (Buddhi), analytical concentration, mental endurance, and problem solving.</p>
+          <p class="line-meaning-intro"><strong>{{palm.sigLabel}}</strong> {{palm.sigHead}}</p>
           <p class="line-specific-desc" id="desc-head">A well-defined, unbroken head line indicating exceptional mental stamina, strategic planning capability, and practical discernment under pressure.</p>
         </div>
       </div>
@@ -200,7 +200,7 @@
           </div>
         </div>
         <div class="line-reading-body">
-          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents Prana Shakti (vital life force), immunity, adaptability, and major life rhythm.</p>
+          <p class="line-meaning-intro"><strong>{{palm.sigLabel}}</strong> {{palm.sigLife}}</p>
           <p class="line-specific-desc" id="desc-life">A wide, unbroken arc embracing the Mount of Venus, reflecting strong constitution, high physical stamina, and warm, enthusiastic engagement with life.</p>
         </div>
       </div>
@@ -215,7 +215,7 @@
           </div>
         </div>
         <div class="line-reading-body">
-          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents career karma, vocational breakthroughs, and financial fortune.</p>
+          <p class="line-meaning-intro"><strong>{{palm.sigLabel}}</strong> {{palm.sigFate}}</p>
           <p class="line-specific-desc" id="desc-fate">Rising strongly through the center of the palm towards the Mount of Saturn. Indicates self-made professional success achieved through diligence and merit.</p>
         </div>
       </div>
@@ -230,7 +230,7 @@
           </div>
         </div>
         <div class="line-reading-body">
-          <p class="line-meaning-intro"><strong>Vedic Significance:</strong> Represents public reputation, artistic brilliance, executive charisma, and radiant fortune.</p>
+          <p class="line-meaning-intro"><strong>{{palm.sigLabel}}</strong> {{palm.sigSun}}</p>
           <p class="line-specific-desc" id="desc-sun">Rising distinctly toward the ring finger (Sun Mount), bringing goodwill, respect from peers, and prominent recognition for creative or leadership contributions.</p>
         </div>
       </div>
@@ -241,7 +241,7 @@
     <div class="card palm-mounts-card">
       <div class="sec-head">
         <h2>{{palm.mountsHeading}}</h2>
-        <p class="muted small">Elevation and energetic dominance of the 7 palm mounts</p>
+        <p class="muted small">{{palm.mountsSub}}</p>
       </div>
       <div class="mounts-list-grid" id="mounts-list-grid">
         <!-- Rendered by palm.js -->

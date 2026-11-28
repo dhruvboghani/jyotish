@@ -135,7 +135,8 @@
   let currentFilter = 'all';
 
   function updatePraharBanner(p) {
-    const data = PRAHAR_DATA[p];
+    const base = PRAHAR_DATA[p];
+    const data = (P_DATA && P_DATA[p]) ? { ...base, ...P_DATA[p] } : base;
     if (!data) return;
 
     praharBtns.forEach(btn => {
@@ -174,20 +175,24 @@
     }, 600);
   }
 
+  const I18N_DC = (window.I18N && window.I18N.dreamcalc) || {};
+  const P_DATA = I18N_DC.praharData || PRAHAR_DATA;
+  const SYMBOLS = I18N_DC.symbols || DREAM_SYMBOLS;
+
   function renderDreams() {
     if (!dreamsGrid) return;
     dreamsGrid.innerHTML = '';
 
     const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-    const filtered = DREAM_SYMBOLS.filter(item => {
+    const filtered = SYMBOLS.filter(item => {
       const matchesFilter = (currentFilter === 'all') || (item.tone === currentFilter);
       const matchesQuery = !q || item.name.toLowerCase().includes(q) || item.meaning.toLowerCase().includes(q);
       return matchesFilter && matchesQuery;
     });
 
     if (filtered.length === 0) {
-      dreamsGrid.innerHTML = '<p class="muted small p-2">No matching symbols found. Try searching for "water", "snake", "elephant", or "temple".</p>';
+      dreamsGrid.innerHTML = `<p class="muted small p-2">${I18N_DC.noMatch || 'No matching symbols found. Try searching for "water", "snake", "elephant", or "temple".'}</p>`;
       return;
     }
 
@@ -195,14 +200,15 @@
       const card = document.createElement('div');
       card.className = 'card dream-symbol-card';
       const isGood = d.tone === 'shubha';
+      const badge = isGood ? (I18N_DC.filterShubha || '🌟 Auspicious (Shubha)') : (I18N_DC.filterAshubha || '⚠️ Caution (Ashubha)');
       card.innerHTML = `
         <div class="symbol-header">
-          <span class="tag ${isGood ? 'good' : 'bad'}">${isGood ? '🌟 Auspicious (Shubha)' : '⚠️ Caution (Ashubha)'}</span>
+          <span class="tag ${isGood ? 'good' : 'bad'}">${badge}</span>
           <h4>${d.name}</h4>
         </div>
         <p class="prose-text mt-1">${d.meaning}</p>
         <div class="advice-box mt-2">
-          <span class="small font-bold">Vedic Guidance:</span>
+          <span class="small font-bold">${I18N_DC.guidanceH || 'Vedic Guidance:'}</span>
           <p class="small muted">${d.advice}</p>
         </div>
       `;

@@ -60,8 +60,11 @@
   const resRemedy = document.getElementById('res-eye-remedy');
   const fileInput = document.getElementById('eye-file-input');
 
+  const I18N_EYE = (window.I18N && window.I18N.eye) || {};
+  const DATA = I18N_EYE.data || EYE_DATA;
+
   function selectArchetype(key) {
-    const data = EYE_DATA[key];
+    const data = DATA[key] || EYE_DATA[key];
     if (!data) return;
 
     cards.forEach(c => {
@@ -110,7 +113,7 @@
 
   if (fileInput) {
     fileInput.addEventListener('change', () => {
-      alert('Eye photo loaded. Compare your eye contours with the 5 sacred archetypes above.');
+      alert(I18N_EYE.photoAlert || 'Eye photo loaded. Compare your eye contours with the 5 sacred archetypes above.');
     });
   }
 

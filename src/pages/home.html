@@ -13,6 +13,7 @@
       <div class="formcard">
         <h2>{{form.title}} <small>{{form.note}}</small></h2>
         <form id="form" novalidate autocomplete="off">
+          <select class="pick-saved field full" id="f-saved" hidden aria-label="{{mt.pick}}"></select>
           <div class="field full"><label for="f-name">{{form.name}}</label><input id="f-name" type="text" placeholder="{{form.namePh}}"></div>
           <div class="field"><label for="f-date">{{form.date}}</label><input id="f-date" type="date" required></div>
           <div class="field"><label for="f-time">{{form.time}}</label><input id="f-time" type="time" step="60" required></div>

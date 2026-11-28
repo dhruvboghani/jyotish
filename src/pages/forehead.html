@@ -13,7 +13,7 @@
           <div class="placeholder-icon">
             <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-star"/></svg>
           </div>
-          <h3>Ready for Forehead Scan</h3>
+          <h3>{{forehead.readyTitle}}</h3>
           <p class="muted small">{{forehead.hint}}</p>
         </div>
 
@@ -78,18 +78,18 @@
     <!-- Interactive Highlight Pills -->
     <div class="card forehead-pills-card">
       <div class="pills-header">
-        <p class="eyebrow">Interactive Line Spotlights</p>
-        <h3>Select a Planetary Line to Inspect</h3>
+        <p class="eyebrow">{{forehead.pillsEye}}</p>
+        <h3>{{forehead.pillsH}}</h3>
       </div>
       <div class="forehead-line-toggles" id="line-toggles" role="tablist">
-        <button type="button" class="line-pill active" data-line="all">🌟 All 7 Lines</button>
-        <button type="button" class="line-pill" data-line="saturn">🪐 Saturn (Shani)</button>
-        <button type="button" class="line-pill" data-line="jupiter">✨ Jupiter (Guru)</button>
-        <button type="button" class="line-pill" data-line="mars">🔥 Mars (Mangala)</button>
-        <button type="button" class="line-pill" data-line="sun">☀️ Sun (Surya)</button>
-        <button type="button" class="line-pill" data-line="venus">💎 Venus (Shukra)</button>
-        <button type="button" class="line-pill" data-line="mercury">🌿 Mercury (Budha)</button>
-        <button type="button" class="line-pill" data-line="moon">🌙 Moon (Chandra)</button>
+        <button type="button" class="line-pill active" data-line="all">{{forehead.pills.all}}</button>
+        <button type="button" class="line-pill" data-line="saturn">{{forehead.pills.saturn}}</button>
+        <button type="button" class="line-pill" data-line="jupiter">{{forehead.pills.jupiter}}</button>
+        <button type="button" class="line-pill" data-line="mars">{{forehead.pills.mars}}</button>
+        <button type="button" class="line-pill" data-line="sun">{{forehead.pills.sun}}</button>
+        <button type="button" class="line-pill" data-line="venus">{{forehead.pills.venus}}</button>
+        <button type="button" class="line-pill" data-line="mercury">{{forehead.pills.mercury}}</button>
+        <button type="button" class="line-pill" data-line="moon">{{forehead.pills.moon}}</button>
       </div>
     </div>
 
@@ -99,7 +99,7 @@
         <canvas id="forehead-display-canvas"></canvas>
         <svg id="forehead-overlay-svg" class="forehead-overlay-svg" viewBox="0 0 400 300" preserveAspectRatio="none"></svg>
       </div>
-      <p class="muted small text-center" id="active-line-caption">Showing all 7 classical planetary lines</p>
+      <p class="muted small text-center" id="active-line-caption">{{forehead.captionAll}}</p>
     </div>
 
     <!-- Planetary Line Analysis Cards Grid -->
@@ -110,16 +110,16 @@
 
   <!-- Educational Samudrika Card -->
   <section class="card prose">
-    <h2>The 7 Planetary Creases in Vedic Bhāla Shastra</h2>
-    <p>In *Brihat Samhita* (Chapter 68, *Purusha Lakshana*) and *Agni Purana*, the forehead is known as the **Bhāla Patra** (the tablet of destiny):</p>
+    <h2>{{forehead.aboutH}}</h2>
+    <p>{{forehead.aboutIntro}}</p>
     <ul>
-      <li><strong>Saturn Line (Top):</strong> Indicates philosophical patience, longevity, resilience against chronic hardships, and deep concentration.</li>
-      <li><strong>Jupiter Line (2nd):</strong> Governs dharma, academic honors, public ethics, and spiritual blessings.</li>
-      <li><strong>Mars Line (3rd):</strong> Grants executive drive, physical bravery, strategic thinking, and leadership.</li>
-      <li><strong>Sun Line (Center):</strong> Represents royal favor (*Raja Yoga*), public illumination, self-respect, and vitality.</li>
-      <li><strong>Venus Line (5th):</strong> Imparts aesthetic charisma, love for poetry, luxury, and magnetic charm.</li>
-      <li><strong>Mercury Line (6th):</strong> Bestows commercial acumen, mathematical skill, wit, and linguistic fluency.</li>
-      <li><strong>Moon Line (Bottom):</strong> Reflects intuition, deep emotional resonance, artistic perception, and wanderlust.</li>
+      <li><strong>{{forehead.lines.saturn.name}}:</strong> {{forehead.lines.saturn.destiny}}</li>
+      <li><strong>{{forehead.lines.jupiter.name}}:</strong> {{forehead.lines.jupiter.destiny}}</li>
+      <li><strong>{{forehead.lines.mars.name}}:</strong> {{forehead.lines.mars.destiny}}</li>
+      <li><strong>{{forehead.lines.sun.name}}:</strong> {{forehead.lines.sun.destiny}}</li>
+      <li><strong>{{forehead.lines.venus.name}}:</strong> {{forehead.lines.venus.destiny}}</li>
+      <li><strong>{{forehead.lines.mercury.name}}:</strong> {{forehead.lines.mercury.destiny}}</li>
+      <li><strong>{{forehead.lines.moon.name}}:</strong> {{forehead.lines.moon.destiny}}</li>
     </ul>
   </section>
 </main>

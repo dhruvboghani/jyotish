@@ -99,6 +99,13 @@ authHooks.push((event, s, was) => {
   if (event === 'SIGNED_IN' && !was && lastInput) { closeModal(); run(lastInput, { silent: false }); }
   if (event === 'SIGNED_OUT' && lastInput) run(lastInput, { silent: true });
 });
+bindSavedKundali('#f-saved', (b, row) => {
+  fill({ ...b, relation: (row && row.relation) || b.relation || undefined }, null);
+  picker.offAuto = false;
+}, {
+  shouldAutoFill: () => !$('#f-date').value,
+  onNameOnly: fullName => { if (!fName.value) fName.value = fullName; }
+});
 readyHooks.push(() => {
   showRelField();
   if (savedLast && savedLast.input) run(savedLast.input, { silent: true, save: noSave ? false : undefined, scroll: INITIAL_HASH === '#report' });

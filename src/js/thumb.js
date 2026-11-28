@@ -51,8 +51,11 @@
   const resRemedies = document.getElementById('res-nadi-remedies');
   const fileInput = document.getElementById('thumb-file-input');
 
+  const I18N_THUMB = (window.I18N && window.I18N.thumb) || {};
+  const DATA = I18N_THUMB.data || NADI_DATA;
+
   function selectArchetype(key) {
-    const data = NADI_DATA[key];
+    const data = DATA[key] || NADI_DATA[key];
     if (!data) return;
 
     patternCards.forEach(c => {
@@ -102,7 +105,7 @@
   if (fileInput) {
     fileInput.addEventListener('change', () => {
       // Upon macro photo upload, prompt user to confirm closest pattern
-      alert('Photo loaded. Please verify if your central ridge pattern matches Chakra (whorl) or Shankha (loop) from the cards above.');
+      alert(I18N_THUMB.photoAlert || 'Photo loaded. Please verify if your central ridge pattern matches Chakra (whorl) or Shankha (loop) from the cards above.');
     });
   }
 

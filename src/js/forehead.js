@@ -106,6 +106,9 @@
   let capturedBase64 = null;
   let activeLineId = 'all';
 
+  const I18N_FH = (window.I18N && window.I18N.forehead) || {};
+  const LINES = PLANET_LINES.map(pl => (I18N_FH.lines && I18N_FH.lines[pl.id]) ? { ...pl, ...I18N_FH.lines[pl.id] } : pl);
+
   async function startCamera() {
     try {
       if (stream) stream.getTracks().forEach(t => t.stop());
@@ -121,7 +124,7 @@
       btnSnap.style.display = 'inline-flex';
       btnFlipCam.style.display = 'inline-flex';
     } catch (e) {
-      alert('Camera access unavailable. Please use the Upload Photo button.');
+      alert(I18N_FH.camError || 'Camera access unavailable. Please use the Upload Photo button.');
     }
   }
 
@@ -238,7 +241,7 @@
     if (!cardsGrid) return;
     cardsGrid.innerHTML = '';
 
-    PLANET_LINES.forEach(pl => {
+    LINES.forEach(pl => {
       const card = document.createElement('div');
       card.id = 'card-' + pl.id;
       card.className = 'card forehead-line-card ' + (activeLineId === pl.id ? 'active-card' : '');
@@ -250,11 +253,11 @@
         </div>
         <p class="prose-text">${pl.destiny}</p>
         <div class="strength-box">
-          <span class="small font-bold">Vedic Reading:</span>
+          <span class="small font-bold">${I18N_FH.readingH || 'Vedic Reading:'}</span>
           <p class="small muted">${pl.strength}</p>
         </div>
         <div class="remedy-box">
-          <span class="small font-bold">Vedic Harmony Remedy:</span>
+          <span class="small font-bold">${I18N_FH.remedyH || 'Vedic Harmony Remedy:'}</span>
           <p class="small muted">${pl.remedy}</p>
         </div>
       `;
@@ -276,10 +279,10 @@
 
       if (caption) {
         if (activeLineId === 'all') {
-          caption.textContent = 'Showing all 7 classical planetary lines';
+          caption.textContent = I18N_FH.captionAll || 'Showing all 7 classical planetary lines';
         } else {
-          const match = PLANET_LINES.find(l => l.id === activeLineId);
-          caption.textContent = `Spotlighting ${match ? match.name : ''} (${match ? match.role : ''})`;
+          const match = LINES.find(l => l.id === activeLineId);
+          caption.textContent = `${match ? match.name : ''} (${match ? match.role : ''})`;
           // Scroll to card
           const targetCard = document.getElementById('card-' + activeLineId);
           if (targetCard) targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

@@ -9,6 +9,16 @@
   const rNames = L.names.rashi || [];
   sel.innerHTML = rNames.map((n, i) => `<option value="${i}">${esc(n)} (${dm(0)}–${dm(30)})</option>`).join('');
 
+  bindSavedKundali('#gc-saved', (b, row) => {
+    const sm = row && row.summary;
+    if (sm && sm.moon != null) { sel.value = String(sm.moon); renderGochar(); return; }
+    if (window.Jyotish && b && b.year) {
+      const tzMinutes = b.tzMinutes != null ? b.tzMinutes : 330;
+      const out = window.Jyotish.compute({ year: b.year, month: b.month, day: b.day, hour: b.hour || 12, minute: b.minute || 0, lat: b.lat || 28.6139, lon: b.lon || 77.209, tzMinutes });
+      if (out && out.P && out.P.Moon) { sel.value = String(out.P.Moon.sign); renderGochar(); }
+    }
+  });
+
   function renderGochar() {
     if (!window.Jyotish) {
       setTimeout(renderGochar, 50);

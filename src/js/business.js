@@ -6,6 +6,15 @@ const BZ_LORD = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 
 const BZ_BEN = ['Jupiter', 'Venus', 'Mercury', 'Moon'], BZ_MAL = ['Saturn', 'Mars', 'Rahu', 'Ketu', 'Sun'];
 const BZ_AREAS = [['self', 1], ['cash', 2], ['customers', 7], ['growth', 10], ['profit', 11], ['rivals', 6]];
 (() => { const s = store.get('gv-bz'); if (s) { $('#bz-name').value = s.name || ''; $('#bz-date').value = s.date || ''; $('#bz-time').value = s.time || '10:00'; } })();
+bindSavedKundali('#bz-saved', b => {
+  $('#bz-name').value = b.name || '';
+  $('#bz-date').value = isoDay(b.year, b.month, b.day);
+  $('#bz-time').value = `${pad(b.hour)}:${pad(b.minute)}`;
+  if (b.placeLabel) bzCity.set({ name: b.placeLabel, lat: b.lat, lon: b.lon, tz: 'Asia/Kolkata' });
+}, {
+  shouldAutoFill: () => !$('#bz-date').value,
+  onNameOnly: fullName => { if (!$('#bz-name').value) $('#bz-name').value = fullName; }
+});
 
 function bzRead(c) {
   const P = Object.fromEntries(c.planets.map(p => [p.name, p])), L = c.lagna.sign, lordOf = h => BZ_LORD[(L + h - 1) % 12];

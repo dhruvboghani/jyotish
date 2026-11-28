@@ -13,6 +13,14 @@ let NUP = null; // current profile
   const src = saved || (last && last.input ? { name: last.input.name || '', date: isoDay(last.input.year, last.input.month, last.input.day) } : null);
   if (src) { nuName.value = src.name || ''; nuDate.value = src.date || ''; if (src.date) calc(); }
 })();
+bindSavedKundali('#nu-saved', b => {
+  nuName.value = b.name || '';
+  nuDate.value = isoDay(b.year, b.month, b.day);
+  if (nuDate.value) calc();
+}, {
+  shouldAutoFill: () => !nuDate.value,
+  onNameOnly: fullName => { if (!nuName.value) nuName.value = fullName; }
+});
 nuForm.addEventListener('submit', e => { e.preventDefault(); calc(true); });
 
 function calc(user) {

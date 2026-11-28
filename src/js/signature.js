@@ -142,11 +142,13 @@
     });
   }
 
+  const I18N_SIG = (window.I18N && window.I18N.signature) || {};
+
   // Analyze Signature
   if (btnAnalyze) {
     btnAnalyze.addEventListener('click', () => {
       if (!hasStrokes && strokePoints.length < 5) {
-        alert('Please draw your signature on the canvas first.');
+        alert(I18N_SIG.drawAlert || 'Please draw your signature on the canvas first.');
         return;
       }
 
@@ -182,34 +184,34 @@
     }
 
     // Evaluate Slant
-    let verdict = 'Auspicious & Ambitious';
+    let verdict = I18N_SIG.verdictGood || 'Auspicious & Ambitious';
     let slantDescText = '';
     if (slantDeg > 12 && slantDeg < 38) {
       score = 92;
-      verdict = 'Highly Auspicious (Urdhva Gati)';
-      slantDescText = `+${slantDeg}° upward incline. Represents optimistic ambition and continuous career ascension under Jupiter and Sun.`;
+      verdict = I18N_SIG.verdictHigh || 'Highly Auspicious (Urdhva Gati)';
+      slantDescText = (I18N_SIG.slantHigh || '+{d}° upward incline. Represents optimistic ambition and continuous career ascension under Jupiter and Sun.').replace('{d}', slantDeg);
     } else if (slantDeg >= 0 && slantDeg <= 12) {
       score = 82;
-      verdict = 'Balanced & Steady (Sthira Gati)';
-      slantDescText = `+${slantDeg}° balanced horizontal baseline. Reflects pragmatic realism, patience, and financial reliability under Saturn.`;
+      verdict = I18N_SIG.verdictBal || 'Balanced & Steady (Sthira Gati)';
+      slantDescText = (I18N_SIG.slantBal || '+{d}° balanced horizontal baseline. Reflects pragmatic realism, patience, and financial reliability under Saturn.').replace('{d}', slantDeg);
     } else if (slantDeg < 0) {
       score = 71;
-      verdict = 'Caution (Adho Gati)';
-      slantDescText = `${slantDeg}° downward slope. Suggests fatigue or self-doubt at project completions. Remedy: Practice writing with an upward tilt of +20°.`;
+      verdict = I18N_SIG.verdictLow || 'Caution (Adho Gati)';
+      slantDescText = (I18N_SIG.slantLow || '{d}° downward slope. Suggests fatigue or self-doubt at project completions. Remedy: Practice writing with an upward tilt of +20°.').replace('{d}', slantDeg);
     } else {
       score = 80;
-      verdict = 'Hyper-Ambitious';
-      slantDescText = `+${slantDeg}° steep upward slope. Bold visions with advice to stay grounded in execution.`;
+      verdict = I18N_SIG.verdictSteep || 'Hyper-Ambitious';
+      slantDescText = (I18N_SIG.slantSteep || '+{d}° steep upward slope. Bold visions with advice to stay grounded in execution.').replace('{d}', slantDeg);
     }
 
     if (resScore) resScore.textContent = score;
     if (resVerdict) resVerdict.textContent = verdict;
-    if (resSlantVal) resSlantVal.textContent = (slantDeg >= 0 ? '+' : '') + slantDeg + '° Baseline Slant';
+    if (resSlantVal) resSlantVal.textContent = (slantDeg >= 0 ? '+' : '') + slantDeg + '° ' + (I18N_SIG.slantLabel || 'Baseline Slant');
     if (resSlantDesc) resSlantDesc.textContent = slantDescText;
 
-    if (resFlowVal) resFlowVal.textContent = strokePoints.length > 50 ? 'Fluid Cursive (Mercury Dominant)' : 'Structured Firm (Sun Dominant)';
-    if (resInitialVal) resInitialVal.textContent = 'Clear & Prominent (Surya Blessing)';
-    if (resUnderlineVal) resUnderlineVal.textContent = 'Harmonious Balance (Shani Support)';
+    if (resFlowVal) resFlowVal.textContent = strokePoints.length > 50 ? (I18N_SIG.flowFluid || 'Fluid Cursive (Mercury Dominant)') : (I18N_SIG.flowFirm || 'Structured Firm (Sun Dominant)');
+    if (resInitialVal) resInitialVal.textContent = I18N_SIG.initialClear || 'Clear & Prominent (Surya Blessing)';
+    if (resUnderlineVal) resUnderlineVal.textContent = I18N_SIG.underlineBal || 'Harmonious Balance (Shani Support)';
 
     persistReading({ strokeCount: strokePoints.length, slantDeg, score, verdict });
 

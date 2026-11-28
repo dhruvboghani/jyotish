@@ -18,69 +18,32 @@
   let currentArch = 'high';
   let currentToe = 'second';
 
+  const I18N_FOOT = (window.I18N && window.I18N.foot) || {};
+
   function updateReading() {
-    let tag = '';
-    let title = '';
-    let summary = '';
-    let travel = '';
-    let career = '';
-    let nature = '';
+    const arches = I18N_FOOT.arches || {};
+    const toes = I18N_FOOT.toes || {};
+    const signs = I18N_FOOT.signs || {};
+    const a = arches[currentArch] || {};
+    const t = toes[currentToe] || {};
+
+    let tag = a.tag || (currentArch === 'high' ? 'Deva Pada' : currentArch === 'medium' ? 'Manushya Pada' : 'Bhumi Pada');
+    let title = a.title || (currentArch === 'high' ? 'Independent Visionary' : currentArch === 'medium' ? 'Prosperous & Pragmatic Architect' : 'Grounded & Steadfast Realist');
+    let summary = a.summary || '';
+    let travel = a.travel || '';
+    let nature = a.nature || '';
+    let career = t.career || '';
     let remedy = '';
 
-    // Arch logic
-    if (currentArch === 'high') {
-      tag = 'Deva Pada';
-      title = 'Independent Visionary';
-      summary = 'A high sole arch denotes spiritual refinement, light-footed agility, and high self-reliance.';
-      travel = 'Promotes distant travel, international opportunities, and flourishing outside the birthplace.';
-      nature = 'Idealistic, private, intellectual, and driven by personal convictions.';
-    } else if (currentArch === 'medium') {
-      tag = 'Manushya Pada';
-      title = 'Prosperous & Pragmatic Architect';
-      summary = 'A balanced sole arch represents harmony of Earth and Water elements, granting strong domestic happiness and steady investments.';
-      travel = 'Comfortable transit and steady domestic prosperity with well-planned journeys.';
-      nature = 'Warm, balanced, cooperative, and family-oriented.';
-    } else {
-      tag = 'Bhumi Pada';
-      title = 'Grounded & Steadfast Realist';
-      summary = 'A grounded arch signifies immense physical stamina, unwavering loyalty, and practical mastery of real-world skills.';
-      travel = 'Builds profound roots and prosperity in home region; travels when purposeful.';
-      nature = 'Dependable, patient, hardworking, and deeply trustworthy.';
-    }
+    if (t.tagSuffix) tag += ' ' + t.tagSuffix;
+    if (t.titleSuffix) title += ' ' + t.titleSuffix;
+    if (t.summaryExtra) summary += ' ' + t.summaryExtra;
 
-    // Toe logic
-    if (currentToe === 'second') {
-      tag += ' · Agni Dominance';
-      title += ' & Dynamic Leader';
-      summary += ' Second toe longer than big toe channels high Agni (Fire element), bestowing natural executive command.';
-      career = 'Excels when leading organizations, heading projects, or founding independent enterprises.';
-    } else if (currentToe === 'big') {
-      tag += ' · Prithvi Dominance';
-      title += ' & Wealth Accumulator';
-      summary += ' A dominant big toe represents Prithvi (Earth element), bestowing patient accumulation of gold, lands, and assets.';
-      career = 'Excels in financial planning, real estate, administrative stability, and advisory positions.';
-    } else {
-      tag += ' · Vayu Dominance';
-      title += ' & Diplomatic Sage';
-      summary += ' Evenly proportioned toes represent Vayu (Air element), granting adaptability, linguistic fluency, and diplomacy.';
-      career = 'Excels in law, writing, diplomacy, counseling, and commercial negotiation.';
-    }
-
-    // Signs logic
     const selectedSigns = Array.from(signInputs).filter(i => i.checked).map(i => i.value);
-    if (selectedSigns.includes('lotus')) {
-      remedy += 'Lotus Mark: Auspicious blessing of Goddess Lakshmi granting noble honor. ';
+    for (const s of selectedSigns) {
+      if (signs[s] && signs[s].note) remedy += signs[s].note + ' ';
     }
-    if (selectedSigns.includes('fish')) {
-      remedy += 'Fish Mark: Sign of deep ocean wisdom and financial windfalls. ';
-    }
-    if (selectedSigns.includes('conch')) {
-      remedy += 'Conch Mark: Bestows eloquence and spiritual knowledge. ';
-    }
-    if (selectedSigns.includes('trident')) {
-      remedy += 'Trident Mark: Confers divine courage against obstacles. ';
-    }
-    remedy += 'Vedic Habit: Practice evening foot massage with warm sesame or mustard oil (Pada Abhyanga) for deep relaxation and grounding.';
+    remedy += I18N_FOOT.habit || 'Vedic Habit: Practice evening foot massage with warm sesame or mustard oil (Pada Abhyanga) for deep relaxation and grounding.';
 
     if (resTag) resTag.textContent = tag;
     if (resTitle) resTitle.textContent = title;
@@ -140,7 +103,7 @@
 
   if (fileInput) {
     fileInput.addEventListener('change', () => {
-      alert('Sole photo loaded. Review and confirm your matching arch type and toe proportions above.');
+      alert(I18N_FOOT.photoAlert || 'Sole photo loaded. Review and confirm your matching arch type and toe proportions above.');
     });
   }
 

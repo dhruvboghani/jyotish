@@ -1843,7 +1843,9 @@
     "prescribedMantra": "Prescribed Vedic Graha Mantra",
     "aboutTitle": "About Samudrika Shastra (सामुद्रिक शास्त्र)",
     "aboutP1": "Samudrika Shastra is the ancient Vedic discipline of body and facial physiognomy, founded on the principle that the physical form reflects the subtle planetary energies (grahas) and karma at birth.",
-    "aboutP2": "By examining the forehead (destiny and intellect), eyes (vitality and intuition), nose (prosperity), and jawline (tenacity and longevity), this reading uncovers your dominant astrological archetype even without knowing your exact birth time."
+    "aboutP2": "By examining the forehead (destiny and intellect), eyes (vitality and intuition), nose (prosperity), and jawline (tenacity and longevity), this reading uncovers your dominant astrological archetype even without knowing your exact birth time.",
+    "readyTitle": "Ready for Scan",
+    "readySub": "Click \"Open Camera\" or \"Upload Photo\" to begin"
   },
   "pp": {
     "eye": "Daily Panchang",
@@ -7046,7 +7048,90 @@
     "signFish": "Matsya (Fish Sign) – High Wealth & Ocean Travel",
     "signConch": "Shankha (Conch Sign) – Knowledge & Eloquence",
     "signTrident": "Trishul (Trident) – Divine Protection & Courage",
-    "follow": "Follow us"
+    "follow": "Follow us",
+    "uploadBtn": "Upload Sole Photo",
+    "uploadHint": "Or select the matching parameters directly above for instant reading.",
+    "travelH": "Travel & Overseas Fortune",
+    "careerH": "Career & Leadership Destiny",
+    "natureH": "Temperament & Vitality",
+    "remedyH": "Sacred Sign Blessing & Remedies",
+    "aboutH": "Principles of Pada Samudrika Shastra",
+    "aboutIntro": "In Brihat Samhita (Chapter 67) and Garuda Purana, the feet represent the foundation of the human temple (Pratishtha):",
+    "photoAlert": "Sole photo loaded. Review and confirm your matching arch type and toe proportions above.",
+    "habit": "Vedic Habit: Practice evening foot massage with warm sesame or mustard oil (Pada Abhyanga) for deep relaxation and grounding.",
+    "arches": {
+      "high": {
+        "name": "Deva Pada",
+        "sub": "(High Arch · Independent & Spiritual)",
+        "tag": "Deva Pada",
+        "title": "Independent Visionary",
+        "summary": "A high sole arch denotes spiritual refinement, light-footed agility, and high self-reliance.",
+        "travel": "Promotes distant travel, international opportunities, and flourishing outside the birthplace.",
+        "nature": "Idealistic, private, intellectual, and driven by personal convictions."
+      },
+      "medium": {
+        "name": "Manushya Pada",
+        "sub": "(Balanced Arch · Prosperous & Pragmatic)",
+        "tag": "Manushya Pada",
+        "title": "Prosperous & Pragmatic Architect",
+        "summary": "A balanced sole arch represents harmony of Earth and Water elements, granting strong domestic happiness and steady investments.",
+        "travel": "Comfortable transit and steady domestic prosperity with well-planned journeys.",
+        "nature": "Warm, balanced, cooperative, and family-oriented."
+      },
+      "flat": {
+        "name": "Bhumi Pada",
+        "sub": "(Flat Arch · Grounded & Hardworking)",
+        "tag": "Bhumi Pada",
+        "title": "Grounded & Steadfast Realist",
+        "summary": "A grounded arch signifies immense physical stamina, unwavering loyalty, and practical mastery of real-world skills.",
+        "travel": "Builds profound roots and prosperity in home region; travels when purposeful.",
+        "nature": "Dependable, patient, hardworking, and deeply trustworthy."
+      }
+    },
+    "toes": {
+      "second": {
+        "name": "Second Toe Longest",
+        "sub": "(Agni Dominance · Natural Leader)",
+        "tagSuffix": "· Agni Dominance",
+        "titleSuffix": "& Dynamic Leader",
+        "summaryExtra": "Second toe longer than big toe channels high Agni (Fire element), bestowing natural executive command.",
+        "career": "Excels when leading organizations, heading projects, or founding independent enterprises."
+      },
+      "big": {
+        "name": "Big Toe Longest",
+        "sub": "(Prithvi Dominance · Steady Wealth)",
+        "tagSuffix": "· Prithvi Dominance",
+        "titleSuffix": "& Wealth Accumulator",
+        "summaryExtra": "A dominant big toe represents Prithvi (Earth element), bestowing patient accumulation of gold, lands, and assets.",
+        "career": "Excels in financial planning, real estate, administrative stability, and advisory positions."
+      },
+      "even": {
+        "name": "Even Proportion",
+        "sub": "(Vayu Dominance · Balanced Diplomat)",
+        "tagSuffix": "· Vayu Dominance",
+        "titleSuffix": "& Diplomatic Sage",
+        "summaryExtra": "Evenly proportioned toes represent Vayu (Air element), granting adaptability, linguistic fluency, and diplomacy.",
+        "career": "Excels in law, writing, diplomacy, counseling, and commercial negotiation."
+      }
+    },
+    "signs": {
+      "lotus": {
+        "label": "🪷 Kamala (Lotus Sign)",
+        "note": "Lotus Mark: Auspicious blessing of Goddess Lakshmi granting noble honor."
+      },
+      "fish": {
+        "label": "🐟 Matsya (Fish Sign)",
+        "note": "Fish Mark: Sign of deep ocean wisdom and financial windfalls."
+      },
+      "conch": {
+        "label": "🐚 Shankha (Conch Sign)",
+        "note": "Conch Mark: Bestows eloquence and spiritual knowledge."
+      },
+      "trident": {
+        "label": "🔱 Trishul (Trident Sign)",
+        "note": "Trident Mark: Confers divine courage against obstacles."
+      }
+    }
   },
   "socad": {
     "speakHindi": "🔊 Listen (Female Voice)",
@@ -7212,7 +7297,20 @@
     "prescribedMantra": "Prescribed Vedic Mantra",
     "aboutTitle": "About Hastarekha Shastra (हस्तरेखा शास्त्र)",
     "aboutP1": "Hastarekha Shastra is the ancient Vedic science of palmistry, traditionally linked to Jyotish (astrology). The palm reflects an individual's conscious and subconscious mind, past karma, and latent potential through subtle line creases and planetary mounts.",
-    "aboutP2": "By examining the depth, curvature, and branching of the major lines—along with the elevation of the graha parvats—this analysis provides personalized insights into your career milestones, emotional nature, and vitality without needing an exact birth time."
+    "aboutP2": "By examining the depth, curvature, and branching of the major lines—along with the elevation of the graha parvats—this analysis provides personalized insights into your career milestones, emotional nature, and vitality without needing an exact birth time.",
+    "readyTitle": "Ready for Scan",
+    "legHeart": "Emotional depth & relationships",
+    "legHead": "Intellectual focus & wisdom",
+    "legLife": "Vitality & Prana Shakti",
+    "legFate": "Career destiny & Karma",
+    "legSun": "Fame, art & public recognition",
+    "sigLabel": "Vedic Significance:",
+    "sigHeart": "Governs emotional temperament, love devotion, loyalty, and heart vitality.",
+    "sigHead": "Governs intellect (Buddhi), analytical concentration, mental endurance, and problem solving.",
+    "sigLife": "Represents Prana Shakti (vital life force), immunity, adaptability, and major life rhythm.",
+    "sigFate": "Represents career karma, vocational breakthroughs, and financial fortune.",
+    "sigSun": "Represents public reputation, artistic brilliance, executive charisma, and radiant fortune.",
+    "mountsSub": "Elevation and energetic dominance of the 7 palm mounts"
   },
   "moles": {
     "eye": "Samudrika Shastra · Til Vichar",
@@ -7227,7 +7325,31 @@
     "searchHint": "Search or tap a body region below...",
     "auspicious": "Auspicious (Shubha)",
     "inauspicious": "Caution (Ashubha)",
-    "neutral": "Karmic Indicator (Madhyam)"
+    "neutral": "Karmic Indicator (Madhyam)",
+    "searchPlaceholder": "Search body spot (e.g. right cheek, forehead, chin, palm, neck)...",
+    "searchAria": "Search mole position",
+    "tabBack": "Back & Legs",
+    "tabCamera": "📷 Photo Detector",
+    "openCam": "Open Camera",
+    "scanSpots": "Scan Spots",
+    "uploadPhoto": "Upload Photo",
+    "camHint": "High-contrast skin scanning analyzes dark pigmentation marks directly on your device.",
+    "defaultTag": "Auspicious (Shubha)",
+    "defaultTitle": "Select a Mole Location",
+    "defaultSummary": "Tap on any hotspot on the diagram above or select from the list.",
+    "destinyH": "Vedic Astrological Prediction",
+    "wealthH": "Wealth & Career Influence",
+    "natureH": "Relationship & Temperament",
+    "remedyH": "Vedic Harmony & Remedies",
+    "aboutH": "Principles of Til Vichar Shastra (Vedic Mole Astrology)",
+    "aboutIntro": "According to ancient texts including Maharishi Parashara's Samudrika treatises, Brihat Samhita, and Agni Purana:",
+    "aboutL1H": "Side Polarity:",
+    "aboutL1P": "Right-side moles for men indicate solar (Pingala), auspicious and action-oriented results; left-side moles for women indicate lunar (Ida), receptive and fortunate fortunes.",
+    "aboutL2H": "Color Significance:",
+    "aboutL2P": "Honey-brown or red moles (Rakta Til) are governed by Mars and Jupiter and signify high authority and unexpected inheritance. Jet-black moles (Krishna Til) are ruled by Saturn and Ketu, signifying hard work, discipline, and karmic debts.",
+    "aboutL3H": "Shape & Elevation:",
+    "aboutL3P": "Raised, round, shiny moles are considered pure and bestow full blessings. Rough, irregular, or hair-covered moles require careful attention and spiritual balance.",
+    "noMatch": "No matching spots found. Try searching another term."
   },
   "forehead": {
     "eye": "Samudrika Shastra · Bhāla Rekha",
@@ -7241,7 +7363,84 @@
     "hint": "Position your forehead inside the guide frame under clear lighting and raise your eyebrows slightly to reveal natural crease lines.",
     "analyzingTitle": "Scanning Forehead Creases...",
     "analyzingSub": "Mapping 7 planetary lines (Saturn to Moon) with Vedic pixel edge profiling.",
-    "allLines": "All 7 Planetary Lines"
+    "allLines": "All 7 Planetary Lines",
+    "readyTitle": "Ready for Forehead Scan",
+    "pillsEye": "Interactive Line Spotlights",
+    "pillsH": "Select a Planetary Line to Inspect",
+    "captionAll": "Showing all 7 classical planetary lines",
+    "camError": "Camera access unavailable. Please use the Upload Photo button.",
+    "readingH": "Vedic Reading:",
+    "remedyH": "Vedic Harmony Remedy:",
+    "aboutH": "The 7 Planetary Creases in Vedic Bhala Shastra",
+    "aboutIntro": "In Brihat Samhita (Chapter 68, Purusha Lakshana) and Agni Purana, the forehead is known as the Bhala Patra (the tablet of destiny):",
+    "pills": {
+      "all": "🌟 All 7 Lines",
+      "saturn": "🪐 Saturn (Shani)",
+      "jupiter": "✨ Jupiter (Guru)",
+      "mars": "🔥 Mars (Mangala)",
+      "sun": "☀️ Sun (Surya)",
+      "venus": "💎 Venus (Shukra)",
+      "mercury": "🌿 Mercury (Budha)",
+      "moon": "🌙 Moon (Chandra)"
+    },
+    "lines": {
+      "saturn": {
+        "name": "Shani Rekha (Saturn Line)",
+        "graha": "Saturn (Shani)",
+        "role": "Longevity, Patience & Karmic Wisdom",
+        "destiny": "Positioned closest to the hairline. When clear and unbroken, it signifies high longevity (Dirghayu), deep contemplative intellect, and ability to overcome life trials with detachment.",
+        "strength": "Strong and well-formed. Indicates philosophical depth and enduring career foundation.",
+        "remedy": "Light a sesame oil lamp on Saturday evenings and practice steady meditation."
+      },
+      "jupiter": {
+        "name": "Guru Rekha (Jupiter Line)",
+        "graha": "Jupiter (Brihaspati)",
+        "role": "Wisdom, Dharma & Administrative Honor",
+        "destiny": "Situated below Saturn. Reflects moral authority, intellectual leadership, and devotion to higher truth. Common in teachers, jurists, advisors, and statesmen.",
+        "strength": "Distinct and prominent. Signifies respect in community and academic blessings.",
+        "remedy": "Apply yellow sandalwood or saffron tilak on the forehead center."
+      },
+      "mars": {
+        "name": "Mangala Rekha (Mars Line)",
+        "graha": "Mars (Kuja)",
+        "role": "Executive Courage, Stamina & Victory",
+        "destiny": "Located above the midpoint. Bestows physical resilience, leadership in competitive arenas, technical competence, and protective instinct.",
+        "strength": "Energetic and sharp. Bestows courage to champion difficult projects.",
+        "remedy": "Recite Hanuman Chalisa and engage in regular physical discipline."
+      },
+      "sun": {
+        "name": "Surya Rekha (Sun Line)",
+        "graha": "Sun (Surya)",
+        "role": "Sovereign Authority, Fame & Vitality",
+        "destiny": "Runs through the center of the forehead. In classical Samudrika, a deep unbroken Sun Line bestows Raja Yoga—public recognition, executive authority, and personal radiance.",
+        "strength": "Radiant and balanced. Conveys commanding presence and noble self-esteem.",
+        "remedy": "Perform Surya Namaskar and offer clean water at dawn."
+      },
+      "venus": {
+        "name": "Shukra Rekha (Venus Line)",
+        "graha": "Venus (Shukra)",
+        "role": "Artistic Refinement, Charisma & Prosperity",
+        "destiny": "Positioned below the solar line. Signifies aesthetic charm, love of fine arts, diplomacy, social magnetism, and material comforts.",
+        "strength": "Curved and graceful. Bestows harmonious relationships and aesthetic taste.",
+        "remedy": "Keep environments fragrant, wear clean light-colored garments, and support cultural arts."
+      },
+      "mercury": {
+        "name": "Budha Rekha (Mercury Line)",
+        "graha": "Mercury (Budha)",
+        "role": "Commercial Wit, Eloquence & Strategy",
+        "destiny": "Located just above the eyebrows. Confers fast analytical reasoning, persuasive speech, mercantile skill, and mastery of languages and numbers.",
+        "strength": "Agile and clear. Confers sharp communication and successful commercial negotiations.",
+        "remedy": "Feed green grass or vegetables to cows on Wednesdays."
+      },
+      "moon": {
+        "name": "Chandra Rekha (Moon Line)",
+        "graha": "Moon (Chandra)",
+        "role": "Intuition, Deep Emotion & Imagination",
+        "destiny": "Frames the upper arches of the eyebrows. Indicates rich imaginative faculty, emotional sensitivity, poetic vision, and foreign voyages.",
+        "strength": "Gentle and luminous. Grants intuitive hunches and creative perception.",
+        "remedy": "Drink water from silver vessels and cultivate peace of mind before sleep."
+      }
+    }
   },
   "signature": {
     "eye": "Hastakshar Shastra · Vedic Graphology",
@@ -7252,11 +7451,61 @@
     "clearBtn": "Clear Canvas",
     "analyzeBtn": "Analyze Signature Now",
     "strokePrompt": "Sign your name smoothly in the box above using your finger or stylus.",
-    "slantLabel": "Baseline Slant:",
+    "slantLabel": "Baseline Slant",
     "loopsLabel": "Loop & Flow:",
     "dotsLabel": "Underline & Dots:",
     "scoreTitle": "Signature Luck & Power Score",
-    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips"
+    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips",
+    "signHere": "Sign here smoothly",
+    "choosePhoto": "Choose Signature Photo",
+    "photoHint": "Take a photo of your signature written on plain white paper with a blue or black pen.",
+    "analyzingTitle": "Analyzing Signature Geometry...",
+    "analyzingSub": "Measuring baseline angle, stroke pressure, loop flow, and planetary vibration.",
+    "defaultVerdict": "Auspicious & Ambitious",
+    "defaultHeading": "Rising Trajectory & Commercial Intuition",
+    "defaultDesc": "Your signature exhibits an upward baseline angle with continuous stroke flow, indicating strong confidence and positive wealth accumulation.",
+    "m1H": "Baseline Slant & Ambition",
+    "m1Val": "+22° Upward Slant",
+    "m1Desc": "Upward angles between +15° and +30° reflect an active, optimistic drive that overcomes adversity.",
+    "m2H": "Stroke Flow & Speed",
+    "m2Val": "Fluid & Connected",
+    "m2Desc": "Connected letters reflect mental agility and commercial instinct governed by Mercury (Budha).",
+    "m3H": "Initial Letter & Authority",
+    "m3Val": "Prominent Capital Letter",
+    "m3Desc": "A bold initial letter channels Surya (Sun), projecting leadership, dignity, and high self-esteem.",
+    "m4H": "Underline & Stability",
+    "m4Val": "Supported Baseline",
+    "m4Desc": "A supportive upward underline stabilizes finances and creates firm self-reliance.",
+    "tip1H": "Maintain an Upward Slant (15°–25°):",
+    "tip1P": "Never let your signature slope downwards at the end. An upward slant keeps wealth and energy ascending.",
+    "tip2H": "Avoid Crossing Out Your Name:",
+    "tip2P": "Backtracking or slicing strokes through your letters acts as energetic self-doubt. Keep the stroke moving cleanly forward.",
+    "tip3H": "Add Two Dots Below an Underline:",
+    "tip3P": "In Hastakshar Vastu, two balanced dots below a clean underline represent the twin eyes of Kubera (Lord of Wealth) and prevent wasteful expenditure.",
+    "tip4H": "Ensure First Letter is Clear:",
+    "tip4P": "Let your initial capital letter stand tall and proud without jagged knots. This attracts royal favors and executive promotions.",
+    "aboutH": "The Science of Hastakshar Shastra (Vedic Signature Graphology)",
+    "aboutIntro": "In Vedic thought, writing is ruled by Goddess Saraswati and governed by Mercury (Budha). Your signature is your daily personal seal (Mudra):",
+    "aboutL1H": "Sun (Surya):",
+    "aboutL1P": "Governs the size of your name and the clarity of your initials. A confident signature invites public honor.",
+    "aboutL2H": "Mercury (Budha):",
+    "aboutL2P": "Governs the fluidity, speed, and connectivity between letters. Fluid connections indicate business sharpness.",
+    "aboutL3H": "Saturn (Shani):",
+    "aboutL3P": "Governs the foundation line (Rekha) and dots (Bindu). Underlines establish discipline and long-term asset retention.",
+    "drawAlert": "Please draw your signature on the canvas first.",
+    "verdictGood": "Auspicious & Ambitious",
+    "verdictHigh": "Highly Auspicious (Urdhva Gati)",
+    "verdictBal": "Balanced & Steady (Sthira Gati)",
+    "verdictLow": "Caution (Adho Gati)",
+    "verdictSteep": "Hyper-Ambitious",
+    "slantHigh": "+{d}° upward incline. Represents optimistic ambition and continuous career ascension under Jupiter and Sun.",
+    "slantBal": "+{d}° balanced horizontal baseline. Reflects pragmatic realism, patience, and financial reliability under Saturn.",
+    "slantLow": "{d}° downward slope. Suggests fatigue or self-doubt at project completions. Remedy: Practice writing with an upward tilt of +20°.",
+    "slantSteep": "+{d}° steep upward slope. Bold visions with advice to stay grounded in execution.",
+    "flowFluid": "Fluid Cursive (Mercury Dominant)",
+    "flowFirm": "Structured Firm (Sun Dominant)",
+    "initialClear": "Clear & Prominent (Surya Blessing)",
+    "underlineBal": "Harmonious Balance (Shani Support)"
   },
   "thumb": {
     "eye": "Nadi Jyotish · Angustha Rekha",
@@ -7272,7 +7521,69 @@
     "archetypeTitle": "Your Nadi Destiny Archetype",
     "rulingGraha": "Governing Graha & Deity",
     "strengths": "Karmic Powers & Vocation",
-    "remedyTitle": "Recommended Nadi Vedic Remedies"
+    "remedyTitle": "Recommended Nadi Vedic Remedies",
+    "selectH": "Select Your Thumbprint Ridge Pattern",
+    "selectSub": "Look closely at the whorl or loop in the center of your thumb pad in good light.",
+    "uploadBtn": "Upload Close-up Photo of Thumb",
+    "uploadHint": "Or select the matching pattern directly above.",
+    "kandamH": "Primary Nadi Chapter (Kandam)",
+    "photoAlert": "Photo loaded. Please verify if your central ridge pattern matches Chakra (whorl) or Shankha (loop) from the cards above.",
+    "patterns": {
+      "chakra": {
+        "tag": "Surya & Vishnu",
+        "desc": "Concentric circles / spiral solar disc"
+      },
+      "shankha": {
+        "tag": "Chandra & Varuna",
+        "desc": "Graceful flowing curved loops"
+      },
+      "dhwaja": {
+        "tag": "Mangala & Kartikeya",
+        "desc": "Steep peaked pyramid / tent arch"
+      },
+      "gadha": {
+        "tag": "Guru & Budha",
+        "desc": "Twin interlaced loops / S-curve"
+      }
+    },
+    "data": {
+      "chakra": {
+        "tag": "Chakra Archetype (Sovereign Leader)",
+        "title": "Chakra (Concentric Whorl) — Sovereign Leader",
+        "subtitle": "Governed by Surya (Sun) & Lord Maha Vishnu. Marked by independent authority, self-earned wealth, and magnetic willpower.",
+        "kandam": "Associated with the Podhu Kandam (General Chapter) and Arasiyal Kandam (Governance Chapter). Predicts notable social stature and executive leadership.",
+        "graha": "Governed by Surya (Sun) and Maha Vishnu. Channeling truth, nobility, and high executive stamina.",
+        "strengths": "Natural decision-maker who dislikes subservience. Succeeds when leading enterprises, governing teams, and creating original systems.",
+        "remedies": "Offer water (Arghya) to the rising sun, chant the Vishnu Sahasranama or Gayatri Mantra, and donate grain on Sundays."
+      },
+      "shankha": {
+        "tag": "Shankha Archetype (Creative Visionary)",
+        "title": "Shankha (Sacred Conch Loop) — Eloquent Empath",
+        "subtitle": "Governed by Chandra (Moon) & Lord Varuna. Marked by poetic speech, emotional intelligence, aesthetic gifts, and peaceful charisma.",
+        "kandam": "Associated with the Kalathira Kandam (Marital Harmony Chapter) and Gnana Kandam (Wisdom Chapter). Predicts fulfilling relationships and foreign travels.",
+        "graha": "Governed by Chandra (Moon) and Goddess Saraswati. Fostering intuitive harmony and linguistic grace.",
+        "strengths": "Gifted communicator, empathetic counselor, writer, designer, or international negotiator. Resolves disputes effortlessly.",
+        "remedies": "Keep drinking water in silver vessels, chant Om Namah Shivaya on Mondays, and honor maternal elders."
+      },
+      "dhwaja": {
+        "tag": "Dhwaja Archetype (Warrior Builder)",
+        "title": "Dhwaja (Ascending Flag / Arch) — Tenacious Victor",
+        "subtitle": "Governed by Mangala (Mars) & Lord Kartikeya. Marked by unyielding grit, technical competence, and dramatic rise after age 28.",
+        "kandam": "Associated with the Thozhil Kandam (Career & Enterprise Chapter) and Shatru Kandam (Victory over Rivals Chapter). Predicts triumph over difficult early circumstances.",
+        "graha": "Governed by Mangala (Mars) and Lord Muruga / Kartikeya. Channeling valor, discipline, and endurance.",
+        "strengths": "Thrives in engineering, defence, entrepreneurship, construction, and high-pressure turnarounds. Never surrenders.",
+        "remedies": "Recite Hanuman Chalisa on Tuesdays, donate red lentils (masoor dal), and maintain physical fitness."
+      },
+      "gadha": {
+        "tag": "Gadha Archetype (Philosopher Diplomat)",
+        "title": "Gadha (Twin Loop / Sacred Mace) — Strategic Mastermind",
+        "subtitle": "Governed by Guru (Jupiter) & Budha (Mercury). Marked by versatile intelligence, dual mastery of trade and spirituality, and deep wisdom.",
+        "kandam": "Associated with the Dhana Kandam (Wealth Accumulation Chapter) and Guru Kandam (Spiritual Master Chapter). Predicts substantial wealth and advisory respect.",
+        "graha": "Governed by Brihaspati (Jupiter) and Budha (Mercury). Synthesis of commercial shrewdness and moral philosophy.",
+        "strengths": "Mastery in strategic consulting, financial trading, legal architecture, scholarly publishing, and educational leadership.",
+        "remedies": "Apply saffron tilak on the forehead, chant Guru Mantra (Om Brim Brihaspataye Namah), and support student education."
+      }
+    }
   },
   "eye": {
     "eye": "Samudrika Shastra · Netra Vigyan",
@@ -7286,7 +7597,94 @@
     "elephantEye": "Gaja Netra (Elephant / Wise Eyes)",
     "irisH": "Iris Radiance & Sclera Tone",
     "pupilH": "Pupil Focus & Mental Stillness",
-    "remedyH": "Eye Health & Solar Trataka Practice"
+    "remedyH": "Eye Health & Solar Trataka Practice",
+    "selectHint": "Select your matching eye shape archetype below, or take a close-up selfie.",
+    "uploadBtn": "Upload Eye Selfie Photo",
+    "uploadHint": "Or select your matching archetype directly above.",
+    "soulH": "Inner Soul Temperament",
+    "careerH": "Career & Intellectual Acumen",
+    "loveH": "Relationship & Emotional Depth",
+    "aboutH": "Principles of Netra Samudrika Shastra",
+    "aboutIntro": "In Vedic physiology, the right eye is illuminated by the Sun (Surya) and the left eye is illuminated by the Moon (Chandra):",
+    "aboutL1H": "Sclera Purity:",
+    "aboutL1P": "Clear white sclera denotes Sattvic harmony; yellowish tones reflect Pitta (Mars/Sun overload); bluish-white reflects high Vata/Kapha.",
+    "aboutL2H": "Pupil Radiance (Tejas):",
+    "aboutL2P": "Sages regarded the spark in the pupil as the reflection of the Atman (Soul). A steady, blinking-controlled gaze signals mastery over the mind (Dharana).",
+    "photoAlert": "Eye photo loaded. Compare your eye contours with the 5 sacred archetypes above.",
+    "cards": {
+      "kamala": {
+        "name": "Kamala Netra",
+        "badge": "Lotus · Noble & Pure",
+        "desc": "Elongated almond with upward outer curve"
+      },
+      "mriga": {
+        "name": "Mriga Netra",
+        "badge": "Deer · Artistic & Gentle",
+        "desc": "Large, wide, luminous, expressive eyes"
+      },
+      "matsya": {
+        "name": "Matsya Netra",
+        "badge": "Fish · Wealth & Shrewd",
+        "desc": "Sharp corners with alert commercial focus"
+      },
+      "garuda": {
+        "name": "Garuda Netra",
+        "badge": "Eagle · Fearless Leader",
+        "desc": "Deep-set, piercing, commanding focus"
+      },
+      "gaja": {
+        "name": "Gaja Netra",
+        "badge": "Elephant · Sage & Patient",
+        "desc": "Serene, small, deep contemplation"
+      }
+    },
+    "data": {
+      "kamala": {
+        "tag": "Kamala Netra Archetype",
+        "title": "Kamala Netra (Lotus Eyes) — Spiritual Royalty",
+        "subtitle": "Associated with Vishnu and Lakshmi. Reflects noble integrity, pure aesthetic discernment, and high spiritual merit from past lives.",
+        "soul": "Natural dignity, calm in adversity, highly ethical, and allergic to deception. Radiates reassuring warmth to others.",
+        "career": "Flourishes in law, advisory councils, creative diplomacy, spiritual guidance, and ethical leadership.",
+        "love": "Deeply devoted and loyal partner. Seeks soul connection rather than superficial glamour.",
+        "remedy": "Practice early morning Trataka (gazing at a pure ghee lamp flame) or rising sun for 3 minutes to enhance solar prana and eye luster."
+      },
+      "mriga": {
+        "tag": "Mriga Netra Archetype",
+        "title": "Mriga Netra (Deer Eyes) — Artistic & Gentle Intuitive",
+        "subtitle": "Governed by Chandra (Moon) & Shukra (Venus). Large, expressive, luminous eyes radiating innocence, sensitivity, and artistic wonder.",
+        "soul": "High empathy, deeply romantic, highly intuitive, and emotionally receptive. Easily moved by music, nature, and poetry.",
+        "career": "Excel in literature, acting, music, architecture, healing therapies, and diplomacy.",
+        "love": "Cherishes emotional safety, tender communication, and loyal lifelong companionship.",
+        "remedy": "Apply pure organic rosewater drops to eyes before sleep to pacify excess mental heat and nourish lunar calm."
+      },
+      "matsya": {
+        "tag": "Matsya Netra Archetype",
+        "title": "Matsya Netra (Fish Eyes) — Sharp Commercial Strategist",
+        "subtitle": "Governed by Budha (Mercury) & Lord Varuna. Sleek, alert, and observant eyes that notice subtle opportunities instantly.",
+        "soul": "Quick-witted, agile thinker, adaptable, and pragmatic. Values economic independence and intellectual sharpness.",
+        "career": "Outstanding in trade, finance, software development, data analytics, and commercial management.",
+        "love": "Values intellectual banter, equal partnership, and shared financial goals.",
+        "remedy": "Consume soaked almonds with milk and practice deep rhythmic breathing to keep nervous currents balanced."
+      },
+      "garuda": {
+        "tag": "Garuda Netra Archetype",
+        "title": "Garuda Netra (Eagle Eyes) — Fearless Executive Strategist",
+        "subtitle": "Governed by Surya (Sun) & Mangala (Mars). Piercing, commanding, and resolute gaze that penetrates beneath surfaces.",
+        "soul": "Courageous, protective, intensely focused, and natural commander. Dislikes ambiguity and indecisiveness.",
+        "career": "Excels in executive management, defense, civil leadership, competitive enterprise, and pioneering research.",
+        "love": "Fiercely loyal, protective guardian of family, expects honesty and mutual respect.",
+        "remedy": "Splash face with cool water upon waking, practice Surya Namaskar at dawn, and avoid excessive sour or spicy food."
+      },
+      "gaja": {
+        "tag": "Gaja Netra Archetype",
+        "title": "Gaja Netra (Elephant Eyes) — Patient Sage & Anchor",
+        "subtitle": "Governed by Brihaspati (Jupiter) & Lord Ganesha. Serene, wise, and contemplative gaze with encyclopedic memory.",
+        "soul": "Unflappable patience, profound wisdom, generous heart, and emotional stability. The calm anchor in family storms.",
+        "career": "Superb in education, legal arbitration, long-term investments, historical scholarship, and mentoring.",
+        "love": "Steadfast rock for partner, patient listener, and devoted family patriarch / matriarch.",
+        "remedy": "Chant Om Gam Ganapataye Namah on Wednesdays and maintain clean, well-lit reading spaces."
+      }
+    }
   },
   "dreamcalc": {
     "eye": "Swapna Shastra · Agni Purana",
@@ -7302,6 +7700,73 @@
     "searchPlaceholder": "Type what you saw (e.g. elephant, snake, river, temple)...",
     "resultH": "Dream Time & Karma Manifestation Period",
     "badDreamH": "Vedic Remedies for Nightmares (Dusswapna Shanti)",
-    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise."
+    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise.",
+    "praharSub": "Select the watch of the night (Prahar) when your dream occurred:",
+    "searchSub": "Instant meanings for classical symbols from Brihat Samhita & Agni Purana:",
+    "filterAll": "All Symbols",
+    "filterShubha": "🌟 Auspicious (Shubha)",
+    "filterAshubha": "⚠️ Caution (Ashubha)",
+    "guidanceH": "Vedic Guidance:",
+    "noMatch": "No matching symbols found. Try searching for \"water\", \"snake\", \"elephant\", or \"temple\".",
+    "rem1H": "Water Purification:",
+    "rem1P": "Wash your face and hands immediately upon waking and recite \"Om Namah Shivaya\".",
+    "rem2H": "Maha Mrityunjaya Japa:",
+    "rem2P": "Chant the sacred Maha Mrityunjaya Mantra 11 times to dissolve lingering negative astral vibrations.",
+    "rem3H": "Morning Charity:",
+    "rem3P": "Feed grains to birds or offer water to the sun (Surya Arghya) with gratitude.",
+    "prahars": {
+      "1": {
+        "num": "1st Prahar",
+        "time": "6:00 PM – 9:00 PM",
+        "tag": "Manifests in ~1 Year",
+        "desc": "Reflects subconscious daytime impressions; slow manifestation."
+      },
+      "2": {
+        "num": "2nd Prahar",
+        "time": "9:00 PM – 12:00 Midnight",
+        "tag": "Manifests in 6–8 Months",
+        "desc": "Emotional processing; moderate fruition timeframe."
+      },
+      "3": {
+        "num": "3rd Prahar",
+        "time": "12:00 Midnight – 3:00 AM",
+        "tag": "Manifests in 1–3 Months",
+        "desc": "Deep astral communication; accurate medium-term omen."
+      },
+      "4": {
+        "num": "4th Prahar (Brahma Muhurta)",
+        "time": "3:00 AM – 6:00 AM",
+        "tag": "Manifests in 10 Days to Same Day",
+        "desc": "Pure divine Sattva window; highest accuracy and imminent fruition."
+      }
+    },
+    "praharData": {
+      "1": {
+        "tag": "1st Prahar (6 PM – 9 PM)",
+        "title": "Manifestation Window: Within 1 Year",
+        "desc": "Occurs during the first watch of sleep. Governed heavily by the residue of daytime sensory impressions and digestion. Its prophetic fruition is gradual and takes roughly 1 full solar year to unfold."
+      },
+      "2": {
+        "tag": "2nd Prahar (9 PM – 12 Midnight)",
+        "title": "Manifestation Window: Within 6 to 8 Months",
+        "desc": "Occurs during deep nocturnal sleep. Reflects emotional clearing and medium-term psychological shifts. Ancient treatises state the omen typically materializes in 6 to 8 months."
+      },
+      "3": {
+        "tag": "3rd Prahar (12 Midnight – 3 AM)",
+        "title": "Manifestation Window: Within 1 to 3 Months",
+        "desc": "Occurs when the nervous system enters profound stillness. Astral communications and ancestral impressions are vivid. The dream manifests in approximately 1 to 3 months."
+      },
+      "4": {
+        "tag": "4th Prahar / Brahma Muhurta (3 AM – 6 AM)",
+        "title": "Manifestation Window: Within 10 Days to Same Day",
+        "desc": "Occurs during the sacred ambrosial hours before dawn. The mind is purified by Sattva Guna and divine inspiration. Sages consider dreams in this window highly accurate, unfolding within 10 days to the very same day."
+      }
+    }
+  },
+  "gochar": {
+    "signLabel": "Moon Sign / Lagna"
+  },
+  "varshphal": {
+    "yearLabel": "Prediction Year"
   }
 }

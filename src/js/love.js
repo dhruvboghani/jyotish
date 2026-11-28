@@ -22,13 +22,20 @@
   let myRows = [];
   async function fillPickers() {
     const sels = $$('.pick-saved');
-    if (!session) { sels.forEach(s => { s.hidden = true; }); return; }
+    if (!session) { sels.forEach(s => { s.innerHTML = ''; s.hidden = true; }); return; }
     try {
       myRows = await loadMyKundalis();
       sels.forEach(s => {
         s.hidden = !myRows.length;
         s.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + myRows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
       });
+      if (myRows.length && !$('#b-date').value) {
+        const selfIdx = myRows.findIndex(r => r.relation === 'self');
+        const idx = selfIdx >= 0 ? selfIdx : 0;
+        const bSel = sels.find(s => s.dataset.p === 'b');
+        if (bSel) bSel.value = String(idx);
+        fillPerson('b', myRows[idx].birth);
+      }
     } catch (e) { sels.forEach(s => { s.hidden = true; }); }
   }
 
@@ -48,6 +55,7 @@
     if (s.value !== '') fillPerson(s.dataset.p, myRows[+s.value].birth);
   }));
   readyHooks.push(fillPickers);
+  authHooks.push(fillPickers);
 
   function readPerson(p) {
     const date = $('#' + p + '-date').value, time = $('#' + p + '-time').value;

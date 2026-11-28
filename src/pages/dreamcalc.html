@@ -9,40 +9,40 @@
   <section class="card prahar-calc-card">
     <div class="calc-header">
       <h3 class="sub-h">{{dreamcalc.praharH}}</h3>
-      <p class="muted small">Select the watch of the night (Prahar) when your dream occurred:</p>
+      <p class="muted small">{{dreamcalc.praharSub}}</p>
     </div>
 
     <div class="prahar-buttons-grid" id="prahar-group" role="radiogroup">
       <!-- 1st Prahar -->
       <button type="button" class="card prahar-btn" data-prahar="1">
-        <span class="prahar-num">1st Prahar</span>
-        <span class="prahar-time">6:00 PM – 9:00 PM</span>
-        <span class="tag">Manifests in ~1 Year</span>
-        <p class="small muted mt-1">Reflects subconscious daytime impressions; slow manifestation.</p>
+        <span class="prahar-num">{{dreamcalc.prahars.1.num}}</span>
+        <span class="prahar-time">{{dreamcalc.prahars.1.time}}</span>
+        <span class="tag">{{dreamcalc.prahars.1.tag}}</span>
+        <p class="small muted mt-1">{{dreamcalc.prahars.1.desc}}</p>
       </button>
 
       <!-- 2nd Prahar -->
       <button type="button" class="card prahar-btn" data-prahar="2">
-        <span class="prahar-num">2nd Prahar</span>
-        <span class="prahar-time">9:00 PM – 12:00 Midnight</span>
-        <span class="tag">Manifests in 6–8 Months</span>
-        <p class="small muted mt-1">Emotional processing; moderate fruition timeframe.</p>
+        <span class="prahar-num">{{dreamcalc.prahars.2.num}}</span>
+        <span class="prahar-time">{{dreamcalc.prahars.2.time}}</span>
+        <span class="tag">{{dreamcalc.prahars.2.tag}}</span>
+        <p class="small muted mt-1">{{dreamcalc.prahars.2.desc}}</p>
       </button>
 
       <!-- 3rd Prahar -->
       <button type="button" class="card prahar-btn" data-prahar="3">
-        <span class="prahar-num">3rd Prahar</span>
-        <span class="prahar-time">12:00 Midnight – 3:00 AM</span>
-        <span class="tag gold">Manifests in 1–3 Months</span>
-        <p class="small muted mt-1">Deep astral communication; accurate medium-term omen.</p>
+        <span class="prahar-num">{{dreamcalc.prahars.3.num}}</span>
+        <span class="prahar-time">{{dreamcalc.prahars.3.time}}</span>
+        <span class="tag gold">{{dreamcalc.prahars.3.tag}}</span>
+        <p class="small muted mt-1">{{dreamcalc.prahars.3.desc}}</p>
       </button>
 
       <!-- 4th Prahar (Brahma Muhurta) -->
       <button type="button" class="card prahar-btn active" data-prahar="4">
-        <span class="prahar-num">4th Prahar (Brahma Muhurta)</span>
-        <span class="prahar-time">3:00 AM – 6:00 AM</span>
-        <span class="tag good">Manifests in 10 Days to Same Day</span>
-        <p class="small muted mt-1">Pure divine Sattva window; highest accuracy and imminent fruition.</p>
+        <span class="prahar-num">{{dreamcalc.prahars.4.num}}</span>
+        <span class="prahar-time">{{dreamcalc.prahars.4.time}}</span>
+        <span class="tag good">{{dreamcalc.prahars.4.tag}}</span>
+        <p class="small muted mt-1">{{dreamcalc.prahars.4.desc}}</p>
       </button>
     </div>
 
@@ -52,9 +52,9 @@
         <svg class="ui xl" viewBox="0 0 24 24"><use href="#i-clock"/></svg>
       </div>
       <div>
-        <span class="tag good" id="banner-tag">Immediate Fruition (Brahma Muhurta)</span>
-        <h3 id="banner-title">Manifestation Window: 1 to 10 Days</h3>
-        <p class="small" id="banner-desc">Dreams witnessed between 3:00 AM and sunrise occur during the sacred Brahma Muhurta when the mind is free from daytime sensory chatter. Ancient Vedic texts state this dream omen will bear fruit almost immediately.</p>
+        <span class="tag good" id="banner-tag">{{dreamcalc.praharData.4.tag}}</span>
+        <h3 id="banner-title">{{dreamcalc.praharData.4.title}}</h3>
+        <p class="small" id="banner-desc">{{dreamcalc.praharData.4.desc}}</p>
       </div>
     </div>
   </section>
@@ -63,16 +63,16 @@
   <section class="card dream-search-card">
     <div class="search-head">
       <h3 class="sub-h">{{dreamcalc.searchH}}</h3>
-      <p class="muted small">Instant meanings for over 50 classical symbols from Brihat Samhita & Agni Purana:</p>
+      <p class="muted small">{{dreamcalc.searchSub}}</p>
       <div class="search-input-box">
-        <input type="text" id="dream-search" class="input-field" placeholder="{{dreamcalc.searchPlaceholder}}" aria-label="Search dream symbol" />
+        <input type="text" id="dream-search" class="input-field" placeholder="{{dreamcalc.searchPlaceholder}}" aria-label="{{dreamcalc.searchH}}" />
       </div>
     </div>
 
     <div class="dream-filter-pills" id="dream-filter-pills">
-      <button type="button" class="pill active" data-filter="all">All Symbols</button>
-      <button type="button" class="pill" data-filter="shubha">🌟 Auspicious (Shubha)</button>
-      <button type="button" class="pill" data-filter="ashubha">⚠️ Caution (Ashubha)</button>
+      <button type="button" class="pill active" data-filter="all">{{dreamcalc.filterAll}}</button>
+      <button type="button" class="pill" data-filter="shubha">{{dreamcalc.filterShubha}}</button>
+      <button type="button" class="pill" data-filter="ashubha">{{dreamcalc.filterAshubha}}</button>
     </div>
 
     <!-- Dream Items Grid -->
@@ -86,9 +86,9 @@
     <h2>{{dreamcalc.badDreamH}}</h2>
     <p>{{dreamcalc.badDreamP}}</p>
     <ul>
-      <li><strong>Water Purification:</strong> Wash your face and hands immediately upon waking and recite <em>"Om Namah Shivaya"</em>.</li>
-      <li><strong>Maha Mrityunjaya Japa:</strong> Chant the sacred Maha Mrityunjaya Mantra 11 times to dissolve lingering negative astral vibrations.</li>
-      <li><strong>Morning Charity:</strong> Feed grains to birds or offer water to the sun (*Surya Arghya*) with gratitude.</li>
+      <li><strong>{{dreamcalc.rem1H}}</strong> {{dreamcalc.rem1P}}</li>
+      <li><strong>{{dreamcalc.rem2H}}</strong> {{dreamcalc.rem2P}}</li>
+      <li><strong>{{dreamcalc.rem3H}}</strong> {{dreamcalc.rem3P}}</li>
     </ul>
   </section>
 </main>

@@ -86,7 +86,8 @@
     "thumb": "பெருவிரல் நாடி",
     "foot": "பாத சாஸ்திரம்",
     "eye": "நேத்ர சாஸ்திரம்",
-    "dreamcalc": "கனவு கணிப்பான்"
+    "dreamcalc": "கனவு கணிப்பான்",
+    "face": "முக சாமுத்ரிகம்"
   },
   "hero": {
     "kicker": "வேத ஜோதிடம் · ஊகம் அல்ல, கணக்கு",
@@ -1121,6 +1122,10 @@
     "dreamcalc": {
       "h": "கனவு பலன் கணிப்பான்",
       "p": "கனவு கண்ட நேரத்தை உள்ளிட்டு பலன் கிடைக்கும் காலம் மற்றும் பரிகாரங்களை அறியுங்கள்."
+    },
+    "face": {
+      "h": "முக சாமுத்ரிகம் (ஃபேஸ் ரீடிங்)",
+      "p": "செல்ஃபி மூலம் சாமுத்ரிக சாஸ்திரப்படி உங்கள் ஆளும் கிரகம் மற்றும் வாழ்க்கை பலன்களை அறியுங்கள்."
     }
   },
   "pages": {
@@ -1358,6 +1363,11 @@
       "name": "கனவு பலன் கணிப்பான்",
       "title": "கனவு சாஸ்திரம் – கனவு பலிக்கும் காலம் கணிக்கும் கருவி | கிரகவாணி",
       "description": "கனவு கண்ட நேரத்தின் அடிப்படையில் பலன் கிடைக்கும் காலத்தைக் கணித்து சாந்தி பரிகாரங்களை அறியுங்கள்."
+    },
+    "face": {
+      "name": "முக சாமுத்ரிகம்",
+      "title": "சாமுத்ரிக சாஸ்திரம் – வேத முக வாசிப்பு & ஜாதகம் | கிரஹவாணி",
+      "description": "பண்டைய வேத சாமுத்ரிக சாஸ்திரத்தின் மூலம் செல்ஃபி புகைப்படத்திலிருந்து உங்கள் ஆளும் கிரகம், பஞ்சபூத சமநிலை மற்றும் பரிகாரங்களை அறியுங்கள்."
     }
   },
   "pp": {
@@ -6521,7 +6531,90 @@
     "signFish": "Matsya (Fish Sign) – High Wealth & Ocean Travel",
     "signConch": "Shankha (Conch Sign) – Knowledge & Eloquence",
     "signTrident": "Trishul (Trident) – Divine Protection & Courage",
-    "follow": "எங்களைப் பின்தொடரவும்"
+    "follow": "எங்களைப் பின்தொடரவும்",
+    "uploadBtn": "பாத புகைப்படம் பதிவேற்று",
+    "uploadHint": "அல்லது உடனடி பலனுக்கு மேலே உள்ள அளவுருக்களைத் தேர்ந்தெடுக்கவும்.",
+    "travelH": "பயணம் & வெளிநாட்டு யோகம்",
+    "careerH": "தொழில் & தலைமை விதி",
+    "natureH": "குணம் & உயிர் சக்தி",
+    "remedyH": "புனித சின்ன ஆசீர்வாதம் & பரிகாரம்",
+    "aboutH": "பாத சாமுத்ரிக சாஸ்திர கோட்பாடுகள்",
+    "aboutIntro": "பிருஹத் சம்ஹிதை (அத்தியாயம் 67) மற்றும் கருட புராணத்தில் பாதங்கள் மனிதக் கோயிலின் அடித்தளமாகக் கூறப்படுகின்றன:",
+    "photoAlert": "பாத புகைப்படம் ஏற்றப்பட்டது. மேலே உள்ள வளைவு மற்றும் விரல் விகிதங்களை உறுதிப்படுத்தவும்.",
+    "habit": "வேத பழக்கம்: இரவு தூங்கும் முன் வெதுவெதுப்பான நல்லெண்ணெய் கொண்டு பாதங்களுக்கு மசாஜ் (பாத அபியங்கம்) செய்யவும்.",
+    "arches": {
+      "high": {
+        "name": "Deva Pada",
+        "sub": "(High Arch · Independent & Spiritual)",
+        "tag": "Deva Pada",
+        "title": "Independent Visionary",
+        "summary": "A high sole arch denotes spiritual refinement, light-footed agility, and high self-reliance.",
+        "travel": "Promotes distant travel, international opportunities, and flourishing outside the birthplace.",
+        "nature": "Idealistic, private, intellectual, and driven by personal convictions."
+      },
+      "medium": {
+        "name": "Manushya Pada",
+        "sub": "(Balanced Arch · Prosperous & Pragmatic)",
+        "tag": "Manushya Pada",
+        "title": "Prosperous & Pragmatic Architect",
+        "summary": "A balanced sole arch represents harmony of Earth and Water elements, granting strong domestic happiness and steady investments.",
+        "travel": "Comfortable transit and steady domestic prosperity with well-planned journeys.",
+        "nature": "Warm, balanced, cooperative, and family-oriented."
+      },
+      "flat": {
+        "name": "Bhumi Pada",
+        "sub": "(Flat Arch · Grounded & Hardworking)",
+        "tag": "Bhumi Pada",
+        "title": "Grounded & Steadfast Realist",
+        "summary": "A grounded arch signifies immense physical stamina, unwavering loyalty, and practical mastery of real-world skills.",
+        "travel": "Builds profound roots and prosperity in home region; travels when purposeful.",
+        "nature": "Dependable, patient, hardworking, and deeply trustworthy."
+      }
+    },
+    "toes": {
+      "second": {
+        "name": "Second Toe Longest",
+        "sub": "(Agni Dominance · Natural Leader)",
+        "tagSuffix": "· Agni Dominance",
+        "titleSuffix": "& Dynamic Leader",
+        "summaryExtra": "Second toe longer than big toe channels high Agni (Fire element), bestowing natural executive command.",
+        "career": "Excels when leading organizations, heading projects, or founding independent enterprises."
+      },
+      "big": {
+        "name": "Big Toe Longest",
+        "sub": "(Prithvi Dominance · Steady Wealth)",
+        "tagSuffix": "· Prithvi Dominance",
+        "titleSuffix": "& Wealth Accumulator",
+        "summaryExtra": "A dominant big toe represents Prithvi (Earth element), bestowing patient accumulation of gold, lands, and assets.",
+        "career": "Excels in financial planning, real estate, administrative stability, and advisory positions."
+      },
+      "even": {
+        "name": "Even Proportion",
+        "sub": "(Vayu Dominance · Balanced Diplomat)",
+        "tagSuffix": "· Vayu Dominance",
+        "titleSuffix": "& Diplomatic Sage",
+        "summaryExtra": "Evenly proportioned toes represent Vayu (Air element), granting adaptability, linguistic fluency, and diplomacy.",
+        "career": "Excels in law, writing, diplomacy, counseling, and commercial negotiation."
+      }
+    },
+    "signs": {
+      "lotus": {
+        "label": "🪷 Kamala (Lotus Sign)",
+        "note": "Lotus Mark: Auspicious blessing of Goddess Lakshmi granting noble honor."
+      },
+      "fish": {
+        "label": "🐟 Matsya (Fish Sign)",
+        "note": "Fish Mark: Sign of deep ocean wisdom and financial windfalls."
+      },
+      "conch": {
+        "label": "🐚 Shankha (Conch Sign)",
+        "note": "Conch Mark: Bestows eloquence and spiritual knowledge."
+      },
+      "trident": {
+        "label": "🔱 Trishul (Trident Sign)",
+        "note": "Trident Mark: Confers divine courage against obstacles."
+      }
+    }
   },
   "socad": {
     "yt": {
@@ -6616,7 +6709,20 @@
     "prescribedMantra": "பரிகார மந்திரம்",
     "aboutTitle": "கைரேகை சாஸ்திரம் பற்றி",
     "aboutP1": "கைரேகை சாஸ்திரம் வேத ஜோதிடத்தின் ஆழமான அங்கம். ஒருவரின் கர்ம வினையும் எதிர்காலமும் உள்ளங்கையில் ரேகைகளாக பதிவாகின்றன.",
-    "aboutP2": "பிறந்த நேரம் தெரியாவிட்டாலும் உள்ளங்கை ரேகைகள் மற்றும் மேடுகளின் மூலம் ஒருவரின் வாழ்க்கை பாதையை துல்லியமாக அறிய முடியும்."
+    "aboutP2": "பிறந்த நேரம் தெரியாவிட்டாலும் உள்ளங்கை ரேகைகள் மற்றும் மேடுகளின் மூலம் ஒருவரின் வாழ்க்கை பாதையை துல்லியமாக அறிய முடியும்.",
+    "readyTitle": "ஸ்கேன் செய்ய தயார்",
+    "legHeart": "भावनात्मक गहराई और संबंध",
+    "legHead": "बौद्धिक एकाग्रता और ज्ञान",
+    "legLife": "जीवनी शक्ति और प्राण शक्ति",
+    "legFate": "करियर भाग्य और कर्म",
+    "legSun": "यश, कला और सामाजिक सम्मान",
+    "sigLabel": "வேத முக்கியத்துவம்:",
+    "sigHeart": "भावनात्मक स्वभाव, प्रेम निष्ठा और हृदय की जीवनी शक्ति को दर्शाती है।",
+    "sigHead": "बुद्धि, विश्लेषणात्मक एकाग्रता, मानसिक सहनशक्ति और निर्णय क्षमता को दर्शाती है।",
+    "sigLife": "प्राण शक्ति, रोग प्रतिरोधक क्षमता, अनुकूलनशीलता और जीवन की लय का प्रतीक है।",
+    "sigFate": "करियर कर्म, व्यावसायिक सफलता और आर्थिक भाग्य का प्रतिनिधित्व करती है।",
+    "sigSun": "सार्वजनिक प्रतिष्ठा, कलात्मक प्रतिभा, नेतृत्व तेज और सौभाग्य को दर्शाती है।",
+    "mountsSub": "உள்ளங்கையின் 7 கிரக மேடுகளின் உயர்வு மற்றும் ஆற்றல்"
   },
   "moles": {
     "eye": "Samudrika Shastra · Til Vichar",
@@ -6631,7 +6737,31 @@
     "searchHint": "Search or tap a body region below...",
     "auspicious": "Auspicious (Shubha)",
     "inauspicious": "Caution (Ashubha)",
-    "neutral": "Karmic Indicator (Madhyam)"
+    "neutral": "Karmic Indicator (Madhyam)",
+    "searchPlaceholder": "உடல் பகுதியைத் தேடுங்கள் (கன்னம், நெற்றி, உள்ளங்கை)...",
+    "searchAria": "तिल का स्थान खोजें",
+    "tabBack": "முதுகு & கால்கள்",
+    "tabCamera": "📷 புகைப்படக் கண்டறிதல்",
+    "openCam": "கேமராவைத் திற",
+    "scanSpots": "மச்சங்களை ஸ்கேன் செய்",
+    "uploadPhoto": "புகைப்படம் பதிவேற்று",
+    "camHint": "हाई-कंट्रास्ट स्किन स्कैनिंग सीधे आपके डिवाइस पर गहरे निशानों का विश्लेषण करती है।",
+    "defaultTag": "शुभ (मंगलकारी)",
+    "defaultTitle": "तिल का स्थान चुनें",
+    "defaultSummary": "ऊपर दिए गए चित्र में किसी बिंदु पर टैप करें या सूची से चुनें।",
+    "destinyH": "वैदिक ज्योतिषीय भविष्यवाणी",
+    "wealthH": "धन और करियर प्रभाव",
+    "natureH": "संबंध और स्वभाव",
+    "remedyH": "वैदिक संतुलन और उपाय",
+    "aboutH": "तिल विचार शास्त्र के सिद्धांत",
+    "aboutIntro": "महर्षि पराशर, बृहत् संहिता और अग्नि पुराण जैसे प्राचीन ग्रंथों के अनुसार:",
+    "aboutL1H": "दाएं-बाएं का नियम:",
+    "aboutL1P": "पुरुषों में दाईं ओर के तिल सूर्य (पिंगला) ऊर्जा से शुभ व कर्मशील फल देते हैं; स्त्रियों में बाईं ओर के तिल चंद्र (इड़ा) ऊर्जा से सौभाग्यदायी होते हैं।",
+    "aboutL2H": "रंग का महत्व:",
+    "aboutL2P": "भूरे या लाल तिल (रक्त तिल) मंगल-गुरु से शासित होकर उच्च अधिकार व लाभ देते हैं; गहरे काले तिल (कृष्ण तिल) शनि-केतु से जुड़कर परिश्रम और कर्म फल दर्शाते हैं।",
+    "aboutL3H": "आकार और उभार:",
+    "aboutL3P": "उभरे हुए, गोल और चमकदार तिल पूर्ण शुभ फल देते हैं। खुरदुरे या अनियमित तिलों के लिए आध्यात्मिक संतुलन आवश्यक है।",
+    "noMatch": "कोई मिलता स्थान नहीं मिला। कृपया दूसरा शब्द खोजें।"
   },
   "forehead": {
     "eye": "Samudrika Shastra · Bhāla Rekha",
@@ -6645,7 +6775,84 @@
     "hint": "Position your forehead inside the guide frame under clear lighting and raise your eyebrows slightly to reveal natural crease lines.",
     "analyzingTitle": "Scanning Forehead Creases...",
     "analyzingSub": "Mapping 7 planetary lines (Saturn to Moon) with Vedic pixel edge profiling.",
-    "allLines": "All 7 Planetary Lines"
+    "allLines": "All 7 Planetary Lines",
+    "readyTitle": "நெற்றி ஸ்கேனுக்கு தயார்",
+    "pillsEye": "கிரக ரேகை ஆய்வு",
+    "pillsH": "ஆய்வு செய்ய ஒரு கிரக ரேகையைத் தேர்ந்தெடுக்கவும்",
+    "captionAll": "7 பாரம்பரிய கிரக ரேகைகளும் காட்டப்படுகின்றன",
+    "camError": "कैमरा उपलब्ध नहीं है। कृपया फोटो अपलोड बटन का उपयोग करें।",
+    "readingH": "वैदिक फल:",
+    "remedyH": "वैदिक संतुलन उपाय:",
+    "aboutH": "वैदिक भाल शास्त्र में 7 ग्रह रेखाएं",
+    "aboutIntro": "बृहत् संहिता (अध्याय 68, पुरुष लक्षण) और अग्नि पुराण में माथे को भाग्य का पट्ट (भाल पत्र) कहा गया है:",
+    "pills": {
+      "all": "🌟 सभी 7 रेखाएं",
+      "saturn": "🪐 शनि रेखा",
+      "jupiter": "✨ गुरु रेखा",
+      "mars": "🔥 मंगल रेखा",
+      "sun": "☀️ सूर्य रेखा",
+      "venus": "💎 शुक्र रेखा",
+      "mercury": "🌿 बुध रेखा",
+      "moon": "🌙 चंद्र रेखा"
+    },
+    "lines": {
+      "saturn": {
+        "name": "शनि रेखा (शीर्ष)",
+        "graha": "शनि",
+        "role": "आयु, धैर्य और कर्म ज्ञान",
+        "destiny": "केश रेखा के सबसे निकट स्थित। स्पष्ट और अखंडित होने पर दीर्घायु, गहन चिंतन और स्थिरता दर्शाती है।",
+        "strength": "सुदृढ़ और स्पष्ट। दार्शनिक गहराई और स्थायी करियर आधार।",
+        "remedy": "शनिवार संध्या को तिल के तेल का दीपक जलाएं और ध्यान करें।"
+      },
+      "jupiter": {
+        "name": "गुरु रेखा (द्वितीय)",
+        "graha": "बृहस्पति",
+        "role": "ज्ञान, धर्म और सम्मान",
+        "destiny": "शनि रेखा के नीचे स्थित। नैतिक अधिकार, बौद्धिक नेतृत्व और सत्य निष्ठा को दर्शाती है।",
+        "strength": "स्पष्ट और प्रमुख। समाज में सम्मान और शैक्षणिक सफलता।",
+        "remedy": "माथे के मध्य पीले चंदन या केसर का तिलक लगाएं।"
+      },
+      "mars": {
+        "name": "मंगल रेखा (तृतीय)",
+        "graha": "मंगल",
+        "role": "साहस, ऊर्जा और विजय",
+        "destiny": "मध्य बिंदु के ऊपर स्थित। शारीरिक सहनशक्ति, प्रतिस्पर्धी नेतृत्व और तकनीकी दक्षता प्रदान करती है।",
+        "strength": "ऊर्जावान और तीक्ष्ण। कठिन कार्यों को पूरा करने का साहस।",
+        "remedy": "हनुमान चालीसा का पाठ करें और नियमित व्यायाम करें।"
+      },
+      "sun": {
+        "name": "सूर्य रेखा (मध्य)",
+        "graha": "सूर्य",
+        "role": "राजसी अधिकार, यश और तेज",
+        "destiny": "माथे के मध्य में स्थित। गहरी अखंडित सूर्य रेखा राजयोग, प्रतिष्ठा और आत्मतेज प्रदान करती है।",
+        "strength": "तेजस्वी और संतुलित। प्रभावशाली व्यक्तित्व और आत्मसम्मान।",
+        "remedy": "प्रातः सूर्य नमस्कार करें और सूर्य को जल अर्पित करें।"
+      },
+      "venus": {
+        "name": "शुक्र रेखा (पंचम)",
+        "graha": "शुक्र",
+        "role": "कलात्मक आकर्षण और समृद्धि",
+        "destiny": "सूर्य रेखा के नीचे स्थित। सौंदर्य बोध, ललित कला प्रेम, कूटनीति और भौतिक सुख दर्शाती है।",
+        "strength": "सौम्य और वक्राकार। मधुर संबंध और कलात्मक रुचि।",
+        "remedy": "वातावरण सुगंधित रखें और स्वच्छ हल्के रंग के वस्त्र पहनें।"
+      },
+      "mercury": {
+        "name": "बुध रेखा (षष्ठ)",
+        "graha": "बुध",
+        "role": "व्यापारिक बुद्धि और वाक्पटुता",
+        "destiny": "भौहों के ठीक ऊपर स्थित। तीव्र तर्कशक्ति, प्रभावशाली वाणी और व्यापारिक कौशल प्रदान करती है।",
+        "strength": "फुर्तीली और स्पष्ट। कुशल संवाद और सफल व्यापारिक निर्णय।",
+        "remedy": "बुधवार को गाय को हरा चारा या हरी सब्जी खिलाएं।"
+      },
+      "moon": {
+        "name": "चंद्र रेखा (अधो)",
+        "graha": "चंद्रमा",
+        "role": "अंतर्ज्ञान, भावना और कल्पना",
+        "destiny": "भौहों के ऊपरी मेहराब पर स्थित। समृद्ध कल्पनाशक्ति, संवेदनशीलता और यात्रा योग दर्शाती है।",
+        "strength": "सौम्य और चमकदार। सहज अंतर्ज्ञान और रचनात्मक दृष्टि।",
+        "remedy": "चांदी के पात्र में जल पिएं और सोने से पहले मन शांत रखें।"
+      }
+    }
   },
   "signature": {
     "eye": "Hastakshar Shastra · Vedic Graphology",
@@ -6656,11 +6863,61 @@
     "clearBtn": "Clear Canvas",
     "analyzeBtn": "Analyze Signature Now",
     "strokePrompt": "Sign your name smoothly in the box above using your finger or stylus.",
-    "slantLabel": "Baseline Slant:",
+    "slantLabel": "आधार झुकाव",
     "loopsLabel": "Loop & Flow:",
     "dotsLabel": "Underline & Dots:",
     "scoreTitle": "Signature Luck & Power Score",
-    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips"
+    "remedyTitle": "Vedic Hastakshar Vastu Correction Tips",
+    "signHere": "இங்கே கையொப்பமிடுங்கள்",
+    "choosePhoto": "கையொப்பப் புகைப்படத்தைத் தேர்ந்தெடுக்கவும்",
+    "photoHint": "सादे सफेद कागज पर नीले या काले पेन से किए गए हस्ताक्षर की फोटो लें।",
+    "analyzingTitle": "हस्ताक्षर ज्यामिति का विश्लेषण हो रहा है…",
+    "analyzingSub": "आधार कोण, कलम दबाव, लूप प्रवाह और ग्रह स्पंदन का मूल्यांकन।",
+    "defaultVerdict": "शुभ और महत्वाकांक्षी",
+    "defaultHeading": "उर्ध्वगामी दिशा और व्यावसायिक अंतर्दृष्टि",
+    "defaultDesc": "आपके हस्ताक्षर में निरंतर प्रवाह के साथ ऊपर की ओर उठता हुआ कोण है, जो आत्मविश्वास और धन संचय दर्शाता है।",
+    "m1H": "आधार झुकाव और महत्वाकांक्षा",
+    "m1Val": "+22° उर्ध्व झुकाव",
+    "m1Desc": "+15° से +30° के बीच ऊपर उठता कोण सक्रिय और आशावादी ऊर्जा दर्शाता है।",
+    "m2H": "रेखा प्रवाह और गति",
+    "m2Val": "प्रवाहपूर्ण और जुड़ा हुआ",
+    "m2Desc": "जुड़े हुए अक्षर बुध ग्रह द्वारा शासित मानसिक फुर्ती और व्यापारिक सूझबूझ दर्शाते हैं।",
+    "m3H": "प्रथम अक्षर और अधिकार",
+    "m3Val": "प्रमुख बड़ा अक्षर",
+    "m3Desc": "स्पष्ट प्रथम अक्षर सूर्य की ऊर्जा से नेतृत्व, गरिमा और आत्मसम्मान बढ़ाता है।",
+    "m4H": "अधोरेखा (अंडरलाइन) और स्थिरता",
+    "m4Val": "संतुलित आधार रेखा",
+    "m4Desc": "नीचे की सीधी या हल्की ऊपर जाती रेखा आर्थिक स्थिरता और आत्मनिर्भरता देती है।",
+    "tip1H": "ऊपर की ओर झुकाव (15°–25°) रखें:",
+    "tip1P": "हस्ताक्षर को अंत में नीचे की ओर न झुकाएं। ऊपर उठता हस्ताक्षर धन और ऊर्जा को बढ़ाता है।",
+    "tip2H": "अपने नाम को काटने से बचें:",
+    "tip2P": "अक्षरों के ऊपर से वापस काटती रेखा आत्म-संदेह पैदा करती है। प्रवाह को आगे की ओर रखें।",
+    "tip3H": "अंडरलाइन के नीचे दो बिंदु लगाएं:",
+    "tip3P": "हस्ताक्षर वास्तु में साफ अंडरलाइन के नीचे दो बिंदु कुबेर की आंखों का प्रतीक हैं जो फिजूलखर्ची रोकते हैं।",
+    "tip4H": "प्रथम अक्षर स्पष्ट रखें:",
+    "tip4P": "पहला अक्षर बिना उलझी गांठों के स्पष्ट और ऊंचा रखें; यह सम्मान और पदोन्नति दिलाता है।",
+    "aboutH": "हस्ताक्षर शास्त्र का विज्ञान (वैदिक ग्राफोलॉजी)",
+    "aboutIntro": "वैदिक परंपरा में लेखन देवी सरस्वती और बुध ग्रह द्वारा शासित है। आपका हस्ताक्षर आपकी दैनिक व्यक्तिगत मुद्रा है:",
+    "aboutL1H": "सूर्य (Surya):",
+    "aboutL1P": "आपके नाम के आकार और प्रथम अक्षर की स्पष्टता को नियंत्रित करता है। आत्मविश्वासपूर्ण हस्ताक्षर सम्मान दिलाता है।",
+    "aboutL2H": "बुध (Budha):",
+    "aboutL2P": "अक्षरों के बीच प्रवाह, गति और जुड़ाव को नियंत्रित करता है, जो व्यापारिक चातुर्य दर्शाता है।",
+    "aboutL3H": "शनि (Shani):",
+    "aboutL3P": "आधार रेखा और बिंदुओं को नियंत्रित करता है, जो अनुशासन और दीर्घकालिक संपत्ति स्थिरता लाता है।",
+    "drawAlert": "தயவுசெய்து முதலில் உங்கள் கையொப்பத்தை வரையவும்.",
+    "verdictGood": "शुभ और महत्वाकांक्षी",
+    "verdictHigh": "अत्यंत शुभ (उर्ध्व गति)",
+    "verdictBal": "संतुलित और स्थिर (स्थिर गति)",
+    "verdictLow": "सावधानी (अधो गति)",
+    "verdictSteep": "अति-महत्वाकांक्षी",
+    "slantHigh": "+{d}° ऊपर उठता झुकाव। गुरु और सूर्य के प्रभाव से आशावादी महत्वाकांक्षा और निरंतर उन्नति दर्शाता है।",
+    "slantBal": "+{d}° संतुलित क्षैतिज आधार। शनि के प्रभाव से व्यावहारिकता, धैर्य और आर्थिक विश्वसनीयता दर्शाता है।",
+    "slantLow": "{d}° नीचे झुकता कोण। कार्य पूर्ण होने पर थकान या संदेह दर्शाता है। उपाय: +20° ऊपर की ओर लिखने का अभ्यास करें।",
+    "slantSteep": "+{d}° तीव्र ऊपर उठता झुकाव। बड़े लक्ष्य के साथ व्यावहारिक बने रहने की सलाह।",
+    "flowFluid": "प्रवाहपूर्ण (बुध प्रधान)",
+    "flowFirm": "सुगठित और दृढ़ (सूर्य प्रधान)",
+    "initialClear": "स्पष्ट और प्रमुख (सूर्य कृपा)",
+    "underlineBal": "सामंजस्यपूर्ण संतुलन (शनि आधार)"
   },
   "thumb": {
     "eye": "Nadi Jyotish · Angustha Rekha",
@@ -6676,7 +6933,69 @@
     "archetypeTitle": "Your Nadi Destiny Archetype",
     "rulingGraha": "Governing Graha & Deity",
     "strengths": "Karmic Powers & Vocation",
-    "remedyTitle": "Recommended Nadi Vedic Remedies"
+    "remedyTitle": "Recommended Nadi Vedic Remedies",
+    "selectH": "உங்கள் கட்டைவிரல் ரேகை அமைப்பைத் தேர்ந்தெடுக்கவும்",
+    "selectSub": "நல்ல வெளிச்சத்தில் உங்கள் கட்டைவிரலின் மையத்தில் உள்ள சக்கரம் அல்லது சங்கு வடிவத்தைப் பார்க்கவும்.",
+    "uploadBtn": "கட்டைவிரல் புகைப்படம் பதிவேற்று",
+    "uploadHint": "அல்லது மேலே உள்ள பொருத்தமான அமைப்பைத் தேர்ந்தெடுக்கவும்.",
+    "kandamH": "முதன்மை நாடி காண்டம்",
+    "photoAlert": "புகைப்படம் ஏற்றப்பட்டது. மேலே உள்ள சக்கரம் அல்லது சங்கு அட்டைகளில் உங்கள் ரேகையை உறுதிப்படுத்தவும்.",
+    "patterns": {
+      "chakra": {
+        "tag": "சூரியன் & விஷ்ணு",
+        "desc": "வட்ட சுழல் / சக்கர அமைப்பு"
+      },
+      "shankha": {
+        "tag": "சந்திரன் & வருணன்",
+        "desc": "அழகான வளைந்த சங்கு சுருள்கள்"
+      },
+      "dhwaja": {
+        "tag": "செவ்வாய் & கார்த்திகேயன்",
+        "desc": "கூர்மையான கோபுரம் / கொடி வளைவு"
+      },
+      "gadha": {
+        "tag": "குரு & புதன்",
+        "desc": "இரட்டைப் பின்னல் / கதை அமைப்பு"
+      }
+    },
+    "data": {
+      "chakra": {
+        "tag": "Chakra Archetype (Sovereign Leader)",
+        "title": "Chakra (Concentric Whorl) — Sovereign Leader",
+        "subtitle": "Governed by Surya (Sun) & Lord Maha Vishnu. Marked by independent authority, self-earned wealth, and magnetic willpower.",
+        "kandam": "Associated with the Podhu Kandam (General Chapter) and Arasiyal Kandam (Governance Chapter). Predicts notable social stature and executive leadership.",
+        "graha": "Governed by Surya (Sun) and Maha Vishnu. Channeling truth, nobility, and high executive stamina.",
+        "strengths": "Natural decision-maker who dislikes subservience. Succeeds when leading enterprises, governing teams, and creating original systems.",
+        "remedies": "Offer water (Arghya) to the rising sun, chant the Vishnu Sahasranama or Gayatri Mantra, and donate grain on Sundays."
+      },
+      "shankha": {
+        "tag": "Shankha Archetype (Creative Visionary)",
+        "title": "Shankha (Sacred Conch Loop) — Eloquent Empath",
+        "subtitle": "Governed by Chandra (Moon) & Lord Varuna. Marked by poetic speech, emotional intelligence, aesthetic gifts, and peaceful charisma.",
+        "kandam": "Associated with the Kalathira Kandam (Marital Harmony Chapter) and Gnana Kandam (Wisdom Chapter). Predicts fulfilling relationships and foreign travels.",
+        "graha": "Governed by Chandra (Moon) and Goddess Saraswati. Fostering intuitive harmony and linguistic grace.",
+        "strengths": "Gifted communicator, empathetic counselor, writer, designer, or international negotiator. Resolves disputes effortlessly.",
+        "remedies": "Keep drinking water in silver vessels, chant Om Namah Shivaya on Mondays, and honor maternal elders."
+      },
+      "dhwaja": {
+        "tag": "Dhwaja Archetype (Warrior Builder)",
+        "title": "Dhwaja (Ascending Flag / Arch) — Tenacious Victor",
+        "subtitle": "Governed by Mangala (Mars) & Lord Kartikeya. Marked by unyielding grit, technical competence, and dramatic rise after age 28.",
+        "kandam": "Associated with the Thozhil Kandam (Career & Enterprise Chapter) and Shatru Kandam (Victory over Rivals Chapter). Predicts triumph over difficult early circumstances.",
+        "graha": "Governed by Mangala (Mars) and Lord Muruga / Kartikeya. Channeling valor, discipline, and endurance.",
+        "strengths": "Thrives in engineering, defence, entrepreneurship, construction, and high-pressure turnarounds. Never surrenders.",
+        "remedies": "Recite Hanuman Chalisa on Tuesdays, donate red lentils (masoor dal), and maintain physical fitness."
+      },
+      "gadha": {
+        "tag": "Gadha Archetype (Philosopher Diplomat)",
+        "title": "Gadha (Twin Loop / Sacred Mace) — Strategic Mastermind",
+        "subtitle": "Governed by Guru (Jupiter) & Budha (Mercury). Marked by versatile intelligence, dual mastery of trade and spirituality, and deep wisdom.",
+        "kandam": "Associated with the Dhana Kandam (Wealth Accumulation Chapter) and Guru Kandam (Spiritual Master Chapter). Predicts substantial wealth and advisory respect.",
+        "graha": "Governed by Brihaspati (Jupiter) and Budha (Mercury). Synthesis of commercial shrewdness and moral philosophy.",
+        "strengths": "Mastery in strategic consulting, financial trading, legal architecture, scholarly publishing, and educational leadership.",
+        "remedies": "Apply saffron tilak on the forehead, chant Guru Mantra (Om Brim Brihaspataye Namah), and support student education."
+      }
+    }
   },
   "eye": {
     "eye": "Samudrika Shastra · Netra Vigyan",
@@ -6690,7 +7009,94 @@
     "elephantEye": "Gaja Netra (Elephant / Wise Eyes)",
     "irisH": "Iris Radiance & Sclera Tone",
     "pupilH": "Pupil Focus & Mental Stillness",
-    "remedyH": "Eye Health & Solar Trataka Practice"
+    "remedyH": "Eye Health & Solar Trataka Practice",
+    "selectHint": "கீழே உள்ள உங்கள் கண் வடிவத்தைத் தேர்ந்தெடுக்கவும் அல்லது செல்ஃபி பதிவேற்றவும்.",
+    "uploadBtn": "கண் செல்ஃபி பதிவேற்று",
+    "uploadHint": "அல்லது மேலே உள்ள பொருத்தமான கண் வகையைத் தேர்ந்தெடுக்கவும்.",
+    "soulH": "ஆன்ம இயல்பு & குணம்",
+    "careerH": "தொழில் & அறிவாற்றல்",
+    "loveH": "உறவு & உணர்வு ஆழம்",
+    "aboutH": "நேத்ர சாமுத்ரிக சாஸ்திர கோட்பாடுகள்",
+    "aboutIntro": "வேத உடலியலில் வலது கண் சூரியனாலும் இடது கண் சந்திரனாலும் ஒளிர்கிறது:",
+    "aboutL1H": "வெண்விழி தூய்மை:",
+    "aboutL1P": "தூய வெண்மை சத்துவ சமநிலையைக் குறிக்கிறது; மஞ்சள் நிறம் பித்தத்தையும் நீல நிறம் வாத-கபத்தையும் குறிக்கும்.",
+    "aboutL2H": "கண்மணி ஒளி (தேஜஸ்):",
+    "aboutL2P": "கண்களின் ஒளி ஆன்மாவின் பிரதிபலிப்பாகும். நிலையான பார்வை மனக் கட்டுப்பாட்டைக் குறிக்கிறது.",
+    "photoAlert": "கண் புகைப்படம் ஏற்றப்பட்டது. முழு பலன்களுக்கு மேலே உள்ள 5 வகைகளில் ஒன்றைத் தேர்ந்தெடுக்கவும்.",
+    "cards": {
+      "kamala": {
+        "name": "கமல நேத்திரம்",
+        "badge": "தாமரை · உயர்ந்த & தூய",
+        "desc": "மேல்நோக்கி வளைந்த நீண்ட பாதாம் வடிவக் கண்கள்"
+      },
+      "mriga": {
+        "name": "மிருக நேத்திரம்",
+        "badge": "மான் · கலை & மென்மை",
+        "desc": "பெரிய, ஒளிரும், உணர்ச்சிபூர்வமான கண்கள்"
+      },
+      "matsya": {
+        "name": "மத்ஸ்ய நேத்திரம்",
+        "badge": "மீன் · செல்வம் & கூர்மை",
+        "desc": "கூர்மையான ஓரங்களுடன் கூடிய விழிப்புணர்வு பார்வை"
+      },
+      "garuda": {
+        "name": "கருட நேத்திரம்",
+        "badge": "கருடன் · அஞ்சாமை & தலைமை",
+        "desc": "ஆழமான, ஊடுருவும், ஆளுமை மிக்க பார்வை"
+      },
+      "gaja": {
+        "name": "கஜ நேத்திரம்",
+        "badge": "யானை · ஞானம் & பொறுமை",
+        "desc": "அமைதியான, சிறிய, ஆழ்ந்த சிந்தனை கொண்ட கண்கள்"
+      }
+    },
+    "data": {
+      "kamala": {
+        "tag": "Kamala Netra Archetype",
+        "title": "Kamala Netra (Lotus Eyes) — Spiritual Royalty",
+        "subtitle": "Associated with Vishnu and Lakshmi. Reflects noble integrity, pure aesthetic discernment, and high spiritual merit from past lives.",
+        "soul": "Natural dignity, calm in adversity, highly ethical, and allergic to deception. Radiates reassuring warmth to others.",
+        "career": "Flourishes in law, advisory councils, creative diplomacy, spiritual guidance, and ethical leadership.",
+        "love": "Deeply devoted and loyal partner. Seeks soul connection rather than superficial glamour.",
+        "remedy": "Practice early morning Trataka (gazing at a pure ghee lamp flame) or rising sun for 3 minutes to enhance solar prana and eye luster."
+      },
+      "mriga": {
+        "tag": "Mriga Netra Archetype",
+        "title": "Mriga Netra (Deer Eyes) — Artistic & Gentle Intuitive",
+        "subtitle": "Governed by Chandra (Moon) & Shukra (Venus). Large, expressive, luminous eyes radiating innocence, sensitivity, and artistic wonder.",
+        "soul": "High empathy, deeply romantic, highly intuitive, and emotionally receptive. Easily moved by music, nature, and poetry.",
+        "career": "Excel in literature, acting, music, architecture, healing therapies, and diplomacy.",
+        "love": "Cherishes emotional safety, tender communication, and loyal lifelong companionship.",
+        "remedy": "Apply pure organic rosewater drops to eyes before sleep to pacify excess mental heat and nourish lunar calm."
+      },
+      "matsya": {
+        "tag": "Matsya Netra Archetype",
+        "title": "Matsya Netra (Fish Eyes) — Sharp Commercial Strategist",
+        "subtitle": "Governed by Budha (Mercury) & Lord Varuna. Sleek, alert, and observant eyes that notice subtle opportunities instantly.",
+        "soul": "Quick-witted, agile thinker, adaptable, and pragmatic. Values economic independence and intellectual sharpness.",
+        "career": "Outstanding in trade, finance, software development, data analytics, and commercial management.",
+        "love": "Values intellectual banter, equal partnership, and shared financial goals.",
+        "remedy": "Consume soaked almonds with milk and practice deep rhythmic breathing to keep nervous currents balanced."
+      },
+      "garuda": {
+        "tag": "Garuda Netra Archetype",
+        "title": "Garuda Netra (Eagle Eyes) — Fearless Executive Strategist",
+        "subtitle": "Governed by Surya (Sun) & Mangala (Mars). Piercing, commanding, and resolute gaze that penetrates beneath surfaces.",
+        "soul": "Courageous, protective, intensely focused, and natural commander. Dislikes ambiguity and indecisiveness.",
+        "career": "Excels in executive management, defense, civil leadership, competitive enterprise, and pioneering research.",
+        "love": "Fiercely loyal, protective guardian of family, expects honesty and mutual respect.",
+        "remedy": "Splash face with cool water upon waking, practice Surya Namaskar at dawn, and avoid excessive sour or spicy food."
+      },
+      "gaja": {
+        "tag": "Gaja Netra Archetype",
+        "title": "Gaja Netra (Elephant Eyes) — Patient Sage & Anchor",
+        "subtitle": "Governed by Brihaspati (Jupiter) & Lord Ganesha. Serene, wise, and contemplative gaze with encyclopedic memory.",
+        "soul": "Unflappable patience, profound wisdom, generous heart, and emotional stability. The calm anchor in family storms.",
+        "career": "Superb in education, legal arbitration, long-term investments, historical scholarship, and mentoring.",
+        "love": "Steadfast rock for partner, patient listener, and devoted family patriarch / matriarch.",
+        "remedy": "Chant Om Gam Ganapataye Namah on Wednesdays and maintain clean, well-lit reading spaces."
+      }
+    }
   },
   "dreamcalc": {
     "eye": "Swapna Shastra · Agni Purana",
@@ -6706,6 +7112,118 @@
     "searchPlaceholder": "Type what you saw (e.g. elephant, snake, river, temple)...",
     "resultH": "Dream Time & Karma Manifestation Period",
     "badDreamH": "Vedic Remedies for Nightmares (Dusswapna Shanti)",
-    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise."
+    "badDreamP": "If you have experienced an unsettling or negative dream, ancient texts prescribe washing your face with fresh water, chanting the Maha Mrityunjaya Mantra 11 times, and offering grain or water to birds at sunrise.",
+    "praharSub": "உங்கள் கனவு தோன்றிய இரவின் ஜாமத்தை (பிரஹரம்) தேர்ந்தெடுக்கவும்:",
+    "searchSub": "பிருஹத் சம்ஹிதை & அக்னி புராணத்தின்படி கனவு சின்னங்களின் பலன்கள்:",
+    "filterAll": "அனைத்து சின்னங்கள்",
+    "filterShubha": "🌟 சுபம் (நல்ல சகுனம்)",
+    "filterAshubha": "⚠️ எச்சரிக்கை (அசுபம்)",
+    "guidanceH": "வேத வழிகாட்டுதல்:",
+    "noMatch": "பொருத்தமான சின்னங்கள் இல்லை. \"water\", \"snake\", \"elephant\", \"temple\" எனத் தேடவும்.",
+    "rem1H": "நீர் சுத்தி:",
+    "rem1P": "எழுந்தவுடன் கை, முகம் கழுவி \"ஓம் நம சிவாய\" எனக் கூறவும்.",
+    "rem2H": "மகா மிருத்யுஞ்சய ஜபம்:",
+    "rem2P": "எதிர்மறை அதிர்வுகளை நீக்க 11 முறை மகா மிருத்யுஞ்சய மந்திரம் ஜபிக்கவும்.",
+    "rem3H": "காலை தானம் & அர்க்யம்:",
+    "rem3P": "பறவைகளுக்கு தானியம் இடவும் அல்லது சூரியனுக்கு நீர் (சூரிய அர்க்யம்) சமர்ப்பிக்கவும்.",
+    "prahars": {
+      "1": {
+        "num": "1-ம் பிரஹரம்",
+        "time": "மாலை 6:00 – இரவு 9:00",
+        "tag": "~1 ஆண்டில் பலிக்கும்",
+        "desc": "பகல் நேர எண்ணங்களின் பிரதிபலிப்பு; மெதுவான பலன்."
+      },
+      "2": {
+        "num": "2-ம் பிரஹரம்",
+        "time": "இரவு 9:00 – நள்ளிரவு 12:00",
+        "tag": "6–8 மாதங்களில் பலிக்கும்",
+        "desc": "உணர்வு ரீதியான செயல்பாடு; நடுத்தர கால பலன்."
+      },
+      "3": {
+        "num": "3-ம் பிரஹரம்",
+        "time": "நள்ளிரவு 12:00 – அதிகாலை 3:00",
+        "tag": "1–3 மாதங்களில் பலிக்கும்",
+        "desc": "ஆழ்ந்த சூட்சும தொடர்பு; துல்லியமான சகுனம்."
+      },
+      "4": {
+        "num": "4-ம் பிரஹரம் (பிரம்ம முகூர்த்தம்)",
+        "time": "அதிகாலை 3:00 – 6:00",
+        "tag": "10 நாட்கள் முதல் அதே நாளில் பலிக்கும்",
+        "desc": "தூய சத்துவ நேரம்; மிகத் துல்லியமான உடனடி பலன்."
+      }
+    },
+    "praharData": {
+      "1": {
+        "tag": "1st Prahar (6 PM – 9 PM)",
+        "title": "Manifestation Window: Within 1 Year",
+        "desc": "Occurs during the first watch of sleep. Governed heavily by the residue of daytime sensory impressions and digestion. Its prophetic fruition is gradual and takes roughly 1 full solar year to unfold."
+      },
+      "2": {
+        "tag": "2nd Prahar (9 PM – 12 Midnight)",
+        "title": "Manifestation Window: Within 6 to 8 Months",
+        "desc": "Occurs during deep nocturnal sleep. Reflects emotional clearing and medium-term psychological shifts. Ancient treatises state the omen typically materializes in 6 to 8 months."
+      },
+      "3": {
+        "tag": "3rd Prahar (12 Midnight – 3 AM)",
+        "title": "Manifestation Window: Within 1 to 3 Months",
+        "desc": "Occurs when the nervous system enters profound stillness. Astral communications and ancestral impressions are vivid. The dream manifests in approximately 1 to 3 months."
+      },
+      "4": {
+        "tag": "4th Prahar / Brahma Muhurta (3 AM – 6 AM)",
+        "title": "Manifestation Window: Within 10 Days to Same Day",
+        "desc": "Occurs during the sacred ambrosial hours before dawn. The mind is purified by Sattva Guna and divine inspiration. Sages consider dreams in this window highly accurate, unfolding within 10 days to the very same day."
+      }
+    }
+  },
+  "gochar": {
+    "signLabel": "சந்திர ராசி / லக்னம்"
+  },
+  "varshphal": {
+    "yearLabel": "வருஷபல ஆண்டு"
+  },
+  "face": {
+    "eye": "சாமுத்ரிக சாஸ்திரம்",
+    "title": "வேத முக வாசிப்பு & ஜாதகம்",
+    "lede": "நேரடி செல்ஃபி எடுக்கவும் அல்லது புகைப்படத்தை பதிவேற்றவும். பண்டைய சாமுத்ரிக சாஸ்திரம் உங்கள் முக அமைப்பை ஆராய்ந்து ஆளும் கிரகம் மற்றும் பலன்களை வெளிப்படுத்துகிறது.",
+    "startCam": "கேமராவைத் திற",
+    "captureBtn": "செல்ஃபி எடு",
+    "uploadBtn": "புகைப்படம் பதிவேற்று",
+    "flipCam": "கேமராவை மாற்று",
+    "newScan": "புதிய செல்ஃபி",
+    "hint": "சீரான வெளிச்சத்தில் கேமராவை நேராகப் பார்க்கவும்.",
+    "hintAlign": "நல்ல வெளிச்சத்தில் உங்கள் முகத்தை தங்க வட்டத்திற்குள் வைக்கவும்.",
+    "camError": "கேமராவைத் திறக்க முடியவில்லை. கேமரா அனுமதி வழங்கவும் அல்லது புகைப்படத்தை பதிவேற்றவும்.",
+    "specsTitle": "கண்ணாடி அணிந்திருப்பது கண்டறியப்பட்டது",
+    "gogglesTitle": "சன்கிளாஸ் அணிந்திருப்பது கண்டறியப்பட்டது",
+    "specsMsg": "மிகத் துல்லியமான வேத சாமுத்ரிக சாஸ்திர வாசிப்புக்கு, கண்கள், புருவங்கள் மற்றும் மூக்கு தெளிவாகத் தெரியும்படி உங்கள் கண்ணாடியை அகற்றவும்.",
+    "retakeBtn": "மீண்டும் எடு",
+    "ignoreBtn": "தொடரவும்",
+    "analyzingTitle": "முக லட்சணங்கள் ஆய்வு செய்யப்படுகின்றன…",
+    "analyzingSub": "திரிசூல முக மண்டலங்கள், நெற்றி விரிவு, கண் அமைப்பு மற்றும் தாடை வடிவம் மதிப்பீடு செய்யப்படுகிறது.",
+    "savedCloud": "சுயவிவரத்தில் சேமிக்கப்பட்டது",
+    "rulingGraha": "ஆளும் கிரக அமைப்பு",
+    "zonesHeading": "திரி-பூமி முக மண்டல ஆய்வு",
+    "upperZone": "மேல் மண்டலம் (பாக்கியம்)",
+    "upperSub": "நெற்றி & புருவங்கள் · குரு & சூரியன்",
+    "midZone": "நடு மண்டலம் (கர்மம்)",
+    "midSub": "கண்கள், மூக்கு & கன்னங்கள் · சுக்கிரன் & செவ்வாய்",
+    "lowerZone": "கீழ் மண்டலம் (தைரியம்)",
+    "lowerSub": "உதடுகள், நாடி & தாடை · சனி & புதன்",
+    "predHeading": "ஜோதிட வாழ்க்கை பலன்கள்",
+    "predCareer": "தொழில் & பணி",
+    "predWealth": "செல்வம் & அதிர்ஷ்டம்",
+    "predLove": "காதல் & உறவுகள்",
+    "predNature": "ஆன்ம பலம் & குணம்",
+    "remediesHeading": "தனிப்பயனாக்கப்பட்ட வேத பரிகாரங்கள்",
+    "luckyGem": "அதிர்ஷ்ட ரத்தினம்",
+    "luckyRudraksha": "புனித ருத்ராட்சம்",
+    "luckyColor": "அதிர்ஷ்ட நிறங்கள்",
+    "luckyDay": "அதிர்ஷ்ட நாள்",
+    "prescribedMantra": "பரிந்துரைக்கப்பட்ட வேத கிரக மந்திரம்",
+    "aboutTitle": "சாமுத்ரிக சாஸ்திரம் பற்றி",
+    "aboutP1": "சாமுத்ரிக சாஸ்திரம் என்பது உடல் மற்றும் முக அமைப்பை ஆராயும் பண்டைய வேதக் கலையாகும்; உடல் அமைப்பு பிறப்பின் நுட்பமான கிரக ஆற்றல்களையும் கர்மத்தையும் பிரதிபலிக்கிறது.",
+    "aboutP2": "நெற்றி (விதி மற்றும் அறிவு), கண்கள் (உயிர் சக்தி மற்றும் உள்ளுணர்வு), மூக்கு (வளம்) மற்றும் தாடை (உறுதி) ஆகியவற்றை ஆராய்வதன் மூலம் துல்லியமான பிறந்த நேரம் இல்லாமலேயே உங்கள் ஆளும் கிரகத்தை அறியலாம்.",
+    "readyTitle": "ஸ்கேன் செய்ய தயார்",
+    "readySub": "தொடங்க \"கேமராவைத் திற\" அல்லது \"புகைப்படம் பதிவேற்று\" என்பதைக் கிளிக் செய்யவும்"
   }
 }

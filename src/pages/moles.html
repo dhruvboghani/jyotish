@@ -21,7 +21,7 @@
 
     <!-- Quick Search Input -->
     <div class="mole-search-wrap">
-      <input type="text" id="mole-search" class="input-field" placeholder="Search body spot (e.g. right cheek, forehead, chin, palm, neck)..." aria-label="Search mole position" />
+      <input type="text" id="mole-search" class="input-field" placeholder="{{moles.searchPlaceholder}}" aria-label="{{moles.searchAria}}" />
     </div>
 
     <!-- Region Category Tabs -->
@@ -29,8 +29,8 @@
       <button type="button" class="tab-btn active" data-tab="face" role="tab">{{moles.tabFace}}</button>
       <button type="button" class="tab-btn" data-tab="torso" role="tab">{{moles.tabBody}}</button>
       <button type="button" class="tab-btn" data-tab="arms" role="tab">{{moles.tabArms}}</button>
-      <button type="button" class="tab-btn" data-tab="back" role="tab">Back & Legs</button>
-      <button type="button" class="tab-btn" data-tab="camera" role="tab">📷 Photo Detector</button>
+      <button type="button" class="tab-btn" data-tab="back" role="tab">{{moles.tabBack}}</button>
+      <button type="button" class="tab-btn" data-tab="camera" role="tab">{{moles.tabCamera}}</button>
     </div>
   </section>
 
@@ -72,17 +72,17 @@
       
       <div class="camera-actions">
         <button type="button" class="btn-cta" id="btn-mole-cam">
-          <svg class="ui" viewBox="0 0 24 24"><use href="#i-image"/></svg> Open Camera
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-image"/></svg> {{moles.openCam}}
         </button>
         <button type="button" class="btn-cta" id="btn-mole-snap" style="display:none">
-          <svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> Scan Spots
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-star"/></svg> {{moles.scanSpots}}
         </button>
         <label class="btn-line">
           <input type="file" id="mole-file-input" accept="image/*" style="display:none" />
-          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> Upload Photo
+          <svg class="ui" viewBox="0 0 24 24"><use href="#i-download"/></svg> {{moles.uploadPhoto}}
         </label>
       </div>
-      <p class="muted small">High-contrast skin scanning analyzes dark pigmentation marks directly on your device.</p>
+      <p class="muted small">{{moles.camHint}}</p>
     </div>
   </section>
 
@@ -90,27 +90,27 @@
   <section class="card mole-result-card" id="mole-result-card">
     <div class="result-header">
       <div class="spot-polarity-badge" id="res-polarity-badge">
-        <span class="tag gold" id="res-polarity-tag">Auspicious (Shubha)</span>
+        <span class="tag gold" id="res-polarity-tag">{{moles.defaultTag}}</span>
       </div>
-      <h2 id="res-spot-title">Select a Mole Location</h2>
-      <p class="lede" id="res-spot-summary">Tap on any hotspot on the diagram above or select from the list.</p>
+      <h2 id="res-spot-title">{{moles.defaultTitle}}</h2>
+      <p class="lede" id="res-spot-summary">{{moles.defaultSummary}}</p>
     </div>
 
     <div class="result-grid">
       <div class="card sub-card">
-        <h3>Vedic Astrological Prediction</h3>
+        <h3>{{moles.destinyH}}</h3>
         <p id="res-spot-destiny" class="prose-text">—</p>
       </div>
       <div class="card sub-card">
-        <h3>Wealth & Career Influence</h3>
+        <h3>{{moles.wealthH}}</h3>
         <p id="res-spot-wealth" class="prose-text">—</p>
       </div>
       <div class="card sub-card">
-        <h3>Relationship & Temperament</h3>
+        <h3>{{moles.natureH}}</h3>
         <p id="res-spot-nature" class="prose-text">—</p>
       </div>
       <div class="card sub-card">
-        <h3>Vedic Harmony & Remedies</h3>
+        <h3>{{moles.remedyH}}</h3>
         <p id="res-spot-remedy" class="prose-text">—</p>
       </div>
     </div>
@@ -118,12 +118,12 @@
 
   <!-- Educational Samudrika Card -->
   <section class="card prose">
-    <h2>Principles of Til Vichar Shastra (Vedic Mole Astrology)</h2>
-    <p>According to ancient texts including Maharishi Parashara's Samudrika treatises, *Brihat Samhita*, and *Agni Purana*:</p>
+    <h2>{{moles.aboutH}}</h2>
+    <p>{{moles.aboutIntro}}</p>
     <ul>
-      <li><strong>Side Polarity:</strong> Right-side moles for men indicate solar (*Pingala*), auspicious and action-oriented results; left-side moles for women indicate lunar (*Ida*), receptive and fortunate fortunes.</li>
-      <li><strong>Color Significance:</strong> Honey-brown or red moles (*Rakta Til*) are governed by Mars and Jupiter and signify high authority and unexpected inheritance. Jet-black moles (*Krishna Til*) are ruled by Saturn and Ketu, signifying hard work, discipline, and karmic debts.</li>
-      <li><strong>Shape & Elevation:</strong> Raised, round, shiny moles are considered pure and bestow full blessings. Rough, irregular, or hair-covered moles require careful attention and spiritual balance.</li>
+      <li><strong>{{moles.aboutL1H}}</strong> {{moles.aboutL1P}}</li>
+      <li><strong>{{moles.aboutL2H}}</strong> {{moles.aboutL2P}}</li>
+      <li><strong>{{moles.aboutL3H}}</strong> {{moles.aboutL3P}}</li>
     </ul>
   </section>
 </main>

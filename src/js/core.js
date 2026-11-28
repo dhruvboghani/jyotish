@@ -59,18 +59,47 @@ const gimg = (name, cls = 'gimg') => g(name, cls);
 const rg = (s, cls = 'rg') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#rs-${s}"/></svg>`;
 const ic = (id, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#${id}"/></svg>`;
 const toneIcon = tn => tn === 'good' ? ic('i-check') : tn === 'bad' ? ic('i-alert') : ic('i-info');
-async function bindSavedKundali(selId, onFill) {
+async function bindSavedKundali(selId, onFill, opts = {}) {
   const sel = $(selId); if (!sel) return;
-  if (!session) { sel.hidden = true; return; }
-  try {
-    const rows = await loadMyKundalis();
-    if (!rows || !rows.length) { sel.hidden = true; return; }
-    sel.hidden = false;
-    sel.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + rows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
-    sel.addEventListener('change', () => {
-      if (sel.value !== '') onFill(rows[+sel.value].birth);
-    });
-  } catch (e) { sel.hidden = true; }
+  const sync = async () => {
+    if (!session) {
+      sel._rows = [];
+      sel.innerHTML = '';
+      sel.hidden = true;
+      return;
+    }
+    try {
+      const rows = await loadMyKundalis();
+      sel._rows = rows || [];
+      if (!rows || !rows.length) {
+        sel.innerHTML = '';
+        sel.hidden = true;
+        const fullName = session.user && session.user.user_metadata && session.user.user_metadata.full_name;
+        if (fullName && opts.onNameOnly) opts.onNameOnly(fullName);
+        return;
+      }
+      sel.hidden = false;
+      sel.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + rows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
+      if (!sel.dataset.bound) {
+        sel.dataset.bound = '1';
+        sel.addEventListener('change', () => {
+          if (sel.value !== '' && sel._rows && sel._rows[+sel.value]) {
+            const r = sel._rows[+sel.value];
+            onFill(r.birth, r);
+          }
+        });
+      }
+      if (opts.autoFill !== false && (!opts.shouldAutoFill || opts.shouldAutoFill())) {
+        const selfIdx = rows.findIndex(r => r.relation === 'self');
+        const idx = selfIdx >= 0 ? selfIdx : 0;
+        sel.value = String(idx);
+        onFill(rows[idx].birth, rows[idx]);
+      }
+    } catch (e) { sel.hidden = true; }
+  };
+  readyHooks.push(sync);
+  authHooks.push(sync);
+  if (session) sync();
 }
 const starRow = n => `<span class="stars" aria-label="${n}/5">${'★'.repeat(n)}<i>${'★'.repeat(5 - n)}</i></span>`;
 const syllables = (n, pada) => L.names.syll[n].map((s, i) => i === pada - 1 ? `<b style="color:var(--gold-deep)">${esc(s)}</b>` : esc(s)).join(', ');
@@ -1434,6 +1463,7 @@ async function boot() {
     if (session && /type=(signup|magiclink|email)/.test(INITIAL_HASH)) setTimeout(() => toast(t('auth.confirmed')), 300);
     sb.auth.onAuthStateChange((event, s) => {
       const was = !!session; session = s;
+      if (event === 'SIGNED_OUT' || !s) store.del('kg-saved-cache');
       renderAuthSlot(); fitHeader(); checkAdmin().then(() => { renderAuthSlot(); fitHeader(); });
       if (event === 'PASSWORD_RECOVERY') newPasswordModal();
       if (event === 'SIGNED_IN' && !was && s && s.user) { const isNew = Date.now() - new Date(s.user.created_at).getTime() < 3 * 60000; track(isNew ? 'signup' : 'login', { via: (s.user.app_metadata && s.user.app_metadata.provider) || 'email' }); }

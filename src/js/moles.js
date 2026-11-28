@@ -321,6 +321,20 @@
     }
   ];
 
+  const I18N_MOLES = (window.I18N && window.I18N.moles) || {};
+  const SPOTS = MOLE_DATA.map(m => {
+    const ov = I18N_MOLES.spots && I18N_MOLES.spots[m.id];
+    if (!ov) return m;
+    return {
+      ...m,
+      ...ov,
+      genderRules: {
+        male: { ...m.genderRules.male, ...(ov.male || {}) },
+        female: { ...m.genderRules.female, ...(ov.female || {}) }
+      }
+    };
+  });
+
   let currentGender = 'male';
   let currentTab = 'face';
   let activeSpotId = 'forehead_center';
@@ -386,14 +400,14 @@
     spotsList.innerHTML = '';
 
     const q = query.trim().toLowerCase();
-    const filtered = MOLE_DATA.filter(m => {
+    const filtered = SPOTS.filter(m => {
       const matchesTab = (currentTab === 'camera') ? true : (m.cat === currentTab);
       const matchesQuery = !q || m.title.toLowerCase().includes(q) || m.destiny.toLowerCase().includes(q);
       return matchesTab && matchesQuery;
     });
 
     if (filtered.length === 0) {
-      spotsList.innerHTML = '<p class="muted small p-2">No matching spots found. Try searching another term.</p>';
+      spotsList.innerHTML = `<p class="muted small p-2">${I18N_MOLES.noMatch || 'No matching spots found. Try searching another term.'}</p>`;
       return;
     }
 
@@ -414,7 +428,7 @@
 
   function selectSpot(id) {
     activeSpotId = id;
-    const m = MOLE_DATA.find(item => item.id === id);
+    const m = SPOTS.find(item => item.id === id);
     if (!m) return;
 
     // Highlight active hotspot in SVG

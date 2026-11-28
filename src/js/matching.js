@@ -6,12 +6,19 @@ const people = {};
 let myRows = [];
 async function fillPickers() {
   const sels = $$('.pick-saved');
-  if (!session) { sels.forEach(s => { s.hidden = true; }); return; }
+  if (!session) { sels.forEach(s => { s.innerHTML = ''; s.hidden = true; }); return; }
   myRows = await loadMyKundalis();
   sels.forEach(s => {
     s.hidden = !myRows.length;
     s.innerHTML = `<option value="">${esc(t('mt.pick'))}</option>` + myRows.map((r, i) => `<option value="${i}">${esc(r.birth.name || t('res.defaultName'))}${r.relation ? ' · ' + esc(t('rel.' + r.relation)) : ''} · ${esc(birthLine(r.birth))}</option>`).join('');
   });
+  if (myRows.length && !$('#b-date').value) {
+    const selfIdx = myRows.findIndex(r => r.relation === 'self');
+    const idx = selfIdx >= 0 ? selfIdx : 0;
+    const bSel = sels.find(s => s.dataset.p === 'b');
+    if (bSel) bSel.value = String(idx);
+    fillPerson('b', myRows[idx].birth);
+  }
 }
 function fillPerson(p, b) {
   $('#' + p + '-name').value = b.name || '';
@@ -128,8 +135,8 @@ $('#mr-go').addEventListener('click', async () => {
       <span class="tag ${x.band === 'strong' ? 'good' : x.band === 'care' ? 'bad' : 'warn'}">${esc(t('mr.compat', { n: x.compat }))}</span></li>`).join('')}</ol><p class="muted small">${esc(t('mr.note'))}</p>`;
   } catch (e) { box.innerHTML = `<p class="err">${esc(t('err.server'))}</p>`; }
 });
-readyHooks.push(() => fillRank());
-authHooks.push(() => fillRank());
+readyHooks.push(() => { fillPickers(); fillRank(); });
+authHooks.push(() => { fillPickers(); fillRank(); });
 
 // ---------- Couple's month ahead (members) ----------
 function monthHtml(M, r) {
