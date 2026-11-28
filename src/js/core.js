@@ -1412,7 +1412,7 @@ function socialPanel(body) {
       `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
       `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
       '',
-      `Keywords: ${cur[2]}, ${cur[1]}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
+      `${cur[2]}, ${cur[1]}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
       '',
       tags
     ].join('\n');
