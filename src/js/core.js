@@ -715,6 +715,13 @@ function socialPanel(body) {
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
     <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
+    <section class="card soc-reel soc-combo" data-reel="combo">
+      <h4>✨ All-in-One Daily Reel (Special Day + Rashifal 12 Signs + Panchang)</h4>
+      <p class="muted small">Merges today's Special Day (events, best muhurat &amp; precautions), all 12 Rashifal signs, and Daily Panchang into one ~30s reel.</p>
+      <div class="field" style="max-width:220px"><label for="soc-combo-lang">Language</label><select id="soc-combo-lang">${SOC_LANGS.map(([c, n]) => `<option value="${c}"${c === 'hi' ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div>
+      <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts"><button type="button" class="btn-cta" data-make="combo"${reelOk ? '' : ' disabled'}>${ic('i-image')}Make All-in-One Daily Reel (MP4)</button></div>
+    </section>
     <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.yt.h'))}</h3><p class="muted small">${esc(t('socad.yt.lede'))}</p>
     <section class="card soc-reel soc-yt" data-reel="yt">
       <div class="soc-row">
@@ -812,7 +819,7 @@ function socialPanel(body) {
     </section>
     <section class="card soc-topics" id="soc-topics">
       <h4>🎬 All 52 Reel Topics &amp; Voiceover Studio</h4>
-      <p class="muted small">Pick any of the 52 topics across all Grahavani modules to preview its Hindi voiceover script or copy the command to render the animated light-theme MP4 with TTS.</p>
+      <p class="muted small">Pick any of the 52 topics across all Grahavani modules to generate an animated light-theme MP4 reel right here, preview Hindi voiceover, or copy the CLI TTS command.</p>
       <div class="soc-row">
         <div class="field"><label for="soc-top-cat">Category</label><select id="soc-top-cat">
           <option value="all">All 52 Topics</option>
@@ -825,8 +832,10 @@ function socialPanel(body) {
         </select></div>
         <div class="field"><label for="soc-top-id">Topic</label><select id="soc-top-id"></select></div>
       </div>
-      <div class="soc-row-btns" style="margin-top:8px">
-        <button type="button" class="btn-line" id="soc-top-cmd">${ic('i-doc')}Copy CLI: <code>node scripts/make-reel.js --topic …</code></button>
+      <div class="soc-vid" id="soc-top-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
+      <div class="soc-acts" id="soc-top-acts">
+        <button type="button" class="btn-cta" id="soc-top-make"${reelOk ? '' : ' disabled'}>${ic('i-image')}Make Reel (MP4)</button>
+        <button type="button" class="btn-line" id="soc-top-cmd">${ic('i-doc')}Copy CLI</button>
         <button type="button" class="btn-line soc-speak" id="soc-top-speak">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
       </div>
       <textarea class="soc-cap" rows="4" readonly id="soc-top-script" style="margin-top:10px"></textarea>
@@ -1015,14 +1024,16 @@ function socialPanel(body) {
         ytHold = Math.min(18, Math.max(1.2, Math.round(rawHold * 10) / 10));
       }
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
+      const cLang = ($('#soc-combo-lang') && $('#soc-combo-lang').value) || 'hi';
+      const comboCards = [card('day', cLang), card('day2', cLang), ...(muh3 ? [card('day3', cLang)] : []), card('rashifal', cLang), card('rashifal2', cLang), card('panchang', cLang), card('panchang2', cLang)];
       const res = await window.GVReel.make({
-        cards: kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
+        cards: kind === 'combo' ? comboCards : kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'combo' ? (muh3 ? 3 : 2) : kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'combo' ? 2.6 : kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'combo' ? cLang : kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
       if (music && res.audio === 'none') toast(t('socad.noAudio'));
       else if (res.audio === 'opus') toast(t('socad.opusAudio'));
-      const url = URL.createObjectURL(blob), name = kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.lang === 'all' ? 'all-langs' : st.yt.lang}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : kind === 'bhagyank' ? `grahavani-bhagyank-${st.nu.b}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
+      const url = URL.createObjectURL(blob), name = kind === 'combo' ? `grahavani-daily-all-${cLang}-${st.date}.mp4` : kind === 'yt' ? `grahavani-yt-short-${st.yt.theme}-${st.yt.lang === 'all' ? 'all-langs' : st.yt.lang}-${st.yt.dur || 60}s-${st.date}.mp4` : kind === 'wish' ? `grahavani-${st.wish.id}-wishes-${st.wish.date}.mp4` : kind === 'nuall' ? `grahavani-all-mulank-${st.nu.y}.mp4` : kind === 'numonth' ? `grahavani-mulank-month-${st.nu.ym}.mp4` : kind === 'mulank' ? `grahavani-mulank-${st.nu.n}-${st.nu.y}.mp4` : kind === 'bhagyank' ? `grahavani-bhagyank-${st.nu.b}-${st.nu.y}.mp4` : `grahavani-${kind}-reel-${st.date}.mp4`;
       if (box.dataset.url) URL.revokeObjectURL(box.dataset.url);
       box.dataset.url = url;
       box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
@@ -1159,6 +1170,11 @@ function socialPanel(body) {
     ['puja-vrat', 'Spiritual & Utility', 'Puja Samagri & Vrat Katha Guides', 'त्योहार के अनुसार पूजा सामग्री लिस्ट, विधि और व्रत कथा गाइड।']
   ];
   const topCat = $('#soc-top-cat'), topId = $('#soc-top-id'), topScript = $('#soc-top-script');
+  const resetTopReel = () => {
+    const v = $('#soc-top-vid'), a = $('#soc-top-acts');
+    if (v) { if (v.dataset.url) { URL.revokeObjectURL(v.dataset.url); delete v.dataset.url; } v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; }
+    if (a) a.querySelectorAll('.soc-dl, .soc-share').forEach(x => x.remove());
+  };
   const syncTopics = () => {
     if (!topCat || !topId) return;
     const cat = topCat.value;
@@ -1166,12 +1182,93 @@ function socialPanel(body) {
     topId.innerHTML = list.map(([id, c, name]) => `<option value="${id}">${esc(name)} (${esc(c)})</option>`).join('');
     const cur = REEL_TOPICS.find(x => x[0] === topId.value) || list[0];
     if (topScript && cur) topScript.value = cur[3];
+    resetTopReel();
+  };
+  const topicCardBlobs = async (topic) => {
+    const W = 1080, H = 1920, MX = 72;
+    const [sy, sm, sd] = st.date.split('-').map(Number);
+    const selDt = new Date(Date.UTC(sy, sm - 1, sd));
+    const rHi = ['मेष', 'वृषभ', 'मिथुन', 'कर्क', 'सिंह', 'कन्या', 'तुला', 'वृश्चिक', 'धनु', 'मकर', 'कुंभ', 'मीन'];
+    const chSign = (() => {
+      const jd = Date.UTC(sy, sm - 1, sd, 0, 30) / 86400000 + 2440587.5;
+      if (window.Jyotish && window.Jyotish.transit) return (Math.floor(window.Jyotish.transit(jd).lon.Moon / 30) + 5) % 12;
+      const d = jd - 2451545.0, L0 = (218.316 + 13.176396 * d) % 360, M = (134.963 + 13.064993 * d) * Math.PI / 180;
+      const ayan = 23.85 + 0.01397 * (d / 365.25), sid = ((L0 + 6.289 * Math.sin(M) - ayan) % 360 + 360) % 360;
+      return (Math.floor(sid / 30) + 5) % 12;
+    })();
+    const wdHi = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'][selDt.getUTCDay()];
+    const EXTRA = {
+      'chandrashtama': [['सावधानी · ' + rHi[chSign], 'बड़े वित्तीय निर्णय और उधार आज टालें'], ['संवाद नियम', 'ऑफिस व परिवार में तीखी बहस से बचें'], ['सरल उपाय', 'ॐ नमः शिवाय 11 बार जपें और जल दान करें']],
+      'mesha-gochar': [['फायदे (SHUBHA)', 'करियर में पदोन्नति, रुका धन व वरिष्ठों का सहयोग'], ['नुकसान (CAUTION)', 'कार्यस्थल पर बहस, दिखावटी खर्च और तनाव से बचें'], ['वैदिक उपाय', 'मंगलवार हनुमान चालीसा व शनिवार तिल तेल दीपक']],
+      'daily-rashifal': [['शुभ राशि संकेत', 'करियर और रुके कार्यों में आज नई गति मिलेगी'], ['सतर्क राशि', 'चंद्राष्टम (' + rHi[chSign] + ') आज जोखिम व विवाद टालें'], ['लकी टिप', 'प्रातः सूर्य को अर्घ्य दें व शुभ रंग धारण करें']],
+      'daily-panchang': [['अभिजीत मुहूर्त', 'दोपहर का सबसे शुभ समय—नए कार्य शुरू करें'], ['राहुकाल अलर्ट', 'अशुभ समय में यात्रा और बड़ा निवेश टालें'], ['आज का दिन (' + wdHi + ')', st.date + ' · शहर अनुसार सटीक पंचांग देखें']],
+      'special-day': [['आज का विशेष योग', st.date + ' (' + wdHi + ') — पूजा और संकल्प का उत्तम दिन'], ['शुभ कार्य', 'दान, मंत्र जप और इष्टदेव स्मरण से दोगुना फल'], ['सावधानी', 'राहुकाल और अशुभ वेला में नए सौदे टालें']],
+      'rahu-kaal': [['राहुकाल (AVOID)', 'नया व्यापार, सौदा और लंबी यात्रा इस समय न करें'], ['अभिजीत मुहूर्त (BEST)', 'महत्वपूर्ण हस्ताक्षर और शुभ शुरुआत के लिए श्रेष्ठ'], ['शहर अनुसार', st.city + ' का सटीक समय ग्रहवाणी पर देखें']],
+      'hora-time': [['गुरु व बुध होरा', 'निवेश, पढ़ाई, इंटरव्यू और व्यापार के लिए श्रेष्ठ'], ['शुक्र होरा', 'कला, खरीदारी और रिश्तों की बात के लिए उत्तम'], ['शनि व मंगल होरा', 'उधार देने या बहस करने से बचें']],
+      'choghadiya': [['अमृत · शुभ · लाभ', 'यात्रा, दुकान खोलने और पूजा के लिए सर्वोत्तम'], ['चर चौघड़िया', 'गतिशील कार्यों व सफर की शुरुआत के लिए ठीक'], ['रोग · काल · उद्वेग', 'अशुभ चौघड़िया में महत्वपूर्ण काम टालें']],
+      'signature-vastu': [['1. उर्ध्व गति (15°–25°)', 'हस्ताक्षर हमेशा ऊपर की ओर रखें—नीचे न झुकाएं'], ['2. नाम न काटें', 'वापस काटती रेखा आत्म-संदेह व बाधा पैदा करती है'], ['3. दो कुबेर बिंदु', 'साफ अंडरलाइन के नीचे दो बिंदु धन स्थिर रखते हैं']],
+      'palm-lines': [['हृदय रेखा', 'गुरु पर्वत तक जाए तो सच्चा प्रेम और निष्ठा'], ['मस्तिष्क रेखा', 'सीधी व गहरी रेखा तेज बुद्धि और निर्णय क्षमता'], ['भाग्य रेखा', 'शनि पर्वत तक जाए तो स्व-निर्मित धन व सम्मान']],
+      'dream-calc': [['चौथा प्रहर (3–6 AM)', 'ब्रह्म मुहूर्त का सपना 1 से 10 दिन में सच होता है'], ['1–3 प्रहर नियम', 'रात के पहले हिस्से के सपने 1–12 माह में फलित'], ['दुःस्वप्न शांति', 'जागते ही हाथ-मुंह धोकर 11 बार महामृत्युंजय जपें']]
+    };
+    const points = EXTRA[topic[0]] || [
+      ['1. मुख्य जानकारी', topic[3]],
+      ['2. क्या ध्यान रखें', 'दिनांक: ' + st.date + ' (' + wdHi + ') · शहर: ' + st.city],
+      ['3. ग्रहवाणी टूल', 'पूरी निःशुल्क रिपोर्ट अभी grahavani.dhruvboghani.com पर देखें']
+    ];
+    const drawFrame = (withRows) => new Promise(resolve => {
+      const c = document.createElement('canvas'); c.width = W; c.height = H;
+      const x = c.getContext('2d');
+      x.fillStyle = '#FBF7EF'; x.fillRect(0, 0, W, H);
+      x.fillStyle = '#FCEBDA'; x.beginPath(); x.arc(W - 40, 40, 170, 0, Math.PI * 2); x.fill();
+      x.fillStyle = '#17172B'; x.font = '700 30px Hind, sans-serif'; x.fillText('GRAHAVANI', MX, 124);
+      x.strokeStyle = '#E0701B'; x.lineWidth = 2.5; x.fillStyle = '#FFFFFF';
+      x.beginPath(); x.roundRect(W - MX - 160, 84, 160, 58, 29); x.fill(); x.stroke();
+      x.fillStyle = '#E0701B'; x.font = '700 28px Hind, sans-serif'; x.textAlign = 'center'; x.fillText('हिन्दी', W - MX - 80, 122); x.textAlign = 'left';
+      x.fillStyle = '#E0701B'; x.font = '700 28px Hind, sans-serif'; x.fillText(topic[1].toUpperCase() + ' · ' + st.date, MX, 224);
+      x.fillStyle = '#17172B'; x.font = '700 60px Hind, sans-serif';
+      const words = topic[2].split(' '), lines = []; let curL = '';
+      for (const w of words) { const test = curL ? curL + ' ' + w : w; if (x.measureText(test).width > W - 2 * MX && curL) { lines.push(curL); curL = w; } else curL = test; }
+      if (curL) lines.push(curL);
+      let y = 310;
+      lines.slice(0, 2).forEach(l => { x.fillText(l, MX, y); y += 78; });
+      x.fillStyle = '#E0701B'; x.beginPath(); x.roundRect(MX, y - 36, 110, 10, 5); x.fill(); y += 22;
+      x.fillStyle = '#FFFFFF'; x.shadowColor = 'rgba(90,74,42,0.12)'; x.shadowBlur = 20; x.shadowOffsetY = 6;
+      const cy = y + 20, cw = W - 2 * (MX - 20), ch = 960;
+      x.beginPath(); x.roundRect(MX - 20, cy, cw, ch, 36); x.fill();
+      x.shadowColor = 'transparent';
+      if (withRows) {
+        const tones = ['#23855A', '#D0342C', '#E0701B'], bgs = ['#E4F3EC', '#FBE3E1', '#FCEBDA'];
+        points.forEach(([ptTag, ptText], idx) => {
+          const ry = cy + 36 + idx * 300;
+          if (idx > 0) { x.strokeStyle = '#EEE6D8'; x.lineWidth = 2; x.beginPath(); x.moveTo(MX + 16, ry - 18); x.lineTo(W - MX - 16, ry - 18); x.stroke(); }
+          x.fillStyle = bgs[idx % 3]; x.beginPath(); x.arc(MX + 56, ry + 115, 36, 0, Math.PI * 2); x.fill();
+          x.fillStyle = tones[idx % 3]; x.font = '700 32px Hind, sans-serif'; x.textAlign = 'center'; x.fillText(String(idx + 1), MX + 56, ry + 126); x.textAlign = 'left';
+          x.fillStyle = tones[idx % 3]; x.font = '700 28px Hind, sans-serif'; x.fillText(ptTag, MX + 116, ry + 58);
+          x.fillStyle = '#17172B'; x.font = '600 36px Hind, sans-serif';
+          const pWords = ptText.split(' '), pLines = []; let pl = '';
+          for (const w of pWords) { const t2 = pl ? pl + ' ' + w : w; if (x.measureText(t2).width > cw - 170 && pl) { pLines.push(pl); pl = w; } else pl = t2; }
+          if (pl) pLines.push(pl);
+          let py = ry + 112;
+          pLines.slice(0, 3).forEach(l => { x.fillText(l, MX + 116, py); py += 50; });
+        });
+      }
+      x.fillStyle = '#E0701B'; x.font = '700 38px Hind, sans-serif'; x.textAlign = 'center';
+      x.fillText('grahavani.dhruvboghani.com', W / 2, H - 132);
+      x.fillStyle = '#6E6A80'; x.font = '500 28px Hind, sans-serif';
+      x.fillText('Instagram @grahavani_jyotish', W / 2, H - 84);
+      x.textAlign = 'left';
+      c.toBlob(b => resolve(b), 'image/png');
+    });
+    const [baseBlob, fullBlob] = await Promise.all([drawFrame(false), drawFrame(true)]);
+    const baseUrl = URL.createObjectURL(baseBlob), fullUrl = URL.createObjectURL(fullBlob);
+    return { baseUrl, fullUrl };
   };
   if (topCat && topId) {
     topCat.addEventListener('change', syncTopics);
     topId.addEventListener('change', () => {
       const cur = REEL_TOPICS.find(x => x[0] === topId.value);
       if (topScript && cur) topScript.value = cur[3];
+      resetTopReel();
     });
     $('#soc-top-cmd').addEventListener('click', async () => {
       const cmd = `node scripts/make-reel.js --topic ${topId.value}`;
@@ -1181,51 +1278,110 @@ function socialPanel(body) {
     $('#soc-top-speak').addEventListener('click', e => {
       if (topScript) speakHindiFemale(topScript.value, e.currentTarget);
     });
+    const topMake = $('#soc-top-make');
+    if (topMake) topMake.addEventListener('click', async () => {
+      if (!window.GVReel) return toast('Reel maker loading…');
+      const cur = REEL_TOPICS.find(x => x[0] === topId.value); if (!cur) return;
+      const box = $('#soc-top-vid'), acts = $('#soc-top-acts');
+      topMake.disabled = true; resetTopReel();
+      box.innerHTML = `<div class="soc-prog"><i style="width:0%"></i></div><p class="muted small" data-ptext>${esc(t('socad.loading'))}</p>`;
+      try {
+        const music = st.music && st.music !== 'none' ? '/music/' + st.music : null;
+        const { baseUrl, fullUrl } = await topicCardBlobs(cur);
+        const TOPIC_CARDS = {
+          'daily-rashifal': [card('rashifal', 'hi'), card('rashifal2', 'hi')],
+          'daily-panchang': [card('panchang', 'hi'), card('panchang2', 'hi')],
+          'special-day': [card('day', 'hi'), card('day2', 'hi'), ...(muh3 ? [card('day3', 'hi')] : [])],
+          'weekly-rashifal': [card('week', 'hi'), card('week2', 'hi')],
+          'weekly-festivals': [card('fest', 'hi'), card('fest2', 'hi')],
+          'mulank-bhagyank': [ncard('mulank', 'hi'), ncard('mulank2', 'hi')],
+          'monthly-mulank': [ncard('numonth', 'hi'), ncard('numonth2', 'hi')],
+          'sade-sati': [ycard('transit', 'hi'), ycard('transit2', 'hi')],
+          'vakri-margi': [ycard('transit', 'hi'), ycard('transit2', 'hi')],
+          'graha-yuti': [ycard('transit', 'hi'), ycard('transit2', 'hi')],
+          'kundali-match': [ycard('match', 'hi'), ycard('match2', 'hi')],
+          'rashi-ratna': [ycard('gem', 'hi'), ycard('gem2', 'hi')],
+          'muhurat-guides': [ycard('muhurta', 'hi'), ycard('muhurta2', 'hi')],
+          'prashna': [ycard('prashna', 'hi'), ycard('prashna2', 'hi')],
+          'ekadashi': [ycard('vrat', 'hi'), ycard('vrat2', 'hi')],
+          'puja-vrat': [ycard('vrat', 'hi'), ycard('vrat2', 'hi')],
+          'baby-names': [ycard('names', 'hi'), ycard('names2', 'hi')],
+          'dream-calc': [ycard('dream', 'hi'), ycard('dream2', 'hi')],
+          'dasha-shift': [ycard('dasha', 'hi'), ycard('dasha2', 'hi')]
+        };
+        const extraCards = TOPIC_CARDS[cur[0]] || [card('day', 'hi')];
+        const res = await window.GVReel.make({
+          cards: [{ full: fullUrl, base: baseUrl }, ...extraCards],
+          per: 1, hold: 5.5, outro: card('outro', 'hi'), music,
+          onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
+        });
+        URL.revokeObjectURL(baseUrl); URL.revokeObjectURL(fullUrl);
+        const url = URL.createObjectURL(res.blob), name = `grahavani-${cur[0]}-${st.date}.mp4`;
+        box.dataset.url = url;
+        box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
+        acts.insertAdjacentHTML('beforeend', `<a class="btn-line soc-dl" href="${url}" download="${name}">${ic('i-download')}${esc(t('socad.downloadMp4'))}</a>`);
+      } catch (e) {
+        box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>`;
+      }
+      topMake.disabled = false;
+    });
     syncTopics();
   }
   const drawSchedule = () => {
     const box = $('#soc-sched-body'); if (!box) return;
     const [sy, sm, sd] = st.date.split('-').map(Number);
     const base = new Date(Date.UTC(sy, sm - 1, sd));
-    const sunOff = -base.getUTCDay(); // Sunday of selected week
+    const sunOff = -base.getUTCDay();
     const rNames = L.names.rashi || ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
     const chFor = dt => {
-      if (!window.Jyotish || !window.Jyotish.transit) return '—';
+      if (window.Jyotish && window.Jyotish.transit) {
+        const jd = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate(), 0, 30) / 86400000 + 2440587.5;
+        return rNames[(Math.floor(window.Jyotish.transit(jd).lon.Moon / 30) + 5) % 12] || '—';
+      }
+      // Lightweight sidereal Moon sign fallback (accurate for daily Chandrashtama display)
       const jd = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate(), 0, 30) / 86400000 + 2440587.5;
-      const mSign = Math.floor(window.Jyotish.transit(jd).lon.Moon / 30);
-      return rNames[(mSign + 5) % 12] || '—';
+      const d = jd - 2451545.0, L0 = (218.316 + 13.176396 * d) % 360, M = (134.963 + 13.064993 * d) * Math.PI / 180;
+      const ayan = 23.85 + 0.01397 * (d / 365.25), sid = ((L0 + 6.289 * Math.sin(M) - ayan) % 360 + 360) % 360;
+      return rNames[(Math.floor(sid / 30) + 5) % 12] || '—';
     };
     const PLAN = [
       ['Weekly Rashifal + Chandrashtama', 'Signature Vastu (3 Rules + Kubera Dots)', 'signature-vastu'],
-      ['Daily Panchang + Somwar Mantra (Japa)', 'Dream Timing (Brahma Muhurta 3–6 AM)', 'dream-calc'],
-      ['Chandrashtama + Mangal Dosha Myths', 'Palm Reading (Heart Line: Guru vs Shani)', 'palm-lines'],
+      ['Somwar Shiva Mantra (Japa) + Panchang', 'Dream Timing (Brahma Muhurta 3–6 AM)', 'dream-calc'],
+      ['Mangal Dosha Myths + Chandrashtama', 'Palm Reading (Heart Line: Guru vs Shani)', 'palm-lines'],
       ['Budh Hora + Business Kundali', 'Numerology Comment Hook (Mulank 1–9)', 'comment-numerology'],
-      ['Chandrashtama + Guru / Pukhraj Rules', 'Forehead Lines (Surya & Guru Rekha)', 'forehead-lines'],
+      ['Guru / Pukhraj Rules + Chandrashtama', 'Forehead Lines (Surya & Guru Rekha)', 'forehead-lines'],
       ['Kundali 36 Guna / Love Match + D-9', 'Mole Reading (Right vs Left Rules)', 'mole-reading'],
-      ['Chandrashtama + Sade Sati & Dhaiya Upay', 'Thumb & Nadi (Chakra vs Shankha)', 'thumb-nadi']
+      ['Sade Sati & Dhaiya Upay + Chandrashtama', 'Thumb & Nadi (Chakra vs Shankha)', 'thumb-nadi']
     ];
+    const DAILY_BASE = '1. Special Day (Events, Muhurat & Precautions) · 2. Rashifal (All 12 Signs) · 3. Panchang';
     const df = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short' });
+    const dtToday = new Date(Date.UTC(td.y, td.m - 1, td.d)), dtTom = new Date(Date.UTC(td.y, td.m - 1, td.d + 1));
+    const pTod = PLAN[dtToday.getUTCDay()], pTom = PLAN[dtTom.getUTCDay()];
+    const quickCards = `<div class="soc-row" style="margin-bottom:12px">
+      <div class="card" style="padding:12px"><b>Today (${esc(df.format(dtToday))})</b><p class="small muted">Chandrashtama: <b>${esc(chFor(dtToday))}</b></p><p class="small"><b>Daily:</b> ${DAILY_BASE}<br><b>Event / Tool:</b> ${esc(pTod[0])} · <button type="button" class="linkbtn" data-pick-topic="${pTod[2]}">${esc(pTod[1])}</button></p></div>
+      <div class="card" style="padding:12px"><b>Tomorrow (${esc(df.format(dtTom))})</b><p class="small muted">Chandrashtama: <b>${esc(chFor(dtTom))}</b></p><p class="small"><b>Daily:</b> ${DAILY_BASE}<br><b>Event / Tool:</b> ${esc(pTom[0])} · <button type="button" class="linkbtn" data-pick-topic="${pTom[2]}">${esc(pTom[1])}</button></p></div>
+    </div>`;
     const rows = [];
     for (let i = 0; i < 7; i++) {
       const dt = new Date(Date.UTC(sy, sm - 1, sd + sunOff + i));
       const iso = isoDay(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
       const tag = iso === today ? ' (Today)' : iso === plus(1) ? ' (Tomorrow)' : '';
       const p = PLAN[dt.getUTCDay()];
-      rows.push(`<tr${iso === today ? ' class="live"' : ''}><td><b>${esc(df.format(dt))}</b>${esc(tag)}</td><td>${esc(chFor(dt))}</td><td>${esc(p[0])}</td><td><button type="button" class="linkbtn" data-pick-topic="${p[2]}">${esc(p[1])}</button></td></tr>`);
+      rows.push(`<tr${iso === today ? ' class="live"' : ''}><td><b>${esc(df.format(dt))}</b>${esc(tag)}<br><small class="muted">Chandrashtama: ${esc(chFor(dt))}</small></td><td>Special Day · Rashifal (12 Signs) · Panchang</td><td>${esc(p[0])}</td><td><button type="button" class="linkbtn" data-pick-topic="${p[2]}">${esc(p[1])}</button></td></tr>`);
     }
-    box.innerHTML = `<div class="seo-tablewrap"><table class="seo-table"><thead><tr><th>Day</th><th>Chandrashtama</th><th>8:00 AM Reel</th><th>7:00 PM Reel (Click to load)</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+    box.innerHTML = quickCards + `<div class="seo-tablewrap"><table class="seo-table"><thead><tr><th>Day &amp; Chandrashtama</th><th>Daily Reels (All 3)</th><th>Event / Transit Reel</th><th>Module / Evergreen Reel</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
     box.querySelectorAll('[data-pick-topic]').forEach(b => b.addEventListener('click', () => {
       if (topCat && topId) {
         topCat.value = 'all'; syncTopics();
         topId.value = b.dataset.pickTopic;
         const cur = REEL_TOPICS.find(x => x[0] === topId.value);
         if (topScript && cur) topScript.value = cur[3];
+        resetTopReel();
         $('#soc-topics').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }));
   };
   drawSchedule();
-  setTimeout(drawSchedule, 600);
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   let activeSpeakBtn = null;
   function stopSpeaking() {

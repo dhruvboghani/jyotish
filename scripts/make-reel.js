@@ -183,7 +183,9 @@ function durationSec(file) {
     const p0 = path.join(workDir, `s${i}_0.png`);
     renderPng(b.out, p0);
 
-    const stepDurs = [1.0, Math.max(1.8, d * 0.28), Math.max(1.8, d * 0.28), Math.max(2.5, d - 1.0 - Math.max(1.8, d * 0.28) * 2 + 0.8)];
+    const minSlideDur = tpl.slides.length === 1 ? 18.0 : 0;
+    const baseTail = Math.max(2.5, d - 1.0 - Math.max(1.8, d * 0.28) * 2 + 0.8);
+    const stepDurs = [1.0, Math.max(1.8, d * 0.28), Math.max(1.8, d * 0.28), Math.max(baseTail, minSlideDur - 1.0 - Math.max(1.8, d * 0.28) * 2)];
     inputs.push({ file: p0, dur: stepDurs[0] });
     let acc = b.out;
     s.rows.forEach((r, rIdx) => {
