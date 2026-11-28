@@ -805,6 +805,32 @@ function socialPanel(body) {
         <button type="button" class="btn-line soc-speak" data-speak="yt">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
       </div>
     </section>
+    <section class="card soc-sched" id="soc-sched">
+      <h4>📅 Reel Posting Schedule (Today · Tomorrow · Sun–Sat)</h4>
+      <p class="muted small">Suggested 2 reels/day: 8:00 AM (Daily / Transit / Chandrashtama) &amp; 7:00 PM (Samudrika / Kundali / Engagement). Chandrashtama updates automatically for the selected week.</p>
+      <div id="soc-sched-body"></div>
+    </section>
+    <section class="card soc-topics" id="soc-topics">
+      <h4>🎬 All 52 Reel Topics &amp; Voiceover Studio</h4>
+      <p class="muted small">Pick any of the 52 topics across all Grahavani modules to preview its Hindi voiceover script or copy the command to render the animated light-theme MP4 with TTS.</p>
+      <div class="soc-row">
+        <div class="field"><label for="soc-top-cat">Category</label><select id="soc-top-cat">
+          <option value="all">All 52 Topics</option>
+          <option value="Daily & Weekly">Daily &amp; Weekly (10)</option>
+          <option value="Rashi Events">Rashi Events &amp; Gochar (10)</option>
+          <option value="Kundali & Dosha">Kundali, Dosha &amp; Timing (12)</option>
+          <option value="Numerology & Match">Numerology &amp; Match (6)</option>
+          <option value="Samudrika & Divination">Samudrika &amp; Divination (9)</option>
+          <option value="Spiritual & Utility">Spiritual &amp; Utility (5)</option>
+        </select></div>
+        <div class="field"><label for="soc-top-id">Topic</label><select id="soc-top-id"></select></div>
+      </div>
+      <div class="soc-row-btns" style="margin-top:8px">
+        <button type="button" class="btn-line" id="soc-top-cmd">${ic('i-doc')}Copy CLI: <code>node scripts/make-reel.js --topic …</code></button>
+        <button type="button" class="btn-line soc-speak" id="soc-top-speak">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
+      <textarea class="soc-cap" rows="4" readonly id="soc-top-script" style="margin-top:10px"></textarea>
+    </section>
     <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
       <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea>
       <div class="soc-row-btns">
@@ -1022,8 +1048,8 @@ function socialPanel(body) {
   playBtn.addEventListener('click', () => { if (!au.paused) { au.pause(); setPlay(false); return; } au.src = '/music/' + st.music + '.mp3'; au.currentTime = 0; au.play().then(() => setPlay(true)).catch(() => { }); });
   au.addEventListener('ended', () => setPlay(false));
   const syncQuick = () => $$('#soc-quick button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.d === st.date)));
-  $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); }));
-  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); });
+  $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); drawSchedule(); }));
+  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); drawSchedule(); });
   $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); });
   $('#soc-nuy').addEventListener('change', e => { st.nu.y = +e.target.value; resetReels('[data-reel="nuall"], [data-reel="mulank"], [data-reel="bhagyank"]'); drawNu(); drawReply(); });
   $('#soc-num').addEventListener('change', e => { st.nu.ym = e.target.value; resetReels('[data-reel="numonth"]'); drawNu(); });
@@ -1077,6 +1103,129 @@ function socialPanel(body) {
     try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-yt-cap').select(); document.execCommand('copy'); }
     toast(t('socad.yt.copied'));
   });
+  // ---- 52-Topic Reel Catalog & Weekly Schedule (Today, Tomorrow, Sun–Sat) ----
+  const REEL_TOPICS = [
+    ['daily-rashifal', 'Daily & Weekly', 'Daily Rashifal (12 Signs)', 'आज का राशिफल। जानिए आज का दिन आपके करियर, धन और पारिवारिक जीवन के लिए कैसा रहेगा।'],
+    ['daily-panchang', 'Daily & Weekly', 'Daily Panchang (Tithi, Nakshatra, Yoga)', 'आज का पंचांग। शुभ कार्य से पहले आज की तिथि, नक्षत्र, अभिजीत मुहूर्त और राहुकाल देखें।'],
+    ['special-day', 'Daily & Weekly', "Today's Special Day / Festival / Vrat", 'आज का विशेष दिन। जानिए आज कौन सा पर्व, व्रत या शुभ योग बन रहा है।'],
+    ['rahu-kaal', 'Daily & Weekly', "Today's Rahu Kaal & Best Abhijit Muhurat", 'राहुकाल और अभिजीत मुहूर्त। रोज़ के महत्वपूर्ण काम से पहले यह दो समय हमेशा जांच लें।'],
+    ['chandrashtama', 'Daily & Weekly', "Today's Chandrashtama Rashi Alert", 'आज का चंद्राष्टम अलर्ट। जानिए आज किस राशि को बड़े निर्णय और बहस से बचना चाहिए।'],
+    ['hora-time', 'Daily & Weekly', "Today's Planetary Hora (Best Hour)", 'ग्रह होरा। जानिए धन, नौकरी और व्यापार के लिए आज का सबसे शुभ घंटा कौन सा है।'],
+    ['choghadiya', 'Daily & Weekly', 'Daily Choghadiya (Amrit/Shubh/Labh)', 'आज का चौघड़िया। अमृत, शुभ और लाभ चौघड़िया चुनें, और रोग व काल से बचें।'],
+    ['weekly-rashifal', 'Daily & Weekly', 'Weekly Rashifal', 'साप्ताहिक राशिफल। इस सप्ताह किन राशियों को बड़ा लाभ मिलेगा और किन्हें सावधान रहना होगा।'],
+    ['weekly-festivals', 'Daily & Weekly', "This Week's Festivals & Vrats", 'इस सप्ताह के प्रमुख व्रत और त्योहार। तिथि और पूजा का शुभ समय जानिए।'],
+    ['weekly-avoid', 'Daily & Weekly', 'Weekly Avoid-Dates (Bhadra / Panchak)', 'इस सप्ताह किन तारीखों से बचें। भद्रा और पंचक अलर्ट।'],
+    ['mesha-gochar', 'Rashi Events', 'Graha Gochar: Fayde, Nuksan & Upay', 'मेष राशि। जानिए शनि और गुरु गोचर के फायदे, सावधानियां और एक सरल उपाय।'],
+    ['vakri-margi', 'Rashi Events', 'Vakri & Margi (Retrograde / Direct)', 'वक्री और मार्गी ग्रह। किसे रुका धन वापस मिलेगा और किसे सावधान रहना चाहिए।'],
+    ['sade-sati', 'Rashi Events', 'Sade Sati & Dhaiya Status', 'शनि साढ़ेसाती और ढैया। अभी किन 3 राशियों पर साढ़ेसाती और 2 पर ढैया चल रही है।'],
+    ['graha-yuti', 'Rashi Events', 'Graha Yuti & Rajayoga Transits', 'ग्रह युति। बुधादित्य व गजकेसरी राजयोग बनाम अंगारक व विष योग का असर।'],
+    ['grahan', 'Rashi Events', 'Surya & Chandra Grahan (Rashi Impact)', 'ग्रहण अलर्ट। सूतक काल, राशियों पर असर और ग्रहण के बाद का दान।'],
+    ['ast-uday', 'Rashi Events', 'Guru / Shukra Ast & Uday', 'गुरु और शुक्र अस्त। विवाह और गृह प्रवेश क्यों रुकते हैं और कब फिर शुरू होंगे।'],
+    ['ekadashi', 'Rashi Events', 'Ekadashi Special (Parana & Benefit)', 'एकादशी व्रत विशेष। सही पारण समय और श्रीहरि कृपा का सरल नियम।'],
+    ['purnima-amavasya', 'Rashi Events', 'Purnima & Amavasya Rashi Remedy', 'पूर्णिमा पर चंद्र अर्घ्य और अमावस्या पर पितृ शांति का सरल उपाय।'],
+    ['panchak', 'Rashi Events', 'Monthly Panchak Alert', 'पंचक के पांच दिन। इन दिनों कौन से कार्य टालने चाहिए, जानिए।'],
+    ['rare-muhurat', 'Rashi Events', 'Rare Yogas (Guru Pushya / Sarvartha Siddhi)', 'दुर्लभ शुभ योग। सोना, वाहन और नया व्यापार शुरू करने का महामुहूर्त।'],
+    ['raj-yogas', 'Kundali & Dosha', 'Raj Yogas & Panch Mahapurusha Yogas', 'क्या आपकी कुंडली में गजकेसरी, बुधादित्य या हंस राजयोग है?'],
+    ['kaal-sarp', 'Kundali & Dosha', '12 Types of Kaal Sarp Dosha', 'कालसर्प दोष से डरें नहीं। जानिए 12 प्रकार और 30 की उम्र के बाद का राजयोग।'],
+    ['mangal-dosha', 'Kundali & Dosha', 'Mangal Dosha & Cancellation Rules', 'मांगलिक दोष किन तीन स्थितियों में स्वतः भंग हो जाता है, जानिए।'],
+    ['navamsha', 'Kundali & Dosha', 'Navamsha D-9 Marriage & Luck', 'नवांश कुंडली (D-9) विवाह सुख और 35 के बाद का भाग्य तय करती है।'],
+    ['ashtakavarga', 'Kundali & Dosha', 'Ashtakavarga Bindu Score', 'अष्टकवर्ग में 28 से अधिक बिंदु हों तो सहज धन और सफलता मिलती है।'],
+    ['varshphal', 'Kundali & Dosha', 'Varshphal / Muntha Annual Prediction', 'ताजिक वर्षफल। जन्मदिन पर आपकी मुंथा किस भाव में है, जानिए।'],
+    ['dasha-shift', 'Kundali & Dosha', 'Mahadasha & Antardasha Shifts', 'महादशा परिवर्तन। राहु, शनि या गुरु दशा शुरू होने पर जीवन में क्या बदलता है।'],
+    ['lagna-12', 'Kundali & Dosha', '12 Lagna (Ascendant) Personalities', 'चंद्र राशि मन बताती है, पर आपका लग्न जीवन की असली दिशा तय करता है।'],
+    ['business-kundali', 'Kundali & Dosha', 'Business Opening Kundali', 'दुकान या स्टार्टअप के शुभारंभ समय का 10वां और 11वां भाव मजबूत होना जरूरी है।'],
+    ['prashna', 'Kundali & Dosha', 'Prashna Kundali (Instant Horary)', 'बिना जन्म समय के भी प्रश्न कुंडली से सवाल का सटीक उत्तर मिलता है।'],
+    ['delivery-muhurat', 'Kundali & Dosha', 'Shubh Delivery Muhurat', 'शुभ प्रसव मुहूर्त। नन्हे मेहमान के लिए शुभ नक्षत्र समय कैसे चुनें।'],
+    ['muhurat-guides', 'Kundali & Dosha', 'Vivah / Griha Pravesh / Vehicle Muhurat', 'विवाह, गृह प्रवेश और वाहन खरीद की शास्त्र सम्मत शुभ तिथियां।'],
+    ['mulank-bhagyank', 'Numerology & Match', 'Mulank (1-9) & Bhagyank Series', 'आपकी जन्मतिथि का मूलांक और भाग्यांक आपका स्वभाव व करियर बताता है।'],
+    ['monthly-mulank', 'Numerology & Match', 'Monthly Mulank Forecast', 'इस महीने आपके मूलांक की सबसे भाग्यशाली और सतर्क तारीखें।'],
+    ['comment-numerology', 'Numerology & Match', 'Comment DOB for Lucky Color & Day', 'कमेंट में अपनी जन्मतिथि लिखें और जानें आपका लकी दिन और शुभ रंग।'],
+    ['kundali-match', 'Numerology & Match', 'Kundali 36 Guna Milan & Love Match', 'विवाह मिलान में सिर्फ गुण नहीं, नाड़ी, भकूट और पोरुथम भी जरूरी है।'],
+    ['biodata', 'Numerology & Match', 'Marriage Biodata Checklist', 'ग्रहवाणी पर कुंडली व नक्षत्र सहित सुंदर विवाह बायोडाटा PDF बनाएं।'],
+    ['family-kundali', 'Numerology & Match', 'Family Kundali & Combined Ratings', 'पूरे परिवार की कुंडली, साढ़ेसाती और दैनिक रेटिंग एक ही स्क्रीन पर देखें।'],
+    ['palm-lines', 'Samudrika & Divination', 'Palm Reading (Lines, Mounts & Marks)', 'अपनी दाहिनी हथेली देखें—हृदय, मस्तिष्क और भाग्य रेखा क्या कहती हैं?'],
+    ['face-reading', 'Samudrika & Divination', 'Face Reading (Tri-Bhumi & 9 Grahas)', 'मुख सामुद्रिक शास्त्र। माथे, आंखों और जबड़े से अपना प्रमुख ग्रह जानें।'],
+    ['mole-reading', 'Samudrika & Divination', 'Mole Reading (Pingala/Ida & 20+ Spots)', 'तिल विचार। पुरुषों के दाएं और स्त्रियों के बाएं हिस्से के तिल का अलग फल।'],
+    ['forehead-lines', 'Samudrika & Divination', 'Forehead 7 Planetary Lines', 'माथे की 7 ग्रह रेखाएं—ऊपर शनि से लेकर नीचे चंद्र रेखा तक भाग्य पट्टिका।'],
+    ['signature-vastu', 'Samudrika & Divination', 'Signature Vastu (Score Out of 100)', 'हस्ताक्षर वास्तु के 3 नियम: 15-25° ऊपर लिखें, नाम न काटें, नीचे 2 बिंदु लगाएं।'],
+    ['thumb-nadi', 'Samudrika & Divination', 'Thumb & Nadi (Chakra/Shankha/Dhwaja/Gadha)', 'अपने अंगूठे का निशान देखें—चक्र है या शंख? यही आपका नाड़ी कांड बताता है।'],
+    ['foot-reading', 'Samudrika & Divination', 'Foot Reading (Deva/Manushya/Bhumi Pada)', 'पैर के तलवे की कमान और उंगलियों की लंबाई से जानें भाग्य व विदेश योग।'],
+    ['eye-reading', 'Samudrika & Divination', 'Eye Reading (5 Vedic Netra Archetypes)', 'कमल, मृग, मत्स्य, गरुड़ या गज नेत्र—आपकी आंखों का प्रकार क्या कहता है?'],
+    ['dream-calc', 'Samudrika & Divination', 'Dream Timing (4 Prahars) & 50+ Symbols', 'सुबह 3 से 6 बजे ब्रह्म मुहूर्त का सपना 1 से 10 दिन में सच होता है।'],
+    ['baby-names', 'Spiritual & Utility', 'Baby Names by 27 Nakshatras', 'बच्चे के जन्म नक्षत्र और चरण के अनुसार शुभ अक्षर व वैदिक नाम।'],
+    ['rashi-ratna', 'Spiritual & Utility', 'Rashi Ratna (Gemstone Rules)', 'बिना कुंडली जांचे पुखराज, नीलम या मूंगा न पहनें—जानिए सही नियम।'],
+    ['mantra-japa', 'Spiritual & Utility', 'Mantra Japa (108 Beads & Weekday Mantra)', 'माला में 108 दाने क्यों होते हैं? और वार अनुसार आज का सरल ग्रह मंत्र।'],
+    ['tithi-dates', 'Spiritual & Utility', 'Janma Tithi & Shraddha Tithi', 'अंग्रेजी तारीख से भारतीय पंचांग की जन्म तिथि और श्राद्ध तिथि निकालें।'],
+    ['puja-vrat', 'Spiritual & Utility', 'Puja Samagri & Vrat Katha Guides', 'त्योहार के अनुसार पूजा सामग्री लिस्ट, विधि और व्रत कथा गाइड।']
+  ];
+  const topCat = $('#soc-top-cat'), topId = $('#soc-top-id'), topScript = $('#soc-top-script');
+  const syncTopics = () => {
+    if (!topCat || !topId) return;
+    const cat = topCat.value;
+    const list = cat === 'all' ? REEL_TOPICS : REEL_TOPICS.filter(x => x[1] === cat);
+    topId.innerHTML = list.map(([id, c, name]) => `<option value="${id}">${esc(name)} (${esc(c)})</option>`).join('');
+    const cur = REEL_TOPICS.find(x => x[0] === topId.value) || list[0];
+    if (topScript && cur) topScript.value = cur[3];
+  };
+  if (topCat && topId) {
+    topCat.addEventListener('change', syncTopics);
+    topId.addEventListener('change', () => {
+      const cur = REEL_TOPICS.find(x => x[0] === topId.value);
+      if (topScript && cur) topScript.value = cur[3];
+    });
+    $('#soc-top-cmd').addEventListener('click', async () => {
+      const cmd = `node scripts/make-reel.js --topic ${topId.value}`;
+      try { await navigator.clipboard.writeText(cmd); } catch (e) { }
+      toast(t('socad.copied') + ' — ' + cmd);
+    });
+    $('#soc-top-speak').addEventListener('click', e => {
+      if (topScript) speakHindiFemale(topScript.value, e.currentTarget);
+    });
+    syncTopics();
+  }
+  const drawSchedule = () => {
+    const box = $('#soc-sched-body'); if (!box) return;
+    const [sy, sm, sd] = st.date.split('-').map(Number);
+    const base = new Date(Date.UTC(sy, sm - 1, sd));
+    const sunOff = -base.getUTCDay(); // Sunday of selected week
+    const rNames = L.names.rashi || ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    const chFor = dt => {
+      if (!window.Jyotish || !window.Jyotish.transit) return '—';
+      const jd = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate(), 0, 30) / 86400000 + 2440587.5;
+      const mSign = Math.floor(window.Jyotish.transit(jd).lon.Moon / 30);
+      return rNames[(mSign + 5) % 12] || '—';
+    };
+    const PLAN = [
+      ['Weekly Rashifal + Chandrashtama', 'Signature Vastu (3 Rules + Kubera Dots)', 'signature-vastu'],
+      ['Daily Panchang + Somwar Mantra (Japa)', 'Dream Timing (Brahma Muhurta 3–6 AM)', 'dream-calc'],
+      ['Chandrashtama + Mangal Dosha Myths', 'Palm Reading (Heart Line: Guru vs Shani)', 'palm-lines'],
+      ['Budh Hora + Business Kundali', 'Numerology Comment Hook (Mulank 1–9)', 'comment-numerology'],
+      ['Chandrashtama + Guru / Pukhraj Rules', 'Forehead Lines (Surya & Guru Rekha)', 'forehead-lines'],
+      ['Kundali 36 Guna / Love Match + D-9', 'Mole Reading (Right vs Left Rules)', 'mole-reading'],
+      ['Chandrashtama + Sade Sati & Dhaiya Upay', 'Thumb & Nadi (Chakra vs Shankha)', 'thumb-nadi']
+    ];
+    const df = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short' });
+    const rows = [];
+    for (let i = 0; i < 7; i++) {
+      const dt = new Date(Date.UTC(sy, sm - 1, sd + sunOff + i));
+      const iso = isoDay(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
+      const tag = iso === today ? ' (Today)' : iso === plus(1) ? ' (Tomorrow)' : '';
+      const p = PLAN[dt.getUTCDay()];
+      rows.push(`<tr${iso === today ? ' class="live"' : ''}><td><b>${esc(df.format(dt))}</b>${esc(tag)}</td><td>${esc(chFor(dt))}</td><td>${esc(p[0])}</td><td><button type="button" class="linkbtn" data-pick-topic="${p[2]}">${esc(p[1])}</button></td></tr>`);
+    }
+    box.innerHTML = `<div class="seo-tablewrap"><table class="seo-table"><thead><tr><th>Day</th><th>Chandrashtama</th><th>8:00 AM Reel</th><th>7:00 PM Reel (Click to load)</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+    box.querySelectorAll('[data-pick-topic]').forEach(b => b.addEventListener('click', () => {
+      if (topCat && topId) {
+        topCat.value = 'all'; syncTopics();
+        topId.value = b.dataset.pickTopic;
+        const cur = REEL_TOPICS.find(x => x[0] === topId.value);
+        if (topScript && cur) topScript.value = cur[3];
+        $('#soc-topics').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }));
+  };
+  drawSchedule();
+  setTimeout(drawSchedule, 600);
   $$('#soc-fmt button').forEach(b => b.addEventListener('click', () => { st.fmt = b.dataset.fmt; $$('#soc-fmt button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); }));
   let activeSpeakBtn = null;
   function stopSpeaking() {
