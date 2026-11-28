@@ -717,7 +717,7 @@ function socialPanel(body) {
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
     <section class="card soc-reel soc-combo" data-reel="combo">
       <h4>✨ All-in-One Daily Reel (Special Day + Rashifal 12 Signs + Panchang)</h4>
-      <p class="muted small">Merges today's Special Day (events, best muhurat &amp; precautions), all 12 Rashifal signs, and Daily Panchang into one ~30s reel.</p>
+      <p class="muted small">Merges today's Special Day (events, best muhurat &amp; precautions), all 12 Rashifal signs, and Daily Panchang into one 42s+ reel with Hindi TTS voiceover.</p>
       <div class="field" style="max-width:220px"><label for="soc-combo-lang">Language</label><select id="soc-combo-lang">${SOC_LANGS.map(([c, n]) => `<option value="${c}"${c === 'hi' ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="combo"${reelOk ? '' : ' disabled'}>${ic('i-image')}Make All-in-One Daily Reel (MP4)</button></div>
@@ -950,13 +950,23 @@ function socialPanel(body) {
     })));
     if (want !== st.date + st.city) return;
     const copt = { date: st.date, today, tomorrow: plus(1) };
-    REELS.forEach(k => { const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = reelCaption(k, st.caps, st.xcaps[k], copt); });
+    const kTags = {
+      day: '#shubhmuhurat #aajkapanchang #specialday #vedicastrology #grahavani',
+      rashifal: '#aajkarashifal #rashifal #horoscopetoday #vedicastrology #grahavani',
+      panchang: '#dainikpanchang #rahukaal #abhijitmuhurat #vedicastrology #grahavani',
+      week: '#weeklyrashifal #saptahikrashifal #rashifal #vedicastrology #grahavani',
+      fest: '#vrattyohar #hindufestivals #ekadashi #vedicastrology #grahavani'
+    };
+    REELS.forEach(k => {
+      const ta = $(`[data-rcap="${k}"]`);
+      if (ta) ta.value = upgradeCapLike52(reelCaption(k, st.caps, st.xcaps[k], copt), t('socad.reel.' + k) || k, `${k}, ${t('socad.reel.' + k) || k}, panchang ${st.city}`, kTags[k] || '#vedicastrology #jyotish #aajkarashifal #shubhmuhurat #grahavani');
+    });
   };
   const drawWish = async () => {
     const ta = $('[data-rcap="wish"]'); if (!st.wish) { ta.value = '…'; return; }
     const want = st.wish.id + st.wish.date + st.city; ta.value = '…';
     await Promise.all(SOC_LANGS.map(async ([l]) => { try { st.wcaps[l] = await api(`/api/social/?caption=1&kind=wish&lang=${l}&date=${st.wish.date}&fest=${st.wish.id}&city=${cityQ()}`); } catch (e) { st.wcaps[l] = null; } }));
-    if (want === st.wish.id + st.wish.date + st.city) ta.value = wishCaption(st.wcaps);
+    if (want === st.wish.id + st.wish.date + st.city) ta.value = upgradeCapLike52(wishCaption(st.wcaps), st.wish.name + ' Wishes', `${st.wish.name}, festival wishes, puja muhurat ${st.wish.date}`, '#hindufestival #shubhkamnaye #vratkatha #vedicastrology #grahavani');
   };
   const loadWishes = async () => {
     const sel = $('#soc-wfest');
@@ -967,15 +977,35 @@ function socialPanel(body) {
     st.wish = st.wishes.find(w => w.known) || st.wishes[0]; sel.value = String(st.wishes.indexOf(st.wish));
     drawWish();
   };
-  const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = r.text; }).catch(() => { ta.value = '—'; }); };
+  const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = upgradeCapLike52(r.text, `Morning Message · ${st.date}`, `morning rashifal, daily panchang ${st.city}, shubh muhurat`, '#goodmorning #aajkarashifal #dainikpanchang #vedicastrology #grahavani'); }).catch(() => { ta.value = '—'; }); };
   const drawNu = async () => {
     const [my, mm] = st.nu.ym.split('-');
     for (const [k, q] of [['nuall', 'mode=all'], ['mulank', `mode=one&n=${st.nu.n}`], ['bhagyank', `mode=bhagyank&n=${st.nu.b}`], ['numonth', `mode=month&m=${mm}`]]) {
       const ta = $(`[data-rcap="${k}"]`); if (ta) ta.value = '…';
-      api(`/api/social/?caption=1&kind=nu&${q}&y=${k === 'numonth' ? my : st.nu.y}`).then(r => { if (ta) ta.value = r.caption; }).catch(() => { if (ta) ta.value = '—'; });
+      api(`/api/social/?caption=1&kind=nu&${q}&y=${k === 'numonth' ? my : st.nu.y}`).then(r => {
+        if (ta) ta.value = upgradeCapLike52(r.caption, `Numerology ${k.toUpperCase()}`, `numerology, mulank ${st.nu.n}, bhagyank ${st.nu.b}, ank jyotish ${st.nu.y}`, '#numerology #mulank #bhagyank #ankjyotish #grahavani');
+      }).catch(() => { if (ta) ta.value = '—'; });
     }
   };
   let rTimer;
+  const upgradeCapLike52 = (raw, title, extraKeywords, tags5) => {
+    const host = location.origin;
+    const cleanLines = String(raw || '').split('\n').map(s => s.trim()).filter(s => s && !/^#/.test(s) && !/^Keywords:/i.test(s));
+    const body = cleanLines.slice(0, 6).join('\n');
+    return [
+      `✨ ${title} (${st.date} · ${st.city})`,
+      '',
+      body,
+      `🪔 ग्रहवाणी (Grahavani) पर सटीक पंचांग, राशिफल, मुहूर्त, कुंडली और वैदिक उपाय 6 भाषाओं में बिल्कुल मुफ़्त देखें।`,
+      '',
+      `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
+      `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
+      '',
+      `Keywords: ${extraKeywords}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
+      '',
+      tags5
+    ].join('\n');
+  };
   const drawReply = () => {
     clearTimeout(rTimer); const out = $('#soc-reply'), v = $('#soc-dob').value.trim();
     if (!v) { out.value = ''; return; }
@@ -1035,8 +1065,12 @@ function socialPanel(body) {
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const cLang = ($('#soc-combo-lang') && $('#soc-combo-lang').value) || 'hi';
       const comboCards = [card('day', cLang), card('day2', cLang), ...(muh3 ? [card('day3', cLang)] : []), card('rashifal', cLang), card('rashifal2', cLang), card('panchang', cLang), card('panchang2', cLang)];
+      const capEl = sec.querySelector('.soc-cap');
+      const capSpeakLines = capEl ? String(capEl.value || '').split('\n').map(s => s.trim()).filter(s => s && !/^#|^Keywords:|^🔗|^👇|http/i.test(s)).slice(0, 4).join(' ') : '';
+      const ttsText = capSpeakLines || `आज ${st.date} का विशेष दिन, सभी 12 राशियों का राशिफल और दैनिक पंचांग। ग्रहवाणी पर अपनी निःशुल्क कुंडली और शुभ मुहूर्त अभी देखें।`;
+      const tts = apiUrl('/api/social/?tts=' + encodeURIComponent(ttsText.slice(0, 600)) + '&lang=hi');
       const res = await window.GVReel.make({
-        cards: kind === 'combo' ? comboCards : kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'combo' ? (muh3 ? 3 : 2) : kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'combo' ? 2.6 : kind === 'yt' ? ytHold : kind === 'wish' ? 3.2 : kind === 'nuall' ? 4.2 : undefined, outro: card('outro', (kind === 'combo' ? cLang : kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music,
+        cards: kind === 'combo' ? comboCards : kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'combo' ? (muh3 ? 3 : 2) : kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'combo' ? 4.5 : kind === 'yt' ? ytHold : kind === 'wish' ? 4.5 : kind === 'nuall' ? 4.5 : undefined, outro: card('outro', (kind === 'combo' ? cLang : kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music, tts, minSec: kind === 'yt' ? Math.max(42, targetSec) : 42,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
@@ -1099,7 +1133,7 @@ function socialPanel(body) {
     const q = `kind=yt_${st.yt.theme}&lang=${lang}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}`;
     try {
       const r = await api(`/api/social/?caption=1&${q}`);
-      st.yt.cap = `${r.title}\n\n${r.description}`;
+      st.yt.cap = upgradeCapLike52(r.description, r.title, `${st.yt.theme}, youtube shorts, ${r.title}, rashifal ${st.date}`, '#youtubeshorts #vedicastrology #jyotish #aajkarashifal #grahavani');
       ta.value = st.yt.cap;
     } catch (e) {
       ta.value = '—';
@@ -1394,6 +1428,60 @@ function socialPanel(body) {
     if (!topCap || !cur) return;
     const ctx = topicContext();
     const host = location.origin;
+    const TOPIC_TAGS = {
+      'daily-rashifal': '#aajkarashifal #rashifal #horoscopetoday #vedicastrology #grahavani',
+      'daily-panchang': '#dainikpanchang #aajkapanchang #shubhmuhurat #vedicastrology #grahavani',
+      'special-day': '#aajkaspecial #shubhmuhurat #vrattyohar #vedicastrology #grahavani',
+      'rahu-kaal': '#rahukaal #abhijitmuhurat #shubhmuhurat #dainikpanchang #grahavani',
+      'chandrashtama': '#chandrashtama #aajkarashifal #astrologyalerts #vedicastrology #grahavani',
+      'hora-time': '#horatime #shubhghadi #muhurat #vedicastrology #grahavani',
+      'choghadiya': '#choghadiya #amritchoghadiya #shubhmuhurat #dainikpanchang #grahavani',
+      'weekly-rashifal': '#weeklyrashifal #saptahikrashifal #rashifal #vedicastrology #grahavani',
+      'weekly-festivals': '#vrattyohar #hindufestivals #panchang #sanatandharma #grahavani',
+      'weekly-avoid': '#bhadra #panchak #shubhmuhurat #hinducalendar #grahavani',
+      'mesha-gochar': '#grahagochar #meshrashi #shanigochar #vedicastrology #grahavani',
+      'vakri-margi': '#vakrigrah #retrograde #grahagochar #vedicastrology #grahavani',
+      'sade-sati': '#sadesati #shanidev #dhaiya #shanigochar #grahavani',
+      'graha-yuti': '#grahayuti #rajayoga #gajakesari #vedicastrology #grahavani',
+      'grahan': '#grahan #suryagrahan #chandragrahan #sutakkal #grahavani',
+      'ast-uday': '#guruast #shukraast #vivahmuhurat #vedicastrology #grahavani',
+      'ekadashi': '#ekadashi #ekadashivrat #vishnubhakti #sanatandharma #grahavani',
+      'purnima-amavasya': '#purnima #amavasya #pitrupaksha #vedicastrology #grahavani',
+      'panchak': '#panchak #panchakalert #hinducalendar #vedicastrology #grahavani',
+      'rare-muhurat': '#gurupushyayoga #sarvarthasiddhi #mahamuhurat #vedicastrology #grahavani',
+      'raj-yogas': '#rajyoga #kundali #panchmahapurush #vedicastrology #grahavani',
+      'kaal-sarp': '#kaalsarpdosh #shivshakti #kundali #vedicastrology #grahavani',
+      'mangal-dosha': '#mangaldosha #manglik #kundalimilan #vedicastrology #grahavani',
+      'navamsha': '#navamsha #d9chart #marriageastrology #vedicastrology #grahavani',
+      'ashtakavarga': '#ashtakavarga #kundali #jyotishshastra #vedicastrology #grahavani',
+      'varshphal': '#varshphal #tajikastrology #annualhoroscope #vedicastrology #grahavani',
+      'dasha-shift': '#mahadasha #antardasha #vimshottari #vedicastrology #grahavani',
+      'lagna-12': '#lagna #ascendant #kundali #vedicastrology #grahavani',
+      'business-kundali': '#businessastrology #shubhmuhurat #startupastrology #vedicastrology #grahavani',
+      'prashna': '#prashnakundali #horaryastrology #jyotish #vedicastrology #grahavani',
+      'delivery-muhurat': '#deliverymuhurat #shubhmuhurat #nakshatra #vedicastrology #grahavani',
+      'muhurat-guides': '#vivahmuhurat #grihapravesh #shubhmuhurat #hinducalendar #grahavani',
+      'mulank-bhagyank': '#mulank #bhagyank #numerology #ankjyotish #grahavani',
+      'monthly-mulank': '#monthlynumerology #mulank #ankjyotish #numerology #grahavani',
+      'comment-numerology': '#numerology #luckynumber #dateofbirth #ankjyotish #grahavani',
+      'kundali-match': '#kundalimilan #36guna #marriagematching #vedicastrology #grahavani',
+      'biodata': '#marriagebiodata #vivahbiodata #kundalimilan #indianwedding #grahavani',
+      'family-kundali': '#familykundali #jyotish #rashifal #vedicastrology #grahavani',
+      'palm-lines': '#palmistry #hastrekha #palmreading #samudrikashastra #grahavani',
+      'face-reading': '#facereading #samudrikashastra #mukhshastra #vedicastrology #grahavani',
+      'mole-reading': '#molereading #tilvichar #samudrikashastra #jyotish #grahavani',
+      'forehead-lines': '#foreheadlines #samudrikashastra #hastrekha #vedicastrology #grahavani',
+      'signature-vastu': '#signaturevastu #vastutips #numerology #wealthmindset #grahavani',
+      'thumb-nadi': '#nadiastrology #thumbreading #samudrikashastra #jyotish #grahavani',
+      'foot-reading': '#footreading #samudrikashastra #jyotish #vedicastrology #grahavani',
+      'eye-reading': '#eyereading #samudrikashastra #netrashastra #jyotish #grahavani',
+      'dream-calc': '#dreammeaning #swapnashastra #brahmamuhurta #vedicastrology #grahavani',
+      'baby-names': '#babynames #nakshatranames #hindubabynames #vedicastrology #grahavani',
+      'rashi-ratna': '#rashiratna #gemstones #jyotishratna #vedicastrology #grahavani',
+      'mantra-japa': '#mantrajapa #108beads #sanatandharma #bhakti #grahavani',
+      'tithi-dates': '#janmatithi #shraddhatithi #hindupanchang #vedicastrology #grahavani',
+      'puja-vrat': '#pujavidhi #vratkatha #sanatandharma #hindufestivals #grahavani'
+    };
     const tagsMap = {
       'Daily & Weekly': '#aajkarashifal #dainikpanchang #shubhmuhurat #vedicastrology #grahavani',
       'Rashi Events': '#rashifal #gochar #vedicastrology #jyotish #grahavani',
@@ -1402,17 +1490,21 @@ function socialPanel(body) {
       'Samudrika & Divination': '#samudrikashastra #palmistry #vastutips #vedicastrology #grahavani',
       'Spiritual & Utility': '#sanatandharma #vrattyohar #bhakti #vedicastrology #grahavani'
     };
-    const tags = tagsMap[cur[1]] || '#vedicastrology #jyotish #horoscope #rashifal #grahavani';
+    const tags = TOPIC_TAGS[cur[0]] || tagsMap[cur[1]] || '#vedicastrology #jyotish #horoscope #rashifal #grahavani';
+    const pts = [...(cur[4] || []), ...(cur[5] || [])].map(([k, v]) => `• ${fillTopicVars(k, ctx)}: ${fillTopicVars(v, ctx)}`);
+    const kwPts = [...(cur[4] || []), ...(cur[5] || [])].map(([k]) => fillTopicVars(k, ctx)).join(', ');
     topCap.value = [
       `✨ ${cur[2]} (${st.date} · ${st.city})`,
       '',
       fillTopicVars(cur[3], ctx),
-      `🪔 ग्रहवाणी (Grahavani) पर सटीक पंचांग, राशिफल, मुहूर्त, कुंडली और वैदिक उपाय 6 भाषाओं में बिल्कुल मुफ़्त देखें।`,
       '',
+      ...pts,
+      '',
+      `🪔 ग्रहवाणी (Grahavani) पर सटीक पंचांग, राशिफल, मुहूर्त, कुंडली और वैदिक उपाय 6 भाषाओं में बिल्कुल मुफ़्त देखें।`,
       `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
       `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
       '',
-      `${cur[2]}, ${cur[1]}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
+      `Keywords: ${cur[2]}, ${cur[0].replace(/-/g, ' ')}, ${cur[1]}, ${kwPts}, ${st.city}, ${st.date}, grahavani, vedic astrology, jyotish in hindi, free kundali online, hindu panchang, shubh muhurat, vedic remedies`,
       '',
       tags
     ].join('\n');
