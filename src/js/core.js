@@ -959,7 +959,7 @@ function socialPanel(body) {
     };
     REELS.forEach(k => {
       const ta = $(`[data-rcap="${k}"]`);
-      if (ta) ta.value = upgradeCapLike52(reelCaption(k, st.caps, st.xcaps[k], copt), t('socad.reel.' + k) || k, `${k}, ${t('socad.reel.' + k) || k}, panchang ${st.city}`, kTags[k] || '#vedicastrology #jyotish #aajkarashifal #shubhmuhurat #grahavani');
+      if (ta) ta.value = upgradeCapLike52(reelCaption(k, st.caps, st.xcaps[k], copt), t('socad.reel.' + k) || k, `${k}, ${t('socad.reel.' + k) || k}, daily panchang`, kTags[k] || '#vedicastrology #jyotish #aajkarashifal #shubhmuhurat #grahavani');
     });
   };
   const drawWish = async () => {
@@ -977,7 +977,7 @@ function socialPanel(body) {
     st.wish = st.wishes.find(w => w.known) || st.wishes[0]; sel.value = String(st.wishes.indexOf(st.wish));
     drawWish();
   };
-  const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = upgradeCapLike52(r.text, `Morning Message · ${st.date}`, `morning rashifal, daily panchang ${st.city}, shubh muhurat`, '#goodmorning #aajkarashifal #dainikpanchang #vedicastrology #grahavani'); }).catch(() => { ta.value = '—'; }); };
+  const drawChan = () => { const ta = $('#soc-chan'); ta.value = '…'; api(`/api/social/?caption=1&kind=channel&date=${st.date}&city=${cityQ()}`).then(r => { ta.value = upgradeCapLike52(r.text, `Morning Message · ${st.date}`, `morning rashifal, daily panchang, shubh muhurat`, '#goodmorning #aajkarashifal #dainikpanchang #vedicastrology #grahavani'); }).catch(() => { ta.value = '—'; }); };
   const drawNu = async () => {
     const [my, mm] = st.nu.ym.split('-');
     for (const [k, q] of [['nuall', 'mode=all'], ['mulank', `mode=one&n=${st.nu.n}`], ['bhagyank', `mode=bhagyank&n=${st.nu.b}`], ['numonth', `mode=month&m=${mm}`]]) {
@@ -993,7 +993,7 @@ function socialPanel(body) {
     const cleanLines = String(raw || '').split('\n').map(s => s.trim()).filter(s => s && !/^#/.test(s) && !/^Keywords:/i.test(s));
     const body = cleanLines.slice(0, 6).join('\n');
     return [
-      `✨ ${title} (${st.date} · ${st.city})`,
+      `✨ ${title} (${st.date})`,
       '',
       body,
       `🪔 ग्रहवाणी (Grahavani) पर सटीक पंचांग, राशिफल, मुहूर्त, कुंडली और वैदिक उपाय 6 भाषाओं में बिल्कुल मुफ़्त देखें।`,
@@ -1001,7 +1001,7 @@ function socialPanel(body) {
       `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
       `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
       '',
-      `Keywords: ${extraKeywords}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
+      `${extraKeywords}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
       '',
       tags5
     ].join('\n');
@@ -1168,7 +1168,7 @@ function socialPanel(body) {
     const rEn = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
     const host = location.origin;
     ta.value = [
-      `✨ ${st.date} · आज का संपूर्ण पंचांग, विशेष योग और 12 राशियों का राशिफल | Today's Special Day, Rashifal & Panchang (${st.city})`,
+      `✨ ${st.date} · आज का संपूर्ण पंचांग, विशेष योग और 12 राशियों का राशिफल | Today's Special Day, Rashifal & Panchang`,
       '',
       `🪔 आज का विशेष दिन: शुभ मुहूर्त, व्रत-पर्व और सावधानियां`,
       `♈ सभी 12 राशियों का आज का राशिफल (सावधान राशि / Chandrashtama: ${rHi[chSign]} / ${rEn[chSign]})`,
@@ -1177,7 +1177,7 @@ function socialPanel(body) {
       `👇 कमेंट में अपनी राशि लिखें और अपनों के साथ शेयर करें 🙏 | Comment your Rashi & share with family`,
       `🔗 Free Kundali, Panchang & Muhurat in 6 Languages: ${host} (Link in Bio)`,
       '',
-      `आज का राशिफल, दैनिक पंचांग, आज का शुभ मुहूर्त, आज का राहुकाल, अभिजीत मुहूर्त, आज का विशेष दिन, चंद्राष्टम राशि, वैदिक ज्योतिष, मेष से मीन राशिफल, कुंडली मिलान, ग्रह गोचर, today rashifal in hindi, daily panchang ${st.city}, aag ka panchang, aaj ka shubh muhurat, rahu kaal today, abhijit muhurat, vedic astrology, free kundali online, grahavani, horoscope today all 12 signs, indian calendar, vrat festival today`,
+      `आज का राशिफल, दैनिक पंचांग, आज का शुभ मुहूर्त, आज का राहुकाल, अभिजीत मुहूर्त, आज का विशेष दिन, चंद्राष्टम राशि, वैदिक ज्योतिष, मेष से मीन राशिफल, कुंडली मिलान, ग्रह गोचर, today rashifal in hindi, daily panchang, aaj ka panchang, aaj ka shubh muhurat, rahu kaal today, abhijit muhurat, vedic astrology, free kundali online, grahavani, horoscope today all 12 signs, indian calendar, vrat festival today`,
       '',
       `#aajkarashifal #dainikpanchang #vedicastrology #shubhmuhurat #grahavani`
     ].join('\n');
@@ -1494,7 +1494,7 @@ function socialPanel(body) {
     const pts = [...(cur[4] || []), ...(cur[5] || [])].map(([k, v]) => `• ${fillTopicVars(k, ctx)}: ${fillTopicVars(v, ctx)}`);
     const kwPts = [...(cur[4] || []), ...(cur[5] || [])].map(([k]) => fillTopicVars(k, ctx)).join(', ');
     topCap.value = [
-      `✨ ${cur[2]} (${st.date} · ${st.city})`,
+      `✨ ${cur[2]} (${st.date})`,
       '',
       fillTopicVars(cur[3], ctx),
       '',
@@ -1504,7 +1504,7 @@ function socialPanel(body) {
       `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
       `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
       '',
-      `Keywords: ${cur[2]}, ${cur[0].replace(/-/g, ' ')}, ${cur[1]}, ${kwPts}, ${st.city}, ${st.date}, grahavani, vedic astrology, jyotish in hindi, free kundali online, hindu panchang, shubh muhurat, vedic remedies`,
+      `${cur[2]}, ${cur[0].replace(/-/g, ' ')}, ${cur[1]}, ${kwPts}, ${st.date}, grahavani, vedic astrology, jyotish in hindi, free kundali online, hindu panchang, shubh muhurat, vedic remedies`,
       '',
       tags
     ].join('\n');
