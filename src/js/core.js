@@ -721,6 +721,11 @@ function socialPanel(body) {
       <div class="field" style="max-width:220px"><label for="soc-combo-lang">Language</label><select id="soc-combo-lang">${SOC_LANGS.map(([c, n]) => `<option value="${c}"${c === 'hi' ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></div>
       <div class="soc-vid"><p class="muted small">${esc(t('socad.reelHint'))}</p></div>
       <div class="soc-acts"><button type="button" class="btn-cta" data-make="combo"${reelOk ? '' : ' disabled'}>${ic('i-image')}Make All-in-One Daily Reel (MP4)</button></div>
+      <textarea class="soc-cap" rows="9" readonly id="soc-combo-cap">…</textarea>
+      <div class="soc-row-btns">
+        <button type="button" class="btn-line soc-copy" id="soc-combo-copy">${ic('i-doc')}${esc(t('socad.copy'))}</button>
+        <button type="button" class="btn-line soc-speak" data-speak="combo">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+      </div>
     </section>
     <h3 class="sub-h soc-h">${ic('i-image')}${esc(t('socad.yt.h'))}</h3><p class="muted small">${esc(t('socad.yt.lede'))}</p>
     <section class="card soc-reel soc-yt" data-reel="yt">
@@ -1059,9 +1064,9 @@ function socialPanel(body) {
   playBtn.addEventListener('click', () => { if (!au.paused) { au.pause(); setPlay(false); return; } au.src = '/music/' + st.music + '.mp3'; au.currentTime = 0; au.play().then(() => setPlay(true)).catch(() => { }); });
   au.addEventListener('ended', () => setPlay(false));
   const syncQuick = () => $$('#soc-quick button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.d === st.date)));
-  $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); drawSchedule(); }));
-  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); drawSchedule(); });
-  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); });
+  $$('#soc-quick button').forEach(b => b.addEventListener('click', () => { st.date = b.dataset.d; $('#soc-date').value = st.date; syncQuick(); resetReels(); draw(); drawSchedule(); drawComboCap(); }));
+  $('#soc-date').addEventListener('change', e => { st.date = e.target.value || today; syncQuick(); resetReels(); draw(); drawSchedule(); drawComboCap(); });
+  $('#soc-city').addEventListener('change', e => { st.city = e.target.value; store.set('gv-soc-city', st.city); resetReels('.soc-reel'); draw(); drawWish(); drawComboCap(); });
   $('#soc-nuy').addEventListener('change', e => { st.nu.y = +e.target.value; resetReels('[data-reel="nuall"], [data-reel="mulank"], [data-reel="bhagyank"]'); drawNu(); drawReply(); });
   $('#soc-num').addEventListener('change', e => { st.nu.ym = e.target.value; resetReels('[data-reel="numonth"]'); drawNu(); });
   $('#soc-nun').addEventListener('change', e => { st.nu.n = +e.target.value; resetReels('[data-reel="mulank"]'); drawNu(); });
@@ -1108,11 +1113,46 @@ function socialPanel(body) {
   $('#soc-yt-topic').addEventListener('change', e => { st.yt.topic = e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-vrat').addEventListener('change', e => { st.yt.vrat = e.target.value; resetReels('.soc-yt'); drawYt(); });
   $('#soc-yt-dream').addEventListener('change', e => { st.yt.dream = e.target.value; resetReels('.soc-yt'); drawYt(); });
-  $('#soc-yt-copy').addEventListener('click', async () => {
+    $('#soc-yt-copy').addEventListener('click', async () => {
     const v = $('#soc-yt-cap').value;
     if (!v || v === '…' || v === '—') return;
     try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-yt-cap').select(); document.execCommand('copy'); }
     toast(t('socad.yt.copied'));
+  });
+  const drawComboCap = () => {
+    const ta = $('#soc-combo-cap'); if (!ta) return;
+    const [sy, sm, sd] = st.date.split('-').map(Number);
+    const jd = Date.UTC(sy, sm - 1, sd, 0, 30) / 86400000 + 2440587.5;
+    let chSign = 0;
+    if (window.Jyotish && window.Jyotish.transit) chSign = (Math.floor(window.Jyotish.transit(jd).lon.Moon / 30) + 5) % 12;
+    else { const d = jd - 2451545.0, L0 = (218.316 + 13.176396 * d) % 360, M = (134.963 + 13.064993 * d) * Math.PI / 180, ay = 23.85 + 0.01397 * (d / 365.25); chSign = (Math.floor((((L0 + 6.289 * Math.sin(M) - ay) % 360 + 360) % 360) / 30) + 5) % 12; }
+    const rHi = ['मेष', 'वृषभ', 'मिथुन', 'कर्क', 'सिंह', 'कन्या', 'तुला', 'वृश्चिक', 'धनु', 'मकर', 'कुंभ', 'मीन'];
+    const rEn = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    const host = location.origin;
+    ta.value = [
+      `✨ ${st.date} · आज का संपूर्ण पंचांग, विशेष योग और 12 राशियों का राशिफल | Today's Special Day, Rashifal & Panchang (${st.city})`,
+      '',
+      `🪔 आज का विशेष दिन: शुभ मुहूर्त, व्रत-पर्व और सावधानियां`,
+      `♈ सभी 12 राशियों का आज का राशिफल (सावधान राशि / Chandrashtama: ${rHi[chSign]} / ${rEn[chSign]})`,
+      `☀️ आज का पंचांग: तिथि, नक्षत्र, अभिजीत मुहूर्त और राहुकाल`,
+      '',
+      `👇 कमेंट में अपनी राशि लिखें और अपनों के साथ शेयर करें 🙏 | Comment your Rashi & share with family`,
+      `🔗 Free Kundali, Panchang & Muhurat in 6 Languages: ${host} (Link in Bio)`,
+      '',
+      `Keywords: आज का राशिफल, दैनिक पंचांग, आज का शुभ मुहूर्त, आज का राहुकाल, अभिजीत मुहूर्त, आज का विशेष दिन, चंद्राष्टम राशि, वैदिक ज्योतिष, मेष से मीन राशिफल, कुंडली मिलान, ग्रह गोचर, today rashifal in hindi, daily panchang ${st.city}, aag ka panchang, aaj ka shubh muhurat, rahu kaal today, abhijit muhurat, vedic astrology, free kundali online, grahavani, horoscope today all 12 signs, indian calendar, vrat festival today`,
+      '',
+      `#aajkarashifal #dainikpanchang #vedicastrology #shubhmuhurat #grahavani`
+    ].join('\n');
+  };
+  drawComboCap();
+  const comboLangEl = $('#soc-combo-lang');
+  if (comboLangEl) comboLangEl.addEventListener('change', () => { resetReels('.soc-combo'); drawComboCap(); });
+  const comboCopyEl = $('#soc-combo-copy');
+  if (comboCopyEl) comboCopyEl.addEventListener('click', async () => {
+    const v = $('#soc-combo-cap').value;
+    if (!v) return;
+    try { await navigator.clipboard.writeText(v); } catch (e) { $('#soc-combo-cap').select(); document.execCommand('copy'); }
+    toast(t('socad.copied'));
   });
   // ---- 52-Topic Reel Catalog & Weekly Schedule (Today, Tomorrow, Sun–Sat) ----
   const REEL_TOPICS = [
