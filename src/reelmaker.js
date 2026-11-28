@@ -121,7 +121,7 @@
     }
   }
 
-  async function make({ cards, per = 2, hold, outro, music, tts, onProgress = () => { } }) {
+  async function make({ cards, per = 2, hold, outro, music, tts, minSec, onProgress = () => { } }) {
     if (!supported()) throw new Error('unsupported');
     const vc = await videoCodec(); if (!vc) throw new Error('unsupported');
     onProgress(0, 'load');
@@ -129,9 +129,16 @@
     const loaded = await inBatches(cards, 4, async c => { const r = await loadCard(c); onProgress(++got / nCards * 0.2, 'load'); return r; }), out = await loadCard(outro);
     await decode(out);
     const plans = loaded.map((c, i) => plan(c, per > 1 && i % per === per - 1, hold)), oPlan = plan(out, false);
+    const outDur = Math.max(OUTRO, oPlan.dur - 1);
+    const rawBody = plans.reduce((a, p) => a + p.dur, 0);
+    const floorTotal = Math.max(TMIN, minSec || 0);
+    if (rawBody + outDur < floorTotal && rawBody > 0) {
+      const scale = (floorTotal - outDur) / rawBody;
+      plans.forEach(p => { p.dur *= scale; });
+    }
     const starts = []; let tt = 0; plans.forEach(p => { starts.push(tt); tt += p.dur; });
     const body = tt, n = loaded.length, groups = Math.ceil(n / per);
-    let total = Math.max(TMIN, Math.ceil((body + Math.max(OUTRO, oPlan.dur - 1)) / 2) * 2); // even seconds, to match a music tail
+    let total = Math.max(floorTotal, Math.ceil((body + outDur) / 2) * 2); // even seconds, to match a music tail
 
     const M = window.Mp4Muxer;
     let fail = null, frames = null, mixed = null;
