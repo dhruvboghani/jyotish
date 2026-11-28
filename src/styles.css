@@ -2008,6 +2008,11 @@ form.nu-check { margin: 0; }
 .soc-reel { padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
 .soc-reel h4 { font-size: 17px; }
 .soc-sched, .soc-topics { padding: 18px 20px; display: grid; gap: 12px; margin-top: 14px; }
+.soc-notice { padding: 18px 20px; display: grid; gap: 10px; margin-top: 14px; background: linear-gradient(135deg, #fff8eb, #fffdf7); border: 1.5px solid #e0a94f; }
+.soc-notice h4 { margin: 0; color: #9a5200; }
+.soc-notice-list { display: grid; gap: 8px; margin-top: 4px; }
+.soc-notice-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 12px; background: #fff; border: 1px solid #f0dfc2; border-radius: 10px; }
+.soc-notice-tag { display: inline-block; padding: 2px 8px; border-radius: 99px; background: #fcebda; color: #b85508; font-size: 12px; font-weight: 700; margin-right: 6px; }
 .soc-combo { margin-top: 14px; }
 .soc-combo .soc-vid, .soc-topics .soc-vid { max-width: 300px; }
 .soc-sched .seo-tablewrap { margin-top: 4px; }

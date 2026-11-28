@@ -715,6 +715,7 @@ function socialPanel(body) {
     ${reelOk ? '' : `<p class="err">${esc(t('socad.noReel'))}</p>`}
     <div class="soc-music card"><div class="field"><label for="soc-music">${esc(t('socad.music'))}</label><select id="soc-music">${SOC_MUSIC.map(([id, key]) => `<option value="${id}"${id === st.music ? ' selected' : ''}>${esc(t('socad.tracks.' + key))}</option>`).join('')}</select></div>
       <button type="button" class="btn-line" id="soc-play">${ic('i-speaker')}<span>${esc(t('socad.preview'))}</span></button><audio id="soc-audio" preload="none"></audio></div>
+    <section class="card soc-notice" id="soc-notice" style="display:none"></section>
     <section class="card soc-reel soc-combo" data-reel="combo">
       <h4>✨ All-in-One Daily Reel (Special Day + Rashifal 12 Signs + Panchang)</h4>
       <p class="muted small">Merges today's Special Day (events, best muhurat &amp; precautions), all 12 Rashifal signs, and Daily Panchang into one 42s+ reel with Hindi TTS voiceover.</p>
@@ -1065,12 +1066,8 @@ function socialPanel(body) {
       if (kind === 'wish' && !st.wish) throw new Error(t('socad.wishNone'));
       const cLang = ($('#soc-combo-lang') && $('#soc-combo-lang').value) || 'hi';
       const comboCards = [card('day', cLang), card('day2', cLang), ...(muh3 ? [card('day3', cLang)] : []), card('rashifal', cLang), card('rashifal2', cLang), card('panchang', cLang), card('panchang2', cLang)];
-      const capEl = sec.querySelector('.soc-cap');
-      const capSpeakLines = capEl ? String(capEl.value || '').split('\n').map(s => s.trim()).filter(s => s && !/^#|^Keywords:|^🔗|^👇|http/i.test(s)).slice(0, 4).join(' ') : '';
-      const ttsText = capSpeakLines || `आज ${st.date} का विशेष दिन, सभी 12 राशियों का राशिफल और दैनिक पंचांग। ग्रहवाणी पर अपनी निःशुल्क कुंडली और शुभ मुहूर्त अभी देखें।`;
-      const tts = apiUrl('/api/social/?tts=' + encodeURIComponent(ttsText.slice(0, 600)) + '&lang=hi');
       const res = await window.GVReel.make({
-        cards: kind === 'combo' ? comboCards : kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'combo' ? (muh3 ? 3 : 2) : kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'combo' ? 4.5 : kind === 'yt' ? ytHold : kind === 'wish' ? 4.5 : kind === 'nuall' ? 4.5 : undefined, outro: card('outro', (kind === 'combo' ? cLang : kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music, tts, minSec: kind === 'yt' ? Math.max(42, targetSec) : 42,
+        cards: kind === 'combo' ? comboCards : kind === 'yt' ? ytCards : kind === 'numonth' ? SOC_LANGS.flatMap(([l]) => [ncard('numonth', l), ncard('numonth2', l)]).concat(ncard('nucta', 'hi')) : kind === 'nuall' ? SOC_LANGS.map(([l]) => ncard('nuall', l)).concat(ncard('nucta', 'hi')) : kind === 'mulank' ? SOC_LANGS.flatMap(([l]) => [ncard('mulank', l), ncard('mulank2', l)]) : kind === 'bhagyank' ? SOC_LANGS.flatMap(([l]) => [ncard('bhagyank', l), ncard('bhagyank2', l)]) : kind === 'wish' ? SOC_LANGS.map(([l]) => wcard(l)) : SOC_LANGS.flatMap(([l]) => [card(kind, l), card(kind + '2', l), ...(muh3 ? [card('day3', l)] : [])]), per: kind === 'combo' ? (muh3 ? 3 : 2) : kind === 'yt' ? ytPer : kind === 'wish' || kind === 'nuall' ? 1 : muh3 ? 3 : 2, hold: kind === 'combo' ? 4.5 : kind === 'yt' ? ytHold : kind === 'wish' ? 4.5 : kind === 'nuall' ? 4.5 : undefined, outro: card('outro', (kind === 'combo' ? cLang : kind === 'yt' ? ytLangs[0] : 'en') || 'en'), music, minSec: kind === 'yt' ? Math.max(42, targetSec) : 42,
         onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
       });
       const blob = res.blob;
@@ -1812,7 +1809,27 @@ function socialPanel(body) {
     try { await navigator.clipboard.writeText(ta.value); } catch (err) { ta.select(); document.execCommand('copy'); }
     toast(t('socad.copied'));
   });
-  draw(); loadWishes(); drawNu(); drawYt(); syncYtFields();
+  const loadNotice = async () => {
+    const box = $('#soc-notice'); if (!box) return;
+    try {
+      const r = await api(`/api/social/?caption=1&kind=notice&lang=en&date=${today}&city=${cityQ()}`);
+      const list = r.list || [];
+      if (!list.length) { box.style.display = 'none'; box.innerHTML = ''; return; }
+      const d1 = plus(1), d2 = plus(2);
+      const tagFor = d => d === today ? 'Today' : d === d1 ? 'Tomorrow' : d === d2 ? 'In 2 Days' : d;
+      box.style.display = '';
+      box.innerHTML = `<h4>🔔 Upcoming Event Notice (Next 2 Days — Make Reel!)</h4><p class="muted small">Special festival, vrat, or astronomical event detected in the next 48 hours. Click to load and generate its reel:</p><div class="soc-notice-list">${list.map(e => `<div class="soc-notice-item"><div><span class="soc-notice-tag">${esc(tagFor(e.date))} · ${esc(e.date)}</span> <strong>${esc(e.name)}</strong></div><button type="button" class="btn-line" data-ntopic="${esc(e.topic)}" data-ndate="${esc(e.date)}">Make Reel →</button></div>`).join('')}</div>`;
+      box.querySelectorAll('[data-ntopic]').forEach(btn => btn.addEventListener('click', () => {
+        const tid = btn.dataset.ntopic, nd = btn.dataset.ndate;
+        if (nd) { st.date = nd; const dEl = $('#soc-date'); if (dEl) dEl.value = nd; syncQuick(); resetReels(); draw(); drawSchedule(); drawComboCap(); }
+        if (topCat) topCat.value = 'all';
+        syncTopics();
+        if (topId && REEL_TOPICS.some(x => x[0] === tid)) { topId.value = tid; topId.dispatchEvent(new Event('change')); }
+        const sec = $('#soc-topics'); if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+    } catch (e) { box.style.display = 'none'; }
+  };
+  draw(); loadWishes(); loadNotice(); drawNu(); drawYt(); syncYtFields();
 }
 
 async function blogPanel(body) {
