@@ -23,7 +23,7 @@
     }
     throw new Error('Could not load a card (' + (last && last.message) + ')');
   }
-  async function loadCard(c) { const [full, base] = await Promise.all([fetchCard(c.full), fetchCard(c.base)]); return { fullBlob: full.blob, baseBlob: base.blob, bands: full.bands, full: null, base: null }; }
+  async function loadCard(c) { const [full, base] = await Promise.all([fetchCard(c.full), fetchCard(c.base)]); return { fullBlob: full.blob, baseBlob: base.blob, bands: (c.bands && c.bands.length) ? c.bands : full.bands, full: null, base: null }; }
   async function inBatches(list, size, fn) { const out = []; for (let i = 0; i < list.length; i += size) out.push(...await Promise.all(list.slice(i, i + size).map(fn))); return out; }
   async function decode(c) { if (!c.full) { c.full = await createImageBitmap(c.fullBlob); c.base = await createImageBitmap(c.baseBlob); } }
   function release(c) { if (c && c.full) { try { c.full.close(); c.base.close(); } catch (e) { } c.full = c.base = null; } }
@@ -58,6 +58,42 @@
     if (bf.length < m + LEAD || tf.length <= LEAD) throw new Error('short music');
     return bf.slice(0, m + LEAD).concat(tf.slice(LEAD));
   }
+  async function encodeMixedAudio(ttsUrl, musicBase, minTotal) {
+    if (typeof AudioEncoder !== 'function' || typeof AudioData !== 'function' || typeof OfflineAudioContext !== 'function') return null;
+    const cfg = { codec: 'mp4a.40.2', sampleRate: SR, numberOfChannels: 2, bitrate: 128000 };
+    try { if (!(await AudioEncoder.isConfigSupported(cfg)).supported) return null; } catch (e) { return null; }
+    const tmpCtx = new OfflineAudioContext(2, SR, SR);
+    const ttsBuf = await tmpCtx.decodeAudioData(await getBuf(ttsUrl));
+    const total = Math.max(minTotal, Math.ceil((ttsBuf.duration + 1.4) / 2) * 2);
+    let musBuf = null;
+    if (musicBase) { try { musBuf = await tmpCtx.decodeAudioData(await getBuf(musicBase + '.mp3')); } catch (e) { musBuf = null; } }
+    const nSamp = Math.ceil(total * SR), ctx = new OfflineAudioContext(2, nSamp, SR);
+    const ts = ctx.createBufferSource(); ts.buffer = ttsBuf;
+    const tg = ctx.createGain(); tg.gain.value = 1.2;
+    ts.connect(tg); tg.connect(ctx.destination); ts.start(0.35);
+    if (musBuf) {
+      const ms = ctx.createBufferSource(); ms.buffer = musBuf; ms.loop = true;
+      const mg = ctx.createGain(); mg.gain.setValueAtTime(0.18, 0);
+      mg.gain.setValueAtTime(0.18, Math.max(0.1, total - FADE));
+      mg.gain.linearRampToValueAtTime(0, total);
+      ms.connect(mg); mg.connect(ctx.destination); ms.start(0);
+    }
+    const rendered = await ctx.startRendering();
+    const chunks = [];
+    const aenc = new AudioEncoder({ output: (c, m) => chunks.push({ c, m }), error: () => { } });
+    aenc.configure(cfg);
+    const ch0 = rendered.getChannelData(0), ch1 = rendered.getChannelData(1);
+    for (let off = 0; off < rendered.length; off += AF) {
+      const len = Math.min(AF, rendered.length - off);
+      const data = new Float32Array(len * 2);
+      data.set(ch0.subarray(off, off + len), 0);
+      data.set(ch1.subarray(off, off + len), len);
+      const ad = new AudioData({ format: 'f32-planar', sampleRate: SR, numberOfFrames: len, numberOfChannels: 2, timestamp: Math.round(off * 1e6 / SR), data });
+      aenc.encode(ad); ad.close();
+    }
+    await aenc.flush(); aenc.close();
+    return { total, chunks };
+  }
 
   // When each band starts to appear, and how long the card stays on screen
   function plan(card, isDetail, hold) {
@@ -85,7 +121,7 @@
     }
   }
 
-  async function make({ cards, per = 2, hold, outro, music, onProgress = () => { } }) {
+  async function make({ cards, per = 2, hold, outro, music, tts, onProgress = () => { } }) {
     if (!supported()) throw new Error('unsupported');
     const vc = await videoCodec(); if (!vc) throw new Error('unsupported');
     onProgress(0, 'load');
@@ -95,14 +131,18 @@
     const plans = loaded.map((c, i) => plan(c, per > 1 && i % per === per - 1, hold)), oPlan = plan(out, false);
     const starts = []; let tt = 0; plans.forEach(p => { starts.push(tt); tt += p.dur; });
     const body = tt, n = loaded.length, groups = Math.ceil(n / per);
-    const total = Math.max(TMIN, Math.ceil((body + Math.max(OUTRO, oPlan.dur - 1)) / 2) * 2); // even seconds, to match a music tail
+    let total = Math.max(TMIN, Math.ceil((body + Math.max(OUTRO, oPlan.dur - 1)) / 2) * 2); // even seconds, to match a music tail
 
     const M = window.Mp4Muxer;
-    let fail = null, frames = null;
-    if (music) { try { onProgress(0.2, 'music'); frames = await musicFrames(String(music).replace(/\.(mp3|aac)$/, ''), total); } catch (e) { frames = null; } }
-    const muxer = new M.Muxer({ target: new M.ArrayBufferTarget(), video: { codec: vc.mux, width: W, height: H, frameRate: FPS }, ...(frames ? { audio: { codec: 'aac', numberOfChannels: 2, sampleRate: SR } } : {}), fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
-    if (frames) { const d = AF * 1e6 / SR, last = Math.floor(total * SR / AF); frames.slice(0, last).forEach((f, k) => muxer.addAudioChunkRaw(new Uint8Array(f), 'key', Math.round(k * d), Math.round(d))); }
-    const audioOk = !!frames;
+    let fail = null, frames = null, mixed = null;
+    const musicBase = music ? String(music).replace(/\.(mp3|aac)$/, '') : null;
+    if (tts) { try { onProgress(0.2, 'music'); mixed = await encodeMixedAudio(tts, musicBase, total); if (mixed && mixed.total > total) total = mixed.total; } catch (e) { mixed = null; } }
+    if (!mixed && musicBase) { try { onProgress(0.2, 'music'); frames = await musicFrames(musicBase, total); } catch (e) { frames = null; } }
+    const hasAudio = !!(mixed || frames);
+    const muxer = new M.Muxer({ target: new M.ArrayBufferTarget(), video: { codec: vc.mux, width: W, height: H, frameRate: FPS }, ...(hasAudio ? { audio: { codec: 'aac', numberOfChannels: 2, sampleRate: SR } } : {}), fastStart: 'in-memory', firstTimestampBehavior: 'offset' });
+    if (mixed) mixed.chunks.forEach(({ c, m }) => muxer.addAudioChunk(c, m));
+    else if (frames) { const d = AF * 1e6 / SR, last = Math.floor(total * SR / AF); frames.slice(0, last).forEach((f, k) => muxer.addAudioChunkRaw(new Uint8Array(f), 'key', Math.round(k * d), Math.round(d))); }
+    const audioOk = hasAudio;
 
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
     const x = cv.getContext('2d', { alpha: false });

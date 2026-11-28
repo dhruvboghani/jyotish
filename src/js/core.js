@@ -842,8 +842,12 @@ function socialPanel(body) {
         <button type="button" class="btn-cta" id="soc-top-make"${reelOk ? '' : ' disabled'}>${ic('i-image')}Make Reel (MP4)</button>
         <button type="button" class="btn-line" id="soc-top-cmd">${ic('i-doc')}Copy CLI</button>
         <button type="button" class="btn-line soc-speak" id="soc-top-speak">${ic('i-speaker')}<span>${esc(t('socad.speakHindi'))}</span></button>
+        <button type="button" class="btn-line soc-copy" id="soc-top-cap-copy">${ic('i-doc')}Copy Caption</button>
       </div>
-      <textarea class="soc-cap" rows="4" readonly id="soc-top-script" style="margin-top:10px"></textarea>
+      <label class="small muted" for="soc-top-script" style="display:block;margin-top:6px">Hindi Voiceover Script (TTS in MP4)</label>
+      <textarea class="soc-cap" rows="3" readonly id="soc-top-script"></textarea>
+      <label class="small muted" for="soc-top-cap" style="display:block;margin-top:6px">Instagram / Facebook Caption (5 Hashtags + Keywords)</label>
+      <textarea class="soc-cap" rows="8" readonly id="soc-top-cap"></textarea>
     </section>
     <section class="card soc-reply soc-chan"><h4>${esc(t('socad.chan.h'))}</h4><p class="muted small">${esc(t('socad.chan.lede'))}</p>
       <textarea class="soc-cap" rows="9" readonly id="soc-chan">…</textarea>
@@ -1209,11 +1213,37 @@ function socialPanel(body) {
     ['tithi-dates', 'Spiritual & Utility', 'Janma Tithi & Shraddha Tithi', 'अंग्रेजी तारीख से भारतीय पंचांग की जन्म तिथि और श्राद्ध तिथि निकालें।'],
     ['puja-vrat', 'Spiritual & Utility', 'Puja Samagri & Vrat Katha Guides', 'त्योहार के अनुसार पूजा सामग्री लिस्ट, विधि और व्रत कथा गाइड।']
   ];
-  const topCat = $('#soc-top-cat'), topId = $('#soc-top-id'), topScript = $('#soc-top-script');
+  const topCat = $('#soc-top-cat'), topId = $('#soc-top-id'), topScript = $('#soc-top-script'), topCap = $('#soc-top-cap');
   const resetTopReel = () => {
     const v = $('#soc-top-vid'), a = $('#soc-top-acts');
     if (v) { if (v.dataset.url) { URL.revokeObjectURL(v.dataset.url); delete v.dataset.url; } v.innerHTML = `<p class="muted small">${esc(t('socad.reelHint'))}</p>`; }
     if (a) a.querySelectorAll('.soc-dl, .soc-share').forEach(x => x.remove());
+  };
+  const drawTopicCap = (cur) => {
+    if (!topCap || !cur) return;
+    const host = location.origin;
+    const tagsMap = {
+      'Daily & Weekly': '#aajkarashifal #dainikpanchang #shubhmuhurat #vedicastrology #grahavani',
+      'Rashi Events': '#rashifal #gochar #vedicastrology #jyotish #grahavani',
+      'Kundali & Dosha': '#kundali #astrology #jyotishupay #vedicastrology #grahavani',
+      'Numerology & Match': '#numerology #mulank #kundalimilan #vedicastrology #grahavani',
+      'Samudrika & Divination': '#samudrikashastra #palmistry #vastutips #vedicastrology #grahavani',
+      'Spiritual & Utility': '#sanatandharma #vrattyohar #bhakti #vedicastrology #grahavani'
+    };
+    const tags = tagsMap[cur[1]] || '#vedicastrology #jyotish #horoscope #rashifal #grahavani';
+    topCap.value = [
+      `✨ ${cur[2]} (${st.date} · ${st.city})`,
+      '',
+      `📌 ${cur[3]}`,
+      `🪔 ग्रहवाणी (Grahavani) पर सटीक पंचांग, राशिफल, मुहूर्त, कुंडली और वैदिक उपाय 6 भाषाओं में बिल्कुल मुफ़्त देखें।`,
+      '',
+      `👇 कमेंट में अपनी राशि या जन्म तिथि लिखें और अपनों के साथ शेयर करें 🙏`,
+      `🔗 Free Vedic Kundali & Tools: ${host} (Link in Bio)`,
+      '',
+      `Keywords: ${cur[2]}, ${cur[1]}, grahavani, vedic astrology, jyotish in hindi, free kundali online, aaj ka rashifal, daily panchang ${st.city}, shubh muhurat ${st.date}, rahu kaal today, indian astrology, horoscope today, kundali matching, numerology mulank bhagyank, samudrika shastra, graha gochar, vastu tips, hindu calendar`,
+      '',
+      tags
+    ].join('\n');
   };
   const syncTopics = () => {
     if (!topCat || !topId) return;
@@ -1222,6 +1252,7 @@ function socialPanel(body) {
     topId.innerHTML = list.map(([id, c, name]) => `<option value="${id}">${esc(name)} (${esc(c)})</option>`).join('');
     const cur = REEL_TOPICS.find(x => x[0] === topId.value) || list[0];
     if (topScript && cur) topScript.value = cur[3];
+    drawTopicCap(cur);
     resetTopReel();
   };
   const topicCardBlobs = async (topic) => {
@@ -1255,6 +1286,7 @@ function socialPanel(body) {
       ['2. क्या ध्यान रखें', 'दिनांक: ' + st.date + ' (' + wdHi + ') · शहर: ' + st.city],
       ['3. ग्रहवाणी टूल', 'पूरी निःशुल्क रिपोर्ट अभी grahavani.dhruvboghani.com पर देखें']
     ];
+    let rowBands = [];
     const drawFrame = (withRows) => new Promise(resolve => {
       const c = document.createElement('canvas'); c.width = W; c.height = H;
       const x = c.getContext('2d');
@@ -1277,6 +1309,7 @@ function socialPanel(body) {
       x.beginPath(); x.roundRect(MX - 20, cy, cw, ch, 36); x.fill();
       x.shadowColor = 'transparent';
       if (withRows) {
+        rowBands = points.map((_, idx) => [MX - 10, cy + 18 + idx * 300, cw - 20, 290]);
         const tones = ['#23855A', '#D0342C', '#E0701B'], bgs = ['#E4F3EC', '#FBE3E1', '#FCEBDA'];
         points.forEach(([ptTag, ptText], idx) => {
           const ry = cy + 36 + idx * 300;
@@ -1301,13 +1334,14 @@ function socialPanel(body) {
     });
     const [baseBlob, fullBlob] = await Promise.all([drawFrame(false), drawFrame(true)]);
     const baseUrl = URL.createObjectURL(baseBlob), fullUrl = URL.createObjectURL(fullBlob);
-    return { baseUrl, fullUrl };
+    return { baseUrl, fullUrl, bands: rowBands };
   };
   if (topCat && topId) {
     topCat.addEventListener('change', syncTopics);
     topId.addEventListener('change', () => {
       const cur = REEL_TOPICS.find(x => x[0] === topId.value);
       if (topScript && cur) topScript.value = cur[3];
+      drawTopicCap(cur);
       resetTopReel();
     });
     $('#soc-top-cmd').addEventListener('click', async () => {
@@ -1317,6 +1351,12 @@ function socialPanel(body) {
     });
     $('#soc-top-speak').addEventListener('click', e => {
       if (topScript) speakHindiFemale(topScript.value, e.currentTarget);
+    });
+    const topCapCopy = $('#soc-top-cap-copy');
+    if (topCapCopy) topCapCopy.addEventListener('click', async () => {
+      if (!topCap || !topCap.value) return;
+      try { await navigator.clipboard.writeText(topCap.value); } catch (e) { topCap.select(); document.execCommand('copy'); }
+      toast(t('socad.copied'));
     });
     const topMake = $('#soc-top-make');
     if (topMake) topMake.addEventListener('click', async () => {
@@ -1332,7 +1372,9 @@ function socialPanel(body) {
         const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
         const muh3 = !!(st.xcaps.day.en && st.xcaps.day.en.hasFest);
         const music = st.music && st.music !== 'none' ? '/music/' + st.music : null;
-        const { baseUrl, fullUrl } = await topicCardBlobs(cur);
+        const ttsText = (topScript && topScript.value.trim()) || cur[3];
+        const tts = apiUrl('/api/social/?tts=' + encodeURIComponent(ttsText) + '&lang=hi');
+        const { baseUrl, fullUrl, bands } = await topicCardBlobs(cur);
         const TOPIC_CARDS = {
           'daily-rashifal': [card('rashifal', 'hi'), card('rashifal2', 'hi')],
           'daily-panchang': [card('panchang', 'hi'), card('panchang2', 'hi')],
@@ -1356,8 +1398,8 @@ function socialPanel(body) {
         };
         const extraCards = TOPIC_CARDS[cur[0]] || [card('day', 'hi')];
         const res = await window.GVReel.make({
-          cards: [{ full: fullUrl, base: baseUrl }, ...extraCards],
-          per: 1, hold: 5.5, outro: card('outro', 'hi'), music,
+          cards: [{ full: fullUrl, base: baseUrl, bands }, ...extraCards],
+          per: 1, hold: 5.5, outro: card('outro', 'hi'), music, tts,
           onProgress: (p, stage) => { const bar = box.querySelector('.soc-prog i'), tx = box.querySelector('[data-ptext]'); if (bar) bar.style.width = Math.round(p * 100) + '%'; if (tx) tx.textContent = stage === 'load' ? t('socad.loading') : stage === 'music' ? t('socad.addingMusic') : t('socad.making', { p: Math.round(p * 100) }); }
         });
         URL.revokeObjectURL(baseUrl); URL.revokeObjectURL(fullUrl);

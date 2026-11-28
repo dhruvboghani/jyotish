@@ -10,3 +10,4 @@ mobile/www/
 mobile/node_modules/
 .build-id
 .indexnow-urls
+*.mp4
