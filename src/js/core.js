@@ -1320,12 +1320,17 @@ function socialPanel(body) {
     });
     const topMake = $('#soc-top-make');
     if (topMake) topMake.addEventListener('click', async () => {
-      if (!window.GVReel) return toast('Reel maker loading…');
       const cur = REEL_TOPICS.find(x => x[0] === topId.value); if (!cur) return;
       const box = $('#soc-top-vid'), acts = $('#soc-top-acts');
       topMake.disabled = true; resetTopReel();
       box.innerHTML = `<div class="soc-prog"><i style="width:0%"></i></div><p class="muted small" data-ptext>${esc(t('socad.loading'))}</p>`;
       try {
+        await loadScript('/assets/mp4-muxer.js?v=' + ASSET_V);
+        await loadScript('/assets/reelmaker.js?v=' + ASSET_V);
+        const card = (k, l) => { const u = img(k, l, 'story') + '&theme=modern'; return { full: u, base: u + '&part=base' }; };
+        const ncard = (k, l) => { const num = k.startsWith('bhagyank') ? st.nu.b : st.nu.n; const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&n=${num}&y=${st.nu.y}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+        const ycard = (k, l) => { const u = apiUrl(`/api/social/?img=${k}&fmt=story&lang=${l}&date=${st.date}&sign=${st.yt.sign}&bSign=${st.yt.bSign}&gSign=${st.yt.gSign}&planet=${st.yt.planet}&purpose=${st.yt.purpose}&topic=${st.yt.topic}&vrat=${st.yt.vrat}&dream=${st.yt.dream}&city=${cityQ()}&theme=modern`); return { full: u, base: u + '&part=base' }; };
+        const muh3 = !!(st.xcaps.day.en && st.xcaps.day.en.hasFest);
         const music = st.music && st.music !== 'none' ? '/music/' + st.music : null;
         const { baseUrl, fullUrl } = await topicCardBlobs(cur);
         const TOPIC_CARDS = {
@@ -1361,7 +1366,8 @@ function socialPanel(body) {
         box.innerHTML = `<video src="${url}" controls playsinline loop></video>`;
         acts.insertAdjacentHTML('beforeend', `<a class="btn-line soc-dl" href="${url}" download="${name}">${ic('i-download')}${esc(t('socad.downloadMp4'))}</a>`);
       } catch (e) {
-        box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>`;
+        const why = e && e.message === 'unsupported' ? '' : String((e && (e.message || e.name)) || e || '').slice(0, 160);
+        box.innerHTML = `<p class="err">${esc(e && e.message === 'unsupported' ? t('socad.noReel') : t('socad.reelFail'))}</p>${why ? `<p class="muted small">${esc(t('socad.why', { e: why }))}</p>` : ''}`;
       }
       topMake.disabled = false;
     });

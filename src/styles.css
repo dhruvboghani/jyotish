@@ -2005,8 +2005,13 @@ form.nu-check { margin: 0; }
 .soc-h { display: flex; align-items: center; gap: 8px; margin: 18px 0 4px; }
 .soc-h svg { width: 22px; height: 22px; color: var(--gold); }
 .soc-reels { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin: 10px 0 8px; }
-.soc-reel { padding: 14px; display: grid; gap: 10px; align-content: start; }
+.soc-reel { padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
 .soc-reel h4 { font-size: 17px; }
+.soc-sched, .soc-topics { padding: 18px 20px; display: grid; gap: 12px; margin-top: 14px; }
+.soc-combo { margin-top: 14px; }
+.soc-combo .soc-vid, .soc-topics .soc-vid { max-width: 300px; }
+.soc-sched .seo-tablewrap { margin-top: 4px; }
+.soc-sched .soc-row { gap: 12px; }
 .soc-nu, .soc-reply { padding: 14px; display: grid; gap: 10px; margin: 10px 0; }
 .soc-nu > h4, .soc-reply h4 { font-size: 17px; }
 .soc-nu .soc-reels { margin: 0; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }
